@@ -4,5 +4,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="common/mysql-connector-java-8.0.13.jar"/>
 	<classpathentry kind="src" path="/OCSF"/>
+	<classpathentry kind="src" path="/SharedEkrut"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
