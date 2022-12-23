@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.StockStatusReportController">
+   <children>
+      <AnchorPane layoutX="3.0" prefHeight="750.0" prefWidth="800.0">
+         <children>
+            <Label layoutX="33.0" layoutY="29.0" text="Stock Status Report:" textFill="#4800ff">
+               <font>
+                  <Font name="HP Simplified Jpan Regular" size="28.0" />
+               </font></Label>
+            <BarChart fx:id="BarChartStockByMachine" layoutX="14.0" layoutY="173.0" prefHeight="400.0" prefWidth="700.0">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </BarChart>
+            <Label layoutX="45.0" layoutY="85.0" text="Products Stock by Machine:">
+               <font>
+                  <Font name="HP Simplified Jpan Regular" size="15.0" />
+               </font></Label>
+            <MenuButton fx:id="BntChooseMachine" layoutX="222.0" layoutY="80.0" mnemonicParsing="false" onAction="#chooseMachine" text="Ort Braude College">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+            </MenuButton>
+            <Button fx:id="BntBack" layoutX="36.0" layoutY="614.0" mnemonicParsing="false" onAction="#BackToPreviosePage" text="Back" />
+            <ImageView fitHeight="500.0" fitWidth="600.0" layoutX="56.0" layoutY="149.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Products%20Stock%20by%20Machine.PNG" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="OrdersReportController">
+   <children>
+      <AnchorPane fx:id="BarChrt" layoutX="-1.0" layoutY="-14.0" prefHeight="700.0" prefWidth="800.0" style="-fx-background-color: offwhite; -fx-background-image: gui/food.jpg;">
+         <children>
+            <Label layoutX="40.0" layoutY="49.0" prefHeight="22.0" prefWidth="80.0" text="Orders Report:" />
+            <BarChart fx:id="BarChartForOrdersPerProductsMachine" layoutX="21.0" layoutY="158.0" prefHeight="400.0" prefWidth="700.0">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </BarChart>
+            <Button fx:id="BntBack" layoutX="39.0" layoutY="618.0" mnemonicParsing="false" onAction="#BackToPreviosePage" text="Back" />
+            <Label layoutX="41.0" layoutY="125.0" text="Orders per machine:" />
+            <ImageView fitHeight="400.0" fitWidth="700.0" layoutX="59.0" layoutY="191.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@order%20per%20machine%20diagram.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
