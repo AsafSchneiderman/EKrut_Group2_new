@@ -34,7 +34,7 @@ public class mysqlConnection {
      		ServerUI.serverGUI.appendToConsole("SQLException: " + ex.getMessage());
      		ServerUI.serverGUI.appendToConsole("SQLState: " + ex.getSQLState());
      		ServerUI.serverGUI.appendToConsole("VendorError: " + ex.getErrorCode());
-            }
+            }//hello
    	}
 
 }
