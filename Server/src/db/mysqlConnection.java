@@ -12,7 +12,7 @@ import gui.ServerUI;
 public class mysqlConnection {
 
 	static Connection conn;
-	public static void connectionDb() 
+	public static void connectionDb(String password) 
 	{
 		try 
 		{
@@ -25,7 +25,7 @@ public class mysqlConnection {
         
         try 
         {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/db_ekrut?serverTimezone=IST","root", "A02/01/1997");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/db_ekrut?serverTimezone=IST","root", password);
             ServerUI.serverGUI.appendToConsole("SQL connection succeed");
        
             

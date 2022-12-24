@@ -7,13 +7,15 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ServerPortFrameController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ServerPortFrameController">
    <children>
-      <Text layoutX="40.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="port" />
+      <Text layoutX="33.0" layoutY="157.0" strokeType="OUTSIDE" strokeWidth="0.0" text="port" />
       <TextField fx:id="textFielsPort" layoutX="64.0" layoutY="140.0" text="5555" AnchorPane.bottomAnchor="234.79999999999998" AnchorPane.leftAnchor="64.0" />
       <Button fx:id="connectServerButton" layoutX="86.0" layoutY="301.0" mnemonicParsing="false" onAction="#connectServer" prefHeight="30.0" prefWidth="78.0" style="-fx-background-color: green;" text="Connect" textFill="#89d00e" textOverrun="CENTER_ELLIPSIS" wrapText="true" />
       <TextArea fx:id="textAreaConsole" layoutX="266.0" layoutY="194.0" prefHeight="198.0" prefWidth="326.0" />
       <Label layoutX="72.0" layoutY="27.0" prefHeight="39.0" prefWidth="142.0" text="Server configuration" />
       <Label layoutX="275.0" layoutY="175.0" text="Console" />
+      <TextField fx:id="txtFielsDBPassword" layoutX="364.0" layoutY="140.0" text="Aa123456" />
+      <Label layoutX="304.0" layoutY="144.0" text="Password:" />
    </children>
 </AnchorPane>

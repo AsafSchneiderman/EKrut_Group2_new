@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Query {
 
-	public static String checkLogin(String userName,String password) {
+	public static String login(String userName,String password) {
 		StringBuilder result = new StringBuilder();  
 		String id = null;
 		PreparedStatement stmt;

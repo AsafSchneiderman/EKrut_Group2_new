@@ -29,6 +29,9 @@ public class ServerPortFrameController implements Initializable {
 
 	@FXML
 	private TextField textFielsPort;
+
+    @FXML
+    private TextField txtFielsDBPassword;
 	
 	public static TextArea consoleArea;
 
@@ -51,7 +54,8 @@ public class ServerPortFrameController implements Initializable {
 			appendToConsole("ERROR - Could not listen for clients!"+port);
 			ex.printStackTrace();
 		}
-		db.mysqlConnection.connectionDb();
+		db.mysqlConnection.connectionDb(txtFielsDBPassword.getText());
+
 	}
 
 	public void start(Stage primaryStage) throws IOException {

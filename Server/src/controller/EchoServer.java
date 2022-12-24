@@ -62,7 +62,7 @@ public class EchoServer extends AbstractServer {
 				String[] data = resMessage.getMessageData().toString().split("#");
 				try {
 						
-					client.sendToClient(new Message(MessageType.login, (Object)(Query.checkLogin(data[0], data[1])) ) );
+					client.sendToClient(new Message(MessageType.login, (Object)(Query.login(data[0], data[1])) ) );
 				
 				} catch (IOException e) {
 					e.printStackTrace();
