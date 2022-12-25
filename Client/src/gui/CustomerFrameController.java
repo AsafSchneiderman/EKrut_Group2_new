@@ -4,6 +4,9 @@ import java.io.IOException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
@@ -32,27 +35,37 @@ public class CustomerFrameController{
     }
 
     @FXML
-    void newLocalOrder(ActionEvent event) {
-    	customerFrame=new CustomerFrameController();
+    void newLocalOrder(ActionEvent event) throws IOException {
     	orderFrame= new OrderFrameController();
     	try {
-			orderFrame.start(customerStage);
+			orderFrame.start(ClientMenuController.clientStage);
+	} catch (IOException e) {
+		
+		e.printStackTrace();
+	} //send to UI*/
+    	
+    	
+    }
+
+    @FXML
+    void newOnlineOrder(ActionEvent event) {
+    	onlineOrderFrame= new OnlineOrderFrameController();
+    	try {
+			onlineOrderFrame.start(ClientMenuController.clientStage);
 	} catch (IOException e) {
 		
 		e.printStackTrace();
 	} //send to UI
     }
 
-    @FXML
-    void newOnlineOrder(ActionEvent event) {
-    	customerFrame=new CustomerFrameController();
-    	onlineOrderFrame= new OnlineOrderFrameController();
-    	try {
-			onlineOrderFrame.start(customerStage);
-	} catch (IOException e) {
+	public void start(Stage primaryStage) throws IOException {
+		ClientMenuController.clientStage = primaryStage;
+    	primaryStage.setTitle("Ekrut - Customer");
+		Parent root = FXMLLoader.load(getClass().getResource("/gui/CustomerFrame.fxml"));
+		Scene home = new Scene(root);
+		primaryStage.setScene(home);
+		primaryStage.show(); 
 		
-		e.printStackTrace();
-	} //send to UI
-    }
+	}
 
 }

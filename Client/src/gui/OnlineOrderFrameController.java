@@ -69,14 +69,10 @@ public class OnlineOrderFrameController {
     }
 
 	public void start(Stage customerStage) throws IOException {
+		ClientMenuController.clientStage = customerStage;
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/OnlineOrderFrame.fxml"));
 		Scene home = new Scene(root);
 		customerStage.setScene(home);
-		
-		//On pressing X (close window) the client is disconnect from server.
-		customerStage.setOnCloseRequest(e -> { 
-			ClientMenuController.clientControl.accept("disconnect");
-		});
 		customerStage.show();
 		
 	}
