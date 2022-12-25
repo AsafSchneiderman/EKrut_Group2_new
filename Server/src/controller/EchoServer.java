@@ -68,11 +68,11 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
-			case disconnected:
-				
+			case Logout:
+				Query.logout(resMessage.getMessageData().toString());
+			case disconnected:	
 				ServerUI.serverGUI.appendToConsole( client.getName() + " has disconnected"); 
 			break;
-			
 			case connected:
 				client.setName("client #"+clientNumber+" (" +resMessage.getMessageData().toString()+ ") ");
 				clientNumber++;

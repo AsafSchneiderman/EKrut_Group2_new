@@ -59,10 +59,21 @@ public class Query {
 		
 		return result.toString();
 	}
-
-
+	
+	public static void logout(String userName) {
+		PreparedStatement stmt;
+		String query = "";
+		try {
+			if (mysqlConnection.conn != null) {
+				
+				stmt = mysqlConnection.conn.prepareStatement("UPDATE users SET isLoggedIn='0' where userName=?");
+				
+				stmt.setString(1, userName);
+				stmt.executeUpdate();
+			}
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}	
+	}
 }
-
-
-		
-
