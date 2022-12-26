@@ -49,12 +49,19 @@ public class RegionManagerFrameController {
 
     }
 
+    /** Open report search frame **/
     @FXML
     void viewReports(ActionEvent event) {
-
+    	ReportSearchFrameController reportSearchFrameController = new ReportSearchFrameController();
+    	try {
+			reportSearchFrameController.start(ClientMenuController.clientStage);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
     
     public void start(Stage primaryStage) throws IOException{
+    	ClientMenuController.clientStage = primaryStage;
     	Parent root = FXMLLoader.load(getClass().getResource("/gui/RegionManagerFrame.fxml"));
 		Scene home = new Scene(root);
 		primaryStage.setScene(home);
