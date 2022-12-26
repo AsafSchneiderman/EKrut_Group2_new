@@ -1,19 +1,25 @@
 package Entities;
-import java.io.Serializable;
-public class OrdersReport implements Serializable {
+
+public class OrdersReport extends Report{
 	private static final long serialVersionUID = 1983595595251314658L;
-	private String month,year;
+	//private String month,year;
+	
+	// TODO add array of locations
+	// TODO add array of orders
+	
 	private String vendingMachineLocation;
 	private String product;
 	private int quantity;
 	public OrdersReport(String month, String year,String vendingMachineLocation,String product,int quantity) {
-		super();
-		this.month=month;
-		this.year=year;
+		super("Order", month, year);
+		//this.month=month;
+		//this.year=year;
 		this.vendingMachineLocation=vendingMachineLocation;
 		this.product=product;
 		this.quantity=quantity;
 	}
+	/*
+	 * 
 	public String getMonth() {
 		return month;
 	}
@@ -26,6 +32,7 @@ public class OrdersReport implements Serializable {
 	public void setYear(String year) {
 		this.year = year;
 	}
+	*/
 	public String getVendingMachineLocation() {
 		return vendingMachineLocation;
 	}
@@ -46,7 +53,7 @@ public class OrdersReport implements Serializable {
 	}
 	public String toString() {
 		return "Vending machine Location: "+vendingMachineLocation+
-				", month: "+month+", year: "+year+", product: "+product+", quantity: "+quantity;
+				", month: "+this.getMonth()+", year: "+this.getYear()+", product: "+product+", quantity: "+quantity;
 	}
 	
 }
