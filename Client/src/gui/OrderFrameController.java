@@ -80,6 +80,17 @@ public class OrderFrameController {
 
     @FXML
     private Button btnAddToCart;
+    @FXML
+    private Label lblPrice;
+
+    @FXML
+    private Label lblQuantatyPerProduct;
+
+    @FXML
+    private Button bntAddProduct;
+
+    @FXML
+    private Button bntSubFromCart;
 
     @FXML
     void addToCart(ActionEvent event) {
@@ -115,7 +126,7 @@ public class OrderFrameController {
     void checkOutOrder(ActionEvent event) {
     	confirmOrderFrame = new ConfirmOrderFrameController();
     	try {
-			confirmOrderFrame.start(clientStage);
+			confirmOrderFrame.start(ClientMenuController.clientStage);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -136,6 +147,17 @@ public class OrderFrameController {
 		Scene home = new Scene(root);
 		customerStage.setScene(home);
 		customerStage.show(); 
+    }
+	
+
+    @FXML
+    void subQuantatyFromCart(ActionEvent event) {
+
+    }
+    
+    @FXML
+    void addQuantatyToCart(ActionEvent event) {
+
     }
 
 		

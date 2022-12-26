@@ -11,24 +11,20 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="gui.OrderFrameController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.OrderFrameController">
    <children>
       <ListView fx:id="lstViewCart" layoutX="610.0" layoutY="32.0" prefHeight="478.0" prefWidth="330.0" />
-      <VBox fx:id="vBoxCart" layoutX="610.0" layoutY="32.0" prefHeight="478.0" prefWidth="330.0">
+      <VBox fx:id="vBoxCart" layoutX="586.0" layoutY="34.0" prefHeight="478.0" prefWidth="360.0">
          <children>
             <Pane fx:id="paneLineCart" layoutY="50.0" prefHeight="43.0" prefWidth="200.0">
                <children>
                   <ImageView fx:id="imgProductCart" fitHeight="31.0" fitWidth="36.0" layoutX="6.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true" />
-                  <Label fx:id="lblProductNameCart" layoutX="64.0" layoutY="11.0" text="product name" />
-                  <Label fx:id="lblProductPriceCart" layoutX="251.0" layoutY="11.0" text="price" />
-                  <MenuButton fx:id="menuBtnQuantityCart" layoutX="186.0" layoutY="6.0" mnemonicParsing="false" prefHeight="6.0" prefWidth="49.0" text="1">
-                    <items>
-                      <MenuItem mnemonicParsing="false" text="Action 1" />
-                      <MenuItem mnemonicParsing="false" text="Action 2" />
-                    </items>
-                  </MenuButton>
-                  <Button layoutX="294.0" layoutY="6.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="0.0" text="X" />
+                  <Label fx:id="lblProductNameCart" layoutX="24.0" layoutY="13.0" text="Product Name" />
+                  <Label fx:id="lblProductPriceCart" layoutX="279.0" layoutY="13.0" text="Price:" />
+                  <Label fx:id="lblPrice" layoutX="312.0" layoutY="13.0" text="Label" />
+                  <Label fx:id="lblQuantatyPerProduct" layoutX="173.0" layoutY="13.0" text="Label" />
+                  <Button fx:id="bntAddProduct" layoutX="111.0" layoutY="7.0" minHeight="21.0" minWidth="26.0" mnemonicParsing="false" onAction="#addQuantatyToCart" prefHeight="30.0" prefWidth="10.0" text="+" />
+                  <Button fx:id="bntSubFromCart" layoutX="213.0" layoutY="8.0" mnemonicParsing="false" onAction="#subQuantatyFromCart" prefHeight="30.0" prefWidth="10.0" text="-" />
                </children>
             </Pane>
          </children>
