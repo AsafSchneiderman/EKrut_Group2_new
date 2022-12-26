@@ -27,6 +27,15 @@ public class Product implements Serializable {
 	public void setQuantity(int quantity) {
 		this.quantity=quantity;
 	}
+	public void setProductName(String productName ) {
+		 this.productName = productName;
+	}
+	public void setProductCode(String productCode) {
+		this.productCode = productCode;
+	}
+	public void setPrice(float price) {
+		this.price = price;
+	}
 	@Override
 	public String toString() {
 		return "Product [name: "+productName+" code: "+productCode+" price for one:"
