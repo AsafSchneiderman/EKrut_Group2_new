@@ -1,8 +1,14 @@
 package gui;
+import java.io.IOException;
+
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 public class CustomerRegistrationController {
 	
 
@@ -44,6 +50,16 @@ public class CustomerRegistrationController {
 
 	    @FXML
 	    private Button backCustomRegistrationBtn;
+
+		public void start(Stage primaryStage) throws IOException {
+			ClientMenuController.clientStage = primaryStage;
+	    	primaryStage.setTitle("Ekrut - Customer");
+			Parent root = FXMLLoader.load(getClass().getResource("/gui/CustomerRegistrationForm.fxml"));
+			Scene home = new Scene(root);
+			primaryStage.setScene(home);
+			primaryStage.show(); 
+			
+		}
 
 	
 
