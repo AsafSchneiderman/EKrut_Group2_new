@@ -3,6 +3,7 @@ package gui;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import Entities.Message;
 import Entities.Order;
 import Entities.Product;
 import javafx.event.ActionEvent;
@@ -26,9 +27,10 @@ public class OrderFrameController {
 	public  static CustomerFrameController customerFrame;
 	public static Stage clientStage;
 	public  static ConfirmOrderFrameController confirmOrderFrame;
+	public static Message msg;
 
     @FXML
-    private ListView<?> lstViewCart;
+    private ListView<Product> lstViewCart;
 
     @FXML
     private VBox vBoxCart;
@@ -45,8 +47,6 @@ public class OrderFrameController {
     @FXML
     private Label lblProductPriceCart;
 
-    @FXML
-    private MenuButton menuBtnQuantityCart;
 
     @FXML
     private Button btnCheckOutOrder;
@@ -76,12 +76,7 @@ public class OrderFrameController {
     private Label lblProductPrice;
 
     @FXML
-    private MenuButton menuBtnQuantityProduct;
-
-    @FXML
     private Button btnAddToCart;
-    @FXML
-    private Label lblPrice;
 
     @FXML
     private Label lblQuantatyPerProduct;
@@ -108,6 +103,26 @@ public class OrderFrameController {
     		totalPrice = totalPrice+ productsList.get(i).getPrice();
     	}
 		order.setTotalPrice(totalPrice );
+		if(order.getProducts() == null)
+		{
+			order.setProducts(product.getProductName());
+		}
+		else
+		{
+			String temp = order.getProducts();
+			temp += "\n ";
+			temp += product.getProductName();
+			order.setProducts(temp);
+		}
+		
+		lstViewCart.getItems().addAll(product);
+		String temp, temp2, temp3;
+		temp2 = Float.toString(product.getPrice());
+		temp3 = Float.toString(product.getQuantity());
+		temp = product.getProductName()+product.getProductCode()+temp2+temp3;
+		msg =  new Massage(MassageType.OrderList,temp);
+		ClientMenuController.clientControl.accept(msg);
+		
 
     }
 
@@ -152,11 +167,64 @@ public class OrderFrameController {
 
     @FXML
     void subQuantatyFromCart(ActionEvent event) {
+    	
+    	for(int i = 0 ; i < lstViewCart.getItems().size(); i++)
+    	{
+    		if(lblProductNameCart.getText().equals(lstViewCart.getItems().get(i).getProductName()))
+    		{
+    			int num = lstViewCart.getItems().get(i).getQuantity();
+    			if(num==1)
+    			{
+    				lstViewCart.getItems().remove(i);
+    				float num2 = productsList.get(i).getPrice();
+       			 	float num3 = order.getTotalPrice();
+       			 	num3 = num3-num2;
+       			 	order.setTotalPrice(num3);
+       			 	String temp = order.getProducts();
+       			 	temp.replace(productsList.get(i).getProductName(), "");
+       			 	order.setProducts(temp);
+       			 	productsList.remove(i);
+    			}
+    			else
+    			{
+    				num--;
+        			lstViewCart.getItems().get(i).setQuantity(num);
+        			productsList.get(i).setQuantity(num);
+        			float num2 = productsList.get(i).getPrice();
+       			 	float num3 = order.getTotalPrice();
+       			 	num3 = num3-num2;
+       			 	order.setTotalPrice(num3);
+    			}
+    				
+    		}
+    	}
+    	
+    	
 
     }
     
     @FXML
     void addQuantatyToCart(ActionEvent event) {
+    	
+    	
+    	for(int i = 0 ; i < lstViewCart.getItems().size(); i++)
+    	{
+    		if(lblProductNameCart.getText().equals(lstViewCart.getItems().get(i).getProductName()))
+    		{
+    			int num = lstViewCart.getItems().get(i).getQuantity();
+    			num++;
+    			lstViewCart.getItems().get(i).setQuantity(num);
+    			productsList.get(i).setQuantity(num);
+    			 float num2 = productsList.get(i).getPrice();
+    			 float num3 = order.getTotalPrice();
+    			 num3 = num3+num2;
+    			 order.setTotalPrice(num3);
+    			 
+    			
+    		}
+    	}
+    	
+    	
 
     }
 

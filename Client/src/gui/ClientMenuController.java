@@ -22,6 +22,7 @@ public class ClientMenuController {
 	public  static SubscriberFrameController subFrame; //?
 	
 	public  static LoginFrameController loginFrame;
+	public  static OrderFrameController OrderFrame;
 
 	public static Stage clientStage;
 	
