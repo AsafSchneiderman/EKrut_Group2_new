@@ -4,30 +4,31 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 public class CustomerRegistrationController {
+	
 
 	    @FXML
-	    private Label registrationFormForCustomerLbl;
+	    private Label customerRegistrationLbl;
 
 	    @FXML
-	    private Label FirstNameCustomerRegistrationLbl;
+	    private Label firstNameCustomerRegistrationLbl;
 
 	    @FXML
 	    private Label lastNameCustomerRegistrationLbl;
 
 	    @FXML
-	    private Label IDNumberCustomerRegistrationLbl;
+	    private Label idCustomerRegistrationLbl;
 
 	    @FXML
 	    private Label emailCustomerRegistrationLbl;
 
 	    @FXML
-	    private Label phoneCustomerRegistrationLbl;
+	    private Label phoneNumberCustomerRegistrationLbl;
 
 	    @FXML
-	    private TextField furstNameCustomerRegistrationTxt;
+	    private TextField firstNameCustomerRegistrationTxt;
 
 	    @FXML
-	    private TextField lastNameCustomerRegistartionTxt;
+	    private TextField lastNameCustomerRegistrationTxt;
 
 	    @FXML
 	    private TextField idCustomerRegistrationTxt;
@@ -36,13 +37,13 @@ public class CustomerRegistrationController {
 	    private TextField emailCustomerRegistrationTxt;
 
 	    @FXML
-	    private TextField phoneCustomerRegistartionTxt;
+	    private TextField phoneCustomerRegistrationTxt;
 
 	    @FXML
-	    private Button senCustomerRegistrationBtn;
+	    private Button sendCustomerRegistrationButton;
 
 	    @FXML
-	    private Button backCustomerRegistarionBtn;
+	    private Button backCustomRegistrationBtn;
 
 	
 
