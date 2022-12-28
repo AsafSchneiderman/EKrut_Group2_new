@@ -21,18 +21,24 @@ public class CustomerServiceController {
 
 	@FXML
 	private Button logoutCustomerServiceBtn;
+	
+	@FXML
+	void clickRegisterNewCustomer(ActionEvent event) throws IOException{
+		coustomerRegistration= new CustomerRegistrationController();
+    	try {
+    		coustomerRegistration.start(ClientMenuController.clientStage);
+	} catch (IOException e) {
+		
+		e.printStackTrace();
+	    } //send to UI*/
+    }
 
-	 void registerNewCustomer(ActionEvent event) throws IOException {
-		 coustomerRegistration= new CustomerRegistrationController();
-	    	try {
-	    		coustomerRegistration.start(ClientMenuController.clientStage);
-		} catch (IOException e) {
-			
-			e.printStackTrace();
-		} //send to UI*/
-	    	
-	    	//comment1
-	  }
+	    @FXML
+	    void clickRegisterNewEmployee(ActionEvent event) {
+
+	    }
+	 
+
 	
 
 }
