@@ -2,11 +2,13 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import Entities.Message;
 import Entities.MessageType;
 import Entities.Report;
+import entity.Subscriber;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -17,29 +19,36 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 public class ReportSearchFrameController implements Initializable {
 
-	ObservableList<String> reportTypesList= FXCollections.observableArrayList("Select type", "Show all report types" , "Order", "Stock status", "Clients activity");
-	
-	ObservableList<String> yearsList= FXCollections.observableArrayList("Select year", "Show all years", "2022", "2023");
-	
-	ObservableList<String> monthsList= FXCollections.observableArrayList("Select month", "Show all months", "January", "February", "March", "April", "May", "June", "July", "August", "September","October", "November", "December");
-			
-	@FXML
-	private Label LblReportName;
+	ObservableList<String> reportTypesList = FXCollections.observableArrayList("Select type", "Show all report types",
+			"Order", "Stock status", "Clients activity");
+
+	ObservableList<String> yearsList = FXCollections.observableArrayList("Select year", "Show all years", "2022",
+			"2023");
+
+	ObservableList<String> monthsList = FXCollections.observableArrayList("Select month", "Show all months", "January",
+			"February", "March", "April", "May", "June", "July", "August", "September", "October", "November",
+			"December");
 
 	@FXML
-	private Pane paneReportRes;
+	private TableColumn<List<Report>, String> colReportName;
 
 	@FXML
-	private ListView<String> reportViewList;
+	private TableColumn<List<Report>, Void> colViewReports;
 
 	@FXML
 	private ChoiceBox<String> selectMonth;
@@ -51,11 +60,9 @@ public class ReportSearchFrameController implements Initializable {
 	private ChoiceBox<String> selectYear;
 
 	@FXML
-	private VBox vBoxReport;
-	
-	private static ListView<String> reportListView;
-	private static String selectedReport = null;
-	private static Report[] selectedReports;
+	private TableView<List<Report>> tblReports;
+
+	private static TableView<List<Report>> reportTableView;
 
 	public void start(Stage primaryStage) throws IOException {
 		ClientMenuController.clientStage = primaryStage;
@@ -94,80 +101,76 @@ public class ReportSearchFrameController implements Initializable {
 		String reportType = selectReportType.getValue();
 		String month = selectMonth.getValue();
 		String year = selectYear.getValue();
-		Message msg = new Message(MessageType.Get_reports,reportType+"#"+month+"#"+year);
-		ClientMenuController.clientControl.accept((Object)msg);
+		Message msg = new Message(MessageType.Get_reports, reportType + "#" + month + "#" + year);
+		ClientMenuController.clientControl.accept((Object) msg);
 	}
-
-	@FXML
-	void viewReport(ActionEvent event) {
-		if (selectedReport == null)
-		{
-			System.out.println("please select a report!");
-			return;
-		}
-		Message msg = new Message(MessageType.Show_report,selectedReport);
-		ClientMenuController.clientControl.accept((Object)msg);
-		
-		Report firstReport = selectedReports[0];
-		if (firstReport.getReportType().equals("Stock status"))
-		{
-			// open Stock status report frame with the 'selectedReports' array
-			StockStatusReportViewController stockStatusReportView = new StockStatusReportViewController();
-			stockStatusReportView.start(ClientMenuController.clientStage, selectedReports);
-			
-		}
-		else if (firstReport.getReportType().equals("Order"))
-		{
-			// open order report frame with the firstReport
-			OrderReportViewController orderReportView = new OrderReportViewController();
-			orderReportView.start(ClientMenuController.clientStage, firstReport);
-		}
-		else if (firstReport.getReportType().equals("Client activity"))
-		{
-			// open client activity report frame with the firstReport
-			/* TODO
-			 * ClientActivityReportController clientActivityReport = new ClientActivityReportController();
-			 * clientActivityReport.start(ClientMenuController.clientStage, firstReport);
-			 */
-		}
-		else {
-			System.out.println("so such report type!");
-		}
-		
+	
+	/** add all requested reports to the table view**/
+	void addReportsToTableView(List<List<Report>> reportsList)
+	{
+		ObservableList<List<Report>> reports = FXCollections.observableArrayList();
+		for (List<Report> reportList : reportsList)
+			reports.add(reportList);
+		reportTableView.setItems(reports);
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		reportListView = reportViewList;
 		selectReportType.setValue("Select type");
 		selectMonth.setValue("Select month");
 		selectYear.setValue("Select year");
-		
-		
+
 		selectReportType.setItems(reportTypesList);
 		selectMonth.setItems(monthsList);
 		selectYear.setItems(yearsList);
-	}
-	
-	
-	/** adds all the requested report to the list view **/
-	public void addReportsToListView(String[] reports)
-	{
-		reportListView.getItems().clear();
-		reportListView.getItems().setAll(reports);
-		reportListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 
+		reportTableView = tblReports;
+		colReportName.setCellValueFactory(new PropertyValueFactory<List<Report>, String>("ReportName"));
+		// set button cells for the 'view report' column
+		Callback<TableColumn<List<Report>, Void>, TableCell<List<Report>, Void>> btnCellFactory = new Callback<TableColumn<List<Report>, Void>, TableCell<List<Report>, Void>>() {
 			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				selectedReport = reportListView.getSelectionModel().getSelectedItem();
+			public TableCell<List<Report>, Void> call(final TableColumn<List<Report>, Void> param) {
+				final TableCell<List<Report>, Void> cell = new TableCell<List<Report>, Void>() {
+
+					private final Button btn = new Button("view");
+
+					@Override
+					public void updateItem(Void item, boolean empty) {
+						super.updateItem(item, empty);
+						if (empty) {
+							setGraphic(null);
+						} else {
+							btn.setOnAction(e -> {
+								List<Report> selectedReports = getTableView().getItems().get(getIndex());
+								Report firstReport = selectedReports.get(0);
+								if (firstReport.getReportType().equals("Stock status")) {
+									// open Stock status report frame with the 'selectedReports' array
+									StockStatusReportViewController stockStatusReportView = new StockStatusReportViewController();
+									stockStatusReportView.start(ClientMenuController.clientStage, selectedReports);
+
+								} else if (firstReport.getReportType().equals("Order")) {
+									// open order report frame with the firstReport
+									OrderReportViewController orderReportView = new OrderReportViewController();
+									orderReportView.start(ClientMenuController.clientStage, firstReport);
+								} else if (firstReport.getReportType().equals("Client activity")) {
+									// open client activity report frame with the firstReport
+									/*
+									 * TODO ClientActivityReportController clientActivityReport = new
+									 * ClientActivityReportController();
+									 * clientActivityReport.start(ClientMenuController.clientStage, firstReport);
+									 */
+								} else {
+									System.out.println("No such report type!");
+								}
+							});
+							setGraphic(btn);
+						}
+					}
+				};
+				return cell;
 			}
-		});
-	}
-	
-	/** get the info of the selected report**/
-	public void getReport(Report[] selectedReports)
-	{
-		ReportSearchFrameController.selectedReports = selectedReports;
+		};
+		colViewReports.setCellFactory(btnCellFactory);
 	}
 
 }
