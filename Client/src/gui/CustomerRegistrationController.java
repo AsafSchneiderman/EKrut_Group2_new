@@ -13,9 +13,10 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 public class CustomerRegistrationController {
 	public static Message message;
+//	public static CustomerRegistrationController customerRegistration;
+	public static CustomerServiceLastFrameController lastFrame;
+	public static CustomerServiceController customerService;
 
-	 @FXML
-	 private Label customerRegistrationLbl;
 
 	 @FXML
 	 private Label firstNameCustomerRegistrationLbl;
@@ -74,10 +75,29 @@ public class CustomerRegistrationController {
 			 if(email.trim().isEmpty()|| phone.trim().isEmpty()|| creditCard.trim().isEmpty())
 				 lblAlert.setText("Please fill all of the fields. thank you!");
 		 }
-		 //else 
-			 
+		 else {
+			 lastFrame= new CustomerServiceLastFrameController();
+		    	try {
+		    		lastFrame.start(ClientMenuController.clientStage);
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			} //send to UI*/
+		    	
+		 }
 			 
 	 }
+	 
+	 @FXML
+	    void clickOnBack(ActionEvent event) {
+		 customerService= new CustomerServiceController();
+	    	try {
+	    		customerService.start(ClientMenuController.clientStage);
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		} //send to UI*/
+	    }
 
 	public void start(Stage primaryStage) throws IOException {
 		ClientMenuController.clientStage = primaryStage;
