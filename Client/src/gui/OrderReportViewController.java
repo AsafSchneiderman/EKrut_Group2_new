@@ -15,11 +15,9 @@ import javafx.stage.Stage;
 
 public class OrderReportViewController implements Initializable{
 
-    @FXML
-    private BarChart<?, ?> BarChartForOrdersPerProductsMachine;
 
     @FXML
-    private Button BntBack;
+    private BarChart<?, ?> BarChartSalesPerInstitution;
 
     @FXML
     private CategoryAxis categoryAxisInstitutions;
