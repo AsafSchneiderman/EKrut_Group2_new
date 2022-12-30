@@ -88,23 +88,22 @@ public class OrderFrameController {
 
     @FXML
     void addToCart(ActionEvent event) {
-    	String str;
-    	float num;
-    	str = lblProductDetails.getText();
-    	product.setProductName(str);
-    	str = lblProductPrice.getText();
-    	num = convertStringToFloat(str);
-    	product.setPrice(num);
+    	String str1, str2;
+    	
+    	str1 = lblProductDetails.getText();
+    	
+    	str2 = lblProductPrice.getText();
+    	float price = convertStringToFloat(str2);
+    	
     	productsList.add(product);
-    	float totalPrice = 0;
-    	for(int i=0; i<productsList.size();i++)
-    	{
-    		totalPrice = totalPrice+ productsList.get(i).getPrice();
-    	}
+    	float totalPrice = order.getTotalPrice();
+    	
+    	totalPrice = totalPrice + price;
+    	
 		order.setTotalPrice(totalPrice );
 		if(order.getProducts() == null)
 		{
-			order.setProducts(product.getProductName());
+			order.setProducts(str1);
 		}
 		else
 		{
@@ -113,6 +112,26 @@ public class OrderFrameController {
 			temp += product.getProductName();
 			order.setProducts(temp);
 		}
+		int quantity;
+		//product.setQuantity(quantity-1);
+		int i = 0;
+		while(order.getQuantityPerProducts(i) != 0)
+		{
+			i++;
+		}
+		order.setQuantityPerProducts(i, 1); 
+		if(order.getQuantityOfProducts() == 0)
+		{
+			order.setQuantityOfProducts(1);
+		}
+		else
+		{
+			quantity = order.getQuantityOfProducts();
+			order.setQuantityOfProducts(quantity+1);
+		}
+			
+		
+		
 		
 		lstViewCart.getItems().addAll(product);
 		String temp, temp2, temp3;
@@ -171,28 +190,33 @@ public class OrderFrameController {
     	{
     		if(lblProductNameCart.getText().equals(lstViewCart.getItems().get(i).getProductName()))
     		{
-    			int num = lstViewCart.getItems().get(i).getQuantity();
+    			int num = order.getQuantityPerProducts(i);
     			if(num==1)
     			{
     				lstViewCart.getItems().remove(i);
-    				float num2 = productsList.get(i).getPrice();
+    				float num2 = convertStringToFloat(lblProductPriceCart.getText());
        			 	float num3 = order.getTotalPrice();
        			 	num3 = num3-num2;
        			 	order.setTotalPrice(num3);
        			 	String temp = order.getProducts();
        			 	temp.replace(productsList.get(i).getProductName(), "");
        			 	order.setProducts(temp);
-       			 	productsList.remove(i);
+       			 	order.setQuantityPerProducts(i, 0);
+       			 	int quantityOfProducts  = order.getQuantityOfProducts();
+       			 	order.setQuantityOfProducts(quantityOfProducts-1);
     			}
     			else
     			{
     				num--;
+    				order.setQuantityPerProducts(i, num);
         			lstViewCart.getItems().get(i).setQuantity(num);
         			productsList.get(i).setQuantity(num);
-        			float num2 = productsList.get(i).getPrice();
+        			float num2 = convertStringToFloat(lblProductPriceCart.getText());
        			 	float num3 = order.getTotalPrice();
        			 	num3 = num3-num2;
        			 	order.setTotalPrice(num3);
+       			 	int quantityOfProducts  = order.getQuantityOfProducts();
+    			 	order.setQuantityOfProducts(quantityOfProducts-1);
     			}
     				
     		}
@@ -205,22 +229,22 @@ public class OrderFrameController {
     @FXML
     void addQuantatyToCart(ActionEvent event) {
     	
-    	
-    	for(int i = 0 ; i < lstViewCart.getItems().size(); i++)
+    	if(order.getProducts().contains(lblProductNameCart.getText()))
     	{
-    		if(lblProductNameCart.getText().equals(lstViewCart.getItems().get(i).getProductName()))
+    		int i = 0;
+    		while(!(productsList.get(i).getProductName().contains(lblProductNameCart.getText())))
     		{
-    			int num = lstViewCart.getItems().get(i).getQuantity();
-    			num++;
-    			lstViewCart.getItems().get(i).setQuantity(num);
-    			productsList.get(i).setQuantity(num);
-    			 float num2 = productsList.get(i).getPrice();
-    			 float num3 = order.getTotalPrice();
-    			 num3 = num3+num2;
-    			 order.setTotalPrice(num3);
-    			 
-    			
+    			i++;
     		}
+    		int quantity = order.getQuantityPerProducts(i);
+    		order.setQuantityPerProducts(i, quantity+1);
+    		quantity = order.getQuantityOfProducts();
+    		order.setQuantityOfProducts(quantity+1);
+    		float totPrice = order.getTotalPrice();
+    		float price = convertStringToFloat(lblProductPriceCart.getText());
+    		totPrice = totPrice + price;
+    		order.setTotalPrice(totPrice);
+    
     	}
     	
     	

@@ -1,12 +1,16 @@
 package Entities;
 import java.io.Serializable;
+import java.util.ArrayList;
 public class Order implements Serializable{
 	private static final long serialVersionUID = -8005643298429981017L;
 	private int orderNum;
 	private String orderDate, orderStatus, customerID, vendingMachineLocation, vendingMachineID,orderType;
 	private float totalPrice;
 	private String products;
-	public Order (String vendingMachineLocation,String orderDate,String orderStatus,String customerID,String vendingMachineID,float totalPrice, String orderType ) {
+	private int quantityOfProducts;
+	int [] quantityPerProducts;
+	
+	public Order (String vendingMachineLocation,String orderDate,String orderStatus,String customerID,String vendingMachineID,float totalPrice, String orderType, int quantityOfProducts) {
 		this.vendingMachineLocation=vendingMachineLocation;
 		this.orderDate=orderDate;
 		this.orderStatus=orderStatus;
@@ -14,6 +18,7 @@ public class Order implements Serializable{
 		this.vendingMachineID=vendingMachineID;
 		this.totalPrice=totalPrice;
 		this.orderType=orderType;
+		this.quantityOfProducts = quantityOfProducts;
 	}
 	public Order(int orderNum,String vendingMachineLocation,String orderDate) {
 		this.orderNum=orderNum;
@@ -23,8 +28,14 @@ public class Order implements Serializable{
 	public int getOrderNum() {
 		return orderNum;
 	}
+	public int getQuantityOfProducts() {
+		return quantityOfProducts;
+	}
 	public void setOrderNum(int orderNum) {
 		this.orderNum=orderNum;
+	}
+	public void setQuantityOfProducts(int quantityOfProducts) {
+		this.quantityOfProducts=quantityOfProducts;
 	}
 	public String getVendingMachineLocation() {
 		return vendingMachineLocation;
@@ -73,5 +84,11 @@ public class Order implements Serializable{
 	}
 	public void setProducts(String products) {
 		this.products=products;
+	}
+	public int getQuantityPerProducts(int index) {
+		return quantityPerProducts[index];
+	}
+	public void setQuantityPerProducts(int index, int quantity) {
+		quantityPerProducts[index] = quantity;
 	}
 }
