@@ -93,7 +93,13 @@ public class EchoServer extends AbstractServer {
 				break;
 				
 			case Get_reports:
-				
+				try {
+
+					client.sendToClient(new Message(MessageType.Get_reports, (Object) (Query.getReports())));
+
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 				break;
 			default:
 				break;
