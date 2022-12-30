@@ -12,6 +12,7 @@ import db.ShowSubscriber;
 import db.UpdateDB;
 import db.Query;
 import Entities.*;
+
 /**
  * This class overrides some of the methods in the abstract superclass in order
  * to give more functionality to the server.
@@ -52,86 +53,52 @@ public class EchoServer extends AbstractServer {
 	 * @param client The connection from which the message originated.
 	 */
 	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
-			
-		if(msg instanceof Message) { 
-		resMessage = (Message)msg;
-		
-		//System.out.println("Message: "+ resMessage.getMessageData().toString() +" --"+ resMessage.getMessageType().toString());	
-		switch (resMessage.getMessageType()) {  //message - type 
-			case login:	//the user login to the system and change him to '1' in the DB.
+
+		if (msg instanceof Message) {
+			resMessage = (Message) msg;
+
+			// System.out.println("Message: "+ resMessage.getMessageData().toString() +"
+			// --"+ resMessage.getMessageType().toString());
+			switch (resMessage.getMessageType()) { // message - type
+			case login: // the user login to the system and change him to '1' in the DB.
 				String[] data = resMessage.getMessageData().toString().split("#");
 				try {
-						
-					client.sendToClient(new Message(MessageType.login, (Object)(Query.login(data[0], data[1])) ) );
-				
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				break;
-			case logout:	//the user logout from the system and change him to '0' in the DB. 
-				Query.logout(resMessage.getMessageData().toString());
-			case disconnected:	//disconnected from server
-				ServerUI.serverGUI.appendToConsole( client.getName() + " has disconnected"); 
-			break;
-			case connected:	//connected to server
-				client.setName("client #"+clientNumber+" (" +resMessage.getMessageData().toString()+ ") ");
-				clientNumber++;
-				ServerUI.serverGUI.appendToConsole( client.getName() + " connected successfully"); 
-				break;
-	
-			default:
-				break;
-			}	//end of case
-		}
-		
-		
-}
-		
-		
-		//type: login
-		////Connecting client to server
-		//if(msg instanceof String) {
-			
-		/*
-			
-			String [] message = ((String)msg).split("%"); // message[0] - typeOfMessage
-																			//message[1] - data
-			
-			
-			switch (message[0]) { 
-			case "login":
-				String[] data = message[1].split("#");
-				try {
-					message[1]=Query.checkLogin(data[0], data[1]);
-					client.sendToClient((Object)message);
-				
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				break;
-				
-			case "disconnect":
-			
-				ServerUI.serverGUI.appendToConsole( client.getName() + " has disconnected"); 
-			break;
-			
-			case "connectToServer":
-				client.setName("client #"+clientNumber+" (" +message[1]+ ") ");
-				clientNumber++;
-				ServerUI.serverGUI.appendToConsole( client.getName() + " connected successfully"); 
-				break;
-			
-			
-			
-			
-			
-			
-			default:
-				break;
-				*/
 
-		
+					client.sendToClient(new Message(MessageType.login, (Object) (Query.login(data[0], data[1]))));
+
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				break;
+			case logout: // the user logout from the system and change him to '0' in the DB.
+				Query.logout(resMessage.getMessageData().toString());
+			case disconnected: // disconnected from server
+				ServerUI.serverGUI.appendToConsole(client.getName() + " has disconnected");
+				break;
+			case connected: // connected to server
+				client.setName("client #" + clientNumber + " (" + resMessage.getMessageData().toString() + ") ");
+				clientNumber++;
+				ServerUI.serverGUI.appendToConsole(client.getName() + " connected successfully");
+				break;
+
+			case Get_vendingMachines: //get list of vending machines from DB
+				
+				try {
+
+					client.sendToClient(new Message(MessageType.Get_vendingMachines, (Object) (Query.getVendingMachines())));
+
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				break;
+			default:
+				break;
+			} // end of case
+		}
+
+	}
+
+	
 
 	/**
 	 * This method overrides the one in the superclass. Called when the server

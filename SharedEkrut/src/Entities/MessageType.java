@@ -17,8 +17,12 @@ public enum MessageType {
 	acceptDelivery,
 	deliveryIsDone,
 	
+	//vending machines
+	Get_vendingMachines,update_thresholdLevel,
+	
 	//types of users
-	Customer,ClubMember,CEO,RegionManager,StockWorker,CustomerServiceWorker,
+	Customer,ClubMember,CEO,RegionManager,MarketingWorker,CustomerServiceWorker,
+
 	
 	//Error
 	Error;
