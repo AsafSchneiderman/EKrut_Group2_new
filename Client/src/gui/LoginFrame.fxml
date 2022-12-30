@@ -8,19 +8,29 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LoginFrameController">
+<AnchorPane fx:id="pane" prefHeight="450.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LoginFrameController">
    <children>
-      <TextField fx:id="txtUserName" layoutX="113.0" layoutY="87.0" />
-      <Label layoutX="43.0" layoutY="91.0" text="User Name" />
-      <Label layoutX="43.0" layoutY="134.0" text="Password" />
-      <Button fx:id="btnEnter" layoutX="152.0" layoutY="240.0" mnemonicParsing="false" onAction="#pressEnter" text="Enter" />
-      <Label fx:id="lblAlert" layoutX="113.0" layoutY="183.0" prefHeight="48.0" prefWidth="407.0" textFill="#ff0202" />
-      <Label layoutX="132.0" layoutY="41.0" prefHeight="34.0" prefWidth="73.0" text="Login">
+      <TextField fx:id="txtUserName" layoutX="227.0" layoutY="139.0" prefHeight="31.0" prefWidth="239.0" />
+      <Label layoutX="116.0" layoutY="140.0" text="User Name:">
          <font>
-            <Font name="Arial Bold" size="21.0" />
+            <Font name="System Bold" size="18.0" />
+         </font></Label>
+      <Button fx:id="btnEnter" layoutX="297.0" layoutY="311.0" mnemonicParsing="false" onAction="#pressEnter" prefHeight="40.0" prefWidth="100.0" text="Enter">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
+      <Label fx:id="lblAlert" layoutX="213.0" layoutY="247.0" prefHeight="48.0" prefWidth="323.0" textFill="#ff0202" />
+      <Label layoutX="205.0" layoutY="64.0" prefHeight="34.0" prefWidth="73.0" text="Login">
+         <font>
+            <Font name="Arial Bold Italic" size="24.0" />
          </font>
       </Label>
-      <ImageView fx:id="loginImage" fitHeight="314.0" fitWidth="278.0" layoutX="299.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" />
-      <PasswordField fx:id="txtPassword" layoutX="113.0" layoutY="130.0" />
+      <ImageView fx:id="loginImage" fitHeight="314.0" fitWidth="278.0" layoutX="474.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true" />
+      <PasswordField fx:id="txtPassword" layoutX="227.0" layoutY="193.0" prefHeight="31.0" prefWidth="239.0" />
+      <Label layoutX="128.0" layoutY="197.0" text="Password:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
