@@ -1,5 +1,6 @@
 package Entities;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Message implements Serializable{
 	private static final long serialVersionUID = -4880706272477371235L;

@@ -41,8 +41,8 @@ public class LoginFrameController implements Initializable {
 	private static Message msg; // message to send to service
 
 	@FXML
-    private AnchorPane pane;
-	
+	private AnchorPane pane;
+
 	@FXML
 	private PasswordField txtPassword;
 
@@ -112,7 +112,6 @@ public class LoginFrameController implements Initializable {
 					ClientMenuController.clientControl.accept((Object) msg);
 					Thread.sleep(100);
 					String data = (String) ChatClient.msgServer.getMessageData();
-					System.out.println("login data: "+data);
 					if (data.equals("Wrong_Input"))
 						return "Wrong user name or password!";
 					else if (data.equals("Already_logged_in"))
@@ -121,7 +120,6 @@ public class LoginFrameController implements Initializable {
 						String[] userData = data.split("#"); // Export user data
 						user = new User(userData[0], userData[1], userData[2], userData[3], userData[4], userData[5],
 								userData[6], userData[7], Integer.valueOf(userData[8]));
-						System.out.println("else: " + user.getFirstName());
 					}
 					Thread.sleep(100);
 					return "";
@@ -176,13 +174,14 @@ public class LoginFrameController implements Initializable {
 		primaryStage.show();
 	}
 
-	 @Override
-		public void initialize(URL location, ResourceBundle resources) {
-	    	
-	    	//initialize the background image 
-	    	BackgroundSize backgroundSize = new BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true, false);
-			BackgroundImage image = new BackgroundImage(new Image("images/LoginFrame.png"),
-					BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
-			pane.setBackground(new Background(image));
-	 }
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+
+		// initialize the background image
+		BackgroundSize backgroundSize = new BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true,
+				false);
+		BackgroundImage image = new BackgroundImage(new Image("images/LoginFrame.png"), BackgroundRepeat.NO_REPEAT,
+				BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
+		pane.setBackground(new Background(image));
+	}
 }

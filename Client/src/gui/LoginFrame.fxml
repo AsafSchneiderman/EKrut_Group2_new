@@ -10,7 +10,10 @@
 
 <AnchorPane fx:id="pane" prefHeight="450.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LoginFrameController">
    <children>
-      <TextField fx:id="txtUserName" layoutX="227.0" layoutY="139.0" prefHeight="31.0" prefWidth="239.0" />
+      <TextField fx:id="txtUserName" layoutX="227.0" layoutY="139.0" prefHeight="31.0" prefWidth="239.0">
+         <font>
+            <Font size="16.0" />
+         </font></TextField>
       <Label layoutX="116.0" layoutY="140.0" text="User Name:">
          <font>
             <Font name="System Bold" size="18.0" />
@@ -19,14 +22,20 @@
          <font>
             <Font size="18.0" />
          </font></Button>
-      <Label fx:id="lblAlert" layoutX="213.0" layoutY="247.0" prefHeight="48.0" prefWidth="323.0" textFill="#ff0202" />
+      <Label fx:id="lblAlert" layoutX="227.0" layoutY="231.0" prefHeight="48.0" prefWidth="323.0" textFill="#e10404">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font></Label>
       <Label layoutX="205.0" layoutY="64.0" prefHeight="34.0" prefWidth="73.0" text="Login">
          <font>
             <Font name="Arial Bold Italic" size="24.0" />
          </font>
       </Label>
       <ImageView fx:id="loginImage" fitHeight="314.0" fitWidth="278.0" layoutX="474.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true" />
-      <PasswordField fx:id="txtPassword" layoutX="227.0" layoutY="193.0" prefHeight="31.0" prefWidth="239.0" />
+      <PasswordField fx:id="txtPassword" layoutX="227.0" layoutY="193.0" prefHeight="31.0" prefWidth="239.0">
+         <font>
+            <Font size="16.0" />
+         </font></PasswordField>
       <Label layoutX="128.0" layoutY="197.0" text="Password:">
          <font>
             <Font name="System Bold" size="18.0" />

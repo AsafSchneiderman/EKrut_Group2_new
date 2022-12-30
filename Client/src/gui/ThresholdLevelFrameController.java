@@ -3,6 +3,7 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import Entities.*;
@@ -120,9 +121,12 @@ public class ThresholdLevelFrameController implements Initializable {
 		thresholdLevelCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("threshold Level"));
 
 		ObservableList<VendingMachine> tvObservableList = FXCollections.observableArrayList();
-
-		for (VendingMachine row : (ArrayList<VendingMachine>)ChatClient.msgServer.getMessageData())
-			tvObservableList.add(row);
+		
+		ArrayList<String> list = new ArrayList(Arrays.asList(ChatClient.msgServer.getMessageData()));
+		System.out.println("threshold level: "+list.getClass());
+	//	ArrayList<VendingMachine> v = (ArrayList<VendingMachine>)list;
+		//for (VendingMachine row : v)
+			//tvObservableList.add(row);
 			
 		tblViewVendingMachines.setItems(tvObservableList);
 		
