@@ -63,7 +63,7 @@ public class EchoServer extends AbstractServer {
 			case login: // the user login to the system and change him to '1' in the DB.
 				String[] data = resMessage.getMessageData().toString().split("#");
 				try {
-
+					
 					client.sendToClient(new Message(MessageType.login, (Object) (Query.login(data[0], data[1]))));
 
 				} catch (IOException e) {
@@ -90,6 +90,10 @@ public class EchoServer extends AbstractServer {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+				break;
+				
+			case Get_reports:
+				
 				break;
 			default:
 				break;
