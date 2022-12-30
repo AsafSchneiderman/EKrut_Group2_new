@@ -140,4 +140,55 @@ public class Query {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * get the reports data from DB
+	 * 
+	 * @return ArrayList of reports from the DB
+	 */
+	public static ArrayList<Report> getReports() {
+		ArrayList<Report> reports = new ArrayList<>();
+
+		Statement stmt;
+		try {
+			if (mysqlConnection.conn != null) {
+				stmt = mysqlConnection.conn.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT * FROM reports");
+				while (rs.next()) {
+					Report r = null;
+					if (rs.getString("report_type") == "order")
+					{
+						ArrayList<Order> orders = new ArrayList<>();
+						// TODO (add 'orders' table and change query to get specific info)
+						ResultSet rs2 = stmt.executeQuery("SELECT * FROM orders");
+						while (rs2.next()) {
+							Order o = new Order(null, null, null, null, null, 0, null, 0);
+							orders.add(o);
+						}
+						r = new OrdersReport(rs.getString("month"), rs.getString("year"), orders);
+					}
+					else if (rs.getString("report_type")== "stockStatus")
+					{
+						// TODO (add a way to get info about the products of each vending machine)
+						ArrayList<VendingMachine> vendingMachines = getVendingMachines();
+						r = new StockStatusReport(rs.getString("month"), rs.getString("year"), vendingMachines);
+					}
+					else if (rs.getString("report_type") == "clientActivity")
+					{
+						// TODO (add clientActivityReport table to db_ekrut)
+						r = new ClientActivityReport(rs.getString("month"), rs.getString("year"));
+					}
+					reports.add(r);
+				}
+				rs.close();
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return reports;
+	}
 }
