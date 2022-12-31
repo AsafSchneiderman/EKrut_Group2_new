@@ -95,7 +95,7 @@ public class Query {
 	 * @return ArrayList of vending machines from the DB
 	 */
 	public static ArrayList<VendingMachine> getVendingMachines() {
-		ArrayList<VendingMachine> vendingmachines = new ArrayList<>();
+		ArrayList<VendingMachine> vendingMachines = new ArrayList<>();
 
 		Statement stmt;
 		try {
@@ -104,7 +104,7 @@ public class Query {
 				ResultSet rs = stmt.executeQuery("SELECT * FROM vendingmachines");
 				while (rs.next()) {
 					VendingMachine v = new VendingMachine(rs.getString("region"), rs.getString("location"), rs.getString("thresholdLevel"));
-					vendingmachines.add(v);
+					vendingMachines.add(v);
 				}
 				rs.close();
 			} else {
@@ -115,24 +115,24 @@ public class Query {
 			e.printStackTrace();
 		}
 
-		return vendingmachines;
+		return vendingMachines;
 	}
 
 	/**
 	 * update the threshold Level of the vending machine in location in the DB.
 	 * 
-	 * @param thresholdLevel to update
-	 * @param location of the vending machine
+	 * @param vendingmachines list to update them threshold level
 	 */
-	public static void UpdateVendingMachineThresholdLevel(String thresholdLevel, String location) {
+	public static void UpdateVendingMachineThresholdLevel(ArrayList<VendingMachine> vendingMachines) {
 		PreparedStatement stmt;
 		try {
 			if (mysqlConnection.conn != null) {
-				stmt = mysqlConnection.conn
-						.prepareStatement("UPDATE vendingmachines SET thresholdLevel = ? where location = ?");
-				stmt.setString(1, thresholdLevel);
-				stmt.setString(2, location);
+				for (VendingMachine row : vendingMachines) {
+				stmt = mysqlConnection.conn.prepareStatement("UPDATE vendingmachines SET thresholdLevel = ? where location = ?");
+				stmt.setString(1, row.getThresholdLevel());
+				stmt.setString(2, row.getLocation());
 				stmt.executeUpdate();
+				}
 			} else {
 				System.out.println("Conn is null");
 			}

@@ -36,9 +36,9 @@ import controller.ChatClient;
 public class LoginFrameController implements Initializable {
 
 	public static User user = null;
-	public static Message message;
+	//public static Message message;
 
-	private static Message msg; // message to send to service
+	private static Message msg; // message to send to server
 
 	@FXML
 	private AnchorPane pane;
@@ -66,7 +66,7 @@ public class LoginFrameController implements Initializable {
 		if (password.trim().isEmpty() || userName.trim().isEmpty())
 			lblAlert.setText("Please fill both user name and password");
 		else {
-			// Create message
+			// Create message to send to server
 			msg = new Message(MessageType.login, userName + "#" + password);
 
 			// handle message to server and GUI
@@ -110,7 +110,7 @@ public class LoginFrameController implements Initializable {
 				@Override
 				protected String call() throws Exception {
 					ClientMenuController.clientControl.accept((Object) msg);
-					Thread.sleep(100);
+					Thread.sleep(500);
 					String data = (String) ChatClient.msgServer.getMessageData();
 					if (data.equals("Wrong_Input"))
 						return "Wrong user name or password!";
@@ -121,7 +121,7 @@ public class LoginFrameController implements Initializable {
 						user = new User(userData[0], userData[1], userData[2], userData[3], userData[4], userData[5],
 								userData[6], userData[7], Integer.valueOf(userData[8]));
 					}
-					Thread.sleep(100);
+					Thread.sleep(500);
 					return "";
 				}
 

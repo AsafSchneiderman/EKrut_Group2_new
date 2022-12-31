@@ -74,6 +74,9 @@ public class RegionManagerFrameController implements Initializable{
     void updateThresholdLevel(ActionEvent event) {
     	ThresholdLevelFrameController ThresholdLevelController = new ThresholdLevelFrameController();
     	try {
+    		// Create message to send to server
+			msg = new Message(MessageType.Get_vendingMachines,"");
+			ClientMenuController.clientControl.accept(msg);
     		ThresholdLevelController.start(ClientMenuController.clientStage);
 		} catch (IOException e) {
 			e.printStackTrace();

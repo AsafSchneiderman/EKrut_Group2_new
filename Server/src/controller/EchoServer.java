@@ -52,6 +52,7 @@ public class EchoServer extends AbstractServer {
 	 * @param msg    The message received from the client.
 	 * @param client The connection from which the message originated.
 	 */
+	@SuppressWarnings("unchecked")
 	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
 
 		if (msg instanceof Message) {
@@ -80,13 +81,13 @@ public class EchoServer extends AbstractServer {
 				clientNumber++;
 				ServerUI.serverGUI.appendToConsole(client.getName() + " connected successfully");
 				break;
-
+			case update_thresholdLevel: //update the threshold level of the vending machines in the DB
+					Query.UpdateVendingMachineThresholdLevel((ArrayList<VendingMachine>)resMessage.getMessageData());
+				break;
 			case Get_vendingMachines: //get list of vending machines from DB
 				
 				try {
-
 					client.sendToClient(new Message(MessageType.Get_vendingMachines, (Object) (Query.getVendingMachines())));
-
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -107,8 +108,6 @@ public class EchoServer extends AbstractServer {
 		}
 
 	}
-
-	
 
 	/**
 	 * This method overrides the one in the superclass. Called when the server

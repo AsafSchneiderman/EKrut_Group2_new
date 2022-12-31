@@ -13,15 +13,19 @@ import entity.Subscriber;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
@@ -29,6 +33,8 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 public class ThresholdLevelFrameController implements Initializable {
@@ -54,7 +60,12 @@ public class ThresholdLevelFrameController implements Initializable {
 	@FXML
 	private Button btnUpdateThresholdLevel;
 
-	private static Message msg; // message to send to service
+	@FXML
+	private Label lblAlert;
+
+	private static Message msg; // message to send to server
+
+	static ArrayList<VendingMachine> vendingMachines = new ArrayList<>(); // list of vending machines in the DB
 
 	/**
 	 * Goes back to the previous window of RegionManagerFrameController
@@ -73,9 +84,18 @@ public class ThresholdLevelFrameController implements Initializable {
 
 	}
 
+	/**
+	 * update the threshold level of the vending machines in the DB
+	 * 
+	 * @param event (Click on Update Threshold Level button)
+	 */
 	@FXML
 	void updateThresholdLevel(ActionEvent event) {
 
+		lblAlert.setText("Threshold level updated in DB");
+		lblAlert.setStyle("-fx-background-color:white");
+		msg = new Message(MessageType.update_thresholdLevel, vendingMachines);
+		ClientMenuController.clientControl.accept(msg);
 	}
 
 	/**
@@ -96,8 +116,6 @@ public class ThresholdLevelFrameController implements Initializable {
 		primaryStage.setOnCloseRequest(e -> {
 			msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
 			ClientMenuController.clientControl.accept(msg);
-			// ClientMenuController.clientControl.accept(new
-			// Message(MessageType.disconnected,LoginFrameController.user.getUserName()));
 		});
 		primaryStage.show();
 	}
@@ -113,30 +131,35 @@ public class ThresholdLevelFrameController implements Initializable {
 				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
 		pane.setBackground(new Background(image));
 
-		// initialize the vending machines list from DB
+		// initialize the vending machines table from DB
 		tblViewVendingMachines.setEditable(true);
 
 		regionCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("region"));
 		locationCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("location"));
-		thresholdLevelCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("threshold Level"));
+		thresholdLevelCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("thresholdLevel"));
 
 		ObservableList<VendingMachine> tvObservableList = FXCollections.observableArrayList();
-		
-		ArrayList<String> list = new ArrayList(Arrays.asList(ChatClient.msgServer.getMessageData()));
-		System.out.println("threshold level: "+list.getClass());
-	//	ArrayList<VendingMachine> v = (ArrayList<VendingMachine>)list;
-		//for (VendingMachine row : v)
-			//tvObservableList.add(row);
-			
-		tblViewVendingMachines.setItems(tvObservableList);
-		
+		vendingMachines = (ArrayList<VendingMachine>) ChatClient.msgServer.getMessageData();
+		for (VendingMachine row : vendingMachines)
+			tvObservableList.add(row);
 
-		/*tvObservableList.addAll(new OrderToDeliveryDetails("1", "motzkin", "28/12"),
-				new OrderToDeliveryDetails("2", "karmiel", "8/12"));
-		System.out.println("deliveryWorker - start: " + tvObservableList.get(1).getAddressToDelivey());
-		tblViewThresholdLevel.setItems(tvObservableList);
-		*/
+		tblViewVendingMachines.setItems(tvObservableList);
+
+		// Open the option to update the threshold level on the table
+		thresholdLevelCol.setCellFactory(TextFieldTableCell.forTableColumn());
+		thresholdLevelCol.setOnEditCommit(new EventHandler<CellEditEvent<VendingMachine, String>>() {
+
+			@Override
+			public void handle(CellEditEvent<VendingMachine, String> event) {
+				lblAlert.setText("");
+				lblAlert.setStyle("");
+				VendingMachine ven = event.getRowValue();
+				ven.setThresholdLevel(event.getNewValue());
+				for (VendingMachine row : vendingMachines)
+					if (ven.getLocation().equals(row.getLocation()))
+						row.setThresholdLevel(ven.getThresholdLevel());
+			}
+		});
 
 	}
-
 }
