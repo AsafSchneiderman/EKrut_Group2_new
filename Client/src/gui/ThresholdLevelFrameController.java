@@ -148,10 +148,10 @@ public class ThresholdLevelFrameController implements Initializable {
 		// Open the option to update the threshold level on the table
 		thresholdLevelCol.setCellFactory(TextFieldTableCell.forTableColumn());
 		thresholdLevelCol.setOnEditCommit(new EventHandler<CellEditEvent<VendingMachine, String>>() {
-
+			//A method that handles the threshold level update changes in the table
 			@Override
 			public void handle(CellEditEvent<VendingMachine, String> event) {
-				lblAlert.setText("");
+				lblAlert.setText("");	
 				lblAlert.setStyle("");
 				VendingMachine ven = event.getRowValue();
 				ven.setThresholdLevel(event.getNewValue());
