@@ -3,15 +3,27 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ClientMenuController">
+<AnchorPane fx:id="pane" prefHeight="450.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ClientMenuController">
    <children>
-      <TextField fx:id="txtIp" layoutX="159.0" layoutY="92.0" text="localhost" />
-      <Label layoutX="90.0" layoutY="96.0" prefHeight="17.0" prefWidth="40.0" text="IP:" />
-      <Button layoutX="190.0" layoutY="210.0" mnemonicParsing="false" onAction="#connectClient" prefHeight="37.0" prefWidth="87.0" text="Connect" />
-      <Label layoutX="85.0" layoutY="149.0" text="Port:" />
-      <TextField fx:id="txtPort" layoutX="159.0" layoutY="145.0" text="5555" />
-      <Label layoutX="186.0" layoutY="37.0" prefHeight="17.0" prefWidth="129.0" text="Client Connection" />
+      <TextField fx:id="txtIp" layoutX="200.0" layoutY="164.0" prefHeight="35.0" prefWidth="200.0" text="localhost" />
+      <Label layoutX="142.0" layoutY="171.0" prefHeight="17.0" prefWidth="40.0" text="IP:">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font></Label>
+      <Label layoutX="142.0" layoutY="224.0" text="Port:">
+         <font>
+            <Font name="Arial Bold" size="15.0" />
+         </font></Label>
+      <TextField fx:id="txtPort" layoutX="200.0" layoutY="217.0" prefHeight="35.0" prefWidth="200.0" text="5555" />
+      <Label layoutX="203.0" layoutY="78.0" prefHeight="21.0" prefWidth="178.0" text="Client Connection:">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font></Label>
+      <Button layoutX="252.0" layoutY="306.0" mnemonicParsing="false" onAction="#connectClient" prefHeight="35.0" prefWidth="80.0" style="-fx-background-color: green;" text="Connect" textFill="#a8f518" textOverrun="CENTER_ELLIPSIS" wrapText="true" />
+      <ImageView fx:id="imgClient" fitHeight="314.0" fitWidth="278.0" layoutX="484.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

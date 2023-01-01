@@ -52,8 +52,8 @@ public class LoginFrameController implements Initializable {
 	@FXML
 	private Label lblAlert;
 
-	@FXML
-	private ImageView loginImage;
+    @FXML
+    private ImageView imglogin;
 
 	@FXML
 	private TextField txtUserName;

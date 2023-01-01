@@ -74,10 +74,10 @@ public class ServerPortFrameController implements Initializable {
 	}
 
 	public void start(Stage primaryStage) throws IOException {
-		primaryStage.setTitle("Ekrut");
+		primaryStage.setTitle("Ekrut - Server Connection");
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/ServerUiMenu.fxml"));
 		Scene home = new Scene(root);
-		primaryStage.setScene(home);
+		primaryStage.setScene(home); 
 		primaryStage.show();
 	}
 
@@ -92,7 +92,11 @@ public class ServerPortFrameController implements Initializable {
 				BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
 		pane.setBackground(new Background(image));
 	}
-
+	
+	/**
+	 *  Add text to the console area
+	 * @param str - the text to add
+	 */
 	public void appendToConsole(String str) {
 		consoleArea.appendText(str + "\n");
 
