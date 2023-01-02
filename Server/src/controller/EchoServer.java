@@ -64,7 +64,7 @@ public class EchoServer extends AbstractServer {
 			case login: // the user login to the system and change him to '1' in the DB.
 				String[] data = resMessage.getMessageData().toString().split("#");
 				try {
-					
+
 					client.sendToClient(new Message(MessageType.login, (Object) (Query.login(data[0], data[1]))));
 
 				} catch (IOException e) {
@@ -81,16 +81,20 @@ public class EchoServer extends AbstractServer {
 				clientNumber++;
 				ServerUI.serverGUI.appendToConsole(client.getName() + " connected successfully");
 				break;
-			case update_thresholdLevel: //update the threshold level of the vending machines in the DB
-					Query.UpdateVendingMachineThresholdLevel((ArrayList<VendingMachine>)resMessage.getMessageData());
-				break;
-			case Get_vendingMachines: //get list of vending machines from DB
-				
+			case Get_vendingMachines: // get list of vending machines from DB
+
 				try {
-					client.sendToClient(new Message(MessageType.Get_vendingMachines, (Object) (Query.getVendingMachines())));
+					client.sendToClient(
+							new Message(MessageType.Get_vendingMachines, (Object) (Query.getVendingMachines())));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+				break;
+			case update_thresholdLevel: // update the threshold level of the vending machines in the DB
+				Query.UpdateVendingMachineThresholdLevel((ArrayList<VendingMachine>) resMessage.getMessageData());
+				break;
+			case update_restockStatus: // update the update restock status of the vending machines in the DB
+				Query.UpdateVendingMachineRestockStatus((ArrayList<VendingMachine>) resMessage.getMessageData());
 				break;
 				
 			case Get_reports:

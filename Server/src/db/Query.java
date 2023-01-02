@@ -101,9 +101,9 @@ public class Query {
 		try {
 			if (mysqlConnection.conn != null) {
 				stmt = mysqlConnection.conn.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT * FROM vendingmachines");
+				ResultSet rs = stmt.executeQuery("SELECT * FROM vendingmachines"); 
 				while (rs.next()) {
-					VendingMachine v = new VendingMachine(rs.getString("region"), rs.getString("location"), rs.getString("thresholdLevel"));
+					VendingMachine v = new VendingMachine(rs.getString("region"), rs.getString("location"), rs.getString("thresholdLevel"), rs.getString("restockStatus"));
 					vendingMachines.add(v);
 				}
 				rs.close();
@@ -134,7 +134,30 @@ public class Query {
 				stmt.executeUpdate();
 				}
 			} else {
-				System.out.println("Conn is null");
+				System.out.println("Conn is null"); 
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * update the Restock Status of the vending machine in location in the DB.
+	 * 
+	 * @param vendingmachines list to update them threshold level
+	 */
+	public static void UpdateVendingMachineRestockStatus(ArrayList<VendingMachine> vendingMachines) {
+		PreparedStatement stmt;
+		try {
+			if (mysqlConnection.conn != null) {
+				for (VendingMachine row : vendingMachines) {
+				stmt = mysqlConnection.conn.prepareStatement("UPDATE vendingmachines SET restockStatus = ? where location = ?");
+				stmt.setString(1, row.getThresholdLevel());
+				stmt.setString(2, row.getLocation());
+				stmt.executeUpdate();
+				}
+			} else {
+				System.out.println("Conn is null"); 
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

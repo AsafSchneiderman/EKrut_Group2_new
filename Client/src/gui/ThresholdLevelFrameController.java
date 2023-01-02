@@ -73,7 +73,7 @@ public class ThresholdLevelFrameController implements Initializable {
 	 * @param event (Click on Back button)
 	 */
 	@FXML
-	void BackToPreviousPage(ActionEvent event) {
+	void backToPreviousPage(ActionEvent event) {
 
 		RegionManagerFrameController RegionManagerController = new RegionManagerFrameController();
 		try {
@@ -92,7 +92,7 @@ public class ThresholdLevelFrameController implements Initializable {
 	@FXML
 	void updateThresholdLevel(ActionEvent event) {
 
-		lblAlert.setText("Threshold level updated in DB");
+		lblAlert.setText("Threshold level updated in DB");	//show update Alert
 		lblAlert.setStyle("-fx-background-color:white");
 		msg = new Message(MessageType.update_thresholdLevel, vendingMachines);
 		ClientMenuController.clientControl.accept(msg);

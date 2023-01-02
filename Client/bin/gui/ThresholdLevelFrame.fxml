@@ -20,7 +20,7 @@
          <font>
             <Font name="System Bold" size="15.0" />
          </font></Label>
-      <Button fx:id="btnBack" layoutX="118.0" layoutY="396.0" mnemonicParsing="false" onAction="#BackToPreviousPage" text="Back" />
+      <Button fx:id="btnBack" layoutX="118.0" layoutY="396.0" mnemonicParsing="false" onAction="#backToPreviousPage" text="Back" />
       <Button fx:id="btnUpdateThresholdLevel" layoutX="312.0" layoutY="396.0" mnemonicParsing="false" onAction="#updateThresholdLevel" text="Update Threshold Level" />
       <Label layoutX="118.0" layoutY="27.0" prefHeight="21.0" prefWidth="577.0" text="To update the threshold level, double click on the Threshold level cell in the selected row," />
       <Label layoutX="118.0" layoutY="43.0" prefHeight="21.0" prefWidth="577.0" text="Type the new number and press enter." />

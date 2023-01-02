@@ -46,10 +46,27 @@ public class RegionManagerFrameController implements Initializable{
     
     private static Message msg; //message to send to service
 
+    /**
+     * open Restock Message Frame
+     * @param event (Click on Update Threshold Level button)
+     */
     @FXML
-    void RestockMessageToWorker(ActionEvent event) {
-
+    void restockMessageToWorker(ActionEvent event) {
+    	
+    	RestockMessageController restockMessageController = new RestockMessageController();
+    	try {
+    		// Create message to send to server
+			msg = new Message(MessageType.Get_vendingMachines,"");
+			ClientMenuController.clientControl.accept(msg);
+			restockMessageController.start(ClientMenuController.clientStage);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	
+    	
+    	
     }
+    
 
     
     /**
@@ -67,7 +84,7 @@ public class RegionManagerFrameController implements Initializable{
     }
 
     /**
-     * 
+     * open Threshold Level Frame
      * @param event (Click on Update Threshold Level button)
      */
     @FXML

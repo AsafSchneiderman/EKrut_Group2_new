@@ -18,10 +18,10 @@ public enum MessageType {
 	deliveryIsDone,
 	
 	//vending machines
-	Get_vendingMachines,update_thresholdLevel,
+	Get_vendingMachines,update_thresholdLevel, update_restockStatus,
 	
 	//types of users
-	Customer,ClubMember,CEO,RegionManager,MarketingWorker,CustomerServiceWorker,
+	Customer,ClubMember,CEO,RegionManager,MarketingWorker,CustomerServiceWorker, 
 
 	
 	//Error

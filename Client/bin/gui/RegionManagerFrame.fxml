@@ -20,7 +20,7 @@
          <font>
             <Font size="16.0" />
          </font></Button>
-      <Button fx:id="btnRestockMessage" layoutX="189.0" layoutY="180.0" mnemonicParsing="false" onAction="#RestockMessageToWorker" prefHeight="50.0" prefWidth="500.0" text="Restock message to worker">
+      <Button fx:id="btnRestockMessage" layoutX="189.0" layoutY="180.0" mnemonicParsing="false" onAction="#restockMessageToWorker" prefHeight="50.0" prefWidth="500.0" text="Restock message to worker">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
