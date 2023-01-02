@@ -10,6 +10,7 @@ import gui.ServerPortFrameController;
 import gui.ServerUI;
 import db.ShowSubscriber;
 import db.UpdateDB;
+import db.getProductsFromDBToOrder;
 import db.Query;
 import Entities.*;
 
@@ -105,6 +106,17 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
+			case Show_products: // to show products in order frame
+			{
+				ArrayList<Product>pList;
+				pList  = getProductsFromDBToOrder.getProducts();
+				try {
+					client.sendToClient(new Message(MessageType.Show_products, (Object) pList));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 			default:
 				break;
 			} // end of case
