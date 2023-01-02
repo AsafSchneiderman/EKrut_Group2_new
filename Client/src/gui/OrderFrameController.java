@@ -12,10 +12,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuButton;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -29,7 +31,7 @@ public class OrderFrameController {
 	public static Message msg;
 
     @FXML
-    private ListView<Product> lstViewCart;
+    private ListView<?> lstViewCart;
 
     @FXML
     private VBox vBoxCart;
@@ -60,22 +62,22 @@ public class OrderFrameController {
     private ListView<?> lstViewProduct;
 
     @FXML
-    private VBox vBoxProduct;
+    private static VBox vBoxProduct;
 
     @FXML
-    private Pane paneLineProduct;
+    private static Pane paneLineProduct;
 
     @FXML
-    private ImageView imgProduct;
+    private static ImageView imgProduct;
 
     @FXML
-    private Label lblProductDetails;
+    private static Label lblProductDetails;
 
     @FXML
-    private Label lblProductPrice;
+    private static Label lblProductPrice;
 
     @FXML
-    private Button btnAddToCart;
+    private static Button btnAddToCart;
 
     @FXML
     private Label lblQuantatyPerProduct;
@@ -85,6 +87,28 @@ public class OrderFrameController {
 
     @FXML
     private Button bntSubFromCart;
+    
+    static class lstViewProduct extends ListCell<String>
+    {
+    	public lstViewProduct()
+    	{
+    		super();
+    		vBoxProduct.getChildren().addAll(paneLineProduct,imgProduct,lblProductDetails,lblProductPrice, btnAddToCart);
+    		VBox.setVgrow(paneLineProduct, Priority.ALWAYS);
+    	}
+    	public void updateItem(String item, boolean empty)
+    	{
+    		super.updateItem(item, empty);
+    		setText(null);
+    		setGraphic(null);
+    		if(item != null && !empty)
+    		{
+    			lblProductDetails.setText(item);
+    			setGraphic(vBoxProduct);
+    		}
+    			
+    	}
+    }
 
     @FXML
     void addToCart(ActionEvent event) {
@@ -113,7 +137,6 @@ public class OrderFrameController {
 			order.setProducts(temp);
 		}
 		int quantity;
-		//product.setQuantity(quantity-1);
 		int i = 0;
 		while(order.getQuantityPerProducts(i) != 0)
 		{
@@ -133,12 +156,10 @@ public class OrderFrameController {
 		
 		
 		
-		lstViewCart.getItems().addAll(product);
-		String temp, temp2, temp3;
-		temp2 = Float.toString(product.getPrice());
-		temp3 = Float.toString(product.getQuantity());
-		temp = product.getProductName()+product.getProductCode()+temp2+temp3;
-		msg =  new Message(MessageType.Orders_list,temp);
+		
+		//String temp, temp2, temp3;
+		//temp = product.getProductName()+product.getProductCode()+temp2+temp3;
+		//msg =  new Message(MessageType.Orders_list,temp);
 		ClientMenuController.clientControl.accept(msg);
 		
 
@@ -209,7 +230,6 @@ public class OrderFrameController {
     			{
     				num--;
     				order.setQuantityPerProducts(i, num);
-        			lstViewCart.getItems().get(i).setQuantity(num);
         			productsList.get(i).setQuantity(num);
         			float num2 = convertStringToFloat(lblProductPriceCart.getText());
        			 	float num3 = order.getTotalPrice();
