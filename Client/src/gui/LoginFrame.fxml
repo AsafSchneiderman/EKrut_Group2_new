@@ -19,7 +19,7 @@
          <font>
             <Font size="18.0" />
          </font></Button>
-      <Label fx:id="lblAlert" layoutX="227.0" layoutY="231.0" prefHeight="48.0" prefWidth="323.0" textFill="#e10404">
+      <Label fx:id="lblAlert" layoutX="226.0" layoutY="262.0" prefHeight="48.0" prefWidth="323.0" textFill="#e10404">
          <font>
             <Font name="System Bold" size="16.0" />
          </font></Label>

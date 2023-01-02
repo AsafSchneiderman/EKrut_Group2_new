@@ -56,9 +56,6 @@ public class RestockMessageController implements Initializable {
 	private TableColumn<VendingMachine, String> statusCol;
 
 	@FXML
-	private ComboBox<?> cmbBoxStatus;
-
-	@FXML
 	private Button btnBack;
 
 	@FXML

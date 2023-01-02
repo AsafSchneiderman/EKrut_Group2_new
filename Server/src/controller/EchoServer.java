@@ -82,7 +82,6 @@ public class EchoServer extends AbstractServer {
 				ServerUI.serverGUI.appendToConsole(client.getName() + " connected successfully");
 				break;
 			case Get_vendingMachines: // get list of vending machines from DB
-
 				try {
 					client.sendToClient(
 							new Message(MessageType.Get_vendingMachines, (Object) (Query.getVendingMachines())));
@@ -93,7 +92,7 @@ public class EchoServer extends AbstractServer {
 			case update_thresholdLevel: // update the threshold level of the vending machines in the DB
 				Query.UpdateVendingMachineThresholdLevel((ArrayList<VendingMachine>) resMessage.getMessageData());
 				break;
-			case update_restockStatus: // update the update restock status of the vending machines in the DB
+			case update_restockStatus: // update the restock status of the vending machines in the DB
 				Query.UpdateVendingMachineRestockStatus((ArrayList<VendingMachine>) resMessage.getMessageData());
 				break;
 				

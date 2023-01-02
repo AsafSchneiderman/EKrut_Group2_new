@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -15,11 +14,7 @@
             <TableColumn fx:id="regionCol" prefWidth="154.0" text="Region" />
             <TableColumn fx:id="locationCol" prefWidth="170.0" text="location" />
             <TableColumn fx:id="thresholdLevelCol" minWidth="0.0" prefWidth="170.0" text="Threshold Level" />
-            <TableColumn fx:id="statusCol" minWidth="0.0" prefWidth="58.0" text="Status">
-               <graphic>
-                  <ComboBox fx:id="cmbBoxStatus" prefWidth="150.0" promptText="Status" />
-               </graphic>
-            </TableColumn>
+            <TableColumn fx:id="statusCol" minWidth="0.0" prefWidth="171.0" text="Status" />
          </columns>
       </TableView>
       <Label layoutX="104.0" layoutY="24.0" text="Restock vending machines:" />
