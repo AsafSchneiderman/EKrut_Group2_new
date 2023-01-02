@@ -118,7 +118,7 @@ public class OrderFrameController {
     	
     	str2 = lblProductPrice.getText();
     	float price = convertStringToFloat(str2);
-    	
+    	//hi
     	productsList.add(product);
     	float totalPrice = order.getTotalPrice();
     	
