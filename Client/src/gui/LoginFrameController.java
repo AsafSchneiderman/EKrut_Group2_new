@@ -158,6 +158,16 @@ public class LoginFrameController implements Initializable {
 				e.printStackTrace();
 			}
 		}
+		
+
+		if (user.getRole().equals("CustomerService")) {
+			CustomerServiceController customerService = new CustomerServiceController();
+			try {
+				customerService.start(ClientMenuController.clientStage);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public void start(Stage primaryStage) throws IOException {
