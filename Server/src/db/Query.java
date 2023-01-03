@@ -185,8 +185,12 @@ public class Query {
 						// TODO (add 'orders' table and change query to get specific info)
 						ResultSet rs2 = stmt.executeQuery("SELECT * FROM orders");
 						while (rs2.next()) {
-							Order o = new Order(null, null, null, null, null, 0, null, 0);
-							orders.add(o);
+							String[] tempDate = rs2.getString("date").split("\\-");
+							if(tempDate[0].equals(rs.getString("year"))&&tempDate[1].equals(rs.getString("month")))
+							{
+								Order o = new Order(rs2.getString("machineLocation"), rs2.getString("date"),rs2.getString("status"),rs2.getString("customerID"),rs2.getFloat("totPrice"),rs2.getString("type"),rs2.getInt("productsQauntity"));
+								orders.add(o);
+							}	
 						}
 						r = new OrdersReport(rs.getString("month"), rs.getString("year"), orders);
 					}
