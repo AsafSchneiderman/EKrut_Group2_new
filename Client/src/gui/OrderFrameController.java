@@ -1,11 +1,16 @@
 package gui;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 import Entities.*;
-
+import controller.ChatClient;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,7 +20,18 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuButton;
+import javafx.scene.control.TableColumn.CellEditEvent;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -24,29 +40,37 @@ import javafx.stage.Stage;
 public class OrderFrameController {
 	Order order;
 	Product product;
-	ArrayList<Product> productsList;
+	static ArrayList<Product> productsList = new ArrayList<>();
 	public  static CustomerFrameController customerFrame;
 	public static Stage clientStage;
 	public  static ConfirmOrderFrameController confirmOrderFrame;
 	public static Message msg;
+	//public static ObservableList<String>tempForProducts;
+
+	@FXML
+	private AnchorPane pane;
+    @FXML
+    private TableView<ProductForOrder> tblProducts;
 
     @FXML
-    private ListView<?> lstViewCart;
+    private TableView<?> tblCart;
+   // @FXML
+    //private ListView<?> lstViewCart;
 
-    @FXML
-    private VBox vBoxCart;
+   // @FXML
+    //private VBox vBoxCart;
 
-    @FXML
-    private Pane paneLineCart;
+   // @FXML
+   // private Pane paneLineCart;
 
-    @FXML
-    private ImageView imgProductCart;
+    //@FXML
+    //private ImageView imgProductCart;
 
-    @FXML
-    private Label lblProductNameCart;
+    //@FXML
+    //private Label lblProductNameCart;
 
-    @FXML
-    private Label lblProductPriceCart;
+    //@FXML
+    //private Label lblProductPriceCart;
 
 
     @FXML
@@ -58,29 +82,29 @@ public class OrderFrameController {
     @FXML
     private Button btnCancelOrder;
 
-    @FXML
-    private ListView<?> lstViewProduct;
+    //@FXML
+    //private ListView<String> lstViewProduct;
 
-    @FXML
-    private static VBox vBoxProduct;
+    //@FXML
+    //private static VBox vBoxProduct;
 
-    @FXML
-    private static Pane paneLineProduct;
+   // @FXML
+    //private static Pane paneLineProduct;
 
-    @FXML
-    private static ImageView imgProduct;
+    //@FXML
+    //private static ImageView imgProduct;
 
-    @FXML
-    private static Label lblProductDetails;
+    //@FXML
+   // private static Label lblProductDetails;
 
-    @FXML
-    private static Label lblProductPrice;
+   // @FXML
+    //private static Label lblProductPrice;
 
     @FXML
     private static Button btnAddToCart;
 
-    @FXML
-    private Label lblQuantatyPerProduct;
+   // @FXML
+   // private Label lblQuantatyPerProduct;
 
     @FXML
     private Button bntAddProduct;
@@ -88,13 +112,18 @@ public class OrderFrameController {
     @FXML
     private Button bntSubFromCart;
     
-    static class lstViewProduct extends ListCell<String>
+   
+    
+    /*static class lstViewProduct extends ListCell<String>
     {
+    	ActionEvent event;
+    	 
     	public lstViewProduct()
     	{
     		super();
     		vBoxProduct.getChildren().addAll(paneLineProduct,imgProduct,lblProductDetails,lblProductPrice, btnAddToCart);
     		VBox.setVgrow(paneLineProduct, Priority.ALWAYS);
+    		btnAddToCart.setOnAction((EventHandler<ActionEvent>) event);
     	}
     	public void updateItem(String item, boolean empty)
     	{
@@ -105,20 +134,93 @@ public class OrderFrameController {
     		{
     			lblProductDetails.setText(item);
     			setGraphic(vBoxProduct);
-    		}
-    			
+    		}  			
     	}
+    }*/
+    
+    @SuppressWarnings("unchecked")
+    public void initialize(URL location, ResourceBundle resources) {
+    	
+    	
+    	// initialize the background image
+    			BackgroundSize backgroundSize = new BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true,
+    					false);
+    			BackgroundImage image = new BackgroundImage(new Image("images/orderFrameBackground.png"),
+    					BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
+    			pane.setBackground(new Background(image));  			  			
+    			tblProducts.setEditable(true);
+    			
+    			ObservableList<ProductForOrder> tvObservableList = FXCollections.observableArrayList();
+    			productsList = (ArrayList<Product>) ChatClient.msgServer.getMessageData();
+    			for (Product row : productsList)
+    			{
+    				//tvObservableList.add(row);
+    				ProductForOrder tempVar = new ProductForOrder(row.getProductName(), Float.toString(row.getPrice()));
+    				tvObservableList.add(tempVar);	
+    			}
+    				
+    			tblProducts.setItems(tvObservableList);   			 	
     }
+    
+    /*
+     * 
+     * 	@SuppressWarnings("unchecked")
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
 
+		// initialize the background image
+		BackgroundSize backgroundSize = new BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true,
+				false);
+		BackgroundImage image = new BackgroundImage(new Image("images/ThresholdLevelFrame.png"),
+				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
+		pane.setBackground(new Background(image));
+
+		// initialize the vending machines table from DB
+		tblViewVendingMachines.setEditable(true);
+
+		regionCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("region"));
+		locationCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("location"));
+		thresholdLevelCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("thresholdLevel"));
+
+		ObservableList<VendingMachine> tvObservableList = FXCollections.observableArrayList();
+		vendingMachines = (ArrayList<VendingMachine>) ChatClient.msgServer.getMessageData();
+		for (VendingMachine row : vendingMachines)
+			tvObservableList.add(row);
+
+		tblViewVendingMachines.setItems(tvObservableList);
+
+		// Open the option to update the threshold level on the table
+		thresholdLevelCol.setCellFactory(TextFieldTableCell.forTableColumn());
+		thresholdLevelCol.setOnEditCommit(new EventHandler<CellEditEvent<VendingMachine, String>>() {
+			//A method that handles the threshold level update changes in the table
+			@Override
+			public void handle(CellEditEvent<VendingMachine, String> event) {
+				lblAlert.setText("");	
+				lblAlert.setStyle("");
+				VendingMachine ven = event.getRowValue();
+				ven.setThresholdLevel(event.getNewValue());
+				for (VendingMachine row : vendingMachines)
+					if (ven.getLocation().equals(row.getLocation()))
+						row.setThresholdLevel(ven.getThresholdLevel());
+			}
+		});
+
+	}
+     * 
+     * 
+     */
+
+   
+    
     @FXML
     void addToCart(ActionEvent event) {
     	String str1, str2;
     	
-    	str1 = lblProductDetails.getText();
+    	//str1 = tblProducts.
     	
-    	str2 = lblProductPrice.getText();
+    	//str2 = lblProductPrice.getText();
     	float price = convertStringToFloat(str2);
-    	//hi
+    	
     	productsList.add(product);
     	float totalPrice = order.getTotalPrice();
     	
@@ -197,19 +299,25 @@ public class OrderFrameController {
 
 	public void start(Stage customerStage) throws IOException {
 		ClientMenuController.clientStage = customerStage;
+		ClientMenuController.clientStage.setTitle("Ekrut - Costumer >> Make an Order");
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/OrderFrame.fxml"));
 		Scene home = new Scene(root);
 		customerStage.setScene(home);
+		clientStage.setOnCloseRequest(e -> {
+			msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
+			ClientMenuController.clientControl.accept(msg);
+		});
 		customerStage.show(); 
     }
+	
+	
 	
 
     @FXML
     void subQuantatyFromCart(ActionEvent event) {
     	
-    	for(int i = 0 ; i < lstViewCart.getItems().size(); i++)
-    	{
-    		if(lblProductNameCart.getText().equals(lstViewCart.getItems().get(i).getProductName()))
+    	
+    		/*if(lblProductNameCart.getText().equals(lstViewCart.getItems().get(i).getProductName()))
     		{
     			int num = order.getQuantityPerProducts(i);
     			if(num==1)
@@ -239,17 +347,17 @@ public class OrderFrameController {
     			 	order.setQuantityOfProducts(quantityOfProducts-1);
     			}
     				
-    		}
-    	}
+    		}*/
     	
     	
+
 
     }
     
     @FXML
     void addQuantatyToCart(ActionEvent event) {
     	
-    	if(order.getProducts().contains(lblProductNameCart.getText()))
+    	/*if(order.getProducts().contains(lblProductNameCart.getText()))
     	{
     		int i = 0;
     		while(!(productsList.get(i).getProductName().contains(lblProductNameCart.getText())))
@@ -265,7 +373,7 @@ public class OrderFrameController {
     		totPrice = totPrice + price;
     		order.setTotalPrice(totPrice);
     
-    	}
+    	}*/
     	
     	
 
