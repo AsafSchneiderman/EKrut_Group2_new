@@ -1,6 +1,10 @@
 package gui;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
+import Entities.Message;
+import Entities.MessageType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,7 +12,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
 
 public class CustomerServiceController {
@@ -49,11 +59,24 @@ public class CustomerServiceController {
 		public void start(Stage primaryStage) throws IOException {
 			ClientMenuController.clientStage = primaryStage;
 		    primaryStage.setTitle("Ekrut - Customer");
-			Parent root = FXMLLoader.load(getClass().getResource("/gui/CustomerServiceForm.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("/gui/CustomerServiceFrame.fxml"));
 			Scene home = new Scene(root);
 			primaryStage.setScene(home);
+			// On pressing X (close window) the client is disconnect from server.
+			primaryStage.setOnCloseRequest(e -> {
+				ClientMenuController.clientControl.accept(new Message(MessageType.disconnected,""));
+			});
 			primaryStage.show(); 
 			
+		}
+		public void initialize(URL location, ResourceBundle resources) {
+
+			// initialize the background image
+			BackgroundSize backgroundSize = new BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true,
+					false);
+			BackgroundImage image = new BackgroundImage(new Image("images/LoginFrame.png"), BackgroundRepeat.NO_REPEAT,
+					BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
+			pane.setBackground(new Background(image));
 		}
 	 
 
