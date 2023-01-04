@@ -123,7 +123,7 @@ public class OrderFrameController implements Initializable {
 
     			tblProducts.setItems(tvObservableList);
 			 	
-    }//hi
+    }//hi hi
     
   
 	
