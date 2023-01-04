@@ -23,7 +23,10 @@ import javafx.stage.Stage;
 
 public class CustomerServiceController {
 	public static CustomerServiceController customerService;
+	public static EmployeeRegistrationController employeeRegistration;
 	public static CustomerRegistrationController coustomerRegistration;
+	public static LoginFrameController loginFrame;
+	public static RegistrateClubMemberController registrateClubMember;
 
 	@FXML
     private AnchorPane pane;
@@ -41,6 +44,10 @@ public class CustomerServiceController {
 	private Button logoutCustomerServiceBtn;
 	
 	@FXML
+    private Button registerClubMemberBtn;
+
+	
+	@FXML
 	void clickRegisterNewCustomer(ActionEvent event) throws IOException{
 		coustomerRegistration= new CustomerRegistrationController();
     	try {
@@ -53,8 +60,38 @@ public class CustomerServiceController {
 
 	    @FXML
 	    void clickRegisterNewEmployee(ActionEvent event) {
-
+	    	employeeRegistration= new EmployeeRegistrationController();
+	    	try {
+	    		employeeRegistration.start(ClientMenuController.clientStage);
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		    } //send to UI*/
 	    }
+	    
+	    @FXML
+	    void clickOnLogout(ActionEvent event) {
+	    	ClientMenuController.clientControl.accept(new Message(MessageType.disconnected,""));
+	    	loginFrame= new LoginFrameController();
+	    	try {
+	    		loginFrame.start(ClientMenuController.clientStage);
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		    } //send to UI*/
+	    }
+	    
+	    @FXML
+	    void clickRegisterClubMember(ActionEvent event) {
+	    	registrateClubMember= new RegistrateClubMemberController();
+	    	try {
+	    		registrateClubMember.start(ClientMenuController.clientStage);
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		    } //send to UI*/	
+	    }
+
 
 		public void start(Stage primaryStage) throws IOException {
 			ClientMenuController.clientStage = primaryStage;
