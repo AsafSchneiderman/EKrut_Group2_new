@@ -7,10 +7,11 @@ public class Product implements Serializable {
 	private String productName,productCode;
 	private float price;
 	private int quantity;
-	public Product(String productName, String productCode, float price) {
+	public Product(String productName, String productCode, float price,int quantity) {
 		this.productName=productName;
 		this.productCode=productCode;
 		this.price=price;
+		this.quantity=quantity;
 	}
 	public String getProductName() {
 		return productName;
