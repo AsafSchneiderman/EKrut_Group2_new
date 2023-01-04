@@ -101,9 +101,10 @@ public class Query {
 		try {
 			if (mysqlConnection.conn != null) {
 				stmt = mysqlConnection.conn.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT * FROM vendingmachines"); 
+				ResultSet rs = stmt.executeQuery("SELECT * FROM vendingmachines");
 				while (rs.next()) {
-					VendingMachine v = new VendingMachine(rs.getString("region"), rs.getString("location"), rs.getString("thresholdLevel"), rs.getString("restockStatus"));
+					VendingMachine v = new VendingMachine(rs.getString("region"), rs.getString("location"),
+							rs.getString("thresholdLevel"), rs.getString("restockStatus"));
 					vendingMachines.add(v);
 				}
 				rs.close();
@@ -128,19 +129,20 @@ public class Query {
 		try {
 			if (mysqlConnection.conn != null) {
 				for (VendingMachine row : vendingMachines) {
-				stmt = mysqlConnection.conn.prepareStatement("UPDATE vendingmachines SET thresholdLevel = ? where location = ?");
-				stmt.setString(1, row.getThresholdLevel());
-				stmt.setString(2, row.getLocation());
-				stmt.executeUpdate();
+					stmt = mysqlConnection.conn
+							.prepareStatement("UPDATE vendingmachines SET thresholdLevel = ? where location = ?");
+					stmt.setString(1, row.getThresholdLevel());
+					stmt.setString(2, row.getLocation());
+					stmt.executeUpdate();
 				}
 			} else {
-				System.out.println("Conn is null"); 
+				System.out.println("Conn is null");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * update the Restock Status of the vending machine in location in the DB.
 	 * 
@@ -151,19 +153,20 @@ public class Query {
 		try {
 			if (mysqlConnection.conn != null) {
 				for (VendingMachine row : vendingMachines) {
-				stmt = mysqlConnection.conn.prepareStatement("UPDATE vendingmachines SET restockStatus = ? where location = ?");
-				stmt.setString(1, row.getThresholdLevel());
-				stmt.setString(2, row.getLocation());
-				stmt.executeUpdate();
+					stmt = mysqlConnection.conn
+							.prepareStatement("UPDATE vendingmachines SET restockStatus = ? where location = ?");
+					stmt.setString(1, row.getThresholdLevel());
+					stmt.setString(2, row.getLocation());
+					stmt.executeUpdate();
 				}
 			} else {
-				System.out.println("Conn is null"); 
+				System.out.println("Conn is null");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * get the reports data from DB
 	 * 
@@ -179,29 +182,56 @@ public class Query {
 				ResultSet rs = stmt.executeQuery("SELECT * FROM reports");
 				while (rs.next()) {
 					Report r = null;
-					if (rs.getString("report_type") == "order")
-					{
+					if (rs.getString("report_type") == "order") {
 						ArrayList<Order> orders = new ArrayList<>();
-						// TODO (add 'orders' table and change query to get specific info)
-						ResultSet rs2 = stmt.executeQuery("SELECT * FROM orders");
+
+						ResultSet rs2 = stmt.executeQuery("SELECT * FROM db_ekrut.orders WHERE (orderDate BETWEEN \'"
+								+ rs.getString("year") + "-" + rs.getString("month") + "-01\' AND CURDATE() )");
+
 						while (rs2.next()) {
-							String[] tempDate = rs2.getString("date").split("\\-");
-							if(tempDate[0].equals(rs.getString("year"))&&tempDate[1].equals(rs.getString("month")))
-							{
-								Order o = new Order(rs2.getString("machineLocation"), rs2.getString("date"),rs2.getString("status"),rs2.getString("customerID"),rs2.getFloat("totPrice"),rs2.getString("type"),rs2.getInt("productsQauntity"));
-								orders.add(o);
-							}	
+
+							Order o = new Order(rs2.getString("machineLocation"), rs2.getString("date"),
+									rs2.getString("status"), rs2.getString("customerID"), rs2.getFloat("totPrice"),
+									rs2.getString("type"), rs2.getInt("productsQauntity"));
+							orders.add(o);
+
 						}
 						r = new OrdersReport(rs.getString("month"), rs.getString("year"), orders);
-					}
-					else if (rs.getString("report_type")== "stockStatus")
-					{
-						// TODO (add a way to get info about the products of each vending machine)
+					} else if (rs.getString("report_type") == "stockStatus") {
+
+						ArrayList<ArrayList<Product>> stocks = new ArrayList<>();
 						ArrayList<VendingMachine> vendingMachines = getVendingMachines();
-						r = new StockStatusReport(rs.getString("month"), rs.getString("year"), vendingMachines);
-					}
-					else if (rs.getString("report_type") == "clientActivity")
-					{
+						for (VendingMachine v : vendingMachines) {
+							String currentMachine=v.getLocation().toLowerCase();
+							String currentStock = currentMachine + "products";
+							ResultSet rs2 = stmt.executeQuery("SELECT * FROM " + currentStock);
+							ArrayList<Product> productsStock = new ArrayList<>();
+							
+							ResultSet rs3 = stmt.executeQuery("SELECT * FROM db_ekrut.orders WHERE (orderDate BETWEEN \' "+ rs.getString("year") + "-" + rs.getString("month") +"-01\' AND CURDATE() ) AND ( machineLocation = "+currentMachine+")");
+							while (rs2.next()) {
+								String[] productsIDs = rs3.getString("products").split("\\,");
+								String[] productsQuantities = rs3.getString("QuantityPerProduct").split("\\,");
+								int[] removedStocks = new int[30];
+								for(int i=0;i<30;i++)
+									removedStocks[i]=0;
+							
+								for(int i=0;i<rs3.getInt("productsQuantity");i++)
+								{
+									int productID= Integer.parseInt(productsIDs[i]);
+									int productQuantity= Integer.parseInt(productsQuantities[i]);
+									removedStocks[productID]=removedStocks[productID]+productQuantity;
+									
+								}
+								int ID= Integer.parseInt(rs2.getString("productID"));
+								int quantity= rs2.getInt("stockQuantity")+ removedStocks[ID];
+								Product product = new Product(rs2.getString("productName"), rs2.getString("productID"), rs2.getFloat("price"), quantity);
+								productsStock.add(product);
+							}
+							
+							stocks.add(productsStock);
+						}
+						r = new StockStatusReport(rs.getString("month"), rs.getString("year"), vendingMachines, stocks);
+					} else if (rs.getString("report_type") == "clientActivity") {
 						// TODO (add clientActivityReport table to db_ekrut)
 						r = new ClientActivityReport(rs.getString("month"), rs.getString("year"));
 					}
