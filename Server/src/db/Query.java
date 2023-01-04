@@ -248,4 +248,29 @@ public class Query {
 
 		return reports;
 	}
+	
+	public static ArrayList<Product> getProducts(String location) {
+		Product product;
+		ArrayList<Product>listOfProducts = new ArrayList<>();
+		Statement stmt;
+		try {
+			if (mysqlConnection.conn != null) {
+				stmt = mysqlConnection.conn.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT * FROM" + location.toLowerCase()+ "products");
+				while (rs.next()) {
+					product = new Product(rs.getString("productID") ,rs.getString("productName"),rs.getString("price") ,rs.getString("stockQuantity") ,rs.getString("imgSrc"));
+					listOfProducts.add(product);
+					}
+				rs.close();
+			} else {
+				System.out.println("Conn is null");
+			}
+			
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	
+		return listOfProducts;
+	}
 }
