@@ -13,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -20,6 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuButton;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -37,7 +39,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class OrderFrameController {
+public class OrderFrameController implements Initializable {
 	Order order;
 	Product product;
 	static ArrayList<Product> productsList = new ArrayList<>();
@@ -111,8 +113,17 @@ public class OrderFrameController {
 
     @FXML
     private Button bntSubFromCart;
+    @FXML
+    private TableColumn<ProductForOrder, String> colNameOfProduct;
+
+    @FXML
+    private TableColumn<ProductForOrder, String> colPriceOfProduct;
     
-   
+    @FXML
+    private TableColumn<?, ?> colProductInCart;
+
+    @FXML
+    private TableColumn<?, ?> colQuantityInCart;
     
     /*static class lstViewProduct extends ListCell<String>
     {
@@ -137,8 +148,8 @@ public class OrderFrameController {
     		}  			
     	}
     }*/
-    
     @SuppressWarnings("unchecked")
+    @Override
     public void initialize(URL location, ResourceBundle resources) {
     	
     	
@@ -150,6 +161,8 @@ public class OrderFrameController {
     			pane.setBackground(new Background(image));  			  			
     			tblProducts.setEditable(true);
     			
+    			colNameOfProduct.setCellValueFactory(new PropertyValueFactory<ProductForOrder, String>("productName"));
+    			colPriceOfProduct.setCellValueFactory(new PropertyValueFactory<ProductForOrder, String>("price"));
     			ObservableList<ProductForOrder> tvObservableList = FXCollections.observableArrayList();
     			productsList = (ArrayList<Product>) ChatClient.msgServer.getMessageData();
     			for (Product row : productsList)
@@ -162,53 +175,8 @@ public class OrderFrameController {
     			tblProducts.setItems(tvObservableList);   			 	
     }
     
-    /*
-     * 
-     * 	@SuppressWarnings("unchecked")
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-
-		// initialize the background image
-		BackgroundSize backgroundSize = new BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true,
-				false);
-		BackgroundImage image = new BackgroundImage(new Image("images/ThresholdLevelFrame.png"),
-				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
-		pane.setBackground(new Background(image));
-
-		// initialize the vending machines table from DB
-		tblViewVendingMachines.setEditable(true);
-
-		regionCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("region"));
-		locationCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("location"));
-		thresholdLevelCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("thresholdLevel"));
-
-		ObservableList<VendingMachine> tvObservableList = FXCollections.observableArrayList();
-		vendingMachines = (ArrayList<VendingMachine>) ChatClient.msgServer.getMessageData();
-		for (VendingMachine row : vendingMachines)
-			tvObservableList.add(row);
-
-		tblViewVendingMachines.setItems(tvObservableList);
-
-		// Open the option to update the threshold level on the table
-		thresholdLevelCol.setCellFactory(TextFieldTableCell.forTableColumn());
-		thresholdLevelCol.setOnEditCommit(new EventHandler<CellEditEvent<VendingMachine, String>>() {
-			//A method that handles the threshold level update changes in the table
-			@Override
-			public void handle(CellEditEvent<VendingMachine, String> event) {
-				lblAlert.setText("");	
-				lblAlert.setStyle("");
-				VendingMachine ven = event.getRowValue();
-				ven.setThresholdLevel(event.getNewValue());
-				for (VendingMachine row : vendingMachines)
-					if (ven.getLocation().equals(row.getLocation()))
-						row.setThresholdLevel(ven.getThresholdLevel());
-			}
-		});
-
-	}
-     * 
-     * 
-     */
+  
+	
 
    
     
