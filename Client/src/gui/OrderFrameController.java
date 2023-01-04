@@ -207,7 +207,7 @@ public class OrderFrameController implements Initializable {
 			order.setProducts(temp);
 		}
 		int quantity;
-		int i = 0;
+		int i = 0;///hi
 		while(order.getQuantityPerProducts(i) != 0)
 		{
 			i++;
