@@ -6,7 +6,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import Entities.*;
-
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 public class Query {
 
 	/**
@@ -258,7 +259,11 @@ public class Query {
 				stmt = mysqlConnection.conn.createStatement();
 				ResultSet rs = stmt.executeQuery("SELECT * FROM" + location.toLowerCase()+ "products");
 				while (rs.next()) {
-					product = new Product(rs.getString("productID") ,rs.getString("productName"),rs.getString("price") ,rs.getString("stockQuantity") ,rs.getString("imgSrc"));
+					Image pic = new Image(rs.getString("imgSrc"));
+					 ImageView img = new ImageView();
+					img.setImage(pic);
+					
+					product = new Product(rs.getString("productID") ,rs.getString("productName"),rs.getString("price") ,rs.getString("stockQuantity") ,img);
 					listOfProducts.add(product);
 					}
 				rs.close();
