@@ -61,10 +61,10 @@ public class EchoServer extends AbstractServer {
 			// System.out.println("Message: "+ resMessage.getMessageData().toString() +"
 			// --"+ resMessage.getMessageType().toString());
 			switch (resMessage.getMessageType()) { // message - type
+			/** Server connection section **/
 			case login: // the user login to the system and change him to '1' in the DB.
 				String[] data = resMessage.getMessageData().toString().split("#");
 				try {
-
 					client.sendToClient(new Message(MessageType.login, (Object) (Query.login(data[0], data[1]))));
 
 				} catch (IOException e) {
@@ -81,6 +81,21 @@ public class EchoServer extends AbstractServer {
 				clientNumber++;
 				ServerUI.serverGUI.appendToConsole(client.getName() + " connected successfully");
 				break;
+			/** Region Manager section **/
+			case RegionManager:
+				try {
+					client.sendToClient(new Message(MessageType.RegionManager, (Object) (Query.getRegion((String)resMessage.getMessageData()))));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				break;
+			case Get_locations:
+				try {
+					client.sendToClient(new Message(MessageType.Get_locations, (Object) (Query.getLocations((String)resMessage.getMessageData()))));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				break;
 			case Get_vendingMachines: // get list of vending machines from DB
 				try {
 					client.sendToClient(
@@ -95,7 +110,7 @@ public class EchoServer extends AbstractServer {
 			case update_restockStatus: // update the restock status of the vending machines in the DB
 				Query.UpdateVendingMachineRestockStatus((ArrayList<VendingMachine>) resMessage.getMessageData());
 				break;
-				
+
 			case Get_reports:
 				try {
 
@@ -107,8 +122,8 @@ public class EchoServer extends AbstractServer {
 				break;
 			case Show_products: // to show products in order frame
 			{
-				ArrayList<Product>pList;
-				pList  = Query.getProducts((String)resMessage.getMessageData());
+				ArrayList<Product> pList;
+				pList = Query.getProducts((String) resMessage.getMessageData());
 				try {
 					client.sendToClient(new Message(MessageType.Show_products, (Object) pList));
 				} catch (IOException e) {
