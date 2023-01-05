@@ -30,10 +30,24 @@ public class User implements Serializable{
 		
 	}
 	
+	public User(User user) {
+		this.firstName = user.firstName;
+		this.lastName = user.lastName;
+		this.id = user.id;
+		this.phoneNumber = user.phoneNumber;
+		this.email = user.email;
+		this.userName = user.userName;
+		this.password = user.password;
+		this.role = user.role;
+		this.isLoggedIn = user.isLoggedIn;
+	}
 	
 	public User() {
 		// TODO Auto-generated constructor stub
 	}
+
+
+
 	public String getFirstName() {
 		return firstName;
 	}
