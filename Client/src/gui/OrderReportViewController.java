@@ -1,12 +1,16 @@
 package gui;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import Entities.Report;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
@@ -27,11 +31,21 @@ public class OrderReportViewController implements Initializable{
 
     @FXML
     void BackToPreviosePage(ActionEvent event) {
-
+    	ReportSearchFrameController reportSearchFrameController = new ReportSearchFrameController();
+		try {
+			reportSearchFrameController.start(ClientMenuController.clientStage);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 
-	public void start(Stage clientStage, Report firstReport) {
-		// TODO Auto-generated method stub
+	public void start(Stage primaryStage, Report firstReport) throws IOException{
+		ClientMenuController.clientStage = primaryStage;
+		primaryStage.setTitle("Ekrut - Client");
+		Parent root = FXMLLoader.load(getClass().getResource("/gui/OrderReportView.fxml"));
+		Scene home = new Scene(root);
+		primaryStage.setScene(home);
+		primaryStage.show();
 		
 	}
 
