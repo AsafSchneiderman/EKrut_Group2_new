@@ -7,11 +7,13 @@ package controller;
 import ocsf.client.*;
 import common.*;
 import entity.Subscriber;
+import gui.ClientActivityReportViewController;
 import gui.ClientMenuController;
 import gui.ClientUI;
 import gui.LoginFrameController;
 
 import java.io.*;
+import java.util.ArrayList;
 
 import Entities.*;
 
@@ -66,9 +68,21 @@ public class ChatClient extends AbstractClient
    */
   public void handleMessageFromServer(Object msg) {
 
-	msgServer = (Message) msg;
-	//System.out.println("ChatClientMessage: " + msgServer.getMessageData().getClass());
-	
+	  if (msg instanceof Message) {
+		msgServer = (Message) msg;
+
+		switch (msgServer.getMessageType()) {
+		case RegionManager:
+			RegionManager regionManager = new RegionManager(LoginFrameController.user, (String)msgServer.getMessageData());
+			LoginFrameController.user = regionManager;
+			break;
+		case Get_locations:
+			ClientActivityReportViewController.setInstitutionList((ArrayList<String>)msgServer.getMessageData());
+			break;
+		default:
+			break;
+		}
+	  }
  }
 
   /**
