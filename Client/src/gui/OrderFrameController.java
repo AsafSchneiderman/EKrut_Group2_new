@@ -3,6 +3,7 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import Entities.*;
@@ -42,7 +43,7 @@ import javafx.stage.Stage;
 public class OrderFrameController implements Initializable {
 	Order order;
 	Product product;
-	static ArrayList<Product> productsList = new ArrayList<>();
+	public static ArrayList<Product> productsList = new ArrayList<>();
 	public  static CustomerFrameController customerFrame;
 	public static Stage clientStage;
 	public  static ConfirmOrderFrameController confirmOrderFrame;
@@ -52,28 +53,10 @@ public class OrderFrameController implements Initializable {
 	@FXML
 	private AnchorPane pane;
     @FXML
-    private TableView<ProductForOrder> tblProducts;
+    private TableView<Product> tblProducts;
 
     @FXML
     private TableView<?> tblCart;
-   // @FXML
-    //private ListView<?> lstViewCart;
-
-   // @FXML
-    //private VBox vBoxCart;
-
-   // @FXML
-   // private Pane paneLineCart;
-
-    //@FXML
-    //private ImageView imgProductCart;
-
-    //@FXML
-    //private Label lblProductNameCart;
-
-    //@FXML
-    //private Label lblProductPriceCart;
-
 
     @FXML
     private Button btnCheckOutOrder;
@@ -84,29 +67,10 @@ public class OrderFrameController implements Initializable {
     @FXML
     private Button btnCancelOrder;
 
-    //@FXML
-    //private ListView<String> lstViewProduct;
-
-    //@FXML
-    //private static VBox vBoxProduct;
-
-   // @FXML
-    //private static Pane paneLineProduct;
-
-    //@FXML
-    //private static ImageView imgProduct;
-
-    //@FXML
-   // private static Label lblProductDetails;
-
-   // @FXML
-    //private static Label lblProductPrice;
 
     @FXML
     private static Button btnAddToCart;
 
-   // @FXML
-   // private Label lblQuantatyPerProduct;
 
     @FXML
     private Button bntAddProduct;
@@ -114,41 +78,20 @@ public class OrderFrameController implements Initializable {
     @FXML
     private Button bntSubFromCart;
     @FXML
-    private TableColumn<ProductForOrder, String> colNameOfProduct;
+    private TableColumn<Product, String> colNameOfProduct;
 
     @FXML
-    private TableColumn<ProductForOrder, String> colPriceOfProduct;
+    private TableColumn<Product, String> colPriceOfProduct;
     
     @FXML
     private TableColumn<?, ?> colProductInCart;
 
     @FXML
     private TableColumn<?, ?> colQuantityInCart;
+    @FXML
+    private TableColumn<Product, String> colProductImg;
     
-    /*static class lstViewProduct extends ListCell<String>
-    {
-    	ActionEvent event;
-    	 
-    	public lstViewProduct()
-    	{
-    		super();
-    		vBoxProduct.getChildren().addAll(paneLineProduct,imgProduct,lblProductDetails,lblProductPrice, btnAddToCart);
-    		VBox.setVgrow(paneLineProduct, Priority.ALWAYS);
-    		btnAddToCart.setOnAction((EventHandler<ActionEvent>) event);
-    	}
-    	public void updateItem(String item, boolean empty)
-    	{
-    		super.updateItem(item, empty);
-    		setText(null);
-    		setGraphic(null);
-    		if(item != null && !empty)
-    		{
-    			lblProductDetails.setText(item);
-    			setGraphic(vBoxProduct);
-    		}  			
-    	}
-    }*/
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked"})
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     	
@@ -161,19 +104,26 @@ public class OrderFrameController implements Initializable {
     			pane.setBackground(new Background(image));  			  			
     			tblProducts.setEditable(true);
     			
-    			colNameOfProduct.setCellValueFactory(new PropertyValueFactory<ProductForOrder, String>("productName"));
-    			colPriceOfProduct.setCellValueFactory(new PropertyValueFactory<ProductForOrder, String>("price"));
-    			ObservableList<ProductForOrder> tvObservableList = FXCollections.observableArrayList();
+    			colProductImg.setCellValueFactory(new PropertyValueFactory<Product, String>("imgSrc"));
+    			colNameOfProduct.setCellValueFactory(new PropertyValueFactory<Product, String>("productName"));
+    			colPriceOfProduct.setCellValueFactory(new PropertyValueFactory<Product, String>("price"));
+    			ObservableList<Product> tvObservableList = FXCollections.observableArrayList();
+    			msg = new Message(MessageType.Show_products, "ortBraude");
+    			ClientMenuController.clientControl.accept(msg);
+    			try {
+					Thread.sleep(1000);
+					System.out.println(ChatClient.msgServer.getMessageData().toString());
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
     			productsList = (ArrayList<Product>) ChatClient.msgServer.getMessageData();
     			for (Product row : productsList)
-    			{
-    				//tvObservableList.add(row);
-    				ProductForOrder tempVar = new ProductForOrder(row.getProductName(), Float.toString(row.getPrice()));
-    				tvObservableList.add(tempVar);	
-    			}
-    				
-    			tblProducts.setItems(tvObservableList);   			 	
-    }
+    				tvObservableList.add(row);
+
+    			tblProducts.setItems(tvObservableList);
+			 	
+    }//hi hi
     
   
 	
@@ -207,7 +157,7 @@ public class OrderFrameController implements Initializable {
 			order.setProducts(temp);
 		}
 		int quantity;
-		int i = 0;///hi
+		int i = 0;
 		while(order.getQuantityPerProducts(i) != 0)
 		{
 			i++;

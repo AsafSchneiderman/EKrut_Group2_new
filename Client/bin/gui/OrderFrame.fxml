@@ -7,29 +7,29 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="pane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.OrderFrameController">
+<AnchorPane fx:id="pane" prefHeight="600.0" prefWidth="891.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.OrderFrameController">
    <children>
-      <Button fx:id="btnCheckOutOrder" layoutX="833.0" layoutY="563.0" mnemonicParsing="false" onAction="#checkOutOrder" style="-fx-background-color: green;" text="CheckOut">
+      <Button fx:id="btnCheckOutOrder" layoutX="702.0" layoutY="518.0" mnemonicParsing="false" onAction="#checkOutOrder" style="-fx-background-color: green;" text="CheckOut">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Button>
-      <Label layoutX="798.0" layoutY="520.0" text="Total:">
+      <Label layoutX="729.0" layoutY="441.0" text="Total:">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="lblTotalPrice" layoutX="861.0" layoutY="521.0" text="price $$$">
+      <Label fx:id="lblTotalPrice" layoutX="786.0" layoutY="442.0" text="price $$$">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="447.0" layoutY="18.0" text="Cart:">
+      <Label layoutX="471.0" layoutY="79.0" text="Cart:">
          <font>
             <Font name="System Italic" size="20.0" />
          </font>
       </Label>
-      <Button fx:id="btnCancelOrder" layoutX="614.0" layoutY="564.0" mnemonicParsing="false" onAction="#cancelOrder" style="-fx-background-color: red;" text="Cancel Order">
+      <Button fx:id="btnCancelOrder" layoutX="457.0" layoutY="518.0" mnemonicParsing="false" onAction="#cancelOrder" style="-fx-background-color: red;" text="Cancel Order">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
@@ -37,15 +37,15 @@
       <Button fx:id="btnAddToCart" layoutX="564.0" layoutY="18.0" mnemonicParsing="false" onAction="#addToCart" prefHeight="31.0" prefWidth="101.0" text="Add to Cart" />
       <Button fx:id="bntAddProduct" layoutX="534.0" layoutY="18.0" minHeight="21.0" minWidth="26.0" mnemonicParsing="false" onAction="#addQuantatyToCart" prefHeight="30.0" prefWidth="10.0" text="+" />
       <Button fx:id="bntSubFromCart" layoutX="681.0" layoutY="19.0" mnemonicParsing="false" onAction="#subQuantatyFromCart" prefHeight="30.0" prefWidth="10.0" text="-" />
-      <TableView fx:id="tblProducts" layoutX="14.0" layoutY="18.0" prefHeight="567.0" prefWidth="417.0">
+      <TableView fx:id="tblProducts" layoutX="14.0" layoutY="121.0" prefHeight="464.0" prefWidth="417.0">
         <columns>
-          <TableColumn prefWidth="147.0" />
+          <TableColumn fx:id="colProductImg" prefWidth="147.0" />
           <TableColumn fx:id="colNameOfProduct" minWidth="0.0" prefWidth="93.0" text="Product" />
             <TableColumn fx:id="colPriceOfProduct" prefWidth="69.0" text="Price" />
             <TableColumn prefWidth="104.0" />
         </columns>
       </TableView>
-      <TableView fx:id="tblCart" layoutX="445.0" layoutY="55.0" prefHeight="464.0" prefWidth="449.0">
+      <TableView fx:id="tblCart" layoutX="431.0" layoutY="121.0" prefHeight="314.0" prefWidth="449.0">
         <columns>
           <TableColumn prefWidth="75.0" />
           <TableColumn fx:id="colProductInCart" prefWidth="75.0" text="Products" />
