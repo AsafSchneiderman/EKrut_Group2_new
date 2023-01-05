@@ -87,7 +87,7 @@ public class EmployeeRegistrationController {
 		public void start(Stage primaryStage) throws IOException {
 			ClientMenuController.clientStage = primaryStage;
 		    primaryStage.setTitle("Ekrut - Employee Registration");
-			Parent root = FXMLLoader.load(getClass().getResource("/gui/EmployeeRegistartionForm.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("/gui/EmployeeRegistrationForm.fxml"));
 			Scene home = new Scene(root);
 			primaryStage.setScene(home);
 			// On pressing X (close window) the client is disconnect from server.
