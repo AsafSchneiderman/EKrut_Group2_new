@@ -1,5 +1,6 @@
 package gui;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -9,7 +10,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
@@ -38,12 +42,22 @@ public class StockStatusReportViewController implements Initializable {
 	
 	@FXML
 	void BackToPreviosePage(ActionEvent event) {
-
+		ReportSearchFrameController reportSearchFrameController = new ReportSearchFrameController();
+		try {
+			reportSearchFrameController.start(ClientMenuController.clientStage);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 
-	public void start(Stage clientStage, List<Report> selectedReports) {
-
+	public void start(Stage primaryStage, List<Report> selectedReports) throws IOException{
+		ClientMenuController.clientStage = primaryStage;
+		primaryStage.setTitle("Ekrut - Client");
+		Parent root = FXMLLoader.load(getClass().getResource("/gui/StockStatusReportView.fxml"));
+		Scene home = new Scene(root);
+		primaryStage.setScene(home);
+		primaryStage.show();
 	}
 
 	@Override
