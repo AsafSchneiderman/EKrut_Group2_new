@@ -95,7 +95,7 @@ public class OrderFrameController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     	
-    	
+    	//hi
     	// initialize the background image
     			BackgroundSize backgroundSize = new BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true,
     					false);
