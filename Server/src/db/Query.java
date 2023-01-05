@@ -225,7 +225,7 @@ public class Query {
 								}
 								int ID= Integer.parseInt(rs2.getString("productID"));
 								int quantity= rs2.getInt("stockQuantity")+ removedStocks[ID];
-								Product product = new Product(rs2.getString("productName"), rs2.getString("productID"), rs2.getFloat("price"), quantity);
+								Product product = new Product(rs2.getString("productName"), rs2.getString("productID"), rs2.getFloat("price"), quantity, null);
 								productsStock.add(product);
 							}
 							
@@ -277,5 +277,49 @@ public class Query {
 		}
 	
 		return listOfProducts;
+	}
+
+	/**
+	 * get region name by the manager user id
+	 * @param userID
+	 * @return region name
+	 */
+	public static String getRegion(String userID) {
+		String regionName = null;
+		Statement stmt;
+		try {
+			if (mysqlConnection.conn != null) {
+				stmt = mysqlConnection.conn.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT region FROM regionmanager WHERE userID ="+userID);
+				regionName = rs.getString("region");
+			}
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return regionName;
+	}
+
+	/**
+	 * get vending machine locations by name of region
+	 * @param regionName the name of the region
+	 * @return vending machine locations
+	 */
+	public static ArrayList<String> getLocations(String regionName) {
+		ArrayList<String> locations = new ArrayList<>();
+		Statement stmt;
+		try {
+			if (mysqlConnection.conn != null) {
+				stmt = mysqlConnection.conn.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT location FROM vendingmachines WHERE region =\""+regionName+"\"");
+				while(rs.next()) {
+					locations.add(rs.getString("location"));
+				}
+			}
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return locations;
 	}
 }
