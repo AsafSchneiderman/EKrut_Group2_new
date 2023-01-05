@@ -225,7 +225,7 @@ public class Query {
 								}
 								int ID= Integer.parseInt(rs2.getString("productID"));
 								int quantity= rs2.getInt("stockQuantity")+ removedStocks[ID];
-								Product product = new Product(rs2.getString("productName"), rs2.getString("productID"), rs2.getFloat("price"), quantity, null);
+								Product product = new Product(rs2.getString("productName"), rs2.getString("productID"), rs2.getString("price"), quantity+"", null);
 								productsStock.add(product);
 							}
 							
