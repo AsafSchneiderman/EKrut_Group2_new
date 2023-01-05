@@ -8,6 +8,7 @@ import Entities.MessageType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -21,7 +22,7 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
 
-public class CustomerServiceController {
+public class CustomerServiceController implements Initializable{
 	public static CustomerServiceController customerService;
 	public static EmployeeRegistrationController employeeRegistration;
 	public static CustomerRegistrationController coustomerRegistration;
@@ -95,7 +96,7 @@ public class CustomerServiceController {
 
 		public void start(Stage primaryStage) throws IOException {
 			ClientMenuController.clientStage = primaryStage;
-		    primaryStage.setTitle("Ekrut - Customer");
+		    primaryStage.setTitle("Ekrut - Customer Service");
 			Parent root = FXMLLoader.load(getClass().getResource("/gui/CustomerServiceFrame.fxml"));
 			Scene home = new Scene(root);
 			primaryStage.setScene(home);
@@ -106,12 +107,13 @@ public class CustomerServiceController {
 			primaryStage.show(); 
 			
 		}
+		@Override
 		public void initialize(URL location, ResourceBundle resources) {
 
 			// initialize the background image
 			BackgroundSize backgroundSize = new BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true,
 					false);
-			BackgroundImage image = new BackgroundImage(new Image("images/LoginFrame.png"), BackgroundRepeat.NO_REPEAT,
+			BackgroundImage image = new BackgroundImage(new Image("images/BackgroundFrameCustomerService.png"), BackgroundRepeat.NO_REPEAT,
 					BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
 			pane.setBackground(new Background(image));
 		}

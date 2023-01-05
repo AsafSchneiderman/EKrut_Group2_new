@@ -2,30 +2,41 @@ package gui;
 
 import java.beans.Statement;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.util.ResourceBundle;
 import java.util.Scanner;
 
 import Entities.Message;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
 
-public class CustomerRegistrationController {
+public class CustomerRegistrationController implements Initializable{
 	public static Message message;
 //	public static CustomerRegistrationController customerRegistration;
 	public static CustomerServiceLastFrameController lastFrame;
 	public static CustomerServiceController customerService;
 
 	@FXML
-	private Label lastNameCustomerRegistrationLbl;
+    private AnchorPane pane;
+	
 
 	@FXML
 	private Label idCustomerRegistrationLbl;
@@ -125,6 +136,16 @@ public class CustomerRegistrationController {
 		primaryStage.setScene(home);
 		primaryStage.show();
 
+	}
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+
+		// initialize the background image
+		BackgroundSize backgroundSize = new BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true,
+				false);
+		BackgroundImage image = new BackgroundImage(new Image("images/CustomerRegistrationBackground.png"), BackgroundRepeat.NO_REPEAT,
+				BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
+		pane.setBackground(new Background(image));
 	}
 
 }

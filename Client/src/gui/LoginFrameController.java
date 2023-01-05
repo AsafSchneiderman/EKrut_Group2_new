@@ -160,7 +160,7 @@ public class LoginFrameController implements Initializable {
 		}
 		
 
-		if (user.getRole().equals("CustomerService")) {
+		if (user.getRole().equals("CustomerServiceWorker")) {
 			CustomerServiceController customerService = new CustomerServiceController();
 			try {
 				customerService.start(ClientMenuController.clientStage);
