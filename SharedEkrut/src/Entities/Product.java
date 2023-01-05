@@ -1,6 +1,7 @@
 package Entities;
 import java.io.Serializable;
-
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class Product implements Serializable {
 	private static final long serialVersionUID = -2028421550470538558L;//???????
@@ -9,8 +10,8 @@ public class Product implements Serializable {
 	private String productName;
 	private String price;
 	private String stockQuantity;
-	private String imgSrc;
-	public Product(String productID, String productName, String price, String stockQuantity, String imgSrc) {
+	private ImageView imgSrc;
+	public Product(String productID, String productName, String price, String stockQuantity, ImageView imgSrc) {
 		super();
 		this.productID = productID;
 		this.productName = productName;
@@ -43,10 +44,10 @@ public class Product implements Serializable {
 	public void setStockQuantity(String stockQuantity) {
 		this.stockQuantity = stockQuantity;
 	}
-	public String getImgSrc() {
+	public ImageView getImgSrc() {
 		return imgSrc;
 	}
-	public void setImgSrc(String imgSrc) {
+	public void setImgSrc(ImageView imgSrc) {
 		this.imgSrc = imgSrc;
 	}
 	
