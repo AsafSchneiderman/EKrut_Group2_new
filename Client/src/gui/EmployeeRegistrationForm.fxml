@@ -7,54 +7,54 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="453.0" prefWidth="628.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.EmployeeRegistrationController">
    <children>
-      <Label fx:id="customerRegistrationLbl" layoutX="201.0" layoutY="41.0" prefHeight="27.0" prefWidth="227.0" text="Employee Registration">
+      <Label fx:id="customerRegistrationLbl" layoutX="247.0" layoutY="41.0" prefHeight="27.0" prefWidth="227.0" text="Employee Registration">
          <font>
             <Font name="Bernard MT Condensed" size="23.0" />
          </font>
       </Label>
-      <Label fx:id="firstNameCustomerRegistrationLbl" layoutX="81.0" layoutY="100.0" text="First Name">
+      <Label fx:id="firstNameCustomerRegistrationLbl" layoutX="146.0" layoutY="101.0" text="First Name">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="lastNameCustomerRegistrationLbl" layoutX="81.0" layoutY="138.0" text="Last Name">
+      <Label fx:id="lastNameCustomerRegistrationLbl" layoutX="146.0" layoutY="139.0" text="Last Name">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="idCustomerRegistrationLbl" layoutX="81.0" layoutY="176.0" text="ID Number">
+      <Label fx:id="idCustomerRegistrationLbl" layoutX="146.0" layoutY="177.0" text="ID Number">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="emailCustomerRegistrationLbl" layoutX="81.0" layoutY="217.0" text="Email">
+      <Label fx:id="emailCustomerRegistrationLbl" layoutX="146.0" layoutY="218.0" text="Email">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="phoneNumberCustomerRegistrationLbl" layoutX="81.0" layoutY="254.0" text="Phone Number">
+      <Label fx:id="phoneNumberCustomerRegistrationLbl" layoutX="146.0" layoutY="255.0" text="Phone Number">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="firstNameTxt" layoutX="228.0" layoutY="98.0" />
-      <TextField fx:id="lastNameTxt" layoutX="228.0" layoutY="136.0" />
-      <TextField fx:id="idTxt" layoutX="228.0" layoutY="174.0" />
-      <TextField fx:id="emailTxt" layoutX="228.0" layoutY="214.0" />
-      <TextField fx:id="phoneTxt" layoutX="228.0" layoutY="252.0" />
-      <Button fx:id="sendCustomerRegistrationButton" layoutX="246.0" layoutY="366.0" mnemonicParsing="false" onAction="#sendForApproval" text="Send For Approval" />
-      <Button fx:id="backCustomRegistrationBtn" layoutX="29.0" layoutY="399.0" mnemonicParsing="false" onAction="#clickOnBack" text="Back" />
-      <Label fx:id="creditCardCustomerRegistrationLbl" layoutX="81.0" layoutY="294.0" text="Role ">
+      <TextField fx:id="firstNameTxt" layoutX="293.0" layoutY="99.0" />
+      <TextField fx:id="lastNameTxt" layoutX="293.0" layoutY="137.0" />
+      <TextField fx:id="idTxt" layoutX="293.0" layoutY="175.0" />
+      <TextField fx:id="emailTxt" layoutX="293.0" layoutY="215.0" />
+      <TextField fx:id="phoneTxt" layoutX="293.0" layoutY="253.0" />
+      <Button fx:id="sendCustomerRegistrationButton" layoutX="311.0" layoutY="367.0" mnemonicParsing="false" onAction="#sendForApproval" text="Send For Approval" />
+      <Button fx:id="backCustomRegistrationBtn" layoutX="94.0" layoutY="400.0" mnemonicParsing="false" onAction="#clickOnBack" text="Back" />
+      <Label fx:id="creditCardCustomerRegistrationLbl" layoutX="146.0" layoutY="295.0" text="Role ">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
       <Label fx:id="lblAlert" layoutX="135.0" layoutY="416.0" prefHeight="17.0" prefWidth="359.0" text="    " />
-      <RadioButton fx:id="regionManagerBtn" layoutX="228.0" layoutY="296.0" mnemonicParsing="false" text="Region Manager" />
-      <RadioButton fx:id="stockWorkerBtn" layoutX="351.0" layoutY="296.0" mnemonicParsing="false" text="Stock Worker" />
-      <RadioButton fx:id="delivryWorkerBtn" layoutX="457.0" layoutY="296.0" mnemonicParsing="false" text="Delivery Worker" />
-      <RadioButton fx:id="custmerServiceBtn" layoutX="228.0" layoutY="332.0" mnemonicParsing="false" text="Customer Service" />
+      <RadioButton fx:id="regionManagerBtn" layoutX="293.0" layoutY="297.0" mnemonicParsing="false" text="Region Manager" />
+      <RadioButton fx:id="stockWorkerBtn" layoutX="416.0" layoutY="297.0" mnemonicParsing="false" text="Stock Worker" />
+      <RadioButton fx:id="delivryWorkerBtn" layoutX="522.0" layoutY="297.0" mnemonicParsing="false" text="Delivery Worker" />
+      <RadioButton fx:id="custmerServiceBtn" layoutX="293.0" layoutY="333.0" mnemonicParsing="false" text="Customer Service" />
    </children>
 </AnchorPane>
