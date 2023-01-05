@@ -146,12 +146,22 @@ public class ReportSearchFrameController implements Initializable {
 								if (firstReport.getReportType().equals("Stock status")) {
 									// open Stock status report frame with the 'selectedReports' array
 									StockStatusReportViewController stockStatusReportView = new StockStatusReportViewController();
-									stockStatusReportView.start(ClientMenuController.clientStage, selectedReports);
+									try {
+										stockStatusReportView.start(ClientMenuController.clientStage, selectedReports);
+									} catch (IOException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
 
 								} else if (firstReport.getReportType().equals("Order")) {
 									// open order report frame with the firstReport
 									OrderReportViewController orderReportView = new OrderReportViewController();
-									orderReportView.start(ClientMenuController.clientStage, firstReport);
+									try {
+										orderReportView.start(ClientMenuController.clientStage, firstReport);
+									} catch (IOException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
 								} else if (firstReport.getReportType().equals("Client activity")) {
 									// open client activity report frame with the firstReport
 									/*
