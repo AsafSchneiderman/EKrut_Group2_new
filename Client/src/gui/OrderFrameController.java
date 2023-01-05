@@ -89,7 +89,7 @@ public class OrderFrameController implements Initializable {
     @FXML
     private TableColumn<?, ?> colQuantityInCart;
     @FXML
-    private TableColumn<Product, String> colProductImg;
+    private TableColumn<Product, ImageView> colProductImg;
     
     @SuppressWarnings({ "unchecked"})
     @Override
@@ -104,7 +104,7 @@ public class OrderFrameController implements Initializable {
     			pane.setBackground(new Background(image));  			  			
     			tblProducts.setEditable(true);
     			
-    			colProductImg.setCellValueFactory(new PropertyValueFactory<Product, String>("imgSrc"));
+    			colProductImg.setCellValueFactory(new PropertyValueFactory<Product, ImageView>("imgSrc"));
     			colNameOfProduct.setCellValueFactory(new PropertyValueFactory<Product, String>("productName"));
     			colPriceOfProduct.setCellValueFactory(new PropertyValueFactory<Product, String>("price"));
     			ObservableList<Product> tvObservableList = FXCollections.observableArrayList();
