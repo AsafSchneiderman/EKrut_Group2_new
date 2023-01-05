@@ -133,6 +133,10 @@ public class LoginFrameController implements Initializable {
 		// System.out.println("login o.k" + role);
 
 		if (user.getRole().equals("RegionManager")) {
+			
+			msg = new Message(MessageType.RegionManager, user.getId()+"");
+			ClientMenuController.clientControl.accept((Object) msg);
+			
 			RegionManagerFrameController regionManagerFrameController = new RegionManagerFrameController();
 			try {
 				regionManagerFrameController.start(ClientMenuController.clientStage);
@@ -194,4 +198,5 @@ public class LoginFrameController implements Initializable {
 				BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
 		pane.setBackground(new Background(image));
 	}
+	
 }
