@@ -2,12 +2,18 @@ package Entities;
 
 import java.io.Serializable;
 
-public class ProductForOrder implements Serializable{
+import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
+
+
+public class ProductForOrder {
 	
 	private String productName, price;
-	public ProductForOrder(String productName, String price) {
+	private ImageView imgSrc;
+	public ProductForOrder(String productName, String price,ImageView imgSrc) {
 		this.productName=productName;
 		this.price=price;
+		this.imgSrc = imgSrc;
 	}
 	
 	public String getProductName() {
@@ -17,12 +23,18 @@ public class ProductForOrder implements Serializable{
 	public String getPrice() {
 		return price;
 	}
+	public ImageView getImgSrc() {
+		return imgSrc;
+	}
 	
 	public void setProductName(String productName) {
 		 this.productName = productName;
 	}
 	public void setPrice(String price) {
 		 this.price = price;
+	}
+	public void setPrice(ImageView imgSrc) {
+		 this.imgSrc = imgSrc;
 	}
 
 }

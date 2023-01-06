@@ -10,8 +10,8 @@ public class Product implements Serializable {
 	private String productName;
 	private String price;
 	private String stockQuantity;
-	private ImageView imgSrc;
-	public Product(String productID, String productName, String price, String stockQuantity, ImageView imgSrc) {
+	private String imgSrc;
+	public Product(String productID, String productName, String price, String stockQuantity,String imgSrc) {
 		super();
 		this.productID = productID;
 		this.productName = productName;
@@ -44,10 +44,10 @@ public class Product implements Serializable {
 	public void setStockQuantity(String stockQuantity) {
 		this.stockQuantity = stockQuantity;
 	}
-	public ImageView getImgSrc() {
+	public String getImgSrc() {
 		return imgSrc;
 	}
-	public void setImgSrc(ImageView imgSrc) {
+	public void setImgSrc(String imgSrc) {
 		this.imgSrc = imgSrc;
 	}
 	
