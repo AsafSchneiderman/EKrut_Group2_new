@@ -82,7 +82,7 @@ public class EchoServer extends AbstractServer {
 				ServerUI.serverGUI.appendToConsole(client.getName() + " connected successfully");
 				break;
 			/** Region Manager section **/
-			case RegionManager:
+			/*case RegionManager:
 				try {
 					client.sendToClient(new Message(MessageType.RegionManager, (Object) (Query.getRegion((String)resMessage.getMessageData()))));
 				} catch (IOException e) {
@@ -96,6 +96,7 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
+				*/
 			case Get_vendingMachines: // get list of vending machines from DB
 				try {
 					client.sendToClient(

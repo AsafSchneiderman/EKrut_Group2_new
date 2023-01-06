@@ -132,10 +132,16 @@ public class RestockMessageController implements Initializable {
 		//statusCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("restockStatus"));	//ENUM('WaitToRestock', 'Done')
 		statusCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("cmbBoxStatus"));	//ENUM('WaitToRestock', 'Done')
 		
+		
+		
 		ObservableList<VendingMachine> tvObservableList = FXCollections.observableArrayList();
 		vendingMachines = (ArrayList<VendingMachine>) ChatClient.msgServer.getMessageData();
 		for (VendingMachine row : vendingMachines)
+		{
+			row.comboBoxInitialize(FXCollections.observableArrayList("LowStock","WaitToRestock", "Done"));
 			tvObservableList.add(row);
+		}
+			
 
 		tblViewVendingMachines.setItems(tvObservableList);
 

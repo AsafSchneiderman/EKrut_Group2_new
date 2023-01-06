@@ -30,10 +30,10 @@ public class VendingMachine implements Serializable {
 		this.thresholdLevel = thresholdLevel;
 		this.restockStatus = restockStatus;
 
-		ObservableList<String> statusData=FXCollections.observableArrayList("WaitToRestock", "Done");
-		cmbBoxStatus = new ComboBox<String>(statusData); 
+		//ObservableList<String> statusData=FXCollections.observableArrayList("WaitToRestock", "Done");
+		//cmbBoxStatus = new ComboBox<String>(statusData); 
 		//cmbBoxStatus.getItems().setAll("WaitToRestock", "Done");
-		cmbBoxStatus.setValue(restockStatus);
+		//cmbBoxStatus.setValue(restockStatus);
 	}
 
 	public String getRegion() {
@@ -74,6 +74,16 @@ public class VendingMachine implements Serializable {
 
 	public void setCmbBoxStatus(ComboBox<String> cmbBoxStatus) {
 		this.cmbBoxStatus = cmbBoxStatus;
+	}
+	
+	/**
+	 * Initialize the comboBox with the statusData list
+	 * @param statusData - ("LowStock","WaitToRestock", "Done")
+	 */
+	public void comboBoxInitialize(ObservableList<String> statusData)
+	{
+		cmbBoxStatus = new ComboBox<String>(statusData); 
+		cmbBoxStatus.setValue(restockStatus);
 	}
 
 }
