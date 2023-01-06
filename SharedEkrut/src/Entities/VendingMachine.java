@@ -2,16 +2,20 @@ package Entities;
 
 import java.io.Serializable;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.ComboBox;
+
 //import javafx.scene.control.ComboBox;
 
 public class VendingMachine implements Serializable {
 
-	private static final long serialVersionUID = 7782388398415318676L;
+	private static final long serialVersionUID = 1L;
 	private String region;
 	private String location;
 	private String thresholdLevel;
 	private String restockStatus;
-	//private ComboBox<String> cmbBoxStatus;
+	private ComboBox<String> cmbBoxStatus;
 
 	/**
 	 * @param region         - the region of the vending machine
@@ -26,9 +30,10 @@ public class VendingMachine implements Serializable {
 		this.thresholdLevel = thresholdLevel;
 		this.restockStatus = restockStatus;
 
-		//cmbBoxStatus = new ComboBox<String>();
-		//cmbBoxStatus.getItems().addAll("WaitToRestock", "Done");
-		//cmbBoxStatus.setPromptText(restockStatus);
+		ObservableList<String> statusData=FXCollections.observableArrayList("WaitToRestock", "Done");
+		cmbBoxStatus = new ComboBox<String>(statusData); 
+		//cmbBoxStatus.getItems().setAll("WaitToRestock", "Done");
+		cmbBoxStatus.setValue(restockStatus);
 	}
 
 	public String getRegion() {
@@ -47,9 +52,9 @@ public class VendingMachine implements Serializable {
 		return restockStatus;
 	}
 
-	//public ComboBox<String> getCmbBoxStatus() {
-	//	return cmbBoxStatus;
-	//}
+	public ComboBox<String> getCmbBoxStatus() {
+		return cmbBoxStatus;
+	}
 
 	public void setRegion(String region) {
 		this.region = region;
@@ -67,8 +72,8 @@ public class VendingMachine implements Serializable {
 		this.restockStatus = restockStatus;
 	}
 
-	//public void setCmbBoxStatus(ComboBox<String> cmbBoxStatus) {
-	//	this.cmbBoxStatus = cmbBoxStatus;
-	//}
+	public void setCmbBoxStatus(ComboBox<String> cmbBoxStatus) {
+		this.cmbBoxStatus = cmbBoxStatus;
+	}
 
 }

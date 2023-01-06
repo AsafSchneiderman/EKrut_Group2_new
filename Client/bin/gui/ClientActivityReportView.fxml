@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="450.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ClientActivityReportViewController">
+   <children>
+      <Button layoutX="10.0" layoutY="418.0" mnemonicParsing="false" onAction="#BackToPreviosePage" text="Back" />
+      <Label layoutX="60.0" layoutY="5.0" prefHeight="22.0" prefWidth="150.0" text="Client activty Report:" underline="true">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <BarChart fx:id="BarChartClientActivity" layoutX="41.0" layoutY="36.0" prefHeight="400.0" prefWidth="700.0">
+         <xAxis>
+            <CategoryAxis fx:id="categoryAxisProductsAmount" label="Amount Of Products Per Order" side="BOTTOM" />
+         </xAxis>
+         <yAxis>
+            <NumberAxis fx:id="numberAxisClientsAmount" label="Amount Of Clients" side="LEFT" />
+         </yAxis>
+      </BarChart>
+      <ChoiceBox fx:id="cbInstitution" layoutX="391.0" layoutY="3.0" prefHeight="26.0" prefWidth="183.0" />
+      <Label layoutX="234.0" layoutY="7.0" text="Products Stock by Machine:" />
+   </children>
+</AnchorPane>

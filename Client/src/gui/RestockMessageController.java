@@ -129,8 +129,9 @@ public class RestockMessageController implements Initializable {
 		regionCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("region"));
 		locationCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("location"));
 		thresholdLevelCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("thresholdLevel"));
-		statusCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("restockStatus"));	//ENUM('WaitToRestock', 'Done')
-
+		//statusCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("restockStatus"));	//ENUM('WaitToRestock', 'Done')
+		statusCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("cmbBoxStatus"));	//ENUM('WaitToRestock', 'Done')
+		
 		ObservableList<VendingMachine> tvObservableList = FXCollections.observableArrayList();
 		vendingMachines = (ArrayList<VendingMachine>) ChatClient.msgServer.getMessageData();
 		for (VendingMachine row : vendingMachines)

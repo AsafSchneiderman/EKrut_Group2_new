@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CustomerRegistrationController">
+   <children>
+      <Label fx:id="firstNameCustomerRegistrationLbl" layoutX="228.0" layoutY="99.0" text="First Name">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lastNameCustomerRegistrationLbl" layoutX="228.0" layoutY="137.0" text="Last Name">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="idCustomerRegistrationLbl" layoutX="228.0" layoutY="175.0" text="ID Number">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="emailCustomerRegistrationLbl" layoutX="228.0" layoutY="216.0" text="Email">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="phoneNumberCustomerRegistrationLbl" layoutX="228.0" layoutY="253.0" text="Phone Number">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="firstNameCustomerRegistrationTxt" layoutX="375.0" layoutY="97.0" />
+      <TextField fx:id="lastNameCustomerRegistrationTxt" layoutX="375.0" layoutY="135.0" />
+      <TextField fx:id="idCustomerRegistrationTxt" layoutX="375.0" layoutY="173.0" />
+      <TextField fx:id="emailCustomerRegistrationTxt" layoutX="375.0" layoutY="213.0" />
+      <TextField fx:id="phoneCustomerRegistrationTxt" layoutX="375.0" layoutY="251.0" />
+      <Button fx:id="sendCustomerRegistrationButton" layoutX="393.0" layoutY="337.0" mnemonicParsing="false" onAction="#sendForApproval" text="Send For Approval" />
+      <Button fx:id="backCustomRegistrationBtn" layoutX="176.0" layoutY="398.0" mnemonicParsing="false" onAction="#clickOnBack" text="Back" />
+      <Label fx:id="creditCardCustomerRegistrationLbl" layoutX="228.0" layoutY="293.0" text="Credit Card Number">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="creditCardCustomerRegistrationTxt" layoutX="376.0" layoutY="291.0" />
+      <Label fx:id="lblAlert" layoutX="171.0" layoutY="391.0" prefHeight="17.0" prefWidth="359.0" text="    " />
+   </children>
+</AnchorPane>
