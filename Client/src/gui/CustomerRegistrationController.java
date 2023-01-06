@@ -36,10 +36,6 @@ public class CustomerRegistrationController implements Initializable{
 
 	@FXML
     private AnchorPane pane;
-	
-
-	@FXML
-	private Label idCustomerRegistrationLbl;
 
 	@FXML
 	private Label emailCustomerRegistrationLbl;

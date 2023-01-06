@@ -9,6 +9,11 @@ import Entities.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 public class Query {
+	
+	/*public static boolean checkCustomerExists(String id) {
+		
+		return false;
+	}*/
 
 	/**
 	 * @param userName of the client
