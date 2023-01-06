@@ -162,7 +162,7 @@ public class Query {
 				for (VendingMachine row : vendingMachines) {
 					stmt = mysqlConnection.conn
 							.prepareStatement("UPDATE vendingmachines SET restockStatus = ? where location = ?");
-					stmt.setString(1, row.getThresholdLevel());
+					stmt.setString(1, row.getRestockStatus());
 					stmt.setString(2, row.getLocation());
 					stmt.executeUpdate();
 				}

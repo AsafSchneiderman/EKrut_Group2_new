@@ -21,7 +21,8 @@ public class VendingMachine implements Serializable {
 	 * @param region         - the region of the vending machine
 	 * @param location       - the location of the vending machine
 	 * @param thresholdLevel - the threshold Level of the vending machine
-	 * @param restockStatus  - 'WaitToRestock' or 'Done', comboBox of('WaitToRestock', 'Done')
+	 * @param restockStatus  - 'WaitToRestock' or 'Done', comboBox
+	 *                       of('WaitToRestock', 'Done')
 	 */
 	public VendingMachine(String region, String location, String thresholdLevel, String restockStatus) {
 		super();
@@ -30,10 +31,11 @@ public class VendingMachine implements Serializable {
 		this.thresholdLevel = thresholdLevel;
 		this.restockStatus = restockStatus;
 
-		//ObservableList<String> statusData=FXCollections.observableArrayList("WaitToRestock", "Done");
-		//cmbBoxStatus = new ComboBox<String>(statusData); 
-		//cmbBoxStatus.getItems().setAll("WaitToRestock", "Done");
-		//cmbBoxStatus.setValue(restockStatus);
+		// ObservableList<String>
+		// statusData=FXCollections.observableArrayList("WaitToRestock", "Done");
+		// cmbBoxStatus = new ComboBox<String>(statusData);
+		// cmbBoxStatus.getItems().setAll("WaitToRestock", "Done");
+		// cmbBoxStatus.setValue(restockStatus);
 	}
 
 	public String getRegion() {
@@ -75,15 +77,22 @@ public class VendingMachine implements Serializable {
 	public void setCmbBoxStatus(ComboBox<String> cmbBoxStatus) {
 		this.cmbBoxStatus = cmbBoxStatus;
 	}
-	
+
 	/**
 	 * Initialize the comboBox with the statusData list
+	 * 
 	 * @param statusData - ("LowStock","WaitToRestock", "Done")
 	 */
-	public void comboBoxInitialize(ObservableList<String> statusData)
-	{
-		cmbBoxStatus = new ComboBox<String>(statusData); 
+	public void comboBoxInitialize(ObservableList<String> statusData) {
+		cmbBoxStatus = new ComboBox<String>(statusData);
 		cmbBoxStatus.setValue(restockStatus);
 	}
 
+	/**
+	 * update the restockStatus from the comboBox selected options
+	 */
+	public void comboBoxUpdateStatus() {
+		this.restockStatus = cmbBoxStatus.getValue();
+		cmbBoxStatus = null;
+	}
 }
