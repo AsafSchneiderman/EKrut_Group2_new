@@ -126,7 +126,7 @@ public class EchoServer extends AbstractServer {
 			case Show_products: // to show products in order frame
 			{
 				ArrayList<Product> pList;
-				pList = Query.getProducts((String) resMessage.getMessageData());
+				pList = Query.getProducts();
 				try {
 					client.sendToClient(new Message(MessageType.Show_products, (Object) pList));
 				} catch (IOException e) {

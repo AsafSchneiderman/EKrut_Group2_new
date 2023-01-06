@@ -269,14 +269,14 @@ public class Query {
 		return reports;
 	}
 	
-	public static ArrayList<Product> getProducts(String location) {
+	public static ArrayList<Product> getProducts() {
 		Product product;
 		ArrayList<Product>listOfProducts = new ArrayList<>();
 		Statement stmt;
 		try {
 			if (mysqlConnection.conn != null) {
 				stmt = mysqlConnection.conn.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT * FROM" + location.toLowerCase()+ "products");
+				ResultSet rs = stmt.executeQuery("SELECT * FROM ortBraudeproducts");
 				while (rs.next()) {
 					
 					product = new Product(rs.getString("productID") ,rs.getString("productName"),rs.getString("price") ,rs.getString("stockQuantity") ,rs.getString("imgSrc"));

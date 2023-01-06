@@ -53,7 +53,7 @@ public class OrderFrameController implements Initializable {
 	@FXML
 	private AnchorPane pane;
     @FXML
-    private TableView<Product> tblProducts;
+    private TableView<ProductForOrder> tblProducts;
 
     @FXML
     private TableView<?> tblCart;
@@ -78,10 +78,10 @@ public class OrderFrameController implements Initializable {
     @FXML
     private Button bntSubFromCart;
     @FXML
-    private TableColumn<Product, String> colNameOfProduct;
+    private TableColumn<ProductForOrder, String> colNameOfProduct;
 
     @FXML
-    private TableColumn<Product, String> colPriceOfProduct;
+    private TableColumn<ProductForOrder, String> colPriceOfProduct;
     
     @FXML
     private TableColumn<?, ?> colProductInCart;
@@ -89,7 +89,7 @@ public class OrderFrameController implements Initializable {
     @FXML
     private TableColumn<?, ?> colQuantityInCart;
     @FXML
-    private TableColumn<Product, ImageView> colProductImg;
+    private TableColumn<ProductForOrder, ImageView> colProductImg;
     
     @SuppressWarnings({ "unchecked"})
     @Override
@@ -104,11 +104,11 @@ public class OrderFrameController implements Initializable {
     			pane.setBackground(new Background(image));  			  			
     			tblProducts.setEditable(true);
     			
-    			colProductImg.setCellValueFactory(new PropertyValueFactory<Product, ImageView>("imgSrc"));
-    			colNameOfProduct.setCellValueFactory(new PropertyValueFactory<Product, String>("productName"));
-    			colPriceOfProduct.setCellValueFactory(new PropertyValueFactory<Product, String>("price"));
-    			ObservableList<Product> tvObservableList = FXCollections.observableArrayList();
-    			msg = new Message(MessageType.Show_products, "ortBraude");
+    			colProductImg.setCellValueFactory(new PropertyValueFactory<ProductForOrder, ImageView>("imgSrc"));
+    			colNameOfProduct.setCellValueFactory(new PropertyValueFactory<ProductForOrder, String>("productName"));
+    			colPriceOfProduct.setCellValueFactory(new PropertyValueFactory<ProductForOrder, String>("price"));
+    			ObservableList<ProductForOrder> tvObservableList = FXCollections.observableArrayList();
+    			msg = new Message(MessageType.Show_products, "");
     			ClientMenuController.clientControl.accept(msg);
     			try {
 					Thread.sleep(1000);
@@ -119,11 +119,19 @@ public class OrderFrameController implements Initializable {
 				}
     			productsList = (ArrayList<Product>) ChatClient.msgServer.getMessageData();
     			for (Product row : productsList)
-    				tvObservableList.add(row);
+    			{
+    				Image pic = new Image(row.getImgSrc());
+    				ImageView img = new ImageView();
+    				img.setImage(pic);
+    				img.setFitWidth(50);
+    				img.setFitHeight(50);
+    				ProductForOrder tempList = new ProductForOrder(row.getProductName(),row.getPrice(),img);
+    				tvObservableList.add(tempList);
+    			}
 
     			tblProducts.setItems(tvObservableList);
 			 	
-    }//hi hi
+    }
     
   
 	
