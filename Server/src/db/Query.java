@@ -23,9 +23,10 @@ public class Query {
 	 *          **If false - update isLoggedIn to 1 in DB and returns the user's
 	 *          details. *If not, then it returns an error message.
 	 */
+
 	public static String login(String userName, String password) {
 		StringBuilder result = new StringBuilder();
-		String id = null;
+		String userID = null;
 		PreparedStatement stmt;
 		try {
 			if (mysqlConnection.conn != null) {
@@ -39,39 +40,39 @@ public class Query {
 						return "Already_logged_in";
 					}
 					// get user details
-					id = rs.getString(1);
-					result.append(rs.getString(1)); // id
+					userID = rs.getString(1);	
+					result.append(rs.getString(1)); //userID 
 					result.append("#");
-					result.append(rs.getString(2)); // firstName
+					result.append(rs.getString(2)); // id
 					result.append("#");
-					result.append(rs.getString(3)); // lastName
+					result.append(rs.getString(3)); // firstName
 					result.append("#");
-					result.append(rs.getString(4)); // userName
+					result.append(rs.getString(4)); // lastName
 					result.append("#");
-					result.append(rs.getString(5)); // password
+					result.append(rs.getString(5)); // userName
 					result.append("#");
-					result.append(rs.getString(6)); // role
+					result.append(rs.getString(6)); // password
 					result.append("#");
-					result.append(rs.getString(7)); // email
+					result.append(rs.getString(7)); // role
 					result.append("#");
-					result.append(rs.getString(8)); // phoneNumber
+					result.append(rs.getString(8)); // email
 					result.append("#");
-					result.append(rs.getString(9)); // isLoggedIn
+					result.append(rs.getString(9)); // phoneNumber
+					result.append("#");
+					result.append(rs.getString(10)); //isLoggedIn 
 				}
-
 				rs.close();
 				// empty result
 				if (result.length() == 0)
 					return "Wrong_Input";
 				// Update isLoggedIn='1' to the user in DB
 				stmt = mysqlConnection.conn.prepareStatement("UPDATE users SET isLoggedIn='1' where id=?");
-				stmt.setString(1, id);
+				stmt.setString(1, userID);
 				stmt.executeUpdate();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 		return result.toString();
 	}
 
@@ -295,7 +296,7 @@ public class Query {
 		try {
 			if (mysqlConnection.conn != null) {
 				stmt = mysqlConnection.conn.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT region FROM regionmanager WHERE userID ="+userID);
+				ResultSet rs = stmt.executeQuery("SELECT region FROM regionmanager WHERE userID =" + userID);
 				regionName = rs.getString("region");
 			}
 		}

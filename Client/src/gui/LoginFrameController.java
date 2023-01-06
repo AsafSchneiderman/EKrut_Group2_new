@@ -119,7 +119,7 @@ public class LoginFrameController implements Initializable {
 					else {
 						String[] userData = data.split("#"); // Export user data
 						user = new User(userData[0], userData[1], userData[2], userData[3], userData[4], userData[5],
-								userData[6], userData[7], Integer.valueOf(userData[8]));
+								userData[6], userData[7], userData[8], Integer.valueOf(userData[9]));
 					}
 					Thread.sleep(500);
 					return "";

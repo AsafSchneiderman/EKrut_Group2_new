@@ -85,9 +85,18 @@ public class RestockMessageController implements Initializable {
 
 	}
 
+	/**
+	 * update the status of the vending machines in the DB
+	 * @param event (Click on Update Status button)
+	 */
 	@FXML
 	void updateRestockStatus(ActionEvent event) {
 
+		lblAlert.setText("A restock message sent to the worker");	//show update Alert
+		lblAlert.setStyle("-fx-background-color:white");
+		msg = new Message(MessageType.update_restockStatus, vendingMachines);
+		ClientMenuController.clientControl.accept(msg);
+		
 	}
 
 	/**
@@ -129,19 +138,15 @@ public class RestockMessageController implements Initializable {
 		regionCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("region"));
 		locationCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("location"));
 		thresholdLevelCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("thresholdLevel"));
-		//statusCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("restockStatus"));	//ENUM('WaitToRestock', 'Done')
 		statusCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("cmbBoxStatus"));	//ENUM('WaitToRestock', 'Done')
-		
-		
 		
 		ObservableList<VendingMachine> tvObservableList = FXCollections.observableArrayList();
 		vendingMachines = (ArrayList<VendingMachine>) ChatClient.msgServer.getMessageData();
 		for (VendingMachine row : vendingMachines)
 		{
-			row.comboBoxInitialize(FXCollections.observableArrayList("LowStock","WaitToRestock", "Done"));
+			row.comboBoxInitialize(FXCollections.observableArrayList("LowStock","WaitToRestock", "Done"));	//initialize the comboBox
 			tvObservableList.add(row);
 		}
-			
 
 		tblViewVendingMachines.setItems(tvObservableList);
 

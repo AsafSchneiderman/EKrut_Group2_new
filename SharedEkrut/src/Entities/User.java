@@ -2,7 +2,9 @@ package Entities;
 import java.io.Serializable;
 
 public class User implements Serializable{
+	
 	private static final long serialVersionUID = -7030442615498290778L;
+	private String userID;
 	private String firstName;
 	private String lastName;
 	private String id;
@@ -14,9 +16,10 @@ public class User implements Serializable{
 	private int isLoggedIn;
 	
 	
-	public User(String id, String firstName, String lastName,String userName,  String password,  String role, String email,  String phoneNumber,
+	public User(String userID, String id, String firstName, String lastName,String userName,  String password,  String role, String email,  String phoneNumber,
 			 int isLoggedIn) {
 		super();
+		this.userID = userID;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.id = id;
@@ -25,12 +28,11 @@ public class User implements Serializable{
 		this.userName = userName;
 		this.password = password;
 		this.role = role;
-		this.isLoggedIn=isLoggedIn;
-		
-		
+		this.isLoggedIn=isLoggedIn;	
 	}
 	
 	public User(User user) {
+		this.userID = user.userID;
 		this.firstName = user.firstName;
 		this.lastName = user.lastName;
 		this.id = user.id;
@@ -47,6 +49,14 @@ public class User implements Serializable{
 	}
 
 
+
+	public String getUserID() {
+		return userID;
+	}
+
+	public void setUserID(String userID) {
+		this.userID = userID;
+	}
 
 	public String getFirstName() {
 		return firstName;

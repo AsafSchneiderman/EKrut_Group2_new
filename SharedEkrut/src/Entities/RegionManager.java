@@ -7,15 +7,14 @@ public class RegionManager extends User implements Serializable {
 
 	private String region;
 
-	public RegionManager(String id, String firstName, String lastName, String userName, String password, String role,
-			String email, String phoneNumber, int isLoggedIn, String region ) {
-		super(id, firstName, lastName, userName, password, role, email, phoneNumber, isLoggedIn);
-		this.region=region;
+	public RegionManager(String userID, String id, String firstName, String lastName, String userName, String password,
+			String role, String email, String phoneNumber, int isLoggedIn, String region) {
+		super(userID, id, firstName, lastName, userName, password, role, email, phoneNumber, isLoggedIn);
+		this.region = region;
 
 	}
-	
-	public RegionManager(User user, String region)
-	{
+
+	public RegionManager(User user, String region) {
 		super(user);
 		this.region = region;
 	}
