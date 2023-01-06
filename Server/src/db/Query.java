@@ -278,11 +278,8 @@ public class Query {
 				stmt = mysqlConnection.conn.createStatement();
 				ResultSet rs = stmt.executeQuery("SELECT * FROM" + location.toLowerCase()+ "products");
 				while (rs.next()) {
-					Image pic = new Image(rs.getString("imgSrc"));
-					 ImageView img = new ImageView();
-					img.setImage(pic);
 					
-					product = new Product(rs.getString("productID") ,rs.getString("productName"),rs.getString("price") ,rs.getString("stockQuantity") ,img);
+					product = new Product(rs.getString("productID") ,rs.getString("productName"),rs.getString("price") ,rs.getString("stockQuantity") ,rs.getString("imgSrc"));
 					listOfProducts.add(product);
 					}
 				rs.close();
