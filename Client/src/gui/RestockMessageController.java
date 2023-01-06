@@ -87,18 +87,20 @@ public class RestockMessageController implements Initializable {
 
 	/**
 	 * update the status of the vending machines in the DB
+	 * 
 	 * @param event (Click on Update Status button)
 	 */
 	@FXML
 	void updateRestockStatus(ActionEvent event) {
-		//update the status changes
+		// update the status changes
 		for (VendingMachine row : vendingMachines)
-			row.comboBoxUpdateStatus();
-		
-		lblAlert.setText("A restock message sent to the worker");	//show update Alert
+			if (row.getRegion().equals(LoginFrameController.user.getRegion())) 	//update the vending machines at his region
+				row.comboBoxUpdateStatus();
+
+		lblAlert.setText("A restock message sent to the worker"); // show update Alert
 		lblAlert.setStyle("-fx-background-color:white");
 		msg = new Message(MessageType.update_restockStatus, vendingMachines);
-		ClientMenuController.clientControl.accept(msg);	
+		ClientMenuController.clientControl.accept(msg);
 	}
 
 	/**
@@ -123,6 +125,7 @@ public class RestockMessageController implements Initializable {
 		primaryStage.show();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
@@ -139,38 +142,29 @@ public class RestockMessageController implements Initializable {
 		regionCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("region"));
 		locationCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("location"));
 		thresholdLevelCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("thresholdLevel"));
-		statusCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("cmbBoxStatus"));	//ENUM('WaitToRestock', 'Done')
-		
+		statusCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("cmbBoxStatus")); // ENUM('WaitToRestock',
+																											// 'Done')
+
 		ObservableList<VendingMachine> tvObservableList = FXCollections.observableArrayList();
 		vendingMachines = (ArrayList<VendingMachine>) ChatClient.msgServer.getMessageData();
-		for (VendingMachine row : vendingMachines)
-		{
-			if(row.getRegion().equals(LoginFrameController.user.getUserID()))//////////////////////////////////////////
-			//row.comboBoxInitialize(FXCollections.observableArrayList("LowStock","WaitToRestock", "Done"));	//initialize the comboBox
-			if(row.getRestockStatus().equals("LowStock"))
-				row.comboBoxInitialize(FXCollections.observableArrayList("LowStock","WaitToRestock"));	//initialize the comboBox
-			else
-				row.comboBoxInitialize(FXCollections.observableArrayList(row.getRestockStatus()));	//initialize the comboBox
-			tvObservableList.add(row);
+		for (VendingMachine row : vendingMachines) {
+			if (row.getRegion().equals(LoginFrameController.user.getRegion())) {	//show the vending machines at his region
+				// row.comboBoxInitialize(FXCollections.observableArrayList("LowStock","WaitToRestock",
+				// "Done")); //initialize the comboBox
+				if (row.getRestockStatus().equals("LowStock")) // can change the status from 'LowStock' to
+																// 'WaitToRestock'
+					row.comboBoxInitialize(FXCollections.observableArrayList("WaitToRestock")); // initialize the
+																								// comboBox
+				else
+					row.comboBoxInitialize(FXCollections.observableArrayList(row.getRestockStatus())); // initialize the
+																										// comboBox to
+																										// the
+																										// RestockStatus
+				tvObservableList.add(row);
+			}
 		}
 
 		tblViewVendingMachines.setItems(tvObservableList);
-
-		// Open the option to update the threshold level on the table
-		thresholdLevelCol.setCellFactory(TextFieldTableCell.forTableColumn());
-		thresholdLevelCol.setOnEditCommit(new EventHandler<CellEditEvent<VendingMachine, String>>() {
-			// A method that handles the threshold level update changes in the table
-			@Override
-			public void handle(CellEditEvent<VendingMachine, String> event) {
-				lblAlert.setText("");
-				lblAlert.setStyle("");
-				VendingMachine ven = event.getRowValue();
-				ven.setThresholdLevel(event.getNewValue());
-				for (VendingMachine row : vendingMachines)
-					if (ven.getLocation().equals(row.getLocation()))
-						row.setThresholdLevel(ven.getThresholdLevel());
-			}
-		});
 
 	}
 

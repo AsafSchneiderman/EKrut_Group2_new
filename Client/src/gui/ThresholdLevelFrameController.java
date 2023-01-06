@@ -65,7 +65,7 @@ public class ThresholdLevelFrameController implements Initializable {
 
 	private static Message msg; // message to send to server
 
-	static ArrayList<VendingMachine> vendingMachines = new ArrayList<>(); // list of vending machines in the DB
+	private static ArrayList<VendingMachine> vendingMachines = new ArrayList<>(); // list of vending machines in the DB
 
 	/**
 	 * Goes back to the previous window of RegionManagerFrameController
@@ -141,7 +141,8 @@ public class ThresholdLevelFrameController implements Initializable {
 		ObservableList<VendingMachine> tvObservableList = FXCollections.observableArrayList();
 		vendingMachines = (ArrayList<VendingMachine>) ChatClient.msgServer.getMessageData();
 		for (VendingMachine row : vendingMachines)
-			tvObservableList.add(row);
+			if (row.getRegion().equals(LoginFrameController.user.getRegion())) 	//show the vending machines at his region
+				tvObservableList.add(row);
 
 		tblViewVendingMachines.setItems(tvObservableList);
 
@@ -156,8 +157,9 @@ public class ThresholdLevelFrameController implements Initializable {
 				VendingMachine ven = event.getRowValue();
 				ven.setThresholdLevel(event.getNewValue());
 				for (VendingMachine row : vendingMachines)
-					if (ven.getLocation().equals(row.getLocation()))
-						row.setThresholdLevel(ven.getThresholdLevel());
+					if (row.getRegion().equals(LoginFrameController.user.getRegion())) 	//update the vending machines at his region
+						if (ven.getLocation().equals(row.getLocation()))
+							row.setThresholdLevel(ven.getThresholdLevel());
 			}
 		});
 

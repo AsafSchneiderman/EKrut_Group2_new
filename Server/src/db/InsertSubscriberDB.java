@@ -1,6 +1,7 @@
 package db;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -23,6 +24,78 @@ public class InsertSubscriberDB {
 			
 		} catch (SQLException e) {	e.printStackTrace();}
 		 		
+	}
+	
+	public static String login(String userName, String password) {
+		StringBuilder result = new StringBuilder();
+		String userID = null;
+		PreparedStatement stmt;
+		try {
+			if (mysqlConnection.conn != null) {
+				stmt = mysqlConnection.conn.prepareStatement("SELECT * FROM users WHERE userName = ? AND password = ?");
+				stmt.setString(1, userName);
+				stmt.setString(2, password);
+				ResultSet rs = stmt.executeQuery();
+				while (rs.next()) {
+					// the user exists but already logged in
+					if ((rs.getString("isLoggedIn")).equals("1")) {
+						return "Already_logged_in";
+					}
+					// get user details
+					userID = rs.getString(1);	
+					result.append(rs.getString(1)); //userID 
+					result.append("#");
+					result.append(rs.getString(2)); // id
+					result.append("#");
+					result.append(rs.getString(3)); // firstName
+					result.append("#");
+					result.append(rs.getString(4)); // lastName
+					result.append("#");
+					result.append(rs.getString(5)); // userName
+					result.append("#");
+					result.append(rs.getString(6)); // password
+					result.append("#");
+					result.append(rs.getString(7)); // role
+					result.append("#");
+					result.append(rs.getString(8)); // email
+					result.append("#");
+					result.append(rs.getString(9)); // phoneNumber
+					result.append("#");
+					result.append(rs.getString(10)); //isLoggedIn 
+				}
+				rs.close();
+				// empty result
+				if (result.length() == 0)
+					return "Wrong_Input";
+				// Update isLoggedIn='1' to the user in DB
+				stmt = mysqlConnection.conn.prepareStatement("UPDATE users SET isLoggedIn='1' where id=?");
+				stmt.setString(1, userID);
+				stmt.executeUpdate();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result.toString();
+	}
+
+	/**
+	 * logout the user and update in the DB
+	 * 
+	 * @param userName of the user
+	 */
+	public static void logout(String userName) {
+		PreparedStatement stmt;
+		try {
+			if (mysqlConnection.conn != null) {
+
+				stmt = mysqlConnection.conn.prepareStatement("UPDATE users SET isLoggedIn='0' where userName=?");
+
+				stmt.setString(1, userName);
+				stmt.executeUpdate();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

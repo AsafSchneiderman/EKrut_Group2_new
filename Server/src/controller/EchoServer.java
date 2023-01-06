@@ -82,21 +82,23 @@ public class EchoServer extends AbstractServer {
 				ServerUI.serverGUI.appendToConsole(client.getName() + " connected successfully");
 				break;
 			/** Region Manager section **/
-			/*case RegionManager:
+			case Get_region:
 				try {
-					client.sendToClient(new Message(MessageType.RegionManager, (Object) (Query.getRegion((String)resMessage.getMessageData()))));
+					client.sendToClient(new Message(MessageType.Get_region,
+							(Object) (Query.getRegion((String) resMessage.getMessageData()))));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				break;
 			case Get_locations:
 				try {
-					client.sendToClient(new Message(MessageType.Get_locations, (Object) (Query.getLocations((String)resMessage.getMessageData()))));
+					client.sendToClient(new Message(MessageType.Get_locations,
+							(Object) (Query.getLocations((String) resMessage.getMessageData()))));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				break;
-				*/
+
 			case Get_vendingMachines: // get list of vending machines from DB
 				try {
 					client.sendToClient(

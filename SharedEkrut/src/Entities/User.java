@@ -15,6 +15,8 @@ public class User implements Serializable{
 	private String role;
 	private int isLoggedIn;
 	
+	private String region = new String();	//for region manager
+	
 	
 	public User(String userID, String id, String firstName, String lastName,String userName,  String password,  String role, String email,  String phoneNumber,
 			 int isLoggedIn) {
@@ -29,6 +31,7 @@ public class User implements Serializable{
 		this.password = password;
 		this.role = role;
 		this.isLoggedIn=isLoggedIn;	
+		this.region = null;	//for region manager
 	}
 	
 	public User(User user) {
@@ -112,6 +115,17 @@ public class User implements Serializable{
 	public void setIsLoggedIn(int isLoggedIn) {
 		this.isLoggedIn=isLoggedIn;
 	}
+	
+	
+	//for region manager
+	public String getRegion() {
+		return region;
+	}
+
+	public void setRegion(String region) {
+		this.region = region;
+	}
+
 	public void printUser() {
 		System.out.println("User Name: "+ userName);
 		System.out.println("password: "+ password);

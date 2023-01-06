@@ -36,7 +36,6 @@ import controller.ChatClient;
 public class LoginFrameController implements Initializable {
 
 	public static User user = null;
-	//public static Message message;
 
 	private static Message msg; // message to send to server
 
@@ -134,9 +133,15 @@ public class LoginFrameController implements Initializable {
 
 		if (user.getRole().equals("RegionManager")) {
 			
-			msg = new Message(MessageType.RegionManager, user.getId()+"");
-			ClientMenuController.clientControl.accept((Object) msg);
-			
+			//get the region of the region manager
+			ClientMenuController.clientControl.accept(new Message(MessageType.Get_region, LoginFrameController.user.getUserID()));
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			user.setRegion((String) ChatClient.msgServer.getMessageData()); 
 			RegionManagerFrameController regionManagerFrameController = new RegionManagerFrameController();
 			try {
 				regionManagerFrameController.start(ClientMenuController.clientStage);

@@ -291,19 +291,20 @@ public class Query {
 	 * @return region name
 	 */
 	public static String getRegion(String userID) {
-		String regionName = null;
-		Statement stmt;
+		PreparedStatement stmt;
 		try {
 			if (mysqlConnection.conn != null) {
-				stmt = mysqlConnection.conn.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT region FROM regionmanager WHERE userID =" + userID);
-				regionName = rs.getString("region");
+				stmt = mysqlConnection.conn.prepareStatement("SELECT region FROM regionmanager WHERE userID = ?");
+				stmt.setString(1, userID);
+				ResultSet rs = stmt.executeQuery();
+				if(rs.next())
+					return rs.getString("region");
 			}
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return regionName;
+		return "noRegion";
 	}
 
 	/**

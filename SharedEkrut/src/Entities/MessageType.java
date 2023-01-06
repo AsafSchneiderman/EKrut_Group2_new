@@ -20,6 +20,9 @@ public enum MessageType {
 	//vending machines
 	Get_vendingMachines,update_thresholdLevel, update_restockStatus,
 	
+	//region manager
+	Get_region,
+	
 	//types of users
 	Customer,ClubMember,CEO,RegionManager,MarketingWorker,CustomerServiceWorker, 
 
