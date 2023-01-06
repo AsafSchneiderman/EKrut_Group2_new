@@ -1,5 +1,8 @@
 package db;
 
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,10 +13,20 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 public class Query {
 	
-	/*public static boolean checkCustomerExists(String id) {
-		
-		return false;
-	}*/
+	public static boolean checkExistingCustomer(String id) throws SQLException, IOException {
+		Connection con = DriverManager.getConnection("jdbc:mysql://localhost/db_ekrut?serverTimezone=IST","root", "password");
+		java.sql.Statement stmt = con.createStatement();
+		String SQL = "SELECT * FROM users WHERE id='" + id + "' AND (role='Customer' OR role='ClubMember')";
+		stmt.execute(SQL);
+		ResultSet rs = stmt.executeQuery(SQL);
+		if (rs.next()) {//the user already exists
+			return true;
+		}
+		else {
+			return false;
+		}
+			
+	}
 
 	/**
 	 * @param userName of the client

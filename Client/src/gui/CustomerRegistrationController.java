@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
+import javax.management.Query;
+
 import Entities.Message;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -33,12 +35,10 @@ public class CustomerRegistrationController implements Initializable{
 //	public static CustomerRegistrationController customerRegistration;
 	public static CustomerServiceLastFrameController lastFrame;
 	public static CustomerServiceController customerService;
+	private static Message msg; // message to send to server
 
 	@FXML
     private AnchorPane pane;
-
-	@FXML
-	private Label emailCustomerRegistrationLbl;
 
 	@FXML
 	private Label phoneNumberCustomerRegistrationLbl;
@@ -75,11 +75,10 @@ public class CustomerRegistrationController implements Initializable{
 
 	@FXML
 	void sendForApproval(ActionEvent event) {
-		Scanner sc = new Scanner(System.in);
+		StringBuilder sendForApproval=new StringBuilder();
 		String firstName = firstNameCustomerRegistrationTxt.getText();
 		String lastName = lastNameCustomerRegistrationTxt.getText();
 		String id = idCustomerRegistrationTxt.getText();
-		String idSearchDB = sc.next();
 		String email = emailCustomerRegistrationTxt.getText();
 		String phone = phoneCustomerRegistrationTxt.getText();
 		String creditCard = creditCardCustomerRegistrationTxt.getText();
@@ -87,31 +86,33 @@ public class CustomerRegistrationController implements Initializable{
 			if (email.trim().isEmpty() || phone.trim().isEmpty() || creditCard.trim().isEmpty())
 				lblAlert.setText("Please fill all of the fields. thank you!");
 		} else {
-			try {
-				Connection con = DriverManager.getConnection("jdbc:mysql://localhost/db_ekrut?serverTimezone=IST",
-						"root", "password");
-				java.sql.Statement stmt = con.createStatement();
-				String SQL = "SELECT * FROM users WHERE id='" + idSearchDB + "'";
-				stmt.execute(SQL);
-				ResultSet rs = stmt.executeQuery(SQL);
-				if (rs.next())
+			boolean doesCustomerExist=Query.checkExsitingCustomer(id);//*****************???
+			if(doesCustomerExist==true)
 					lblAlert.setText("user already has an acount!");
-				else {
+				else {//build the string to send for the approval
+					sendForApproval.append(id);  
+					sendForApproval.append("#");
+					sendForApproval.append(firstName); 
+					sendForApproval.append("#");
+					sendForApproval.append(lastName); 
+					sendForApproval.append("#");
+					sendForApproval.append(email);
+					sendForApproval.append("#");
+					sendForApproval.append(phone); 
+					sendForApproval.append("#");
+					sendForApproval.append(creditCard); 
 					lastFrame = new CustomerServiceLastFrameController();
 					try {
-						lastFrame.start(ClientMenuController.clientStage);
-					} catch (IOException e) {
+				    lastFrame.start(ClientMenuController.clientStage);}
+					catch(IOException e) {
 
 						e.printStackTrace();
 					} // send to UI*/
+					} 
 				}
-
-			} catch (Exception e) {
-				System.out.println("Error" + e.getMessage());
-			}
 		}
 
-	}
+	
 
 	@FXML
 	void clickOnBack(ActionEvent event) {
