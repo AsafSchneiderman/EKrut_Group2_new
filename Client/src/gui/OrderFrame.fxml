@@ -44,12 +44,12 @@
       </TableView>
       <TableView fx:id="tblCart" layoutX="431.0" layoutY="121.0" prefHeight="314.0" prefWidth="449.0">
         <columns>
-          <TableColumn prefWidth="75.0" />
+          <TableColumn fx:id="imgSelectedProdCol" prefWidth="75.0" />
           <TableColumn fx:id="colProductInCart" prefWidth="75.0" text="Products" />
-            <TableColumn prefWidth="75.0" />
+            <TableColumn fx:id="addProdBntCol" prefWidth="75.0" />
             <TableColumn fx:id="colQuantityInCart" prefWidth="75.0" text="Quantity" />
-            <TableColumn prefWidth="75.0" />
-            <TableColumn prefWidth="75.0" text="Price" />
+            <TableColumn fx:id="subProdBntCol" prefWidth="75.0" />
+            <TableColumn fx:id="priceSelProdCol" prefWidth="75.0" text="Price" />
         </columns>
       </TableView>
    </children>

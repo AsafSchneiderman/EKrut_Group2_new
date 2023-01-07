@@ -11,8 +11,8 @@ public class ProductForOrder {
 	
 	private String productName, price;
 	private ImageView imgSrc;
-	private String bntToAdd;
-	public ProductForOrder(String productName, String price,ImageView imgSrc, String bntToAdd ) {
+	private Button bntToAdd;
+	public ProductForOrder(String productName, String price,ImageView imgSrc, Button bntToAdd ) {
 		this.productName=productName;
 		this.price=price;
 		this.imgSrc = imgSrc;
@@ -26,7 +26,7 @@ public class ProductForOrder {
 	public String getPrice() {
 		return price;
 	}
-	public String getBntToAdd() {
+	public Button getBntToAdd() {
 		return bntToAdd;
 	}
 	public ImageView getImgSrc() {
@@ -42,7 +42,7 @@ public class ProductForOrder {
 	public void setPrice(ImageView imgSrc) {
 		 this.imgSrc = imgSrc;
 	}
-	public void setBntToAdd(String bntToAdd) {
+	public void setBntToAdd(Button bntToAdd) {
 		 this.bntToAdd = bntToAdd;
 	}
 	

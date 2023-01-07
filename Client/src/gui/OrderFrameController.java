@@ -48,6 +48,8 @@ public class OrderFrameController implements Initializable {
 	public static Stage clientStage;
 	public  static ConfirmOrderFrameController confirmOrderFrame;
 	public static Message msg;
+	public static ObservableList<ProductForOrder> tvObservableList = FXCollections.observableArrayList();
+	public static ObservableList<OrderProductsForTbl> cartObservableList = FXCollections.observableArrayList();
 	//public static ObservableList<String>tempForProducts;
 
 	@FXML
@@ -56,7 +58,26 @@ public class OrderFrameController implements Initializable {
     private TableView<ProductForOrder> tblProducts;
 
     @FXML
-    private TableView<?> tblCart;
+    private TableView<OrderProductsForTbl> tblCart;
+    @FXML
+    private TableColumn<OrderProductsForTbl, ImageView> imgSelectedProdCol;
+    @FXML
+    private TableColumn<OrderProductsForTbl, String> colProductInCart;
+
+    @FXML
+    private TableColumn<OrderProductsForTbl, String> colQuantityInCart;
+
+
+    @FXML
+    private TableColumn<OrderProductsForTbl, Button> addProdBntCol;
+    
+
+    @FXML
+    private TableColumn<OrderProductsForTbl, Button> subProdBntCol;
+
+    @FXML
+    private TableColumn<OrderProductsForTbl, String> priceSelProdCol;
+
 
     @FXML
     private Button btnCheckOutOrder;
@@ -73,11 +94,7 @@ public class OrderFrameController implements Initializable {
     @FXML
     private TableColumn<ProductForOrder, String> colPriceOfProduct;
     
-    @FXML
-    private TableColumn<?, ?> colProductInCart;
-
-    @FXML
-    private TableColumn<?, ?> colQuantityInCart;
+   
     @FXML
     private TableColumn<ProductForOrder, ImageView> colProductImg;
     @FXML
@@ -94,12 +111,20 @@ public class OrderFrameController implements Initializable {
     					BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
     			pane.setBackground(new Background(image));  			  			
     			tblProducts.setEditable(true);
+    			tblCart.setEditable(true);
     			
     			colProductImg.setCellValueFactory(new PropertyValueFactory<ProductForOrder, ImageView>("imgSrc"));
     			colNameOfProduct.setCellValueFactory(new PropertyValueFactory<ProductForOrder, String>("productName"));
     			colPriceOfProduct.setCellValueFactory(new PropertyValueFactory<ProductForOrder, String>("price"));
     			bntColAddCart.setCellValueFactory(new PropertyValueFactory<ProductForOrder, String>("bntToAdd"));
-    			ObservableList<ProductForOrder> tvObservableList = FXCollections.observableArrayList();
+    			
+    			imgSelectedProdCol.setCellValueFactory(new PropertyValueFactory<OrderProductsForTbl, ImageView>("imgSrc"));
+    			colProductInCart.setCellValueFactory(new PropertyValueFactory<OrderProductsForTbl, String>("productName"));
+    			colQuantityInCart.setCellValueFactory(new PropertyValueFactory<OrderProductsForTbl, String>("quantity"));
+    			addProdBntCol.setCellValueFactory(new PropertyValueFactory<OrderProductsForTbl, Button>("bntToAdd"));
+    			subProdBntCol.setCellValueFactory(new PropertyValueFactory<OrderProductsForTbl, Button>("bntToSub"));
+    			priceSelProdCol.setCellValueFactory(new PropertyValueFactory<OrderProductsForTbl, String>("price"));
+    			
     			msg = new Message(MessageType.Show_products, "");
     			ClientMenuController.clientControl.accept(msg);
     			try {
@@ -118,7 +143,22 @@ public class OrderFrameController implements Initializable {
     				img.setFitWidth(50);
     				img.setFitHeight(50);
     				Button addCartBnt = new Button("Add To Cart");
-    				addCartBnt.setOnAction(value);
+    				addCartBnt.setOnAction(e - > {
+    					
+    					Button addQuantity = new Button("+");
+    					Button subQuantity = new Button("-");
+    					addQuantity.setOnAction(a->{
+    						
+    					});
+    					
+    					subQuantity.setOnAction(b->{
+    						
+    					});
+    					OrderProductsForTbl toCart = new OrderProductsForTbl(row.getProductName(),row.getPrice(), "1",img,addQuantity,subQuantity);
+    					cartObservableList.add(toCart);
+    					
+    				});
+    				tblCart.setItems(cartObservableList);
     				ProductForOrder tempList = new ProductForOrder(row.getProductName(),row.getPrice(),img,addCartBnt);
     				tvObservableList.add(tempList);
     			}
@@ -165,15 +205,15 @@ public class OrderFrameController implements Initializable {
      */
   
     
-    void addToCart(ActionEvent event) {
+    void addToCart() {
     	String str1, str2;
     	
-    	//str1 = tblProducts.
+    //	str1 = tvObservableList.g
     	
-    	//str2 = lblProductPrice.getText();
+    	str2 = lblProductPrice.getText();
     	float price = convertStringToFloat(str2);
     	
-    	productsList.add(product);
+    	//productsList.add(product);
     	float totalPrice = order.getTotalPrice();
     	
     	totalPrice = totalPrice + price;
