@@ -1,6 +1,7 @@
 package gui;
 
 import java.io.IOException;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -32,6 +33,7 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
 import Entities.*;
 import controller.ChatClient;
+import gui.CustomerServiceController;
 
 public class LoginFrameController implements Initializable {
 

@@ -133,6 +133,20 @@ public class EchoServer extends AbstractServer {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				break;
+			}
+			case showUsersToRegister:
+			{
+				ArrayList<UsersToRegister> uList;
+				uList = Query.getUsersToRegister();
+				try {
+					client.sendToClient(new Message(MessageType.showUsersToRegister, (Object) uList));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+				
 			}
 			default:
 				break;

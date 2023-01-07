@@ -13,19 +13,34 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 public class Query {
 	
-	public static boolean checkClientExist(String id) throws SQLException, IOException {
-		Connection con = DriverManager.getConnection("jdbc:mysql://localhost/db_ekrut?serverTimezone=IST","root", "password");
-		java.sql.Statement stmt = con.createStatement();
-		String SQL = "SELECT * FROM users WHERE id='" + id + "' AND (role='Customer' OR role='ClubMember')";
-		stmt.execute(SQL);
-		ResultSet rs = stmt.executeQuery(SQL);
-		if (rs.next()) {//the user already exists
-			return true;
-		}
-		else {
-			return false;
-		}
+	/**
+	 * 
+	 * @return
+	 */
+	public static ArrayList<UsersToRegister> getUsersToRegister() {
+		UsersToRegister usersToRegister;
+		ArrayList<UsersToRegister>listOfUsersToRegister = new ArrayList<>();
+		Statement stmt;
+		try {
+			if (mysqlConnection.conn != null) {
+				stmt = mysqlConnection.conn.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT * FROM userstosignup");
+				while (rs.next()) {
+					
+					usersToRegister = new UsersToRegister(rs.getString("id") ,rs.getString("firstName"),rs.getString("lastName") ,rs.getString("email") ,rs.getString("phone"));
+					listOfUsersToRegister.add(usersToRegister);
+					}
+				rs.close();
+			} else {
+				System.out.println("Conn is null");
+			}
 			
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	
+		return listOfUsersToRegister;
 	}
 
 	/**

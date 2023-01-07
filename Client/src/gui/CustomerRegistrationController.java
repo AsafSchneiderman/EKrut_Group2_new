@@ -6,14 +6,17 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
 import javax.management.Query;
 
-import Entities.Message;
-import Entities.MessageType;
+import Entities.*;
 import controller.ChatClient;
+import entity.OrderToDeliveryDetails;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,8 +25,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -34,106 +41,77 @@ import javafx.stage.Stage;
 
 public class CustomerRegistrationController implements Initializable{
 	public static Message message;
-//	public static CustomerRegistrationController customerRegistration;
-	public static CustomerServiceLastFrameController lastFrame;
-	public static CustomerServiceController customerService;
-	private static Message msg; // message to send to server
+	public static ArrayList<UsersToRegister> userList = new ArrayList<>();
+
+	
+	 @FXML
+	    private TableColumn<ButtonForUsersToSignup, String> userIdCol;
+
+	    @FXML
+	    private TableColumn<ButtonForUsersToSignup, String> nameCol;
+
+	    @FXML
+	    private TableColumn<ButtonForUsersToSignup, String> lastNameCol;
+
+	    @FXML
+	    private TableColumn<ButtonForUsersToSignup, Button> buttonsCol;
 
 	@FXML
     private AnchorPane pane;
-
+	
 	@FXML
-	private Label phoneNumberCustomerRegistrationLbl;
+    private TableView<ButtonForUsersToSignup> usersTable;
+	
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
 
-	@FXML
-	private TextField firstNameCustomerRegistrationTxt;
-
-	@FXML
-	private TextField lastNameCustomerRegistrationTxt;
-
-	@FXML
-	private TextField idCustomerRegistrationTxt;
-
-	@FXML
-	private TextField emailCustomerRegistrationTxt;
-
-	@FXML
-	private TextField phoneCustomerRegistrationTxt;
-
-	@FXML
-	private Button sendCustomerRegistrationButton;
-
-	@FXML
-	private Button backCustomRegistrationBtn;
-
-	@FXML
-	private Label creditCardCustomerRegistrationLbl;
-
-	@FXML
-	private TextField creditCardCustomerRegistrationTxt;
-
-	@FXML
-	private Label lblAlert;
-
-	@FXML
-	void sendForApproval(ActionEvent event) {
-		StringBuilder sendForApproval=new StringBuilder();
-		String firstName = firstNameCustomerRegistrationTxt.getText();
-		String lastName = lastNameCustomerRegistrationTxt.getText();
-		String id = idCustomerRegistrationTxt.getText();
-		String email = emailCustomerRegistrationTxt.getText();
-		String phone = phoneCustomerRegistrationTxt.getText();
-		String creditCard = creditCardCustomerRegistrationTxt.getText();
-		if (firstName.trim().isEmpty() || lastName.trim().isEmpty() || id.trim().isEmpty()) {
-			if (email.trim().isEmpty() || phone.trim().isEmpty() || creditCard.trim().isEmpty())
-				lblAlert.setText("Please fill all of the fields. thank you!");
-		} else {
-			msg=new Message(MessageType.checkClientExist,id);//try to check in db
-			ClientMenuController.clientControl.accept(msg);//try to check in db
-			try {//try to check in db
-				Thread.sleep(1000);//try to check in db
-				System.out.println(ChatClient.msgServer.getMessageData().toString());//try to check in db
-			} catch (InterruptedException e) {//try to check in db
-				// TODO Auto-generated catch block
-				e.printStackTrace();//try to check in db
-			}
-			boolean doesCustomerExist=(boolean) ChatClient.msgServer.getMessageData();//try to check in db
-			if(doesCustomerExist==true)
-					lblAlert.setText("user already has an acount!");
-				else {//build the string to send for the approval
-					sendForApproval.append(id);  
-					sendForApproval.append("#");
-					sendForApproval.append(firstName); 
-					sendForApproval.append("#");
-					sendForApproval.append(lastName); 
-					sendForApproval.append("#");
-					sendForApproval.append(email);
-					sendForApproval.append("#");
-					sendForApproval.append(phone); 
-					sendForApproval.append("#");
-					sendForApproval.append(creditCard); 
-					lastFrame = new CustomerServiceLastFrameController();
-					try {
-				    lastFrame.start(ClientMenuController.clientStage);}
-					catch(IOException e) {
-
-						e.printStackTrace();
-					} // send to UI*/
-					} 
-				}
+		// initialize the background image
+		BackgroundSize backgroundSize = new BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true,
+				false);
+		BackgroundImage image = new BackgroundImage(new Image("images/CustomerRegistrationBackground.png"), BackgroundRepeat.NO_REPEAT,
+				BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
+		pane.setBackground(new Background(image));
+		
+		usersTable.setEditable(true);
+		userIdCol.setCellValueFactory(new PropertyValueFactory<ButtonForUsersToSignup,String>("id"));
+		nameCol.setCellValueFactory(new PropertyValueFactory<ButtonForUsersToSignup,String>("firstName"));
+		lastNameCol.setCellValueFactory(new PropertyValueFactory<ButtonForUsersToSignup,String>("lastName"));
+		buttonsCol.setCellValueFactory(new PropertyValueFactory<ButtonForUsersToSignup,Button>("btnShow"));
+		ObservableList<ButtonForUsersToSignup> tvObservableList = FXCollections.observableArrayList();
+		message=new Message(MessageType.showUsersToRegister,"");
+		ClientMenuController.clientControl.accept(message);
+		try {
+			Thread.sleep(1000);
+			System.out.println(ChatClient.msgServer.getMessageData().toString());
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		userList = (ArrayList<UsersToRegister>) ChatClient.msgServer.getMessageData();
+		for (UsersToRegister row : userList)
+		{
+			Button show=new Button("show user");
+			ButtonForUsersToSignup tempList = new ButtonForUsersToSignup(row.getId(),row.getFirstName(),row.getLastName(),show);
+			tvObservableList.add(tempList);
+		}
+
+		usersTable.setItems(tvObservableList);
+		
+		
+	}
+
 
 	
 
 	@FXML
 	void clickOnBack(ActionEvent event) {
-		customerService = new CustomerServiceController();
-		try {
-			customerService.start(ClientMenuController.clientStage);
-		} catch (IOException e) {
+		//customerService = new CustomerServiceController();
+		//try {
+			//customerService.start(ClientMenuController.clientStage);
+		//} //catch (IOException e) {
 
-			e.printStackTrace();
-		} // send to UI*/
+			//e.printStackTrace();
+		//} // send to UI*/
 	}
 
 	public void start(Stage primaryStage) throws IOException {
@@ -145,16 +123,6 @@ public class CustomerRegistrationController implements Initializable{
 		primaryStage.show();
 
 	}
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-
-		// initialize the background image
-		BackgroundSize backgroundSize = new BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true,
-				false);
-		BackgroundImage image = new BackgroundImage(new Image("images/CustomerRegistrationBackground.png"), BackgroundRepeat.NO_REPEAT,
-				BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
-		pane.setBackground(new Background(image));
-	}
-
+	
 }
 
