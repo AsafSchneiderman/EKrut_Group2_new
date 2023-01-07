@@ -3,6 +3,7 @@ package Entities;
 import java.io.Serializable;
 
 import javafx.scene.image.ImageView;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 
 
@@ -10,10 +11,12 @@ public class ProductForOrder {
 	
 	private String productName, price;
 	private ImageView imgSrc;
-	public ProductForOrder(String productName, String price,ImageView imgSrc) {
+	private String bntToAdd;
+	public ProductForOrder(String productName, String price,ImageView imgSrc, String bntToAdd ) {
 		this.productName=productName;
 		this.price=price;
 		this.imgSrc = imgSrc;
+		this.bntToAdd = bntToAdd;
 	}
 	
 	public String getProductName() {
@@ -22,6 +25,9 @@ public class ProductForOrder {
 	
 	public String getPrice() {
 		return price;
+	}
+	public String getBntToAdd() {
+		return bntToAdd;
 	}
 	public ImageView getImgSrc() {
 		return imgSrc;
@@ -36,5 +42,10 @@ public class ProductForOrder {
 	public void setPrice(ImageView imgSrc) {
 		 this.imgSrc = imgSrc;
 	}
+	public void setBntToAdd(String bntToAdd) {
+		 this.bntToAdd = bntToAdd;
+	}
+	
+	
 
 }

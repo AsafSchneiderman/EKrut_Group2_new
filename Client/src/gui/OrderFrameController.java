@@ -67,16 +67,6 @@ public class OrderFrameController implements Initializable {
     @FXML
     private Button btnCancelOrder;
 
-
-    @FXML
-    private static Button btnAddToCart;
-
-
-    @FXML
-    private Button bntAddProduct;
-
-    @FXML
-    private Button bntSubFromCart;
     @FXML
     private TableColumn<ProductForOrder, String> colNameOfProduct;
 
@@ -90,12 +80,13 @@ public class OrderFrameController implements Initializable {
     private TableColumn<?, ?> colQuantityInCart;
     @FXML
     private TableColumn<ProductForOrder, ImageView> colProductImg;
+    @FXML
+    private TableColumn<ProductForOrder, String> bntColAddCart;
     
     @SuppressWarnings({ "unchecked"})
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     	
-    	//hi
     	// initialize the background image
     			BackgroundSize backgroundSize = new BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true,
     					false);
@@ -107,6 +98,7 @@ public class OrderFrameController implements Initializable {
     			colProductImg.setCellValueFactory(new PropertyValueFactory<ProductForOrder, ImageView>("imgSrc"));
     			colNameOfProduct.setCellValueFactory(new PropertyValueFactory<ProductForOrder, String>("productName"));
     			colPriceOfProduct.setCellValueFactory(new PropertyValueFactory<ProductForOrder, String>("price"));
+    			bntColAddCart.setCellValueFactory(new PropertyValueFactory<ProductForOrder, String>("bntToAdd"));
     			ObservableList<ProductForOrder> tvObservableList = FXCollections.observableArrayList();
     			msg = new Message(MessageType.Show_products, "");
     			ClientMenuController.clientControl.accept(msg);
@@ -125,7 +117,9 @@ public class OrderFrameController implements Initializable {
     				img.setImage(pic);
     				img.setFitWidth(50);
     				img.setFitHeight(50);
-    				ProductForOrder tempList = new ProductForOrder(row.getProductName(),row.getPrice(),img);
+    				Button addCartBnt = new Button("Add To Cart");
+    				addCartBnt.setOnAction(value);
+    				ProductForOrder tempList = new ProductForOrder(row.getProductName(),row.getPrice(),img,addCartBnt);
     				tvObservableList.add(tempList);
     			}
 
@@ -133,12 +127,44 @@ public class OrderFrameController implements Initializable {
 			 	
     }
     
-  
-	
-
-   
     
-    @FXML
+    /**
+     * 
+     * Callback<TableColumn<Data, Void>, TableCell<Data, Void>> cellFactory = new Callback<TableColumn<Data, Void>, TableCell<Data, Void>>() {
+            @Override
+            public TableCell<Data, Void> call(final TableColumn<Data, Void> param) {
+                final TableCell<Data, Void> cell = new TableCell<Data, Void>() {
+
+                    private final Button btn = new Button("Action");
+
+                    {
+                        btn.setOnAction((ActionEvent event) -> {
+                            Data data = getTableView().getItems().get(getIndex());
+                            System.out.println("selectedData: " + data);
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+
+        colBtn.setCellFactory(cellFactory);
+
+        table.getColumns().add(colBtn);
+
+     */
+  
+    
     void addToCart(ActionEvent event) {
     	String str1, str2;
     	
@@ -239,7 +265,7 @@ public class OrderFrameController implements Initializable {
 	
 	
 
-    @FXML
+    
     void subQuantatyFromCart(ActionEvent event) {
     	
     	
@@ -280,7 +306,7 @@ public class OrderFrameController implements Initializable {
 
     }
     
-    @FXML
+    
     void addQuantatyToCart(ActionEvent event) {
     	
     	/*if(order.getProducts().contains(lblProductNameCart.getText()))
