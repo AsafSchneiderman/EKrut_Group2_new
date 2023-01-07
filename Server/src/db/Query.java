@@ -13,7 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 public class Query {
 	
-	public static boolean checkExistingCustomer(String id) throws SQLException, IOException {
+	public static boolean checkClientExist(String id) throws SQLException, IOException {
 		Connection con = DriverManager.getConnection("jdbc:mysql://localhost/db_ekrut?serverTimezone=IST","root", "password");
 		java.sql.Statement stmt = con.createStatement();
 		String SQL = "SELECT * FROM users WHERE id='" + id + "' AND (role='Customer' OR role='ClubMember')";

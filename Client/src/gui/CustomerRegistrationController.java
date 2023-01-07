@@ -12,6 +12,8 @@ import java.util.Scanner;
 import javax.management.Query;
 
 import Entities.Message;
+import Entities.MessageType;
+import controller.ChatClient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -86,7 +88,16 @@ public class CustomerRegistrationController implements Initializable{
 			if (email.trim().isEmpty() || phone.trim().isEmpty() || creditCard.trim().isEmpty())
 				lblAlert.setText("Please fill all of the fields. thank you!");
 		} else {
-			boolean doesCustomerExist=Query.checkExsitingCustomer(id);//*****************???
+			msg=new Message(MessageType.checkClientExist,id);//try to check in db
+			ClientMenuController.clientControl.accept(msg);//try to check in db
+			try {//try to check in db
+				Thread.sleep(1000);//try to check in db
+				System.out.println(ChatClient.msgServer.getMessageData().toString());//try to check in db
+			} catch (InterruptedException e) {//try to check in db
+				// TODO Auto-generated catch block
+				e.printStackTrace();//try to check in db
+			}
+			boolean doesCustomerExist=(boolean) ChatClient.msgServer.getMessageData();//try to check in db
 			if(doesCustomerExist==true)
 					lblAlert.setText("user already has an acount!");
 				else {//build the string to send for the approval
