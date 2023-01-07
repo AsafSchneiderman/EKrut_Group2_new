@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="nameLbl" layoutX="272.0" layoutY="105.0" prefHeight="17.0" prefWidth="101.0" text="Name" />
+      <Label fx:id="idLbl" layoutX="322.0" layoutY="71.0" prefHeight="17.0" prefWidth="75.0" text="id" />
+      <Label fx:id="lastNameLbl" layoutX="347.0" layoutY="105.0" prefHeight="17.0" prefWidth="75.0" text="last name" />
+      <Label fx:id="emailLbl" layoutX="298.0" layoutY="160.0" prefHeight="17.0" prefWidth="75.0" text="email" />
+      <Label fx:id="phoneLbl" layoutX="298.0" layoutY="198.0" prefHeight="17.0" prefWidth="75.0" text="phone" />
+      <Label layoutX="112.0" layoutY="262.0" text="Credit Card:" />
+      <Label layoutX="112.0" layoutY="305.0" text="Region:" />
+      <TextField fx:id="creditCardTxt" layoutX="197.0" layoutY="258.0" />
+      <ChoiceBox fx:id="regionChoiceBox" layoutX="197.0" layoutY="301.0" prefWidth="150.0" />
+      <Button fx:id="sendForApprovalBtn" layoutX="321.0" layoutY="379.0" mnemonicParsing="false" onAction="#cliclSendForApproval" text="Send For Approval" />
+      <Button fx:id="backBtn" layoutX="60.0" layoutY="379.0" mnemonicParsing="false" onAction="#clickBack" text="Back" />
+   </children>
+</AnchorPane>
