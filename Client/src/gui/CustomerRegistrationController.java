@@ -94,7 +94,14 @@ public class CustomerRegistrationController implements Initializable{
 		{
 			final Button show=new Button("show user");
 			show.setOnAction((ActionEvent event)->{
-				clickOnShowUser(event);
+				//clickOnShowUser(event);
+				showCustomerToRegistrate = new ShowCustomerToRegistrateController();
+				try {
+					showCustomerToRegistrate.start(ClientMenuController.clientStage);
+				} catch (IOException e) {
+
+					e.printStackTrace();
+				}//  send to UI*/
 			});
 			ButtonForUsersToSignup tempList = new ButtonForUsersToSignup(row.getId(),row.getFirstName(),row.getLastName(),show);
 			tvObservableList.add(tempList);
@@ -104,7 +111,7 @@ public class CustomerRegistrationController implements Initializable{
 		
 		
 	}
-	void clickOnShowUser(ActionEvent event) {
+	/*void clickOnShowUser(ActionEvent event) {
 		showCustomerToRegistrate = new ShowCustomerToRegistrateController();
 		try {
 			showCustomerToRegistrate.start(ClientMenuController.clientStage);
@@ -112,7 +119,7 @@ public class CustomerRegistrationController implements Initializable{
 
 			e.printStackTrace();
 		}//  send to UI*/
-	}
+	//}
 
 
 	

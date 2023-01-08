@@ -18,7 +18,7 @@
       <Label layoutX="112.0" layoutY="305.0" text="Region:" />
       <TextField fx:id="creditCardTxt" layoutX="197.0" layoutY="258.0" />
       <ChoiceBox fx:id="regionChoiceBox" layoutX="197.0" layoutY="301.0" prefWidth="150.0" />
-      <Button fx:id="sendForApprovalBtn" layoutX="321.0" layoutY="379.0" mnemonicParsing="false" onAction="#cliclSendForApproval" text="Send For Approval" />
+      <Button fx:id="sendForApprovalBtn" layoutX="321.0" layoutY="379.0" mnemonicParsing="false" onAction="#clickSendForApproval" text="Send For Approval" />
       <Button fx:id="backBtn" layoutX="60.0" layoutY="379.0" mnemonicParsing="false" onAction="#clickBack" text="Back" />
    </children>
 </AnchorPane>

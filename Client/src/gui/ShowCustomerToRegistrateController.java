@@ -1,9 +1,12 @@
 package gui;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -13,8 +16,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class ShowCustomerToRegistrateController {
-	@FXML
+public class ShowCustomerToRegistrateController implements Initializable{
+	
     private AnchorPane pane;
 
     @FXML
@@ -50,17 +53,22 @@ public class ShowCustomerToRegistrateController {
     }
 
     @FXML
-    void cliclSendForApproval(ActionEvent event) {
+    void clickSendForApproval(ActionEvent event) {
 
     }
 
 	public void start(Stage primaryStage) throws IOException {
 		ClientMenuController.clientStage = primaryStage;
 		primaryStage.setTitle("Ekrut - Customer");
-		Parent root = FXMLLoader.load(getClass().getResource("/gui/showCustomerToRegistrateForm.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/gui/showCustomerToRegisterForm.fxml"));
 		Scene home = new Scene(root);
 		primaryStage.setScene(home);
 		primaryStage.show();
 		
 	}
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		
+	}
+	
 }

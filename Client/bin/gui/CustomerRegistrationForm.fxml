@@ -14,8 +14,8 @@
         <columns>
           <TableColumn fx:id="userIdCol" prefWidth="100.33331298828125" text="User ID" />
           <TableColumn fx:id="nameCol" prefWidth="72.66665649414062" text="Name" />
-            <TableColumn fx:id="lastNameCol" prefWidth="240.3333740234375" text="Last Name" />
-            <TableColumn fx:id="buttonsCol" prefWidth="75.0" />
+            <TableColumn fx:id="lastNameCol" prefWidth="175.0" text="Last Name" />
+            <TableColumn fx:id="buttonsCol" prefWidth="165.0" />
         </columns>
       </TableView>
    </children>
