@@ -101,7 +101,7 @@ public class ReportSearchFrameController implements Initializable {
 		String reportType = selectReportType.getValue();
 		String month = selectMonth.getValue();
 		String year = selectYear.getValue();
-		Message msg = new Message(MessageType.Get_reports, reportType + "#" + month + "#" + year);
+		Message msg = new Message(MessageType.Get_reports, reportType + "#" + month + "#" + year + "#" + LoginFrameController.user.getRegion());
 		ClientMenuController.clientControl.accept((Object) msg);
 	}
 	
