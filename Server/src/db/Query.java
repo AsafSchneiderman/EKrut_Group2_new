@@ -8,38 +8,41 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import Entities.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
 public class Query {
-	
+
 	/**
 	 * 
 	 * @return
 	 */
 	public static ArrayList<UsersToRegister> getUsersToRegister() {
 		UsersToRegister usersToRegister;
-		ArrayList<UsersToRegister>listOfUsersToRegister = new ArrayList<>();
+		ArrayList<UsersToRegister> listOfUsersToRegister = new ArrayList<>();
 		Statement stmt;
 		try {
 			if (mysqlConnection.conn != null) {
 				stmt = mysqlConnection.conn.createStatement();
 				ResultSet rs = stmt.executeQuery("SELECT * FROM userstosignup");
 				while (rs.next()) {
-					
-					usersToRegister = new UsersToRegister(rs.getString("id") ,rs.getString("firstName"),rs.getString("lastName") ,rs.getString("email") ,rs.getString("phone"));
+
+					usersToRegister = new UsersToRegister(rs.getString("id"), rs.getString("firstName"),
+							rs.getString("lastName"), rs.getString("email"), rs.getString("phone"));
 					listOfUsersToRegister.add(usersToRegister);
-					}
+				}
 				rs.close();
 			} else {
 				System.out.println("Conn is null");
 			}
-			
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	
+
 		return listOfUsersToRegister;
 	}
 
@@ -68,8 +71,8 @@ public class Query {
 						return "Already_logged_in";
 					}
 					// get user details
-					userID = rs.getString(1);	
-					result.append(rs.getString(1)); //userID 
+					userID = rs.getString(1);
+					result.append(rs.getString(1)); // userID
 					result.append("#");
 					result.append(rs.getString(2)); // id
 					result.append("#");
@@ -87,7 +90,7 @@ public class Query {
 					result.append("#");
 					result.append(rs.getString(9)); // phoneNumber
 					result.append("#");
-					result.append(rs.getString(10)); //isLoggedIn 
+					result.append(rs.getString(10)); // isLoggedIn
 				}
 				rs.close();
 				// empty result
@@ -207,7 +210,7 @@ public class Query {
 	 * 
 	 * @return ArrayList of reports from the DB
 	 */
-	public static ArrayList<Report> getReports() {
+	public static ArrayList<Report> getReports(String region) {
 		ArrayList<Report> reports = new ArrayList<>();
 
 		Statement stmt;
@@ -220,9 +223,10 @@ public class Query {
 					if (rs.getString("report_type") == "order") {
 						ArrayList<Order> orders = new ArrayList<>();
 
-						ResultSet rs2 = stmt.executeQuery("SELECT * FROM db_ekrut.orders WHERE (orderDate BETWEEN \'"
-								+ rs.getString("year") + "-" + rs.getString("month") + "-01\' AND CURDATE() )");
-
+						ResultSet rs2 = stmt.executeQuery("SELECT orders.*, vendingmachines.region from orders"
+								+ " inner join vendingmachines on orders.machineLocation=vendingmachines.location"
+								+ " WHERE MONTH(orderDate)=" + rs.getString("month") + " AND YEAR(orderDate)="
+								+ rs.getString("year") + " AND region=\"" + region + "\"");
 						while (rs2.next()) {
 
 							Order o = new Order(rs2.getString("machineLocation"), rs2.getString("date"),
@@ -237,38 +241,63 @@ public class Query {
 						ArrayList<ArrayList<Product>> stocks = new ArrayList<>();
 						ArrayList<VendingMachine> vendingMachines = getVendingMachines();
 						for (VendingMachine v : vendingMachines) {
-							String currentMachine=v.getLocation().toLowerCase();
-							String currentStock = currentMachine + "products";
-							ResultSet rs2 = stmt.executeQuery("SELECT * FROM " + currentStock);
-							ArrayList<Product> productsStock = new ArrayList<>();
-							
-							ResultSet rs3 = stmt.executeQuery("SELECT * FROM db_ekrut.orders WHERE (orderDate BETWEEN \' "+ rs.getString("year") + "-" + rs.getString("month") +"-01\' AND CURDATE() ) AND ( machineLocation = "+currentMachine+")");
-							while (rs2.next()) {
-								String[] productsIDs = rs3.getString("products").split("\\,");
-								String[] productsQuantities = rs3.getString("QuantityPerProduct").split("\\,");
-								int[] removedStocks = new int[30];
-								for(int i=0;i<30;i++)
-									removedStocks[i]=0;
-							
-								for(int i=0;i<rs3.getInt("productsQuantity");i++)
-								{
-									int productID= Integer.parseInt(productsIDs[i]);
-									int productQuantity= Integer.parseInt(productsQuantities[i]);
-									removedStocks[productID]=removedStocks[productID]+productQuantity;
-									
+							if (v.getRegion().equals(region)) {
+								String currentMachine = v.getLocation().toLowerCase();
+								String currentStock = currentMachine + "products";
+								ResultSet rs2 = stmt.executeQuery("SELECT * FROM " + currentStock);
+								ArrayList<Product> productsStock = new ArrayList<>();
+
+								ResultSet rs3 = stmt
+										.executeQuery("SELECT * FROM db_ekrut.orders WHERE (orderDate BETWEEN \' "
+												+ rs.getString("year") + "-" + rs.getString("month")
+												+ "-01\' AND CURDATE() ) AND ( machineLocation = " + currentMachine
+												+ ")");
+								while (rs2.next()) {
+									String[] productsIDs = rs3.getString("products").split("\\,");
+									String[] productsQuantities = rs3.getString("QuantityPerProduct").split("\\,");
+									int[] removedStocks = new int[30];
+									for (int i = 0; i < 30; i++)
+										removedStocks[i] = 0;
+
+									for (int i = 0; i < rs3.getInt("productsQuantity"); i++) {
+										int productID = Integer.parseInt(productsIDs[i]);
+										int productQuantity = Integer.parseInt(productsQuantities[i]);
+										removedStocks[productID] = removedStocks[productID] + productQuantity;
+
+									}
+									int ID = Integer.parseInt(rs2.getString("productID"));
+									int quantity = rs2.getInt("stockQuantity") + removedStocks[ID];
+									Product product = new Product(rs2.getString("productName"),
+											rs2.getString("productID"), rs2.getString("price"), quantity + "", null);
+									productsStock.add(product);
 								}
-								int ID= Integer.parseInt(rs2.getString("productID"));
-								int quantity= rs2.getInt("stockQuantity")+ removedStocks[ID];
-								Product product = new Product(rs2.getString("productName"), rs2.getString("productID"), rs2.getString("price"), quantity+"", null);
-								productsStock.add(product);
+
+								stocks.add(productsStock);
 							}
-							
-							stocks.add(productsStock);
 						}
 						r = new StockStatusReport(rs.getString("month"), rs.getString("year"), vendingMachines, stocks);
 					} else if (rs.getString("report_type") == "clientActivity") {
-						// TODO (add clientActivityReport table to db_ekrut)
-						r = new ClientActivityReport(rs.getString("month"), rs.getString("year"));
+						ArrayList<VendingMachine> vendingMachines = getVendingMachines();
+						ArrayList<HashMap<Integer,Integer>> clientsActivityPerMachine=new ArrayList<>();
+						
+						for (VendingMachine v : vendingMachines)
+						{
+							if(v.getRegion().equals(region))
+							{
+								HashMap<Integer,Integer> clientActivity= new HashMap<>();
+								ResultSet rs2 = stmt.executeQuery("SELECT orders.productsQuantity,  COUNT(*) AS clientsAmount from orders" 
+										+" inner join vendingmachines on orders.machineLocation=vendingmachines.location"
+										+" WHERE MONTH(orderDate)= "+rs.getString("month")+" AND YEAR(orderDate)= "+rs.getString("year")+" AND machineLocation= "+v.getLocation() 
+										+" group by productsQuantity");
+								while(rs.next()) {
+									clientActivity.put(rs2.getInt("productsQuantity"), rs2.getInt("clientsAmount"));
+								}
+								
+								clientsActivityPerMachine.add(clientActivity);
+							}
+							
+						}
+						r = new ClientActivityReport(rs.getString("month"), rs.getString("year"), clientsActivityPerMachine);
 					}
 					reports.add(r);
 				}
@@ -283,35 +312,36 @@ public class Query {
 
 		return reports;
 	}
-	
+
 	public static ArrayList<Product> getProducts() {
 		Product product;
-		ArrayList<Product>listOfProducts = new ArrayList<>();
+		ArrayList<Product> listOfProducts = new ArrayList<>();
 		Statement stmt;
 		try {
 			if (mysqlConnection.conn != null) {
 				stmt = mysqlConnection.conn.createStatement();
 				ResultSet rs = stmt.executeQuery("SELECT * FROM ortBraudeproducts");
 				while (rs.next()) {
-					
-					product = new Product(rs.getString("productID") ,rs.getString("productName"),rs.getString("price") ,rs.getString("stockQuantity") ,rs.getString("imgSrc"));
+
+					product = new Product(rs.getString("productID"), rs.getString("productName"), rs.getString("price"),
+							rs.getString("stockQuantity"), rs.getString("imgSrc"));
 					listOfProducts.add(product);
-					}
+				}
 				rs.close();
 			} else {
 				System.out.println("Conn is null");
 			}
-			
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	
+
 		return listOfProducts;
 	}
 
 	/**
 	 * get region name by the manager user id
+	 * 
 	 * @param userID
 	 * @return region name
 	 */
@@ -322,11 +352,10 @@ public class Query {
 				stmt = mysqlConnection.conn.prepareStatement("SELECT region FROM regionmanager WHERE userID = ?");
 				stmt.setString(1, userID);
 				ResultSet rs = stmt.executeQuery();
-				if(rs.next())
+				if (rs.next())
 					return rs.getString("region");
 			}
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return "noRegion";
@@ -334,6 +363,7 @@ public class Query {
 
 	/**
 	 * get vending machine locations by name of region
+	 * 
 	 * @param regionName the name of the region
 	 * @return vending machine locations
 	 */
@@ -343,13 +373,13 @@ public class Query {
 		try {
 			if (mysqlConnection.conn != null) {
 				stmt = mysqlConnection.conn.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT location FROM vendingmachines WHERE region =\""+regionName+"\"");
-				while(rs.next()) {
+				ResultSet rs = stmt
+						.executeQuery("SELECT location FROM vendingmachines WHERE region =\"" + regionName + "\"");
+				while (rs.next()) {
 					locations.add(rs.getString("location"));
 				}
 			}
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return locations;
