@@ -42,6 +42,8 @@ import javafx.stage.Stage;
 public class CustomerRegistrationController implements Initializable{
 	public static Message message;
 	public static ArrayList<UsersToRegister> userList = new ArrayList<>();
+	public static CustomerServiceController customerService;
+	public static ShowCustomerToRegistrateController showCustomerToRegistrate;
 
 	
 	 @FXML
@@ -90,7 +92,10 @@ public class CustomerRegistrationController implements Initializable{
 		userList = (ArrayList<UsersToRegister>) ChatClient.msgServer.getMessageData();
 		for (UsersToRegister row : userList)
 		{
-			Button show=new Button("show user");
+			final Button show=new Button("show user");
+			show.setOnAction((ActionEvent event)->{
+				clickOnShowUser(event);
+			});
 			ButtonForUsersToSignup tempList = new ButtonForUsersToSignup(row.getId(),row.getFirstName(),row.getLastName(),show);
 			tvObservableList.add(tempList);
 		}
@@ -99,19 +104,28 @@ public class CustomerRegistrationController implements Initializable{
 		
 		
 	}
+	void clickOnShowUser(ActionEvent event) {
+		showCustomerToRegistrate = new ShowCustomerToRegistrateController();
+		try {
+			showCustomerToRegistrate.start(ClientMenuController.clientStage);
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}//  send to UI*/
+	}
 
 
 	
 
 	@FXML
 	void clickOnBack(ActionEvent event) {
-		//customerService = new CustomerServiceController();
-		//try {
-			//customerService.start(ClientMenuController.clientStage);
-		//} //catch (IOException e) {
+		customerService = new CustomerServiceController();
+		try {
+			customerService.start(ClientMenuController.clientStage);
+		} catch (IOException e) {
 
-			//e.printStackTrace();
-		//} // send to UI*/
+			e.printStackTrace();
+		}//  send to UI*/
 	}
 
 	public void start(Stage primaryStage) throws IOException {
