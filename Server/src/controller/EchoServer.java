@@ -117,7 +117,7 @@ public class EchoServer extends AbstractServer {
 			case Get_reports:
 				try {
 
-					client.sendToClient(new Message(MessageType.Get_reports, (Object) (Query.getReports())));
+					client.sendToClient(new Message(MessageType.Get_reports, (Object) (Query.getReports((String) resMessage.getMessageData()))));
 
 				} catch (IOException e) {
 					e.printStackTrace();
