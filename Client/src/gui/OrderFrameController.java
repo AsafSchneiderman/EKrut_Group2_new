@@ -143,19 +143,79 @@ public class OrderFrameController implements Initializable {
     				img.setFitWidth(50);
     				img.setFitHeight(50);
     				Button addCartBnt = new Button("Add To Cart");
-    				addCartBnt.setOnAction(e - > {
+    				addCartBnt.setOnAction(e -> {
     					
-    					Button addQuantity = new Button("+");
-    					Button subQuantity = new Button("-");
-    					addQuantity.setOnAction(a->{
-    						
-    					});
-    					
-    					subQuantity.setOnAction(b->{
-    						
-    					});
-    					OrderProductsForTbl toCart = new OrderProductsForTbl(row.getProductName(),row.getPrice(), "1",img,addQuantity,subQuantity);
-    					cartObservableList.add(toCart);
+    					if(Integer.parseInt(row.getStockQuantity()) == 0)
+    					{
+    						Label stockAlert = new Label();
+    						stockAlert.setText("Out Of Stock");
+    						stockAlert.setVisible(true);
+    					}
+    					else
+    					{
+    						String stockTempStr = row.getStockQuantity();
+    						int stockNumTemp = Integer.parseInt(stockTempStr);
+    						stockNumTemp = stockNumTemp - 1;
+    						stockTempStr = String.valueOf(stockNumTemp);
+    						row.setStockQuantity(stockTempStr);
+    						Button addQuantity = new Button("+");
+        					Button subQuantity = new Button("-");
+        					OrderProductsForTbl toCart = new OrderProductsForTbl(row.getProductName(),row.getPrice(), "1",img,addQuantity,subQuantity);
+        					addQuantity.setOnAction(a->{
+        						
+        						if(Integer.parseInt(row.getStockQuantity()) == 0)
+            					{
+            						Label stockAlert = new Label();
+            						stockAlert.setText("Out Of Stock");
+            						stockAlert.setVisible(true);
+            					}
+        						else
+        						{
+        							String tempQuantityStr = toCart.getQuantity();
+        							int tempQuantityNum = Integer.parseInt(tempQuantityStr);
+        							tempQuantityNum = tempQuantityNum + 1;
+        							tempQuantityStr = String.valueOf(tempQuantityNum);
+        							String stockTempStr2 = row.getStockQuantity();
+            						int stockNumTemp2 = Integer.parseInt(stockTempStr2);
+            						stockNumTemp2 = stockNumTemp2 - 1;
+            						stockTempStr2 = String.valueOf(stockNumTemp2);
+            						row.setStockQuantity(stockTempStr2);
+            						toCart.setQuantity(tempQuantityStr);
+        							
+        						}
+        						
+        					});
+        					
+        					subQuantity.setOnAction(b->{
+        						
+        						if(Integer.parseInt(toCart.getQuantity()) == 1)
+        						{
+        							
+        							String stockTempStr1 = row.getStockQuantity();
+            						int stockNumTemp1 = Integer.parseInt(stockTempStr1);
+            						stockNumTemp1 = stockNumTemp1 + 1;
+            						stockTempStr1 = String.valueOf(stockNumTemp1);
+            						row.setStockQuantity(stockTempStr1);
+            						cartObservableList.remove(toCart);
+        						}
+        						else
+        						{
+        							String tempQuantityStr = toCart.getQuantity();
+        							int tempQuantityNum = Integer.parseInt(tempQuantityStr);
+        							tempQuantityNum = tempQuantityNum - 1;
+        							tempQuantityStr = String.valueOf(tempQuantityNum);
+        							String stockTempStr2 = row.getStockQuantity();
+            						int stockNumTemp2 = Integer.parseInt(stockTempStr2);
+            						stockNumTemp2 = stockNumTemp2 + 1;
+            						stockTempStr2 = String.valueOf(stockNumTemp2);
+            						row.setStockQuantity(stockTempStr2);
+            						toCart.setQuantity(tempQuantityStr);
+        						}
+        						
+        					});
+        					
+        					cartObservableList.add(toCart);
+    					}
     					
     				});
     				tblCart.setItems(cartObservableList);
@@ -205,7 +265,7 @@ public class OrderFrameController implements Initializable {
      */
   
     
-    void addToCart() {
+   /* void addToCart() {
     	String str1, str2;
     	
     //	str1 = tvObservableList.g
@@ -258,7 +318,7 @@ public class OrderFrameController implements Initializable {
 		
 
     }
-
+*/
     @FXML
     void cancelOrder(ActionEvent event) {
     	customerFrame = new CustomerFrameController();
