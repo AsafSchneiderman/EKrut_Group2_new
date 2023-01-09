@@ -153,6 +153,10 @@ public class OrderFrameController implements Initializable {
     					}
     					else
     					{
+    						ImageView imgForCart = new ImageView();
+    						imgForCart.setImage(pic);
+    						imgForCart.setFitWidth(50);
+    						imgForCart.setFitHeight(50);
     						String stockTempStr = row.getStockQuantity();
     						int stockNumTemp = Integer.parseInt(stockTempStr);
     						stockNumTemp = stockNumTemp - 1;
@@ -160,7 +164,7 @@ public class OrderFrameController implements Initializable {
     						row.setStockQuantity(stockTempStr);
     						Button addQuantity = new Button("+");
         					Button subQuantity = new Button("-");
-        					OrderProductsForTbl toCart = new OrderProductsForTbl(row.getProductName(),row.getPrice(), "1",img,addQuantity,subQuantity);
+        					OrderProductsForTbl toCart = new OrderProductsForTbl(row.getProductName(),row.getPrice(), "1",imgForCart,addQuantity,subQuantity);
         					addQuantity.setOnAction(a->{
         						
         						if(Integer.parseInt(row.getStockQuantity()) == 0)
