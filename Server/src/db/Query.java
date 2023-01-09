@@ -97,7 +97,7 @@ public class Query {
 				if (result.length() == 0)
 					return "Wrong_Input";
 				// Update isLoggedIn='1' to the user in DB
-				stmt = mysqlConnection.conn.prepareStatement("UPDATE users SET isLoggedIn='1' where id=?");
+				stmt = mysqlConnection.conn.prepareStatement("UPDATE users SET isLoggedIn='1' where userID=?");
 				stmt.setString(1, userID);
 				stmt.executeUpdate();
 			}
