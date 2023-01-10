@@ -76,9 +76,8 @@ public class ChatClient extends AbstractClient
 			RegionManager regionManager = new RegionManager(LoginFrameController.user, (String)msgServer.getMessageData());
 			LoginFrameController.user = regionManager;
 			break;
-		case Get_locations:
-			ClientActivityReportViewController.setInstitutionList((ArrayList<String>)msgServer.getMessageData());
-			break;
+		case Get_reports:
+			// TODO set report list at ReportSearchFrameController
 		default:
 			break;
 		}
