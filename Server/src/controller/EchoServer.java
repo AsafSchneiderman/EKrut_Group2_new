@@ -90,14 +90,6 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
-			case Get_locations:
-				try {
-					client.sendToClient(new Message(MessageType.Get_locations,
-							(Object) (Query.getLocations((String) resMessage.getMessageData()))));
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				break;
 
 			case Get_vendingMachines: // get list of vending machines from DB
 				try {
