@@ -35,12 +35,11 @@ import javafx.util.Callback;
 public class ReportSearchFrameController implements Initializable {
 
 	ObservableList<String> reportTypesList = FXCollections.observableArrayList("Select type", "Show all report types",
-			"Order", "Stock status", "Clients activity");
+			"Order", "Stock_Status", "Client_Activity");
 
-	ObservableList<String> yearsList = FXCollections.observableArrayList("Select year", "Show all years", "2022",
-			"2023");
+	ObservableList<String> yearsList = FXCollections.observableArrayList("Select year", "2022", "2023");
 
-	ObservableList<String> monthsList = FXCollections.observableArrayList("Select month", "Show all months", "January",
+	ObservableList<String> monthsList = FXCollections.observableArrayList("Select month", "January",
 			"February", "March", "April", "May", "June", "July", "August", "September", "October", "November",
 			"December");
 
