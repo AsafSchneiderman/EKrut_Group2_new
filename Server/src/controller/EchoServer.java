@@ -63,6 +63,7 @@ public class EchoServer extends AbstractServer {
 			switch (resMessage.getMessageType()) { // message - type
 			/** Server connection section **/
 			case login: // the user login to the system and change him to '1' in the DB.
+				
 				String[] data = resMessage.getMessageData().toString().split("#");
 				try {
 					client.sendToClient(new Message(MessageType.login, (Object) (Query.login(data[0], data[1]))));
