@@ -24,7 +24,6 @@ import javafx.stage.Stage;
 
 public class ClientActivityReportViewController implements Initializable{
 	
-	private static ObservableList<String> institutionList = FXCollections.observableArrayList("Select location");
     @FXML
     private BarChart<String, String> BarChartClientActivity;
 
@@ -36,8 +35,7 @@ public class ClientActivityReportViewController implements Initializable{
     @FXML
     private NumberAxis numberAxisClientsAmount;
     
-    @FXML
-    private ChoiceBox<String> cbInstitution;
+
 
 
     @FXML
@@ -63,14 +61,7 @@ public class ClientActivityReportViewController implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
-		Message msg = new Message(MessageType.Get_locations, ((RegionManager)LoginFrameController.user).getRegion());
-		ClientMenuController.clientControl.accept((Object) msg);
-		
-		cbInstitution.setItems(institutionList);	
-		cbInstitution.setValue("Select location");
 	}
 
-	public static void setInstitutionList(ArrayList<String> locations) {
-		institutionList.addAll(locations);
-	}
+	
 }
