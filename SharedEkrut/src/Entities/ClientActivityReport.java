@@ -8,7 +8,7 @@ public class ClientActivityReport extends Report{
 	private ArrayList<HashMap<Integer,Integer>> amountOfClientsPerOrderSize; 
 
 	public ClientActivityReport(String month, String year,ArrayList<HashMap<Integer,Integer>> amountOfClientsPerOrderSize) {
-		super("Client activity", month, year);
+		super(ReportType.Client_Activity, month, year);
 		this.setAmountOfClientsPerOrderSize(amountOfClientsPerOrderSize);
 	}
 
