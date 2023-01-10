@@ -14,8 +14,15 @@ public enum MessageType {
 	Get_reports,Show_report,
 	
 	//deliver
-	acceptDelivery,
-	deliveryIsDone,
+		GetDeliveryOrder,
+		notAcceptDelivery,
+		AcceptDelivery,
+		doneDelivery,
+		notDoneDelivery,
+		getUserToDelivery,
+		
+		//deliveryTimer
+		setToDone,
 	
 	//vending machines
 	Get_vendingMachines,update_thresholdLevel, update_restockStatus,
