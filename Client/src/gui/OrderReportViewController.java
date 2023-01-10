@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
@@ -21,7 +22,7 @@ public class OrderReportViewController implements Initializable{
 
 
     @FXML
-    private BarChart<?, ?> BarChartSalesPerInstitution;
+    private BarChart<Integer, Integer> BarChartSalesPerInstitution;
 
     @FXML
     private CategoryAxis categoryAxisInstitutions;
@@ -29,6 +30,10 @@ public class OrderReportViewController implements Initializable{
     @FXML
     private NumberAxis numberAxisSales;
 
+    private static Series<Integer, Integer> series;
+    // TODO add 
+    
+    
     @FXML
     void BackToPreviosePage(ActionEvent event) {
     	ReportSearchFrameController reportSearchFrameController = new ReportSearchFrameController();
