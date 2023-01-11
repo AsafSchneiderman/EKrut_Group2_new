@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="450.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.OrderReportViewController">
+   <children>
+      <Label layoutX="50.0" layoutY="6.0" prefHeight="22.0" prefWidth="106.0" text="Orders Report:" underline="true">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></Label>
+      <BarChart fx:id="BarChartSalesPerInstitution" layoutX="50.0" layoutY="32.0" prefHeight="400.0" prefWidth="700.0">
+         <xAxis>
+            <CategoryAxis fx:id="categoryAxisInstitutions" label="Institution" side="BOTTOM" />
+         </xAxis>
+         <yAxis>
+            <NumberAxis fx:id="numberAxisSales" label="Amount Of Sales" side="LEFT" />
+         </yAxis>
+      </BarChart>
+      <Button layoutX="12.0" layoutY="418.0" mnemonicParsing="false" onAction="#BackToPreviosePage" text="Back" />
+   </children>
+</AnchorPane>
