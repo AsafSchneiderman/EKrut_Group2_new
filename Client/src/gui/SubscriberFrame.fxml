@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.SubscriberFrameController">
+   <children>
+      <BorderPane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" />
+      <TableView fx:id="tableSubscribers" layoutX="25.0" layoutY="15.0" prefHeight="326.0" prefWidth="695.0">
+         <columns>
+            <TableColumn fx:id="firstName" prefWidth="126.40002822875977" text="first name" />
+            <TableColumn fx:id="lastName" prefWidth="86.39996337890625" text="last name" />
+            <TableColumn fx:id="id" prefWidth="37.60003662109375" text="id" />
+            <TableColumn fx:id="phoneNum" prefWidth="102.40000915527344" text="phone number" />
+            <TableColumn fx:id="emailAddr" prefWidth="90.4000244140625" text="email address" />
+            <TableColumn fx:id="creditCardNum" prefWidth="137.5999755859375" text="credit card number" />
+            <TableColumn fx:id="subId" prefWidth="109.60003662109375" text="subsriber number" />
+         </columns>
+      </TableView>
+      <Button layoutX="620.0" layoutY="351.0" mnemonicParsing="false" onAction="#UpdateDataTable" prefHeight="30.0" prefWidth="100.0" text="Update data" />
+   </children>
+</Pane>
