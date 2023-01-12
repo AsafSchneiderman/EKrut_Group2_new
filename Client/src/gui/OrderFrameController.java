@@ -10,6 +10,9 @@ import Entities.*;
 import controller.ChatClient;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -99,6 +102,8 @@ public class OrderFrameController implements Initializable {
     private TableColumn<ProductForOrder, ImageView> colProductImg;
     @FXML
     private TableColumn<ProductForOrder, String> bntColAddCart;
+    @FXML
+    private ImageView imgForIcon;
     
     @SuppressWarnings({ "unchecked"})
     @Override
@@ -112,7 +117,10 @@ public class OrderFrameController implements Initializable {
     			pane.setBackground(new Background(image));  			  			
     			tblProducts.setEditable(true);
     			tblCart.setEditable(true);
-    			
+    			Image cartIcone = new Image("images/addToBasket.png");
+    			imgForIcon.setImage(cartIcone);
+    			imgForIcon.setFitWidth(50);
+    			imgForIcon.setFitHeight(50);
     			colProductImg.setCellValueFactory(new PropertyValueFactory<ProductForOrder, ImageView>("imgSrc"));
     			colNameOfProduct.setCellValueFactory(new PropertyValueFactory<ProductForOrder, String>("productName"));
     			colPriceOfProduct.setCellValueFactory(new PropertyValueFactory<ProductForOrder, String>("price"));
@@ -164,8 +172,12 @@ public class OrderFrameController implements Initializable {
     						row.setStockQuantity(stockTempStr);
     						Button addQuantity = new Button("+");
         					Button subQuantity = new Button("-");
+        					OrderProductsForTbl toCartAdd;
         					OrderProductsForTbl toCart = new OrderProductsForTbl(row.getProductName(),row.getPrice(), "1",imgForCart,addQuantity,subQuantity);
         					addQuantity.setOnAction(a->{
+        						
+        						//new handleAddToCartService(toCart).start();
+        					
         						
         						if(Integer.parseInt(row.getStockQuantity()) == 0)
             					{
@@ -218,6 +230,8 @@ public class OrderFrameController implements Initializable {
         						
         					});
         					
+        					
+        					
         					cartObservableList.add(toCart);
     					}
     					
@@ -231,6 +245,51 @@ public class OrderFrameController implements Initializable {
 			 	
     }
     
+    
+ 
+    
+    
+    /*
+     * private static class handleDbService extends Service<String> {
+
+		private handleDbService(Label lblAlert) {
+			setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+
+				@Override
+				public void handle(WorkerStateEvent event) {
+					lblAlert.setVisible(true);
+					lblAlert.setText((String) event.getSource().getValue());
+				}
+			});
+		}
+
+		@Override
+		protected Task<String> createTask() {
+
+			return new Task<String>() {
+
+				@Override
+				protected String call() throws Exception {
+					ClientMenuController.clientControl.accept((Object) msg);
+					Thread.sleep(500);
+					String data = (String) ChatClient.msgServer.getMessageData();
+					if (data.equals("Wrong_Input"))
+						return "Wrong user name or password!";
+					else if (data.equals("Already_logged_in"))
+						return "User already logged in";
+					else {
+						String[] userData = data.split("#"); // Export user data
+						user = new User(userData[0], userData[1], userData[2], userData[3], userData[4], userData[5],
+								userData[6], userData[7], userData[8], Integer.valueOf(userData[9]));
+					}
+					Thread.sleep(500);
+					return "";
+				}
+
+			};
+		}
+	}
+     */
     
     /**
      * 
@@ -265,63 +324,6 @@ public class OrderFrameController implements Initializable {
         colBtn.setCellFactory(cellFactory);
 
         table.getColumns().add(colBtn);
-
-     */
-  
-    
-   /* void addToCart() {
-    	String str1, str2;
-    	
-    //	str1 = tvObservableList.g
-    	
-    	str2 = lblProductPrice.getText();
-    	float price = convertStringToFloat(str2);
-    	
-    	//productsList.add(product);
-    	float totalPrice = order.getTotalPrice();
-    	
-    	totalPrice = totalPrice + price;
-    	
-		order.setTotalPrice(totalPrice );
-		if(order.getProducts() == null)
-		{
-			order.setProducts(str1);
-		}
-		else
-		{
-			String temp = order.getProducts();
-			temp += "\n ";
-			temp += product.getProductName();
-			order.setProducts(temp);
-		}
-		int quantity;
-		int i = 0;
-		while(order.getQuantityPerProducts(i) != 0)
-		{
-			i++;
-		}
-		order.setQuantityPerProducts(i, 1); 
-		if(order.getQuantityOfProducts() == 0)
-		{
-			order.setQuantityOfProducts(1);
-		}
-		else
-		{
-			quantity = order.getQuantityOfProducts();
-			order.setQuantityOfProducts(quantity+1);
-		}
-			
-		
-		
-		
-		
-		//String temp, temp2, temp3;
-		//temp = product.getProductName()+product.getProductCode()+temp2+temp3;
-		//msg =  new Message(MessageType.Orders_list,temp);
-		ClientMenuController.clientControl.accept(msg);
-		
-
-    }
 */
     @FXML
     void cancelOrder(ActionEvent event) {
@@ -333,10 +335,16 @@ public class OrderFrameController implements Initializable {
 			e.printStackTrace();
 		}
     }
-
+/**
+ * 
+ * 
+ * @param event - > costumer want to checkout order
+ * The button switch to new frame -> invoice frame
+ * it sends costumer order to invoice to update database
+ */
     @FXML
     void checkOutOrder(ActionEvent event) {
-    	confirmOrderFrame = new ConfirmOrderFrameController();
+    	confirmOrderFrame = new ConfirmOrderFrameController(tvObservableList, cartObservableList);
     	try {
 			confirmOrderFrame.start(ClientMenuController.clientStage);
 		} catch (IOException e) {
@@ -370,70 +378,7 @@ public class OrderFrameController implements Initializable {
 	
 
     
-    void subQuantatyFromCart(ActionEvent event) {
-    	
-    	
-    		/*if(lblProductNameCart.getText().equals(lstViewCart.getItems().get(i).getProductName()))
-    		{
-    			int num = order.getQuantityPerProducts(i);
-    			if(num==1)
-    			{
-    				lstViewCart.getItems().remove(i);
-    				float num2 = convertStringToFloat(lblProductPriceCart.getText());
-       			 	float num3 = order.getTotalPrice();
-       			 	num3 = num3-num2;
-       			 	order.setTotalPrice(num3);
-       			 	String temp = order.getProducts();
-       			 	temp.replace(productsList.get(i).getProductName(), "");
-       			 	order.setProducts(temp);
-       			 	order.setQuantityPerProducts(i, 0);
-       			 	int quantityOfProducts  = order.getQuantityOfProducts();
-       			 	order.setQuantityOfProducts(quantityOfProducts-1);
-    			}
-    			else
-    			{
-    				num--;
-    				order.setQuantityPerProducts(i, num);
-        			productsList.get(i).setQuantity(num);
-        			float num2 = convertStringToFloat(lblProductPriceCart.getText());
-       			 	float num3 = order.getTotalPrice();
-       			 	num3 = num3-num2;
-       			 	order.setTotalPrice(num3);
-       			 	int quantityOfProducts  = order.getQuantityOfProducts();
-    			 	order.setQuantityOfProducts(quantityOfProducts-1);
-    			}
-    				
-    		}*/
-    	
-    	
-
-
-    }
-    
-    
-    void addQuantatyToCart(ActionEvent event) {
-    	
-    	/*if(order.getProducts().contains(lblProductNameCart.getText()))
-    	{
-    		int i = 0;
-    		while(!(productsList.get(i).getProductName().contains(lblProductNameCart.getText())))
-    		{
-    			i++;
-    		}
-    		int quantity = order.getQuantityPerProducts(i);
-    		order.setQuantityPerProducts(i, quantity+1);
-    		quantity = order.getQuantityOfProducts();
-    		order.setQuantityOfProducts(quantity+1);
-    		float totPrice = order.getTotalPrice();
-    		float price = convertStringToFloat(lblProductPriceCart.getText());
-    		totPrice = totPrice + price;
-    		order.setTotalPrice(totPrice);
-    
-    	}*/
-    	
-    	
-
-    }
+ 
 
 		
 }

@@ -1,2 +1,6 @@
-/db/
+/common/
 /controller/
+/db/
+/entity/
+/gui/
+/images/
