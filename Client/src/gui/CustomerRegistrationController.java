@@ -44,6 +44,7 @@ public class CustomerRegistrationController implements Initializable{
 	public static ArrayList<UsersToRegister> userList = new ArrayList<>();
 	public static CustomerServiceController customerService;
 	public static ShowCustomerToRegistrateController showCustomerToRegistrate;
+	public static int userNum=0;
 
 	
 	 @FXML
@@ -105,6 +106,7 @@ public class CustomerRegistrationController implements Initializable{
 			});
 			ButtonForUsersToSignup tempList = new ButtonForUsersToSignup(row.getId(),row.getFirstName(),row.getLastName(),show);
 			tvObservableList.add(tempList);
+			userNum++;
 		}
 
 		usersTable.setItems(tvObservableList);
