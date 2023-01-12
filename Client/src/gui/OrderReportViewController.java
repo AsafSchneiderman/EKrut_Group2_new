@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import Entities.OrdersReport;
 import Entities.Report;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -44,7 +45,7 @@ public class OrderReportViewController implements Initializable{
 		}
     }
 
-	public void start(Stage primaryStage, Report firstReport) throws IOException{
+	public void start(Stage primaryStage, OrdersReport firstReport) throws IOException{
 		ClientMenuController.clientStage = primaryStage;
 		primaryStage.setTitle("Ekrut - Client");
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/OrderReportView.fxml"));
