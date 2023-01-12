@@ -38,7 +38,7 @@ import gui.CustomerServiceController;
 public class LoginFrameController implements Initializable {
 
 	public static User user = null;
-	static Scene home;
+	public static Scene home;
 	
 	private static Message msg; // message to send to server
 
@@ -186,7 +186,7 @@ public class LoginFrameController implements Initializable {
 		ClientMenuController.clientStage = primaryStage;
 		primaryStage.setTitle("Ekrut - Client >> Login");
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/LoginFrame.fxml"));
-		Scene home = new Scene(root);
+		home = new Scene(root);
 		primaryStage.setScene(home);
 
 		// On pressing X (close window) the client is disconnect from server.
