@@ -11,6 +11,7 @@ import gui.ClientActivityReportViewController;
 import gui.ClientMenuController;
 import gui.ClientUI;
 import gui.LoginFrameController;
+import gui.ReportSearchFrameController;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -78,6 +79,8 @@ public class ChatClient extends AbstractClient
 			break;
 		case Get_reports:
 			// TODO set report list at ReportSearchFrameController
+			ReportSearchFrameController.addReportsToTableView((ArrayList<Report>)msgServer.getMessageData());
+			break;
 		default:
 			break;
 		}
