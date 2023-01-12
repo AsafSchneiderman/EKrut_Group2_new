@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import Entities.Report;
+import Entities.StockStatusReport;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -51,7 +52,7 @@ public class StockStatusReportViewController implements Initializable {
 	}
 
 
-	public void start(Stage primaryStage, List<Report> selectedReports) throws IOException{
+	public void start(Stage primaryStage, StockStatusReport selectedReport) throws IOException{
 		ClientMenuController.clientStage = primaryStage;
 		primaryStage.setTitle("Ekrut - Client");
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/StockStatusReportView.fxml"));
