@@ -38,7 +38,8 @@ import gui.CustomerServiceController;
 public class LoginFrameController implements Initializable {
 
 	public static User user = null;
-
+	static Scene home;
+	
 	private static Message msg; // message to send to server
 
 	@FXML

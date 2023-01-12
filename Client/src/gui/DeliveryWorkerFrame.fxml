@@ -10,7 +10,6 @@
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.DeliveryWorkerFrameController">
    <children>
       <Label fx:id="welcomeWorkerLbl" layoutX="65.0" layoutY="50.0" text="Welcom" />
-      <Button fx:id="btnUpdateStatusOrder" layoutX="576.0" layoutY="416.0" mnemonicParsing="false" onAction="#updateOrderStatusToDelivery" text="Update Status" />
       <Button fx:id="btnExit" layoutX="33.0" layoutY="543.0" mnemonicParsing="false" onAction="#exit" text="Exit" textFill="RED" />
       <Label layoutX="57.0" layoutY="89.0" prefHeight="36.0" prefWidth="701.0" text="                                   List of orders to Deliver:" textAlignment="CENTER">
          <font>

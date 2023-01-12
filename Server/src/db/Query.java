@@ -422,6 +422,92 @@ public class Query {
 		}
 		return "noRegion";
 	}
+	
+	/**
+	 * view delivery order data from DB
+	 * 
+	 * @return ArrayList of orders from the DB
+	 */
+	public static ArrayList<OrderToDeliveryDetails>viewDeliveryOrders(){
+		ArrayList<OrderToDeliveryDetails> orders = new ArrayList<>();
+
+		Statement stmt;
+		try {
+			if (mysqlConnection.conn != null) {
+				stmt = mysqlConnection.conn.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT * FROM ordertodelivery");
+				while (rs.next()) {
+					OrderToDeliveryDetails v = new OrderToDeliveryDetails(rs.getString("orderId"), rs.getString("address"), rs.getString("date"), rs.getString("accept"), rs.getString("done"));
+					orders.add(v);
+				}
+				rs.close();
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return orders;
+	}
+	/**
+	 * Delivery is done. Set "Done" in the DB.
+	 * 
+	 * @param order id
+	 */
+	public static void UpdateOrderDeliveryToDone(String id) {
+		PreparedStatement stmt;
+		System.out.println("UpdateOrderDeliveryToDone"+": im here");
+		try {
+			if (mysqlConnection.conn != null) {
+				 {
+				stmt = mysqlConnection.conn.prepareStatement("UPDATE ordertodelivery SET done = 'Done'  where orderId = ?");
+				stmt.setString(1, id);
+				
+				
+				stmt.executeUpdate();
+				}
+			} else {
+				System.out.println("Conn is null");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Get userName for delivery order
+	 * 
+	 *  @param orderId
+	 *  @return String with userName 
+	 * */
+	public static String getUserNameToDeliveryOrder(String orderId){
+		
+		String userName ="";
+		PreparedStatement stmt;
+		try {
+			if (mysqlConnection.conn != null) {
+				 {
+				stmt = mysqlConnection.conn.prepareStatement
+						("SELECT distinct userName FROM  db_ekrut.orders as o,db_ekrut.users as u where o.orderNum = ? and o.customerID = u.id");
+				stmt.setString(1, orderId);
+				
+				ResultSet rs = stmt.executeQuery();
+				while (rs.next()) {
+					userName = rs.getString("userName");
+				}
+
+				}
+			} else {
+				System.out.println("Conn is null");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return userName; //user name is primary key so there will be just one String.
+	}
+	
 
 	
 }

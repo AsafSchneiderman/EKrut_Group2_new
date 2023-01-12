@@ -140,6 +140,31 @@ public class EchoServer extends AbstractServer {
 				break;
 				
 			}
+			
+			case GetDeliveryOrder:
+				try {
+
+					client.sendToClient(new Message(MessageType.GetDeliveryOrder, (Object) (Query.viewDeliveryOrders())));
+
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				break;
+			
+			case setToDone:
+				String id = resMessage.getMessageData().toString();
+				Query.UpdateOrderDeliveryToDone(id);
+				break;
+			
+			case getUserToDelivery:
+				String orderId = resMessage.getMessageData().toString();
+				try {
+					client.sendToClient(new Message(MessageType.getUserToDelivery, (Object) (Query.getUserNameToDeliveryOrder(orderId))));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
 			default:
 				break;
 			} // end of case

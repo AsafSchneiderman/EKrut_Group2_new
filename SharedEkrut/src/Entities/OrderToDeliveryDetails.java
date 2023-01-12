@@ -23,7 +23,7 @@ public class OrderToDeliveryDetails implements Serializable {
 		this.done = done;
 	}
 	
-	
+
 	public String getAccept() {
 		return accept;
 	}
