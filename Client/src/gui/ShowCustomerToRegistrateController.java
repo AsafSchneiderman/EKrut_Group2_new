@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import Entities.Region;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -39,7 +40,7 @@ public class ShowCustomerToRegistrateController implements Initializable{
     private TextField creditCardTxt;
 
     @FXML
-    private ChoiceBox<?> regionChoiceBox;
+    private ChoiceBox<Region> regionChoiceBox;
 
     @FXML
     private Button sendForApprovalBtn;
@@ -54,7 +55,7 @@ public class ShowCustomerToRegistrateController implements Initializable{
 
     @FXML
     void clickSendForApproval(ActionEvent event) {
-
+    	String creditCardNum=creditCardTxt.getText();
     }
 
 	public void start(Stage primaryStage) throws IOException {
