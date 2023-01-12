@@ -5,9 +5,12 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import Entities.ClientActivityReport;
 import Entities.Message;
 import Entities.MessageType;
+import Entities.OrdersReport;
 import Entities.Report;
+import Entities.StockStatusReport;
 import entity.Subscriber;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -44,10 +47,10 @@ public class ReportSearchFrameController implements Initializable {
 			"December");
 
 	@FXML
-	private TableColumn<List<Report>, String> colReportName;
+	private TableColumn<Report, String> colReportName;
 
 	@FXML
-	private TableColumn<List<Report>, Void> colViewReports;
+	private TableColumn<Report, Void> colViewReports;
 
 	@FXML
 	private ChoiceBox<String> selectMonth;
@@ -59,9 +62,9 @@ public class ReportSearchFrameController implements Initializable {
 	private ChoiceBox<String> selectYear;
 
 	@FXML
-	private TableView<List<Report>> tblReports;
+	private TableView<Report> tblReports;
 
-	private static TableView<List<Report>> reportTableView;
+	private static TableView<Report> reportTableView;
 
 	public void start(Stage primaryStage) throws IOException {
 		ClientMenuController.clientStage = primaryStage;
@@ -105,11 +108,11 @@ public class ReportSearchFrameController implements Initializable {
 	}
 	
 	/** add all requested reports to the table view**/
-	void addReportsToTableView(List<List<Report>> reportsList)
+	public static void addReportsToTableView(List<Report> reportsList)
 	{
-		ObservableList<List<Report>> reports = FXCollections.observableArrayList();
-		for (List<Report> reportList : reportsList)
-			reports.add(reportList);
+		ObservableList<Report> reports = FXCollections.observableArrayList();
+		for (Report report : reportsList)
+			reports.add(report);
 		reportTableView.setItems(reports);
 	}
 
@@ -124,12 +127,12 @@ public class ReportSearchFrameController implements Initializable {
 		selectYear.setItems(yearsList);
 
 		reportTableView = tblReports;
-		colReportName.setCellValueFactory(new PropertyValueFactory<List<Report>, String>("ReportName"));
+		colReportName.setCellValueFactory(new PropertyValueFactory<Report, String>("reportName"));
 		// set button cells for the 'view report' column
-		Callback<TableColumn<List<Report>, Void>, TableCell<List<Report>, Void>> btnCellFactory = new Callback<TableColumn<List<Report>, Void>, TableCell<List<Report>, Void>>() {
+		Callback<TableColumn<Report, Void>, TableCell<Report, Void>> btnCellFactory = new Callback<TableColumn<Report, Void>, TableCell<Report, Void>>() {
 			@Override
-			public TableCell<List<Report>, Void> call(final TableColumn<List<Report>, Void> param) {
-				final TableCell<List<Report>, Void> cell = new TableCell<List<Report>, Void>() {
+			public TableCell<Report, Void> call(final TableColumn<Report, Void> param) {
+				final TableCell<Report, Void> cell = new TableCell<Report, Void>() {
 
 					private final Button btn = new Button("view");
 
@@ -140,36 +143,30 @@ public class ReportSearchFrameController implements Initializable {
 							setGraphic(null);
 						} else {
 							btn.setOnAction(e -> {
-								List<Report> selectedReports = getTableView().getItems().get(getIndex());
-								Report firstReport = selectedReports.get(0);
-								if (firstReport.getReportType().equals("Stock status")) {
-									// open Stock status report frame with the 'selectedReports' array
-									StockStatusReportViewController stockStatusReportView = new StockStatusReportViewController();
-									try {
-										stockStatusReportView.start(ClientMenuController.clientStage, selectedReports);
-									} catch (IOException e1) {
-										// TODO Auto-generated catch block
-										e1.printStackTrace();
-									}
-
-								} else if (firstReport.getReportType().equals("Order")) {
-									// open order report frame with the firstReport
-									OrderReportViewController orderReportView = new OrderReportViewController();
-									try {
-										orderReportView.start(ClientMenuController.clientStage, firstReport);
-									} catch (IOException e1) {
-										// TODO Auto-generated catch block
-										e1.printStackTrace();
-									}
-								} else if (firstReport.getReportType().equals("Client activity")) {
-									// open client activity report frame with the firstReport
-									/*
-									 * TODO ClientActivityReportController clientActivityReport = new
-									 * ClientActivityReportController();
-									 * clientActivityReport.start(ClientMenuController.clientStage, firstReport);
-									 */
-								} else {
-									System.out.println("No such report type!");
+								
+								Report selectedReport = getTableView().getItems().get(getIndex());
+								try {
+									switch(selectedReport.getReportType())
+									{
+									case Order: // open order report frame with the firstReport
+										OrderReportViewController orderReportView = new OrderReportViewController();
+										orderReportView.start(ClientMenuController.clientStage, (OrdersReport)selectedReport);
+										break;
+									case Stock_Status: // open Stock status report frame with the 'selectedReports' array
+										StockStatusReportViewController stockStatusReportView = new StockStatusReportViewController();
+										stockStatusReportView.start(ClientMenuController.clientStage, (StockStatusReport)selectedReport);
+										break;
+									case Client_Activity:
+										// open client activity report frame with the firstReport
+										ClientActivityReportViewController clientActivityReportViewController = new ClientActivityReportViewController();
+										clientActivityReportViewController.start(ClientMenuController.clientStage, (ClientActivityReport)selectedReport);
+										break;
+									default:
+										System.out.println("No such report type!");
+										break;
+									}	
+								}catch (IOException e1) {
+									e1.printStackTrace();
 								}
 							});
 							setGraphic(btn);
