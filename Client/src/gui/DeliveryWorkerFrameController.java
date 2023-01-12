@@ -52,8 +52,6 @@ public class DeliveryWorkerFrameController implements Initializable {
     @FXML
     private Button btnExit;
 
-    @FXML
-    private Button btnUpdateStatusOrder;
 
     @FXML
     private TableColumn<OrderToDeliveryDetails, String> dateCol;
@@ -71,6 +69,7 @@ public class DeliveryWorkerFrameController implements Initializable {
     @FXML
     private Label welcomeWorkerLbl;
 
+    
     @FXML
     void exit(ActionEvent event) {
     	ClientMenuController.clientStage.setScene(LoginFrameController.home);
@@ -78,10 +77,7 @@ public class DeliveryWorkerFrameController implements Initializable {
     	msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
 		ClientMenuController.clientControl.accept(msg);
     }
-    @FXML
-    void updateOrderStatusToDelivery(ActionEvent event) {
-    	
-    }
+ 
 
     public void start(Stage primaryStage) throws IOException{
     	ClientMenuController.clientStage = primaryStage;
