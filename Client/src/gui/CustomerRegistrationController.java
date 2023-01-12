@@ -106,7 +106,7 @@ public class CustomerRegistrationController implements Initializable{
 			});
 			ButtonForUsersToSignup tempList = new ButtonForUsersToSignup(row.getId(),row.getFirstName(),row.getLastName(),show);
 			tvObservableList.add(tempList);
-			userNum++;
+			userNum=userList.indexOf(row);
 		}
 
 		usersTable.setItems(tvObservableList);
