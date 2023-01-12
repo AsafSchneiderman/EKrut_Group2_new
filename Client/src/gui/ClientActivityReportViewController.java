@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import Entities.ClientActivityReport;
 import Entities.Message;
 import Entities.MessageType;
 import Entities.RegionManager;
@@ -48,7 +49,7 @@ public class ClientActivityReportViewController implements Initializable{
 		}
     }
     
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage primaryStage, ClientActivityReport report) throws IOException {
     	ClientMenuController.clientStage = primaryStage;		
     	primaryStage.setTitle("Ekrut - Client Connection");
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/ClientActivityFrame.fxml"));
