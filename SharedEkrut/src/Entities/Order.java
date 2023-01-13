@@ -60,8 +60,6 @@ public class Order implements Serializable{
 	public void setCustomerID(String customerID) {
 		this.customerID=customerID;
 	}
-	
-	
 	public float getTotalPrice() {
 		return totalPrice;
 	}
@@ -85,5 +83,24 @@ public class Order implements Serializable{
 	}
 	public void setQuantityPerProducts(int index, int quantity) {
 		quantityPerProducts[index] = quantity;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder s = new StringBuilder("[");
+		s.append(orderNum).append(", ");
+		s.append(orderStatus).append(", ");
+		s.append(customerID).append(", ");
+		s.append(vendingMachineLocation).append(", ");
+		s.append(orderType).append(", ");
+		s.append(totalPrice).append(", ");
+		s.append(products).append(", ");
+		s.append(quantityOfProducts).append("]");
+		
+		/*for (int i = 0 ; i < quantityOfProducts ;i++)
+			s.append(quantityPerProducts[i]).append(", ");
+		s.replace(s.length(), s.length(), "} ]");*/
+		
+		return s.toString();
 	}
 }
