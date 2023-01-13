@@ -16,36 +16,7 @@ import javafx.scene.image.ImageView;
 
 public class Query {
 
-	/**
-	 * 
-	 * @return
-	 */
-	public static ArrayList<UsersToRegister> getUsersToRegister() {
-		UsersToRegister usersToRegister;
-		ArrayList<UsersToRegister> listOfUsersToRegister = new ArrayList<>();
-		Statement stmt;
-		try {
-			if (mysqlConnection.conn != null) {
-				stmt = mysqlConnection.conn.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT * FROM userstosignup");
-				while (rs.next()) {
-
-					usersToRegister = new UsersToRegister(rs.getString("id"), rs.getString("firstName"),
-							rs.getString("lastName"), rs.getString("email"), rs.getString("phone"));
-					listOfUsersToRegister.add(usersToRegister);
-				}
-				rs.close();
-			} else {
-				System.out.println("Conn is null");
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return listOfUsersToRegister;
-	}
-
+	
 	/**
 	 * @param userName of the client
 	 * @param password of the client
@@ -508,10 +479,56 @@ public class Query {
 		return userName; //user name is primary key so there will be just one String.
 	}
 	
-	public static UsersToRegister getUserToRegisterDetails(){
-		UsersToRegister user = null;
-		return user;
+	/**
+	 * 
+	 * @return
+	 */
+	public static ArrayList<UsersToRegister> getUsersToRegister() {
+		UsersToRegister usersToRegister;
+		ArrayList<UsersToRegister> listOfUsersToRegister = new ArrayList<>();
+		Statement stmt;
+		try {
+			if (mysqlConnection.conn != null) {
+				stmt = mysqlConnection.conn.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT * FROM userstosignup");
+				while (rs.next()) {
 
+					usersToRegister = new UsersToRegister(rs.getString("id"), rs.getString("firstName"),
+							rs.getString("lastName"), rs.getString("email"), rs.getString("phone"));
+					listOfUsersToRegister.add(usersToRegister);
+				}
+				rs.close();
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return listOfUsersToRegister;
+	}
+
+	
+	public static UsersToRegister getUserToRegisterDetails(String id){
+		UsersToRegister user = null;
+		Statement stmt;
+		try {
+			if (mysqlConnection.conn != null) {
+				stmt = mysqlConnection.conn.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT * FROM userstosignup WHERE id='"+id+"'");
+				if (rs.next())
+					user = new UsersToRegister(rs.getString("id"), rs.getString("firstName"),
+						rs.getString("lastName"), rs.getString("email"), rs.getString("phone"));
+				rs.close();
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return user;
 	}
 	
 }

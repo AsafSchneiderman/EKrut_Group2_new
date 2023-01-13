@@ -156,6 +156,17 @@ public class EchoServer extends AbstractServer {
 				String id = resMessage.getMessageData().toString();
 				Query.UpdateOrderDeliveryToDone(id);
 				break;
+				
+			case showUserDetails:
+				UsersToRegister user;
+				user=Query.getUserToRegisterDetails((String)resMessage.getMessageData());
+				try {
+					client.sendToClient(new Message(MessageType.showUserDetails, (Object) user));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
 			
 			case getUserToDelivery:
 				String orderId = resMessage.getMessageData().toString();
