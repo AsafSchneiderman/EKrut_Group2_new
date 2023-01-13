@@ -68,20 +68,15 @@ public class LoginFrameController implements Initializable {
 
 		ClientMenuController.clientControl.accept(new Message(MessageType.disconnected, ""));
 
-		// popup message to user.
-
-		// create a alert
-		ClientMenuController.clientStage.close();
+		// create a PopUp message
 		PopUpMessageFrameController popUpMsgController = new PopUpMessageFrameController();
 		try {
 			popUpMsgController.start(ClientMenuController.clientStage);
-			Thread.sleep(3000);
-			ClientMenuController.clientStage.close();
+			popUpMsgController.closeMsg(3000);
+			
 		} catch (IOException e) {
 			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		
 		}
 		
 		
