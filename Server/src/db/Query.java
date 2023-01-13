@@ -6,9 +6,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLSyntaxErrorException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import Entities.*;
 import javafx.scene.image.Image;
@@ -177,76 +180,67 @@ public class Query {
 	}
 
 	/**
-	 * get the reports data from DB
 	 * 
-	 * @return ArrayList of reports from the DB
+	 * @param input contains a format of "type#month#year#region" 
+	 * @return ArrayList of reports from the DB based on the input
 	 */
 	public static ArrayList<Report> getReports(String input) {
 		String[] inputArray = input.split("\\#");
 		ReportType reportType;
+		String type = inputArray[0];
 		String month = inputArray[1];
 		String year = inputArray[2];
 		String region = inputArray[3];
 		ArrayList<Report> reports = new ArrayList<>();
-		Statement stmt;
-		try {
-			if (mysqlConnection.conn != null) {
-				stmt = mysqlConnection.conn.createStatement();
-				ResultSet rs;
-				if (inputArray[0].equals("Show all report types"))
-					rs = stmt.executeQuery("SELECT * FROM reports");
-				else 
-					rs = stmt.executeQuery("SELECT * FROM reports WHERE report_type = \""+ inputArray[0] + "\"");
-							
-				ArrayList<VendingMachine> vendingMachines = getVendingMachines();
-				
-				while (rs.next()) {
-					Report r = null;
-					reportType = ReportType.valueOf(rs.getString("report_type"));
-					switch(reportType) {
-					case Order:
-						ArrayList<Order> orders = getOrdersByDateAndRegion(month, year, region);
-						r = new OrdersReport(month, year,region, orders);
-						break;
-					case Stock_Status:
-						ArrayList<ArrayList<Product>> stocks = new ArrayList<>();
-						ArrayList<VendingMachine> vendingMachinesInRegion = new ArrayList<>();
-						for (VendingMachine v : vendingMachines) {
-							if (v.getRegion().equals(region)) {
-								String currentMachine = v.getLocation().toLowerCase();
-								ArrayList<Product> productsStock = getProductStockByDateAndMachine(month, year, currentMachine);
+		List<String> reportTypes;
+		if (mysqlConnection.conn != null) {
+			if (type.equals("Show all report types"))
+				reportTypes = Arrays.asList("Order", "Stock_Status", "Client_Activity");
+			else
+				reportTypes = Arrays.asList(type);
+						
+			ArrayList<VendingMachine> vendingMachines = getVendingMachines();
+			
+			for (String currentType : reportTypes) {
+				Report r = null;
+				reportType = ReportType.valueOf(currentType);
+				switch(reportType) {
+				case Order:
+					ArrayList<Order> orders = getOrdersByDateAndRegion(month, year, region);
+					r = new OrdersReport(month, year,region, orders);
+					break;
+				case Stock_Status:
+					ArrayList<ArrayList<Product>> stocks = new ArrayList<>();
+					ArrayList<VendingMachine> vendingMachinesInRegion = new ArrayList<>();
+					for (VendingMachine v : vendingMachines) {
+						if (v.getRegion().equals(region)) {
+							ArrayList<Product> productsStock = getProductStockByDateAndMachine(month, year, v.getLocation().toLowerCase());
+							if (null != productsStock) {
 								vendingMachinesInRegion.add(v);
 								stocks.add(productsStock);
 							}
 						}
-						r = new StockStatusReport(month, year,region, vendingMachinesInRegion, stocks);
-						break;
-					case Client_Activity:
-						ArrayList<HashMap<Integer,Integer>> clientsActivityPerMachine=new ArrayList<>();
-						
-						for (VendingMachine v : vendingMachines)
-						{
-							if(v.getRegion().equals(region))
-							{
-								HashMap<Integer, Integer> clientsPerOrderAmount = getClientActivityByDateAndMachine(month, year, v);
-								clientsActivityPerMachine.add(clientsPerOrderAmount);
-							}
-						}
-						r = new ClientActivityReport(month, year,region, clientsActivityPerMachine);
-						break;
-						
-					default:
-						break;
 					}
-					reports.add(r);
+					r = new StockStatusReport(month, year,region, vendingMachinesInRegion, stocks);
+					break;
+				case Client_Activity:
+					ArrayList<HashMap<Integer,Integer>> clientsActivityPerMachine = new ArrayList<>();
+					for (VendingMachine v : vendingMachines) {
+						if(v.getRegion().equals(region)) {
+							HashMap<Integer, Integer> clientsPerOrderAmount = getClientActivityByDateAndMachine(month, year, v);
+							clientsActivityPerMachine.add(clientsPerOrderAmount);
+						}
+					}
+					r = new ClientActivityReport(month, year,region, clientsActivityPerMachine);
+					break;
+					
+				default:
+					break;
 				}
-				rs.close();	
-			} 
-			else System.out.println("Conn is null");
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+				reports.add(r);
+			}
+		} 
+		else System.out.println("Conn is null");
 
 		return reports;
 	}
@@ -267,9 +261,9 @@ public class Query {
 					+ " WHERE MONTH(orderDate)=" + month + " AND YEAR(orderDate)=" + year + " AND region=\"" + region + "\"");
 			while (rs.next()) {
 	
-				Order o = new Order(rs.getString("machineLocation"), rs.getString("date"),
+				Order o = new Order(rs.getString("machineLocation"), rs.getString("orderDate"),
 						rs.getString("status"), rs.getString("customerID"), rs.getFloat("totPrice"),
-						rs.getString("type"), rs.getInt("productsQauntity"));
+						rs.getString("type"), rs.getInt("productsQuantity"));
 				orders.add(o);
 	
 			}
@@ -290,29 +284,36 @@ public class Query {
 		ArrayList<Product> productsStock = new ArrayList<>();
 		try {
 			Statement stmt = mysqlConnection.conn.createStatement();
+			Statement stmt2 = mysqlConnection.conn.createStatement();
 			String currentStock = currentMachine + "products";
-			ResultSet rs = stmt.executeQuery("SELECT * FROM " + currentStock);	
-			ResultSet rs2 = stmt.executeQuery("SELECT * FROM db_ekrut.orders WHERE (orderDate BETWEEN \' "
-							+ year + "-" + month + "-01\' AND CURDATE() ) AND ( machineLocation = " + currentMachine + ")");
+			
+			ResultSet rs = stmt.executeQuery("SELECT * FROM db_ekrut.orders "
+					+ "WHERE (orderDate BETWEEN \'"+year+"-"+month+"-01\' AND CURDATE() ) AND (machineLocation = \""+currentMachine+"\")");
+			
+			int[] removedStocks = new int[30];
+			for (int i = 0; i < 30; i++)
+				removedStocks[i] = 0;
+			
 			while (rs.next()) {
-				String[] productsIDs = rs2.getString("products").split("\\,");
-				String[] productsQuantities = rs2.getString("QuantityPerProduct").split("\\,");
-				int[] removedStocks = new int[30];
-				for (int i = 0; i < 30; i++)
-					removedStocks[i] = 0;
-	
-				for (int i = 0; i < rs2.getInt("productsQuantity"); i++) {
+				String[] productsIDs = rs.getString("productsIDs").split("\\,");
+				String[] productsQuantities = rs.getString("QuantityPerProduct").split("\\,");
+				for (int i = 0; i < rs.getInt("productsQuantity"); i++) {
 					int productID = Integer.parseInt(productsIDs[i]);
 					int productQuantity = Integer.parseInt(productsQuantities[i]);
 					removedStocks[productID] = removedStocks[productID] + productQuantity;
-	
 				}
-				int ID = Integer.parseInt(rs.getString("productID"));
-				int quantity = rs.getInt("stockQuantity") + removedStocks[ID];
-				Product product = new Product(rs.getString("productName"),
-						rs.getString("productID"), rs.getString("price"), quantity + "", null);
+			}
+
+			ResultSet rs2 = stmt.executeQuery("SELECT * FROM " + currentStock);
+			while (rs2.next()) {
+				int ID = Integer.parseInt(rs2.getString("productID"));
+				int quantity = rs2.getInt("stockQuantity") + removedStocks[ID];
+				Product product = new Product(rs2.getString("productName"),
+						rs2.getString("productID"), rs2.getString("price"), quantity + "", null);
 				productsStock.add(product);
 			}
+			rs.close();
+			rs2.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
