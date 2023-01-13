@@ -10,6 +10,7 @@ import Entities.Message;
 import Entities.MessageType;
 import Entities.OrdersReport;
 import Entities.Report;
+import Entities.ReportType;
 import Entities.StockStatusReport;
 import entity.Subscriber;
 import javafx.beans.value.ChangeListener;
@@ -36,6 +37,20 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class ReportSearchFrameController implements Initializable {
+	
+	public enum myMonths {January("01"), February("02"), March("03"), 
+		April("04"), May("05"), June("06"), July("07"), August("08"),
+		September("09"), October("10"), November("11"), December("12");
+		
+		private String monthNum;
+		myMonths(String monthNum) {
+			this.monthNum = monthNum;
+		}
+		
+		public String getMonthNum() {
+			return monthNum;
+		}
+	}
 
 	ObservableList<String> reportTypesList = FXCollections.observableArrayList("Select type", "Show all report types",
 			"Order", "Stock_Status", "Client_Activity");
@@ -63,7 +78,8 @@ public class ReportSearchFrameController implements Initializable {
 
 	@FXML
 	private TableView<Report> tblReports;
-
+	
+	private static ObservableList<Report> reports = FXCollections.observableArrayList();
 	private static TableView<Report> reportTableView;
 
 	public void start(Stage primaryStage) throws IOException {
@@ -100,20 +116,27 @@ public class ReportSearchFrameController implements Initializable {
 	/** Get reports from the database **/
 	@FXML
 	void searchReport(ActionEvent event) {
+		
 		String reportType = selectReportType.getValue();
-		String month = selectMonth.getValue();
+		String month =  myMonths.valueOf(selectMonth.getValue()).getMonthNum();
 		String year = selectYear.getValue();
+		if (reportType.equals("Select type") || month.equals("Select month") || year.equals("Select year"))
+			System.out.println("please select {type, month, year} !");
+		
 		Message msg = new Message(MessageType.Get_reports, reportType + "#" + month + "#" + year + "#" + LoginFrameController.user.getRegion());
 		ClientMenuController.clientControl.accept((Object) msg);
+		reportTableView.setItems(reports);
 	}
 	
 	/** add all requested reports to the table view**/
 	public static void addReportsToTableView(List<Report> reportsList)
 	{
-		ObservableList<Report> reports = FXCollections.observableArrayList();
+		for (int i = 0 ; i < reports.size(); i++)
+			reports.remove(i);
+		System.out.println("Amount of reports: " + reportsList.size());
+		
 		for (Report report : reportsList)
 			reports.add(report);
-		reportTableView.setItems(reports);
 	}
 
 	@Override
@@ -149,15 +172,18 @@ public class ReportSearchFrameController implements Initializable {
 									switch(selectedReport.getReportType())
 									{
 									case Order: // open order report frame with the firstReport
+										System.out.println((OrdersReport)selectedReport);
 										OrderReportViewController orderReportView = new OrderReportViewController();
 										orderReportView.start(ClientMenuController.clientStage, (OrdersReport)selectedReport);
 										break;
 									case Stock_Status: // open Stock status report frame with the 'selectedReports' array
+										System.out.println((StockStatusReport)selectedReport);
 										StockStatusReportViewController stockStatusReportView = new StockStatusReportViewController();
 										stockStatusReportView.start(ClientMenuController.clientStage, (StockStatusReport)selectedReport);
 										break;
 									case Client_Activity:
 										// open client activity report frame with the firstReport
+										System.out.println((ClientActivityReport)selectedReport);
 										ClientActivityReportViewController clientActivityReportViewController = new ClientActivityReportViewController();
 										clientActivityReportViewController.start(ClientMenuController.clientStage, (ClientActivityReport)selectedReport);
 										break;
