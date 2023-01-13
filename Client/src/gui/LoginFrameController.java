@@ -85,7 +85,7 @@ public class LoginFrameController implements Initializable {
 			e.printStackTrace();
 		}
 		a.setAlertType(AlertType.INFORMATION);
-		a.close();
+		a.close(); 
 		
 		
 	
