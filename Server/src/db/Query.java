@@ -508,6 +508,10 @@ public class Query {
 		return userName; //user name is primary key so there will be just one String.
 	}
 	
+	public static UsersToRegister getUserToRegisterDetails(){
+		UsersToRegister user = null;
+		return user;
 
+	}
 	
 }
