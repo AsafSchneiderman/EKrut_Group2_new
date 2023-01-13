@@ -7,8 +7,8 @@ public class OrdersReport extends Report{
 	
 	private List<Order> orders;
 	
-	public OrdersReport(String month, String year,List<Order> orders) {
-		super(ReportType.Order, month, year);
+	public OrdersReport(String month, String year,String region,List<Order> orders) {
+		super(ReportType.Order, month, year, region);
 		this.orders=orders;
 	}
 	

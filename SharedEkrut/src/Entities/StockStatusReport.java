@@ -8,8 +8,8 @@ public class StockStatusReport extends Report {
 	private List<VendingMachine> vendingMachines;
 	private List<ArrayList<Product>> stocks;
 	
-	public StockStatusReport(String month, String year,ArrayList<VendingMachine> vendingMachines,ArrayList<ArrayList<Product>> stocks) {
-		super(ReportType.Stock_Status, month, year);
+	public StockStatusReport(String month, String year,String region, ArrayList<VendingMachine> vendingMachines,ArrayList<ArrayList<Product>> stocks) {
+		super(ReportType.Stock_Status, month, year, region);
 		this.vendingMachines = vendingMachines;
 		this.stocks=stocks;
 	}

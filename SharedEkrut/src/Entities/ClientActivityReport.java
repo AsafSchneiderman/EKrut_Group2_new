@@ -7,8 +7,8 @@ public class ClientActivityReport extends Report{
 	private static final long serialVersionUID = 4577899278807266896L;
 	private ArrayList<HashMap<Integer,Integer>> amountOfClientsPerOrderSize; 
 
-	public ClientActivityReport(String month, String year,ArrayList<HashMap<Integer,Integer>> amountOfClientsPerOrderSize) {
-		super(ReportType.Client_Activity, month, year);
+	public ClientActivityReport(String month, String year,String region,ArrayList<HashMap<Integer,Integer>> amountOfClientsPerOrderSize) {
+		super(ReportType.Client_Activity, month, year, region);
 		this.setAmountOfClientsPerOrderSize(amountOfClientsPerOrderSize);
 	}
 

@@ -206,7 +206,7 @@ public class Query {
 					switch(reportType) {
 					case Order:
 						ArrayList<Order> orders = getOrdersByDateAndRegion(month, year, region);
-						r = new OrdersReport(month, year, orders);
+						r = new OrdersReport(month, year,region, orders);
 						break;
 					case Stock_Status:
 						ArrayList<ArrayList<Product>> stocks = new ArrayList<>();
@@ -219,7 +219,7 @@ public class Query {
 								stocks.add(productsStock);
 							}
 						}
-						r = new StockStatusReport(month, year, vendingMachinesInRegion, stocks);
+						r = new StockStatusReport(month, year,region, vendingMachinesInRegion, stocks);
 						break;
 					case Client_Activity:
 						ArrayList<HashMap<Integer,Integer>> clientsActivityPerMachine=new ArrayList<>();
@@ -232,7 +232,7 @@ public class Query {
 								clientsActivityPerMachine.add(clientsPerOrderAmount);
 							}
 						}
-						r = new ClientActivityReport(month, year, clientsActivityPerMachine);
+						r = new ClientActivityReport(month, year,region, clientsActivityPerMachine);
 						break;
 						
 					default:
