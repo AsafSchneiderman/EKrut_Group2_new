@@ -25,9 +25,9 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
 
 /**
+ * This frame is for region manager worker and he manage the work by his region.
  * 
- * @author Nofar Ben Simon This frame is for region manager worker and he manage
- *         the work by his region.
+ * @author Nofar Ben Simon
  *
  */
 public class RegionManagerFrameController implements Initializable {
@@ -139,6 +139,17 @@ public class RegionManagerFrameController implements Initializable {
 			ClientMenuController.clientControl.accept(msg);
 			ClientMenuController.clientControl
 					.accept(new Message(MessageType.disconnected, LoginFrameController.user.getUserName()));
+			// create a PopUp message
+			PopUpMessageFrameController popUpMsgController = new PopUpMessageFrameController();
+
+			try {
+				popUpMsgController.start(ClientMenuController.clientStage);
+				popUpMsgController.closeMsg(3000);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
 		});
 
 		primaryStage.show();

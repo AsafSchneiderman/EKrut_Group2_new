@@ -118,11 +118,20 @@ public class ThresholdLevelFrameController implements Initializable {
 			ClientMenuController.clientControl.accept(msg);
 			ClientMenuController.clientControl
 					.accept(new Message(MessageType.disconnected, LoginFrameController.user.getUserName()));
+			// create a PopUp message
+			PopUpMessageFrameController popUpMsgController = new PopUpMessageFrameController();
+			try {
+				popUpMsgController.start(ClientMenuController.clientStage);
+				popUpMsgController.closeMsg(3000);
+
+			} catch (IOException e1) {
+				e1.printStackTrace();
+
+			}
 		});
 		primaryStage.show();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 

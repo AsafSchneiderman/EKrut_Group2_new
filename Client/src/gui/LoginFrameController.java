@@ -73,52 +73,42 @@ public class LoginFrameController implements Initializable {
 		try {
 			popUpMsgController.start(ClientMenuController.clientStage);
 			popUpMsgController.closeMsg(3000);
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
-		
-		}
-		
-		
-		/*
-		Alert a = new Alert(AlertType.NONE, "Hope to see you soon.");
-		a.setTitle("Exit from EKRUT");
-		a.setHeaderText("Bye Bye...");
-		// show the dialog
-		a.show();
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		a.setAlertType(AlertType.INFORMATION);
-		a.close();  
-		*/
-		
-	
-	
-		/*synchronized (a) {
-		
-		// set alert type
-		//a.setAlertType(AlertType.INFORMATION);
-		//a.setTitle("Exit from EKRUT");
-		//a.setHeaderText("Bye Bye...");
-		// a.setContentText("Hope to see you soon.");
 
-		
-		try {
-			a.wait(3000);
-			
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		}
-		*/
-		//a.close();
+
+		/*
+		 * Alert a = new Alert(AlertType.NONE, "Hope to see you soon.");
+		 * a.setTitle("Exit from EKRUT"); a.setHeaderText("Bye Bye..."); // show the
+		 * dialog a.show(); try { Thread.sleep(3000); } catch (InterruptedException e) {
+		 * // TODO Auto-generated catch block e.printStackTrace(); }
+		 * a.setAlertType(AlertType.INFORMATION); a.close();
+		 */
+
+		/*
+		 * synchronized (a) {
+		 * 
+		 * // set alert type //a.setAlertType(AlertType.INFORMATION);
+		 * //a.setTitle("Exit from EKRUT"); //a.setHeaderText("Bye Bye..."); //
+		 * a.setContentText("Hope to see you soon.");
+		 * 
+		 * 
+		 * try { a.wait(3000);
+		 * 
+		 * } catch (InterruptedException e) { // TODO Auto-generated catch block
+		 * e.printStackTrace(); } }
+		 */
+		// a.close();
 
 	}
+
+	/**
+	 * the client enter his userName and password and the system check in the DB
+	 * 
+	 * @param event (Click on Enter button)
+	 */
 
 	@FXML
 	void pressEnter(ActionEvent event) {
@@ -148,7 +138,7 @@ public class LoginFrameController implements Initializable {
 	/**
 	 * HandleDbService class used for concurrency working with DB and JavaFx GUI
 	 * 
-	 * @author
+	 * @author Aviram
 	 *
 	 */
 	private static class handleDbService extends Service<String> {
@@ -191,9 +181,14 @@ public class LoginFrameController implements Initializable {
 		}
 	}
 
+	/**
+	 * This method moves to the next frame according to the role of the user
+	 * 
+	 * @param role - the role of the user
+	 */
 	public void openFrameByRole(String role) {
-		// System.out.println("login o.k" + role);
 
+		// region manager
 		if (user.getRole().equals("RegionManager")) {
 
 			// get the region of the region manager
@@ -214,6 +209,28 @@ public class LoginFrameController implements Initializable {
 			}
 		}
 
+		// CEO
+		if (user.getRole().equals("CEO")) {
+
+			// get the region of the CEO
+			ClientMenuController.clientControl
+					.accept(new Message(MessageType.Get_region, LoginFrameController.user.getUserID()));
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			user.setRegion((String) ChatClient.msgServer.getMessageData());
+			CEOFrameController CEOFrameController = new CEOFrameController();
+			try {
+				CEOFrameController.start(ClientMenuController.clientStage);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		// customer
 		if (user.getRole().equals("Customer")) {
 			OrderFrameController order = new OrderFrameController();
 			try {
@@ -223,6 +240,7 @@ public class LoginFrameController implements Initializable {
 			}
 		}
 
+		// delivery worker
 		if (user.getRole().equals("Deliver")) {
 			DeliveryWorkerFrameController order = new DeliveryWorkerFrameController();
 			try {
@@ -232,6 +250,7 @@ public class LoginFrameController implements Initializable {
 			}
 		}
 
+		// Customer Service Worker
 		if (user.getRole().equals("CustomerServiceWorker")) {
 			CustomerServiceController customerService = new CustomerServiceController();
 			try {
