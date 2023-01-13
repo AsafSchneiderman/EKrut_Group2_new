@@ -94,7 +94,8 @@ public class RestockMessageController implements Initializable {
 	void updateRestockStatus(ActionEvent event) {
 		// update the status changes
 		for (VendingMachine row : vendingMachines)
-			if (row.getRegion().equals(LoginFrameController.user.getRegion())) 	//update the vending machines at his region
+			if (row.getRegion().equals(LoginFrameController.user.getRegion())) // update the vending machines at his
+																				// region
 				row.comboBoxUpdateStatus();
 
 		lblAlert.setText("A restock message sent to the worker"); // show update Alert
@@ -121,6 +122,8 @@ public class RestockMessageController implements Initializable {
 		primaryStage.setOnCloseRequest(e -> {
 			msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
 			ClientMenuController.clientControl.accept(msg);
+			ClientMenuController.clientControl
+					.accept(new Message(MessageType.disconnected, LoginFrameController.user.getUserName()));
 		});
 		primaryStage.show();
 	}
@@ -148,7 +151,8 @@ public class RestockMessageController implements Initializable {
 		ObservableList<VendingMachine> tvObservableList = FXCollections.observableArrayList();
 		vendingMachines = (ArrayList<VendingMachine>) ChatClient.msgServer.getMessageData();
 		for (VendingMachine row : vendingMachines) {
-			if (row.getRegion().equals(LoginFrameController.user.getRegion())) {	//show the vending machines at his region
+			if (row.getRegion().equals(LoginFrameController.user.getRegion())) { // show the vending machines at his
+																					// region
 				// row.comboBoxInitialize(FXCollections.observableArrayList("LowStock","WaitToRestock",
 				// "Done")); //initialize the comboBox
 				if (row.getRestockStatus().equals("LowStock")) // can change the status from 'LowStock' to

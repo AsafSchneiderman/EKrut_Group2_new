@@ -92,7 +92,7 @@ public class ThresholdLevelFrameController implements Initializable {
 	@FXML
 	void updateThresholdLevel(ActionEvent event) {
 
-		lblAlert.setText("Threshold level updated in DB");	//show update Alert
+		lblAlert.setText("Threshold level updated in DB"); // show update Alert
 		lblAlert.setStyle("-fx-background-color:white");
 		msg = new Message(MessageType.update_thresholdLevel, vendingMachines);
 		ClientMenuController.clientControl.accept(msg);
@@ -116,6 +116,8 @@ public class ThresholdLevelFrameController implements Initializable {
 		primaryStage.setOnCloseRequest(e -> {
 			msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
 			ClientMenuController.clientControl.accept(msg);
+			ClientMenuController.clientControl
+					.accept(new Message(MessageType.disconnected, LoginFrameController.user.getUserName()));
 		});
 		primaryStage.show();
 	}
@@ -141,7 +143,8 @@ public class ThresholdLevelFrameController implements Initializable {
 		ObservableList<VendingMachine> tvObservableList = FXCollections.observableArrayList();
 		vendingMachines = (ArrayList<VendingMachine>) ChatClient.msgServer.getMessageData();
 		for (VendingMachine row : vendingMachines)
-			if (row.getRegion().equals(LoginFrameController.user.getRegion())) 	//show the vending machines at his region
+			if (row.getRegion().equals(LoginFrameController.user.getRegion())) // show the vending machines at his
+																				// region
 				tvObservableList.add(row);
 
 		tblViewVendingMachines.setItems(tvObservableList);
@@ -149,15 +152,16 @@ public class ThresholdLevelFrameController implements Initializable {
 		// Open the option to update the threshold level on the table
 		thresholdLevelCol.setCellFactory(TextFieldTableCell.forTableColumn());
 		thresholdLevelCol.setOnEditCommit(new EventHandler<CellEditEvent<VendingMachine, String>>() {
-			//A method that handles the threshold level update changes in the table
+			// A method that handles the threshold level update changes in the table
 			@Override
 			public void handle(CellEditEvent<VendingMachine, String> event) {
-				lblAlert.setText("");	
+				lblAlert.setText("");
 				lblAlert.setStyle("");
 				VendingMachine ven = event.getRowValue();
 				ven.setThresholdLevel(event.getNewValue());
 				for (VendingMachine row : vendingMachines)
-					if (row.getRegion().equals(LoginFrameController.user.getRegion())) 	//update the vending machines at his region
+					if (row.getRegion().equals(LoginFrameController.user.getRegion())) // update the vending machines at
+																						// his region
 						if (ven.getLocation().equals(row.getLocation()))
 							row.setThresholdLevel(ven.getThresholdLevel());
 			}

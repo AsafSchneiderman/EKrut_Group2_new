@@ -73,6 +73,7 @@ public class EchoServer extends AbstractServer {
 				break;
 			case logout: // the user logout from the system and change him to '0' in the DB.
 				Query.logout(resMessage.getMessageData().toString());
+				break;
 			case disconnected: // disconnected from server
 				ServerUI.serverGUI.appendToConsole(client.getName() + " has disconnected");
 				break;

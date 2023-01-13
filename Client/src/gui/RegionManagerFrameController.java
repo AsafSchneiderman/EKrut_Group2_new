@@ -24,6 +24,12 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * @author Nofar Ben Simon This frame is for region manager worker and he manage
+ *         the work by his region.
+ *
+ */
 public class RegionManagerFrameController implements Initializable {
 
 	@FXML
@@ -68,18 +74,18 @@ public class RegionManagerFrameController implements Initializable {
 	}
 
 	/**
-	 * The user exit from the system and the system do logout to the user from the
-	 * DB
+	 * The user exit from the region manager frame and do logout to the user from
+	 * the DB
 	 * 
 	 * @param event (Click on Exit button)
 	 */
 	@FXML
 	void exit(ActionEvent event) {
 
-		// Create message
+		ClientMenuController.clientStage.setScene(LoginFrameController.home);
+		// Logout
 		msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
 		ClientMenuController.clientControl.accept(msg);
-		ClientMenuController.clientStage.close();
 
 	}
 
@@ -131,8 +137,8 @@ public class RegionManagerFrameController implements Initializable {
 		primaryStage.setOnCloseRequest(e -> {
 			msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
 			ClientMenuController.clientControl.accept(msg);
-			// ClientMenuController.clientControl.accept(new
-			// Message(MessageType.disconnected,LoginFrameController.user.getUserName()));
+			ClientMenuController.clientControl
+					.accept(new Message(MessageType.disconnected, LoginFrameController.user.getUserName()));
 		});
 
 		primaryStage.show();
@@ -151,16 +157,6 @@ public class RegionManagerFrameController implements Initializable {
 		// initialize the Welcome label to welcome and the full name of the user
 		lblWelcome.setText(
 				"Welcome " + LoginFrameController.user.getFirstName() + " " + LoginFrameController.user.getLastName());
-
-		//get the region of the region manager
-		//ClientMenuController.clientControl.accept(new Message(MessageType.Get_region, LoginFrameController.user.getUserID()));
-		//try {
-		//	Thread.sleep(500);
-		//} catch (InterruptedException e) {
-		//	// TODO Auto-generated catch block
-		//	e.printStackTrace();
-		//}
-		//region = (String) ChatClient.msgServer.getMessageData();
 
 	}
 
