@@ -23,7 +23,7 @@ public class OrderReportViewController implements Initializable{
 
 
     @FXML
-    private BarChart<Integer, Integer> BarChartSalesPerInstitution;
+    private BarChart<String, Integer> BarChartSalesPerInstitution;
 
     @FXML
     private CategoryAxis categoryAxisInstitutions;
@@ -31,7 +31,9 @@ public class OrderReportViewController implements Initializable{
     @FXML
     private NumberAxis numberAxisSales;
 
-    private static Series<Integer, Integer> series;
+    private static Series<String, Integer> series1;
+    private static Series<String, Integer> series2;
+    private static OrdersReport orderReport;
     // TODO add 
     
     
@@ -45,7 +47,8 @@ public class OrderReportViewController implements Initializable{
 		}
     }
 
-	public void start(Stage primaryStage, OrdersReport firstReport) throws IOException{
+	public void start(Stage primaryStage, OrdersReport selectedReport) throws IOException{
+		orderReport = selectedReport;
 		ClientMenuController.clientStage = primaryStage;
 		primaryStage.setTitle("Ekrut - Client");
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/OrderReportView.fxml"));
@@ -57,8 +60,10 @@ public class OrderReportViewController implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
-		
+		series1 = orderReport.getGraph("local");
+		series2 = orderReport.getGraph("pickup");
+		BarChartSalesPerInstitution.setTitle("Number of orders per vending machine ("+orderReport.getMonth()+" - "+orderReport.getYear()+")");
+		BarChartSalesPerInstitution.getData().addAll(series1, series2);
 	}
 
 }
