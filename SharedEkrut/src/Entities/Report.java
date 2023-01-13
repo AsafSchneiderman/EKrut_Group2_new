@@ -6,10 +6,10 @@ public class Report implements Serializable{
 	
 	private static final long serialVersionUID = 583542510006825068L;
 	
+	private String reportName;
 	private ReportType reportType;
 	private String month;
 	private String year;
-	private String reportName;
 	
 	public Report(ReportType reportType, String month, String year, String region) {
 		this.reportType = reportType;
@@ -30,5 +30,4 @@ public class Report implements Serializable{
 	public String getReportName(){
 		return reportName;
 	}
-	
 }
