@@ -3,6 +3,8 @@ package Entities;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javafx.scene.chart.XYChart.Series;
+
 public class ClientActivityReport extends Report{
 	private static final long serialVersionUID = 4577899278807266896L;
 	private ArrayList<HashMap<Integer,Integer>> amountOfClientsPerOrderSize; 
@@ -18,6 +20,11 @@ public class ClientActivityReport extends Report{
 
 	public void setAmountOfClientsPerOrderSize(ArrayList<HashMap<Integer,Integer>> amountOfClientsPerOrderSize) {
 		this.amountOfClientsPerOrderSize = amountOfClientsPerOrderSize;
+	}
+
+	public Series<String, Integer> getGraph() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
