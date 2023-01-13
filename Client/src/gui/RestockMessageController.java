@@ -66,7 +66,7 @@ public class RestockMessageController implements Initializable {
 
 	private static Message msg; // message to send to server
 
-	static ArrayList<VendingMachine> vendingMachines = new ArrayList<>(); // list of vending machines in the DB
+	private static ArrayList<VendingMachine> vendingMachines = new ArrayList<>(); // list of vending machines in the DB
 
 	/**
 	 * Goes back to the previous window of RegionManagerFrameController

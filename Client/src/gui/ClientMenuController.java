@@ -33,7 +33,9 @@ public class ClientMenuController implements Initializable {
 
 	public static LoginFrameController loginFrame;
 
-	public static OrderFrameController orderFrame;
+	public static InstallFrameController installFrame;
+
+	public static String config; // installation configuration (EK/OL)
 
 	public static Stage clientStage;
 
@@ -45,7 +47,7 @@ public class ClientMenuController implements Initializable {
 
 	@FXML
 	private TextField txtPort;
-	
+
 	@FXML
 	private ImageView imgClient;
 
@@ -64,11 +66,14 @@ public class ClientMenuController implements Initializable {
 
 		clientControl = new ClientController(Ip, Port);
 		loginFrame = new LoginFrameController();
-		orderFrame = new OrderFrameController();
+		installFrame = new InstallFrameController();
 		Message msg = new Message(MessageType.connected, Inet4Address.getLocalHost().getHostAddress());
 		ClientMenuController.clientControl.accept(msg);
 		try {
-			loginFrame.start(clientStage);
+			//ClientMenuController.clientControl.accept(new Message(MessageType.Get_vendingMachines, ""));
+			//installFrame.start(clientStage);
+
+			 loginFrame.start(clientStage);
 		} catch (IOException e) {
 
 			e.printStackTrace();
