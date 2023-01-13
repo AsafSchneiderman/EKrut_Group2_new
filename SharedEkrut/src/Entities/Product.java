@@ -51,4 +51,8 @@ public class Product implements Serializable {
 		this.imgSrc = imgSrc;
 	}
 	
+	@Override
+	public String toString() {
+		return "{"+productID +", "+ productName+", "+  price+", "+ stockQuantity+"}";
+	}
 }
