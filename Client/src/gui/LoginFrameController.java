@@ -72,7 +72,20 @@ public class LoginFrameController implements Initializable {
 
 		// create a alert
 		ClientMenuController.clientStage.close();
+		PopUpMessageFrameController popUpMsgController = new PopUpMessageFrameController();
+		try {
+			popUpMsgController.start(ClientMenuController.clientStage);
+			Thread.sleep(3000);
+			ClientMenuController.clientStage.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
+		
+		/*
 		Alert a = new Alert(AlertType.NONE, "Hope to see you soon.");
 		a.setTitle("Exit from EKRUT");
 		a.setHeaderText("Bye Bye...");
@@ -86,7 +99,7 @@ public class LoginFrameController implements Initializable {
 		}
 		a.setAlertType(AlertType.INFORMATION);
 		a.close();  
-		
+		*/
 		
 	
 	
@@ -110,17 +123,6 @@ public class LoginFrameController implements Initializable {
 		*/
 		//a.close();
 
-	
-
-		/*
-		 * timer = new Time(0, 0, 10);
-		 * 
-		 * // create timer GUI to client Stage newWindow = new Stage();
-		 * newWindow.setTitle("Exit from EKRUT"); // Create view from FXML FXMLLoader
-		 * loader = new FXMLLoader(getClass().getResource("/gui/PopUpMessage.fxml"));
-		 * 
-		 * // Launch newWindow.show();
-		 */
 	}
 
 	@FXML
