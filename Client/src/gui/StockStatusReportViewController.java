@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import Entities.Report;
 import Entities.StockStatusReport;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -38,8 +39,9 @@ public class StockStatusReportViewController implements Initializable {
 	@FXML
 	private NumberAxis numberAxisAmount;
 	
-	public static ObservableList<String> institutionList = FXCollections.observableArrayList();
+	public static ObservableList<String> machineLocationsList = FXCollections.observableArrayList();
 	private static Series<String, Integer> series;
+	private static StockStatusReport stockStatusReport;
 	
 	@FXML
 	void BackToPreviosePage(ActionEvent event) {
@@ -53,6 +55,7 @@ public class StockStatusReportViewController implements Initializable {
 
 
 	public void start(Stage primaryStage, StockStatusReport selectedReport) throws IOException{
+		stockStatusReport = selectedReport;
 		ClientMenuController.clientStage = primaryStage;
 		primaryStage.setTitle("Ekrut - Client");
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/StockStatusReportView.fxml"));
@@ -63,13 +66,19 @@ public class StockStatusReportViewController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
-
+		machineLocationsList.addAll(stockStatusReport.getVendingMachinesLocations());
+		cbInstitution.setItems(machineLocationsList);
+		cbInstitution.getSelectionModel().selectedItemProperty()
+		.addListener((ObservableValue<? extends String> locationList, String oldLocation, String newLocation) -> {
+			BarChartStockPerMachine.getData().removeAll(series);
+			loadStockStatusOfMachine(newLocation);
+		});
+		cbInstitution.setValue( machineLocationsList.get(0));
 	}
 	
-	/** sets the data of the barChart**/
-	public void setStockPerMachineData() {
-		
+	private void loadStockStatusOfMachine(String location) {
+		BarChartStockPerMachine.setTitle("Stock status of vending machine at "+location+" ("+stockStatusReport.getMonth()+" - "+stockStatusReport.getYear()+")");
+		series = stockStatusReport.getGraph(location);
+		BarChartStockPerMachine.getData().add(series);
 	}
-
 }
