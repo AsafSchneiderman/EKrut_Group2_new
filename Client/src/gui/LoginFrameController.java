@@ -18,6 +18,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -39,7 +41,8 @@ public class LoginFrameController implements Initializable {
 
 	public static User user = null;
 	public static Scene home;
-	
+	public static Time timer; // Define time to timer
+
 	private static Message msg; // message to send to server
 
 	@FXML
@@ -54,11 +57,71 @@ public class LoginFrameController implements Initializable {
 	@FXML
 	private Label lblAlert;
 
-    @FXML
-    private ImageView imglogin;
+	@FXML
+	private ImageView imglogin;
 
 	@FXML
 	private TextField txtUserName;
+
+	@FXML
+	void exit(ActionEvent event) {
+
+		ClientMenuController.clientControl.accept(new Message(MessageType.disconnected, ""));
+
+		// popup message to user.
+
+		// create a alert
+		ClientMenuController.clientStage.close();
+		
+		Alert a = new Alert(AlertType.NONE, "Hope to see you soon.");
+		a.setTitle("Exit from EKRUT");
+		a.setHeaderText("Bye Bye...");
+		// show the dialog
+		a.show();
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		a.setAlertType(AlertType.INFORMATION);
+		a.close();
+		
+		
+	
+	
+		/*synchronized (a) {
+		
+		// set alert type
+		//a.setAlertType(AlertType.INFORMATION);
+		//a.setTitle("Exit from EKRUT");
+		//a.setHeaderText("Bye Bye...");
+		// a.setContentText("Hope to see you soon.");
+
+		
+		try {
+			a.wait(3000);
+			
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		}
+		*/
+		//a.close();
+
+	
+
+		/*
+		 * timer = new Time(0, 0, 10);
+		 * 
+		 * // create timer GUI to client Stage newWindow = new Stage();
+		 * newWindow.setTitle("Exit from EKRUT"); // Create view from FXML FXMLLoader
+		 * loader = new FXMLLoader(getClass().getResource("/gui/PopUpMessage.fxml"));
+		 * 
+		 * // Launch newWindow.show();
+		 */
+	}
 
 	@FXML
 	void pressEnter(ActionEvent event) {
@@ -135,16 +198,17 @@ public class LoginFrameController implements Initializable {
 		// System.out.println("login o.k" + role);
 
 		if (user.getRole().equals("RegionManager")) {
-			
-			//get the region of the region manager
-			ClientMenuController.clientControl.accept(new Message(MessageType.Get_region, LoginFrameController.user.getUserID()));
+
+			// get the region of the region manager
+			ClientMenuController.clientControl
+					.accept(new Message(MessageType.Get_region, LoginFrameController.user.getUserID()));
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			user.setRegion((String) ChatClient.msgServer.getMessageData()); 
+			user.setRegion((String) ChatClient.msgServer.getMessageData());
 			RegionManagerFrameController regionManagerFrameController = new RegionManagerFrameController();
 			try {
 				regionManagerFrameController.start(ClientMenuController.clientStage);
@@ -170,7 +234,6 @@ public class LoginFrameController implements Initializable {
 				e.printStackTrace();
 			}
 		}
-		
 
 		if (user.getRole().equals("CustomerServiceWorker")) {
 			CustomerServiceController customerService = new CustomerServiceController();
@@ -191,7 +254,7 @@ public class LoginFrameController implements Initializable {
 
 		// On pressing X (close window) the client is disconnect from server.
 		primaryStage.setOnCloseRequest(e -> {
-			ClientMenuController.clientControl.accept(new Message(MessageType.disconnected,""));
+			ClientMenuController.clientControl.accept(new Message(MessageType.disconnected, ""));
 		});
 		primaryStage.show();
 	}
@@ -206,5 +269,5 @@ public class LoginFrameController implements Initializable {
 				BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
 		pane.setBackground(new Background(image));
 	}
-	
+
 }
