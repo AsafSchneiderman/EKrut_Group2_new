@@ -81,10 +81,12 @@ public class ShowCustomerToRegistrateController implements Initializable{
     	Region customersRegion=regionChoiceBox.getValue();
     	if(creditCardNum.trim().isEmpty() || customersRegion.toString().trim().isEmpty())
     		lblAlert.setText("please fill all fields");
-    	for(int i=0;i<creditCardNum.length();i++) {
     		if(!creditCardNum.matches("[0-9]+"))
     			lblAlert.setText("credit card number is wrong");
-    	}
+    		else {
+    			
+    		}
+    	
     		
     }
 
