@@ -31,6 +31,13 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -55,17 +62,19 @@ public class ReportSearchFrameController implements Initializable {
 	ObservableList<String> reportTypesList = FXCollections.observableArrayList("Select type", "Show all report types",
 			"Order", "Stock_Status", "Client_Activity");
 
-	ObservableList<String> yearsList = FXCollections.observableArrayList("Select year", "2022", "2023");
+	ObservableList<String> yearsList = FXCollections.observableArrayList("Select year","All years", "2022", "2023");
 
-	ObservableList<String> monthsList = FXCollections.observableArrayList("Select month", "January",
-			"February", "March", "April", "May", "June", "July", "August", "September", "October", "November",
-			"December");
+	ObservableList<String> monthsList = FXCollections.observableArrayList("Select month", "All months", "January",
+			"February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
 
 	@FXML
 	private TableColumn<Report, String> colReportName;
 
 	@FXML
 	private TableColumn<Report, Void> colViewReports;
+	
+    @FXML
+    private AnchorPane pane;
 
 	@FXML
 	private ChoiceBox<String> selectMonth;
@@ -84,7 +93,10 @@ public class ReportSearchFrameController implements Initializable {
 
 	public void start(Stage primaryStage) throws IOException {
 		ClientMenuController.clientStage = primaryStage;
-		primaryStage.setTitle("Ekrut - Client");
+		if (LoginFrameController.user.getRole().equals("RegionManager"))
+			primaryStage.setTitle("Ekrut - Region Manager >> Menu >> Report Search");
+		else
+			primaryStage.setTitle("Ekrut - CEO >> Menu >> Report Search");
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/ReportSearchFrame.fxml"));
 		Scene home = new Scene(root);
 		primaryStage.setScene(home);
@@ -116,9 +128,9 @@ public class ReportSearchFrameController implements Initializable {
 	void searchReport(ActionEvent event) {
 		
 		String reportType = selectReportType.getValue();
-		String month = "Select month";
+		String month = selectMonth.getValue();
 		try { month =  myMonths.valueOf(selectMonth.getValue()).getMonthNum();
-		} catch (IllegalArgumentException e) { System.out.println("month not selected"); }
+		} catch (IllegalArgumentException e) { System.out.println("specific month not selected"); }
 		
 		String year = selectYear.getValue();
 		if (reportType.equals("Select type") || month.equals("Select month") || year.equals("Select year"))
@@ -127,27 +139,35 @@ public class ReportSearchFrameController implements Initializable {
 			return;
 		}
 		
-		reportTableView.getItems().clear();
-		System.out.println("month:" + selectMonth.getValue() + "");
+
 		Message msg = new Message(MessageType.Get_reports, reportType + "#" + month + "#" + year + "#" + LoginFrameController.user.getRegion());
 		ClientMenuController.clientControl.accept((Object) msg);
-		System.out.println(reports);
-		reportTableView.setItems(reports);
+		
 	}
 	
 	/** add all requested reports to the table view**/
 	public static void addReportsToTableView(List<Report> reportsList)
 	{
-		for (int i = 0 ; i < reports.size(); i++)
-			reports.remove(i);
-		System.out.println("Amount of reports: " + reportsList.size());
+		reports.clear();
+		reportTableView.getItems().clear();
 		
-		for (Report report : reportsList)
-			reports.add(report);
+		reports.addAll(reportsList);
+		reportTableView.setItems(reports);
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		BackgroundSize backgroundSize = new BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true, false);
+		Image backgroundImage = null;
+		if (LoginFrameController.user.getRole().equals("RegionManager"))
+			backgroundImage = new Image("images/RegionManagerFrame.png");
+		else
+			backgroundImage = new Image("images/CEOFrame.png");
+		BackgroundImage image = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
+														BackgroundPosition.DEFAULT, backgroundSize);
+		
+		pane.setBackground(new Background(image));
+		
 		selectReportType.setValue("Select type");
 		selectMonth.setValue("Select month");
 		selectYear.setValue("Select year");

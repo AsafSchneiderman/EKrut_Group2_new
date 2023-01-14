@@ -22,6 +22,13 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
 
 public class ClientActivityReportViewController implements Initializable{
@@ -34,6 +41,9 @@ public class ClientActivityReportViewController implements Initializable{
     
     @FXML
     private NumberAxis numberAxisClientsAmount;
+
+	@FXML
+	private AnchorPane pane;
     
     private static ClientActivityReport clientActivityReport;
     private static Series<String, Integer> series;
@@ -51,7 +61,10 @@ public class ClientActivityReportViewController implements Initializable{
     public void start(Stage primaryStage, ClientActivityReport selected) throws IOException {
     	clientActivityReport = selected;
     	ClientMenuController.clientStage = primaryStage;
-    	primaryStage.setTitle("Ekrut - Client");
+		if (LoginFrameController.user.getRole().equals("RegionManager"))
+			primaryStage.setTitle("Ekrut - Region Manager >> Menu >> Report Search >> Client Activity Report");
+		else
+			primaryStage.setTitle("Ekrut - CEO >> Menu >> Report Search >> Client Activity Report");
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/ClientActivityReportView.fxml"));
 		Scene home = new Scene(root);
 		primaryStage.setScene(home);
@@ -61,6 +74,17 @@ public class ClientActivityReportViewController implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		BackgroundSize backgroundSize = new BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true, false);
+		Image backgroundImage = null;
+		if (LoginFrameController.user.getRole().equals("RegionManager"))
+			backgroundImage = new Image("images/RegionManagerFrame.png");
+		else
+			backgroundImage = new Image("images/CEOFrame.png");
+		BackgroundImage image = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
+														BackgroundPosition.DEFAULT, backgroundSize);
+		
+		pane.setBackground(new Background(image));
+		
 		series = clientActivityReport.getGraph();
 		BarChartClientActivity.getData().add(series);
 		BarChartClientActivity.setTitle("Client Activity ("+clientActivityReport.getMonth()+"-"+clientActivityReport.getYear()+")");

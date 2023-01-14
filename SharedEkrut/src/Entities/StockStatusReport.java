@@ -53,10 +53,13 @@ public class StockStatusReport extends Report {
 	public List<String> getNameOfProducts(String location) {
 		List<String> productsNames = new ArrayList<>();
 		List<String> names = getVendingMachinesLocations();
-		ArrayList<Product> products = getStocks(names.indexOf(location));
-		for (Product product : products)
-			productsNames.add(product.getProductName());
-		return productsNames;
+		if (names.indexOf(location) >= 0) {
+			ArrayList<Product> products = getStocks(names.indexOf(location));
+			for (Product product : products)
+				productsNames.add(product.getProductName());
+			return productsNames;
+		}
+		return null;
 	}
 	
 	/**
@@ -82,6 +85,8 @@ public class StockStatusReport extends Report {
 	public Series<String, Integer> getGraph(String location) {
 		XYChart.Series<String, Integer> series = new XYChart.Series<>();
 		List<String> productsNames = getNameOfProducts(location);
+		if (productsNames == null)
+			return null;
 		List<Integer> productsStockQuantity = getQuantityOfPorducts(location);
 		for (int i = 0 ; i < productsNames.size() ; i++)
 			series.getData().add(new XYChart.Data<String, Integer>(productsNames.get(i), productsStockQuantity.get(i)));

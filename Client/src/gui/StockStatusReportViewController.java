@@ -23,6 +23,13 @@ import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.MenuButton;
+import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
 
 public class StockStatusReportViewController implements Initializable {
@@ -34,10 +41,13 @@ public class StockStatusReportViewController implements Initializable {
 	private CategoryAxis categoryAxisProduct;
 
 	@FXML
-	private ChoiceBox<String> cbInstitution;
+	private NumberAxis numberAxisAmount;
 
 	@FXML
-	private NumberAxis numberAxisAmount;
+	private AnchorPane pane;
+
+	@FXML
+	private ChoiceBox<String> cbInstitution;
 	
 	public static ObservableList<String> machineLocationsList = FXCollections.observableArrayList();
 	private static Series<String, Integer> series;
@@ -58,7 +68,10 @@ public class StockStatusReportViewController implements Initializable {
 	public void start(Stage primaryStage, StockStatusReport selectedReport) throws IOException{
 		stockStatusReport = selectedReport;
 		ClientMenuController.clientStage = primaryStage;
-		primaryStage.setTitle("Ekrut - Client");
+		if (LoginFrameController.user.getRole().equals("RegionManager"))
+			primaryStage.setTitle("Ekrut - Region Manager >> Menu >> Report Search >> Stock Status Report");
+		else
+			primaryStage.setTitle("Ekrut - CEO >> Menu >> Report Search >> Stock Status Report");
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/StockStatusReportView.fxml"));
 		Scene home = new Scene(root);
 		primaryStage.setScene(home);
@@ -67,20 +80,34 @@ public class StockStatusReportViewController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		BackgroundSize backgroundSize = new BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true, false);
+		Image backgroundImage = null;
+		if (LoginFrameController.user.getRole().equals("RegionManager"))
+			backgroundImage = new Image("images/RegionManagerFrame.png");
+		else
+			backgroundImage = new Image("images/CEOFrame.png");
+		BackgroundImage image = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
+														BackgroundPosition.DEFAULT, backgroundSize);
+		
+		pane.setBackground(new Background(image));
+		
+		machineLocationsList.clear();
 		cbInstitution.getItems().clear();
 		machineLocationsList.addAll(stockStatusReport.getVendingMachinesLocations());
 		cbInstitution.setItems(machineLocationsList);
-		cbInstitution.getSelectionModel().selectedItemProperty()
-		.addListener((ObservableValue<? extends String> locationList, String oldLocation, String newLocation) -> {
-			BarChartStockPerMachine.getData().removeAll(series);
-			loadStockStatusOfMachine(newLocation);
-		});
-		cbInstitution.setValue( machineLocationsList.get(0));
+		cbInstitution.setOnAction(this::swapData);
+		cbInstitution.setValue(machineLocationsList.get(0));
+	}
+	
+	private void swapData(ActionEvent event) {
+		BarChartStockPerMachine.getData().removeAll(series);
+		loadStockStatusOfMachine(cbInstitution.getValue());
 	}
 	
 	private void loadStockStatusOfMachine(String location) {
 		BarChartStockPerMachine.setTitle("Stock status of vending machine at "+location+" ("+stockStatusReport.getMonth()+" - "+stockStatusReport.getYear()+")");
 		series = stockStatusReport.getGraph(location);
-		BarChartStockPerMachine.getData().add(series);
+		if (series != null)
+			BarChartStockPerMachine.getData().add(series);
 	}
 }
