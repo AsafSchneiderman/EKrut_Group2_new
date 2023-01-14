@@ -183,7 +183,7 @@ public class OrderFrameController implements Initializable {
 					imgForCart.setImage(pic);
 					imgForCart.setFitWidth(40);
 					imgForCart.setFitHeight(40);
-					if((!OnlineOrderFrameController.machine.equals("warehouse")))
+					if(!(row.getStockQuantity().equals("infinity")))
 					{
 						String stockTempStr = row.getStockQuantity();
 						int stockNumTemp = Integer.parseInt(stockTempStr);
@@ -213,7 +213,7 @@ public class OrderFrameController implements Initializable {
 							float tempPrice2 = convertStringToFloat(toCart.getPrice());
 							tempQuantityNum = tempQuantityNum + 1;
 							tempQuantityStr = String.valueOf(tempQuantityNum);
-							if((!OnlineOrderFrameController.machine.equals("warehouse")))
+							if(!(row.getStockQuantity().equals("infinity")))
 							{
 								String stockTempStr2 = row.getStockQuantity();
 								int stockNumTemp2 = Integer.parseInt(stockTempStr2);
