@@ -5,14 +5,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CustomerFrameController">
+<AnchorPane fx:id="pane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CustomerFrameController">
    <children>
       <Label fx:id="lblHelloUser" layoutX="43.0" layoutY="46.0" prefHeight="27.0" prefWidth="258.0" text="Hello, Please choose an action:">
          <font>
             <Font size="18.0" />
          </font></Label>
       <Button fx:id="btnExit" layoutX="40.0" layoutY="342.0" mnemonicParsing="false" onAction="#exitProg" text="Exit" textFill="#ee0303" />
-      <Button fx:id="bntLocalOrder" layoutX="228.0" layoutY="136.0" mnemonicParsing="false" onAction="#startLocalOrder" prefHeight="25.0" prefWidth="139.0" text="Start local order" />
+      <Button fx:id="bntLocalOrder" layoutX="228.0" layoutY="136.0" mnemonicParsing="false" onAction="#startLocalOrder" prefHeight="25.0" prefWidth="139.0" text="Start new local order" />
       <Button fx:id="bntPickupOrder" layoutX="229.0" layoutY="200.0" mnemonicParsing="false" onAction="#pickupOrder" prefHeight="25.0" prefWidth="139.0" text="Pickup order" />
    </children>
 </AnchorPane>

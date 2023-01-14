@@ -232,12 +232,31 @@ public class LoginFrameController implements Initializable {
 
 		// customer
 		if (user.getRole().equals("Customer")) {
-			OrderFrameController order = new OrderFrameController();
+			if(ClientMenuController.config.equals("OL"))
+			{
+				OnlineOrderFrameController onlineOrder = new OnlineOrderFrameController();
+				try {
+					onlineOrder.start(ClientMenuController.clientStage);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+			}
+			else
+			{
+				CustomerFrameController costumerFrame = new CustomerFrameController();
+				try {
+					costumerFrame.start(ClientMenuController.clientStage);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			/*OrderFrameController order = new OrderFrameController();
 			try {
 				order.start(ClientMenuController.clientStage);
 			} catch (IOException e) {
 				e.printStackTrace();
-			}
+			}*/
 		}
 
 		// delivery worker
