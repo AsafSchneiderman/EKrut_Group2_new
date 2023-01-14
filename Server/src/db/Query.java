@@ -555,7 +555,7 @@ public class Query {
 		return user;
 	}
 	
-	public static void insertCreditCardAndRegion(String id,String data) {
+	public static void insertCreditCardAndRegion(String data) {
 		Statement stmt;
 		String splitData[]= new String[3];
 		splitData=data.split("#");

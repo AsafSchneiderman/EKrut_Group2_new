@@ -177,6 +177,15 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
+			case insertCreditCardAndRegion:
+				//Query.getUserToRegisterDetails((String)resMessage.getMessageData());
+				try {
+					client.sendToClient(new Message(MessageType.insertCreditCardAndRegion, Query.getUserToRegisterDetails((String)resMessage.getMessageData())));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
 			default:
 				break;
 			} // end of case
