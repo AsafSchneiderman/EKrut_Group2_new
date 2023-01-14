@@ -2,6 +2,7 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
 
 import Entities.Message;
@@ -9,6 +10,9 @@ import Entities.MessageType;
 import Entities.Order;
 import Entities.OrderProductsForTbl;
 import Entities.ProductForOrder;
+import Entities.Time;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -32,7 +36,12 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+
+import java.time.LocalDateTime;  
+import java.time.format.DateTimeFormatter; 
 
 public class ConfirmOrderFrameController implements Initializable {
 	public static Stage clientStage;
@@ -70,20 +79,31 @@ public class ConfirmOrderFrameController implements Initializable {
 	private  ObservableList<ProductForOrder> tvObservableList;
 	private ObservableList<OrderProductsForTbl> cartObservableList;
 	private String location;
-	
-	
+	private int counterForProducts;
+	float totPrice;
+	java.sql.Date date;
+	SimpleDateFormat formatter;
+	String strDate;
+    @FXML
+    private Text txtTimer;
 
     public ConfirmOrderFrameController(ObservableList<ProductForOrder> tvObservableList,
-			ObservableList<OrderProductsForTbl> cartObservableList, String location, Label lblTotalPrice) {
+			ObservableList<OrderProductsForTbl> cartObservableList, String location, Label lblTotalPrice, int counterForProducts) {
 		super();
 		this.tvObservableList = tvObservableList;
 		this.cartObservableList = cartObservableList;
 		this.location = location;
 		this.lblTotalPrice = lblTotalPrice;
+		this.counterForProducts=counterForProducts;
 	}
 
 	@FXML
     void cancelOrder(ActionEvent event) {
+		
+		ClientMenuController.clientStage.setScene(LoginFrameController.home);
+		// Logout
+		msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
+		ClientMenuController.clientControl.accept(msg);
 
     }
 
@@ -93,11 +113,19 @@ public class ConfirmOrderFrameController implements Initializable {
     	{
     		if((this.location.equals("warehouse")))
     		{
-    			order = new Order(, this.location,,,LoginFrameController.user.getUserID(),this.lblTotalPrice );
+    			  long millis=System.currentTimeMillis();  
+    		      
+    			    // creating a new object of the class Date  
+    			     date = new java.sql.Date(millis);       
+    			     formatter = new SimpleDateFormat("MM.dd.yyyy");  
+    			     strDate = formatter.format(date);
+    			     totPrice = convertStringToFloat(this.lblTotalPrice.getText());
+    			   
+    			order = new Order(this.location,strDate,,LoginFrameController.user.getUserID(), totPrice,this.counterForProducts);
     		}
     		else
     		{
-    			order = new Order(, this.location,,,LoginFrameController.user.getUserID(),this.lblTotalPrice );
+    			order = new Order(, this.location,,,LoginFrameController.user.getUserID(),totPrice );
     		}
     	}
     	else
@@ -174,6 +202,23 @@ public class ConfirmOrderFrameController implements Initializable {
 		
 		// TODO Auto-generated method stub
 		tlbInvoice.setItems(cartObservableList);
+		
+		Time time = new Time("00:15:00");
+		  txtTimer.setText(time.getCurrentTime());
+		    Timeline timeline = new Timeline(
+		            new KeyFrame(Duration.seconds(1),e ->{
+		            
+		            		if(time.oneSecondPassed())
+		            		{
+		            			ClientMenuController.clientStage.setScene(LoginFrameController.home);
+		            			// Logout
+		            			msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
+		            			ClientMenuController.clientControl.accept(msg);
+		            		}
+		                     txtTimer.setText(time.getCurrentTime());
+		            }));
+      timeline.setCycleCount(Timeline.INDEFINITE);
+      timeline.play();
 	}
 		
 	

@@ -113,13 +113,14 @@ public class OrderFrameController implements Initializable {
     private ImageView imgForIcon;
     @FXML
     private Text txtTimer;
+    int counterForProducts;
     
     @SuppressWarnings({ "unchecked"})
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     	totPrice = 0;
     	stockAlert.setVisible(false);
-    	
+    	counterForProducts = 0;
     	// initialize the background image and icon
     			BackgroundSize backgroundSize = new BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true,
     					false);
@@ -179,6 +180,7 @@ public class OrderFrameController implements Initializable {
     					else
     					{
     						stockAlert.setVisible(false);
+    						counterForProducts++;
     						ImageView imgForCart = new ImageView();
     						imgForCart.setImage(pic);
     						imgForCart.setFitWidth(50);
@@ -207,6 +209,7 @@ public class OrderFrameController implements Initializable {
         						else
         						{
         							stockAlert.setVisible(false);
+        							counterForProducts++;
         							String tempQuantityStr = toCart.getQuantity();
         							int tempQuantityNum = Integer.parseInt(tempQuantityStr);
         							float tempPrice2 =  convertStringToFloat(toCart.getPrice());
@@ -230,7 +233,7 @@ public class OrderFrameController implements Initializable {
         						
         						if(Integer.parseInt(toCart.getQuantity()) == 1)
         						{
-        							
+        							counterForProducts--;
         							String stockTempStr1 = row.getStockQuantity();
             						int stockNumTemp1 = Integer.parseInt(stockTempStr1);
             						float tempPrice3 =  convertStringToFloat(toCart.getPrice());
@@ -243,6 +246,7 @@ public class OrderFrameController implements Initializable {
         						}
         						else
         						{
+        							counterForProducts--;
         							String tempQuantityStr = toCart.getQuantity();
         							int tempQuantityNum = Integer.parseInt(tempQuantityStr);
         							float tempPrice4 =  convertStringToFloat(toCart.getPrice());
@@ -299,13 +303,10 @@ public class OrderFrameController implements Initializable {
 
     @FXML
     void cancelOrder(ActionEvent event) {
-    	customerFrame = new CustomerFrameController();
-    	try {
-			customerFrame.start(clientStage);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    	ClientMenuController.clientStage.setScene(LoginFrameController.home);
+		// Logout
+		msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
+		ClientMenuController.clientControl.accept(msg);
     }
 /**
  * 
@@ -316,7 +317,7 @@ public class OrderFrameController implements Initializable {
  */
     @FXML
     void checkOutOrder(ActionEvent event) {
-    	confirmOrderFrame = new ConfirmOrderFrameController(tvObservableList, cartObservableList, "ortBraudeproducts",lblTotalPrice);
+    	confirmOrderFrame = new ConfirmOrderFrameController(tvObservableList, cartObservableList, "ortBraudeproducts",lblTotalPrice,counterForProducts);
     	try {
 			confirmOrderFrame.start(ClientMenuController.clientStage);
 		} catch (IOException e) {

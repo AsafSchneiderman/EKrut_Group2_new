@@ -9,7 +9,17 @@ public class Order implements Serializable{
 	private String products;
 	private int quantityOfProducts;
 	int [] quantityPerProducts;
-	
+	/**
+	 * 
+	 * @param vendingMachineLocation - the location of the vending machine
+	 * @param orderDate - the date that the order was made
+	 * @param orderStatus - the status of the order for pickup (picked up or waiting) 
+	 * and for delivery if delivered or in progress, for local the status is local
+	 * @param customerID - user id of the costumer
+	 * @param totalPrice - the total price for the whole order
+	 * @param orderType
+	 * @param quantityOfProducts
+	 */
 	public Order (String vendingMachineLocation,String orderDate,String orderStatus,String customerID,float totalPrice, String orderType, int quantityOfProducts) {
 		this.vendingMachineLocation=vendingMachineLocation;
 		this.orderDate=orderDate;
