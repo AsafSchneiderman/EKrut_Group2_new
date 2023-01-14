@@ -7,28 +7,62 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="pane" prefHeight="450.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ThresholdLevelFrameController">
-   <children>
-      <TableView fx:id="tblViewVendingMachines" layoutX="117.0" layoutY="89.0" prefHeight="282.0" prefWidth="556.0">
-        <columns>
-          <TableColumn fx:id="regionCol" prefWidth="185.0" text="Region" />
-          <TableColumn fx:id="locationCol" minWidth="0.0" prefWidth="202.0" text="Location" />
-            <TableColumn fx:id="thresholdLevelCol" minWidth="0.0" prefWidth="168.0" text="Threshold Level" />
-        </columns>
-      </TableView>
-      <Label layoutX="118.0" layoutY="8.0" text="Choose Vending machine to update the Threshold Level:">
-         <font>
-            <Font name="System Bold" size="15.0" />
-         </font></Label>
-      <Button fx:id="btnBack" layoutX="118.0" layoutY="396.0" mnemonicParsing="false" onAction="#backToPreviousPage" text="Back" />
-      <Button fx:id="btnUpdateThresholdLevel" layoutX="312.0" layoutY="396.0" mnemonicParsing="false" onAction="#updateThresholdLevel" text="Update Threshold Level" />
-      <Label layoutX="118.0" layoutY="27.0" prefHeight="21.0" prefWidth="577.0" text="To update the threshold level, double click on the Threshold level cell in the selected row," />
-      <Label layoutX="118.0" layoutY="43.0" prefHeight="21.0" prefWidth="577.0" text="Type the new number and press enter." />
-      <Label layoutX="119.0" layoutY="60.0" prefHeight="21.0" prefWidth="577.0" text="To finish the update, click on the &quot;Update Threshold Level&quot; button." />
-      <Label fx:id="lblAlert" alignment="CENTER" layoutX="516.0" layoutY="396.0" prefHeight="31.0" prefWidth="229.0" textAlignment="JUSTIFY" textFill="#e10404">
-         <font>
-            <Font name="System Bold" size="16.0" />
-         </font>
-      </Label>
-   </children>
+<AnchorPane fx:id="pane" prefHeight="450.0" prefWidth="800.0"
+	xmlns="http://javafx.com/javafx/8.0.171"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="gui.ThresholdLevelFrameController">
+	<children>
+		<TableView fx:id="tblViewVendingMachines" layoutX="117.0"
+			layoutY="105.0" prefHeight="282.0" prefWidth="556.0">
+			<columns>
+				<TableColumn fx:id="regionCol" prefWidth="185.0"
+					text="Region" />
+				<TableColumn fx:id="locationCol" minWidth="0.0"
+					prefWidth="202.0" text="Location" />
+				<TableColumn fx:id="thresholdLevelCol" minWidth="0.0"
+					prefWidth="168.0" text="Threshold Level" />
+			</columns>
+		</TableView>
+		<Label layoutX="118.0" layoutY="3.0"
+			text="Choose Vending machine to update the Threshold Level:"
+			underline="true">
+			<font>
+				<Font name="System Bold" size="18.0" />
+			</font>
+		</Label>
+		<Button fx:id="btnBack" layoutX="118.0" layoutY="396.0"
+			mnemonicParsing="false" onAction="#backToPreviousPage"
+			prefHeight="35.0" prefWidth="70.0" text="Back" />
+		<Button fx:id="btnUpdateThresholdLevel" layoutX="312.0"
+			layoutY="396.0" mnemonicParsing="false"
+			onAction="#updateThresholdLevel" prefHeight="35.0"
+			text="Update Threshold Level" />
+		<Label layoutX="118.0" layoutY="32.0" prefHeight="21.0"
+			prefWidth="651.0"
+			text="To update the threshold level, double click on the Threshold level cell in the selected row,">
+			<font>
+				<Font name="System Bold" size="15.0" />
+			</font>
+		</Label>
+		<Label layoutX="118.0" layoutY="53.0" prefHeight="21.0"
+			prefWidth="577.0" text="Type the new number and press enter.">
+			<font>
+				<Font name="System Bold" size="15.0" />
+			</font>
+		</Label>
+		<Label fx:id="lblAlert" alignment="CENTER" layoutX="516.0"
+			layoutY="396.0" prefHeight="31.0" prefWidth="229.0"
+			textAlignment="JUSTIFY" textFill="#e10404">
+			<font>
+				<Font name="System Bold" size="16.0" />
+			</font>
+		</Label>
+		<Label layoutX="119.0" layoutY="75.0" prefHeight="21.0"
+			prefWidth="577.0"
+			text="To finish the update, click on the &quot;Update Threshold Level&quot; button.">
+			<font>
+				<Font name="System Bold" size="15.0" />
+			</font>
+		</Label>
+	</children>
 </AnchorPane>

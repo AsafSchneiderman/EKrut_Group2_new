@@ -35,6 +35,14 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
 
+/**
+ * When the manager receives a message that the status of the vending machine is
+ * 'LowStock', the region manager sends a restock message to the operations
+ * worker per vending machine.
+ * 
+ * @author Nofar Ben Simon
+ *
+ */
 public class RestockMessageController implements Initializable {
 
 	@FXML
@@ -54,6 +62,9 @@ public class RestockMessageController implements Initializable {
 
 	@FXML
 	private TableColumn<VendingMachine, String> statusCol;
+
+	@FXML
+	private TableColumn<VendingMachine, String> restockCol;
 
 	@FXML
 	private Button btnBack;
@@ -90,19 +101,17 @@ public class RestockMessageController implements Initializable {
 	 * 
 	 * @param event (Click on Update Status button)
 	 */
-	@FXML
-	void updateRestockStatus(ActionEvent event) {
-		// update the status changes
-		for (VendingMachine row : vendingMachines)
-			if (row.getRegion().equals(LoginFrameController.user.getRegion())) // update the vending machines at his
-																				// region
-				row.comboBoxUpdateStatus();
-
-		lblAlert.setText("A restock message sent to the worker"); // show update Alert
-		lblAlert.setStyle("-fx-background-color:white");
-		msg = new Message(MessageType.update_restockStatus, vendingMachines);
-		ClientMenuController.clientControl.accept(msg);
-	}
+	/*
+	 * @FXML void updateRestockStatus(ActionEvent event) { // update the status
+	 * changes for (VendingMachine row : vendingMachines) if
+	 * (row.getRegion().equals(LoginFrameController.user.getRegion())) // update the
+	 * vending machines at his // region row.comboBoxUpdateStatus();
+	 * 
+	 * lblAlert.setText("A restock message sent to the worker"); // show update
+	 * Alert lblAlert.setStyle("-fx-background-color:#73bce4"); msg = new
+	 * Message(MessageType.update_restockStatus, vendingMachines);
+	 * ClientMenuController.clientControl.accept(msg); }
+	 */
 
 	/**
 	 * start the RestockMessageFrame
@@ -137,6 +146,9 @@ public class RestockMessageController implements Initializable {
 		primaryStage.show();
 	}
 
+	/**
+	 * initialize parameters when the frame start
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
@@ -153,30 +165,70 @@ public class RestockMessageController implements Initializable {
 		regionCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("region"));
 		locationCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("location"));
 		thresholdLevelCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("thresholdLevel"));
-		statusCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("cmbBoxStatus")); // ENUM('WaitToRestock',
-																											// 'Done')
+		statusCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("restockStatus"));
+		restockCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("btnRestock")); // 'Done')
 
 		ObservableList<VendingMachine> tvObservableList = FXCollections.observableArrayList();
 		vendingMachines = (ArrayList<VendingMachine>) ChatClient.msgServer.getMessageData();
 		for (VendingMachine row : vendingMachines) {
 			if (row.getRegion().equals(LoginFrameController.user.getRegion())) { // show the vending machines at his
 																					// region
-				// row.comboBoxInitialize(FXCollections.observableArrayList("LowStock","WaitToRestock",
-				// "Done")); //initialize the comboBox
-				if (row.getRestockStatus().equals("LowStock")) // can change the status from 'LowStock' to
-																// 'WaitToRestock'
-					row.comboBoxInitialize(FXCollections.observableArrayList("WaitToRestock")); // initialize the
-																								// comboBox
-				else
-					row.comboBoxInitialize(FXCollections.observableArrayList(row.getRestockStatus())); // initialize the
-																										// comboBox to
-																										// the
-																										// RestockStatus
+				row.buttonInitialize();
+				row.getBtnRestock().setOnAction((ActionEvent event) -> {
+					VendingMachine v = new VendingMachine(row.getRegion(), row.getLocation(), row.getThresholdLevel(),
+							"WaitToRestock");
+					lblAlert.setText("A restock message sent to the worker"); // show update Alert
+					lblAlert.setStyle("-fx-background-color:#73bce4");
+					v.print();
+					// msg = new Message(MessageType.update_restockStatus, v);
+					// ClientMenuController.clientControl.accept(msg);
+					row.getBtnRestock().setDisable(true);
+				});
+				if (!row.getRestockStatus().equals("LowStock"))
+					row.getBtnRestock().setDisable(true);
 				tvObservableList.add(row);
 			}
 		}
 
 		tblViewVendingMachines.setItems(tvObservableList);
+
 	}
 
+	/*
+	 * @Override public void initialize(URL location, ResourceBundle resources) {
+	 * 
+	 * // initialize the background image BackgroundSize backgroundSize = new
+	 * BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true,
+	 * false); BackgroundImage image = new BackgroundImage(new
+	 * Image("images/RestockMessageFrame.png"), BackgroundRepeat.NO_REPEAT,
+	 * BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
+	 * pane.setBackground(new Background(image));
+	 * 
+	 * // initialize the vending machines table from DB
+	 * tblViewVendingMachines.setEditable(true);
+	 * 
+	 * regionCol.setCellValueFactory(new PropertyValueFactory<VendingMachine,
+	 * String>("region")); locationCol.setCellValueFactory(new
+	 * PropertyValueFactory<VendingMachine, String>("location"));
+	 * thresholdLevelCol.setCellValueFactory(new
+	 * PropertyValueFactory<VendingMachine, String>("thresholdLevel"));
+	 * statusCol.setCellValueFactory(new PropertyValueFactory<VendingMachine,
+	 * String>("cmbBoxStatus")); // ENUM('WaitToRestock', // 'Done')
+	 * 
+	 * ObservableList<VendingMachine> tvObservableList =
+	 * FXCollections.observableArrayList(); vendingMachines =
+	 * (ArrayList<VendingMachine>) ChatClient.msgServer.getMessageData(); for
+	 * (VendingMachine row : vendingMachines) { if
+	 * (row.getRegion().equals(LoginFrameController.user.getRegion())) { // show the
+	 * vending machines at his // region //initialize the comboBox if
+	 * (row.getRestockStatus().equals("LowStock")) // can change the status from
+	 * 'LowStock' to // 'WaitToRestock'
+	 * row.comboBoxInitialize(FXCollections.observableArrayList("WaitToRestock"));
+	 * // initialize the // comboBox else
+	 * row.comboBoxInitialize(FXCollections.observableArrayList(row.getRestockStatus
+	 * ())); // initialize the // comboBox to // the // RestockStatus
+	 * tvObservableList.add(row); } }
+	 * 
+	 * tblViewVendingMachines.setItems(tvObservableList); }
+	 */
 }

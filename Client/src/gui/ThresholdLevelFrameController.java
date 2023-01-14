@@ -37,6 +37,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
+/**
+ * The region manager chooses the threshold level for each vending machine in
+ * this frame he can see and update the threshold level.
+ * 
+ * @author Nofar Ben Simon
+ *
+ */
 public class ThresholdLevelFrameController implements Initializable {
 
 	@FXML
@@ -93,7 +100,7 @@ public class ThresholdLevelFrameController implements Initializable {
 	void updateThresholdLevel(ActionEvent event) {
 
 		lblAlert.setText("Threshold level updated in DB"); // show update Alert
-		lblAlert.setStyle("-fx-background-color:white");
+		lblAlert.setStyle("-fx-background-color:#73bce4");
 		msg = new Message(MessageType.update_thresholdLevel, vendingMachines);
 		ClientMenuController.clientControl.accept(msg);
 	}
@@ -132,6 +139,9 @@ public class ThresholdLevelFrameController implements Initializable {
 		primaryStage.show();
 	}
 
+	/**
+	 * initialize parameters when the frame start
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 

@@ -155,6 +155,9 @@ public class RegionManagerFrameController implements Initializable {
 		primaryStage.show();
 	}
 
+	/**
+	 * initialize parameters when the frame start
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 

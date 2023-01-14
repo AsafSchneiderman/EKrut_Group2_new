@@ -121,6 +121,12 @@ public class InstallFrameController implements Initializable {
 		ClientMenuController.startLoginFrame(); // start the login frame
 	}
 
+	/**
+	 * start the InstallFrame
+	 * 
+	 * @param primaryStage
+	 * @throws IOException
+	 */
 	public void start(Stage primaryStage) throws IOException {
 		ClientMenuController.clientStage = primaryStage;
 		primaryStage.setTitle("Ekrut - Client >> Install");
@@ -137,6 +143,9 @@ public class InstallFrameController implements Initializable {
 		primaryStage.show();
 	}
 
+	/**
+	 * initialize parameters when the frame start
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
