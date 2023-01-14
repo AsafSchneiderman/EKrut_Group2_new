@@ -20,24 +20,23 @@ import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.ChoiceBox;
 import javafx.stage.Stage;
 
 public class ClientActivityReportViewController implements Initializable{
 	
     @FXML
-    private BarChart<String, String> BarChartClientActivity;
+    private BarChart<String, Integer> BarChartClientActivity;
 
-    
     @FXML
     private CategoryAxis categoryAxisProductsAmount;
     
-
     @FXML
     private NumberAxis numberAxisClientsAmount;
     
-
-
+    private static ClientActivityReport clientActivityReport;
+    private static Series<String, Integer> series;
 
     @FXML
     void BackToPreviosePage(ActionEvent event) {
@@ -49,10 +48,11 @@ public class ClientActivityReportViewController implements Initializable{
 		}
     }
     
-    public void start(Stage primaryStage, ClientActivityReport report) throws IOException {
-    	ClientMenuController.clientStage = primaryStage;		
-    	primaryStage.setTitle("Ekrut - Client Connection");
-		Parent root = FXMLLoader.load(getClass().getResource("/gui/ClientActivityFrame.fxml"));
+    public void start(Stage primaryStage, ClientActivityReport selected) throws IOException {
+    	clientActivityReport = selected;
+    	ClientMenuController.clientStage = primaryStage;
+    	primaryStage.setTitle("Ekrut - Client");
+		Parent root = FXMLLoader.load(getClass().getResource("/gui/ClientActivityReportView.fxml"));
 		Scene home = new Scene(root);
 		primaryStage.setScene(home);
 		primaryStage.show();
@@ -61,7 +61,9 @@ public class ClientActivityReportViewController implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+		series = clientActivityReport.getGraph();
+		BarChartClientActivity.getData().add(series);
+		BarChartClientActivity.setTitle("Client Activity ("+clientActivityReport.getMonth()+"-"+clientActivityReport.getYear()+")");
 	}
 
 	
