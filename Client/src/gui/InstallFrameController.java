@@ -141,6 +141,8 @@ public class InstallFrameController implements Initializable {
 		radioBtnEK.setToggleGroup(tg);
 		radioBtnOL.setToggleGroup(tg);
 
+		radioBtnOL.setSelected(true);
+		
 		lblMsg.setVisible(false);
 		cmbBoxVendingMachine.setVisible(false);
 	}
