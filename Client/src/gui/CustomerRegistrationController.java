@@ -45,6 +45,8 @@ public class CustomerRegistrationController implements Initializable{
 	public static CustomerServiceController customerService;
 	public static ShowCustomerToRegistrateController showCustomerToRegistrate;
 	public static int userNum=0;
+	public static int i=0;
+
 
 	
 	 @FXML
@@ -67,7 +69,6 @@ public class CustomerRegistrationController implements Initializable{
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
 		// initialize the background image
 		BackgroundSize backgroundSize = new BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true,
 				false);
@@ -104,13 +105,12 @@ public class CustomerRegistrationController implements Initializable{
 					e.printStackTrace();
 				}//  send to UI*/
 			});
+			userNum=userList.indexOf(row);//where should i put it to get a specific row for show customer to registrate????
 			ButtonForUsersToSignup tempList = new ButtonForUsersToSignup(row.getId(),row.getFirstName(),row.getLastName(),show);
 			tvObservableList.add(tempList);
-			userNum=userList.indexOf(row);
 		}
 
 		usersTable.setItems(tvObservableList);
-		
 		
 	}
 	/*void clickOnShowUser(ActionEvent event) {

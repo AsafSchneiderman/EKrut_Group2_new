@@ -16,10 +16,13 @@
          </font></Label>
       <BarChart fx:id="BarChartSalesPerInstitution" layoutX="50.0" layoutY="32.0" prefHeight="400.0" prefWidth="700.0">
          <xAxis>
-            <CategoryAxis fx:id="categoryAxisInstitutions" label="Institution" side="BOTTOM" />
+            <CategoryAxis fx:id="categoryAxisInstitutions" label="Vending Machine" side="BOTTOM" />
          </xAxis>
          <yAxis>
-            <NumberAxis fx:id="numberAxisSales" label="Amount Of Sales" side="LEFT" />
+            <NumberAxis fx:id="numberAxisSales" autoRanging="false" label="Amount Of Orders" minorTickCount="0" minorTickLength="1.0" side="LEFT" tickLabelGap="5.0" tickUnit="1.0" upperBound="10.0">
+               <tickLabelFont>
+                  <Font name="System Bold" size="14.0" />
+               </tickLabelFont></NumberAxis>
          </yAxis>
       </BarChart>
       <Button layoutX="12.0" layoutY="418.0" mnemonicParsing="false" onAction="#BackToPreviosePage" text="Back" />
