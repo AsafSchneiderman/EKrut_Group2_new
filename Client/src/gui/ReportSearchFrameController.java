@@ -102,14 +102,12 @@ public class ReportSearchFrameController implements Initializable {
 				e.printStackTrace();
 			}
 		} else {
-			/*
-			 * TODO remove comments after CeoFrameController.java is created
-			 */
-			/*
-			 * CeoFrameController ceoFrameController = new ceoFrameController(); try {
-			 * ceoFrameController.start(ClientMenuController.clientStage); } catch
-			 * (IOException e) { e.printStackTrace(); }
-			 */
+			 CEOFrameController ceoFrameController = new CEOFrameController(); 
+			 try {
+				 ceoFrameController.start(ClientMenuController.clientStage); 
+			 } catch (IOException e) {
+				 e.printStackTrace();
+			 }
 		}
 	}
 
@@ -118,13 +116,22 @@ public class ReportSearchFrameController implements Initializable {
 	void searchReport(ActionEvent event) {
 		
 		String reportType = selectReportType.getValue();
-		String month =  myMonths.valueOf(selectMonth.getValue()).getMonthNum();
+		String month = "Select month";
+		try { month =  myMonths.valueOf(selectMonth.getValue()).getMonthNum();
+		} catch (IllegalArgumentException e) { System.out.println("month not selected"); }
+		
 		String year = selectYear.getValue();
 		if (reportType.equals("Select type") || month.equals("Select month") || year.equals("Select year"))
-			System.out.println("please select {type, month, year} !");
+		{
+			System.out.println("please select {report type, month, year} !");
+			return;
+		}
 		
+		reportTableView.getItems().clear();
+		System.out.println("month:" + selectMonth.getValue() + "");
 		Message msg = new Message(MessageType.Get_reports, reportType + "#" + month + "#" + year + "#" + LoginFrameController.user.getRegion());
 		ClientMenuController.clientControl.accept((Object) msg);
+		System.out.println(reports);
 		reportTableView.setItems(reports);
 	}
 	
@@ -172,18 +179,18 @@ public class ReportSearchFrameController implements Initializable {
 									switch(selectedReport.getReportType())
 									{
 									case Order: // open order report frame with the firstReport
-										System.out.println((OrdersReport)selectedReport);
+										//System.out.println((OrdersReport)selectedReport);
 										OrderReportViewController orderReportView = new OrderReportViewController();
 										orderReportView.start(ClientMenuController.clientStage, (OrdersReport)selectedReport);
 										break;
 									case Stock_Status: // open Stock status report frame with the 'selectedReports' array
-										System.out.println((StockStatusReport)selectedReport);
+										//System.out.println((StockStatusReport)selectedReport);
 										StockStatusReportViewController stockStatusReportView = new StockStatusReportViewController();
 										stockStatusReportView.start(ClientMenuController.clientStage, (StockStatusReport)selectedReport);
 										break;
 									case Client_Activity:
 										// open client activity report frame with the firstReport
-										System.out.println((ClientActivityReport)selectedReport);
+										//System.out.println((ClientActivityReport)selectedReport);
 										ClientActivityReportViewController clientActivityReportViewController = new ClientActivityReportViewController();
 										clientActivityReportViewController.start(ClientMenuController.clientStage, (ClientActivityReport)selectedReport);
 										break;
