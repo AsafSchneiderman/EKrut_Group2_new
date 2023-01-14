@@ -96,6 +96,7 @@ public class CustomerRegistrationController implements Initializable{
 		{
 			final Button show=new Button("show user");
 			show.setOnAction((ActionEvent event)->{
+				userNum=userList.indexOf(row);
 				//clickOnShowUser(event);
 				showCustomerToRegistrate = new ShowCustomerToRegistrateController();
 				try {
@@ -105,7 +106,6 @@ public class CustomerRegistrationController implements Initializable{
 					e.printStackTrace();
 				}//  send to UI*/
 			});
-			userNum=userList.indexOf(row);//where should i put it to get a specific row for show customer to registrate????
 			ButtonForUsersToSignup tempList = new ButtonForUsersToSignup(row.getId(),row.getFirstName(),row.getLastName(),show);
 			tvObservableList.add(tempList);
 		}
