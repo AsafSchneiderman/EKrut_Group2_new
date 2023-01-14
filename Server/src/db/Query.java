@@ -190,56 +190,80 @@ public class Query {
 		String month = inputArray[1];
 		String year = inputArray[2];
 		String region = inputArray[3];
-		ArrayList<Report> reports = new ArrayList<>();
+		ArrayList<VendingMachine> vendingMachines = getVendingMachines();
+		
 		List<String> reportTypes;
-		if (mysqlConnection.conn != null) {
-			if (type.equals("Show all report types"))
-				reportTypes = Arrays.asList("Order", "Stock_Status", "Client_Activity");
-			else
-				reportTypes = Arrays.asList(type);
-						
-			ArrayList<VendingMachine> vendingMachines = getVendingMachines();
-			
-			for (String currentType : reportTypes) {
-				Report r = null;
-				ReportType reportType = ReportType.valueOf(currentType);
-				switch(reportType) {
-				case Order:
-					ArrayList<Order> orders = getOrdersByDateAndRegion(month, year, region);
-					r = new OrdersReport(month, year,region, orders);
-					break;
-				case Stock_Status:
-					ArrayList<ArrayList<Product>> stocks = new ArrayList<>();
-					ArrayList<VendingMachine> vendingMachinesInRegion = new ArrayList<>();
-					for (VendingMachine v : vendingMachines) {
-						if (v.getRegion().equals(region)) {
-							ArrayList<Product> productsStock = getProductStockByDateAndMachine(month, year, v.getLocation().toLowerCase());
-							if (null != productsStock) {
-								vendingMachinesInRegion.add(v);
-								stocks.add(productsStock);
+		if (type.equals("Show all report types"))
+			reportTypes = Arrays.asList("Order", "Stock_Status", "Client_Activity");
+		else reportTypes = Arrays.asList(type);
+		
+		List<String> months;
+		if (month.equals("All months"))
+			months = Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12");
+		else months = Arrays.asList(month);
+							
+		List<String> years;
+		if (year.equals("All years"))
+			years = Arrays.asList("2022", "2023");
+		else years = Arrays.asList(year);
+		
+		List<String> regions;
+		if (region.equals("All")) {
+			regions = new ArrayList<>();
+			for (VendingMachine v : vendingMachines)
+				if (!regions.contains(v.getRegion()))
+					regions.add(v.getRegion());
+		}
+		else regions = Arrays.asList(region);
+
+		ArrayList<Report> reports = new ArrayList<>();
+		
+		for (String currentType : reportTypes) {
+			for (String currentRegion : regions) {
+				for (String currentYear : years) {
+					for (String currentMonth : months) {
+						Report report = null;
+						ReportType reportType = ReportType.valueOf(currentType);
+						switch(reportType) {
+						case Order:
+							ArrayList<Order> orders = getOrdersByDateAndRegion(currentMonth, currentYear, currentRegion);
+							report = new OrdersReport(currentMonth, currentYear,currentRegion, orders);
+							break;
+						case Stock_Status:
+							ArrayList<ArrayList<Product>> stocks = new ArrayList<>();
+							ArrayList<VendingMachine> vendingMachinesInRegion = new ArrayList<>();
+							for (VendingMachine v : vendingMachines) {
+								if (v.getRegion().equals(currentRegion)) {
+									ArrayList<Product> productsStock = getProductStockByDateAndMachine(currentMonth, currentYear, v.getLocation().toLowerCase());
+									if (null != productsStock) {
+										vendingMachinesInRegion.add(v);
+										stocks.add(productsStock);
+									}
+								}
 							}
+							report = new StockStatusReport(currentMonth, currentYear,currentRegion, vendingMachinesInRegion, stocks);
+							break;
+						case Client_Activity:
+							ArrayList<HashMap<Integer,Integer>> clientsActivityPerMachine = new ArrayList<>();
+							for (VendingMachine v : vendingMachines) {
+								if(v.getRegion().equals(currentRegion)) {
+									HashMap<Integer, Integer> clientsPerOrderAmount = getClientActivityByDateAndMachine(currentMonth, currentYear, v);
+									clientsActivityPerMachine.add(clientsPerOrderAmount);
+								}
+							}
+							report = new ClientActivityReport(currentMonth, currentYear,currentRegion, clientsActivityPerMachine);
+							break;
+							
+						default:
+							break;
 						}
+						reports.add(report);
 					}
-					r = new StockStatusReport(month, year,region, vendingMachinesInRegion, stocks);
-					break;
-				case Client_Activity:
-					ArrayList<HashMap<Integer,Integer>> clientsActivityPerMachine = new ArrayList<>();
-					for (VendingMachine v : vendingMachines) {
-						if(v.getRegion().equals(region)) {
-							HashMap<Integer, Integer> clientsPerOrderAmount = getClientActivityByDateAndMachine(month, year, v);
-							clientsActivityPerMachine.add(clientsPerOrderAmount);
-						}
-					}
-					r = new ClientActivityReport(month, year,region, clientsActivityPerMachine);
-					break;
-					
-				default:
-					break;
 				}
-				reports.add(r);
 			}
-		} 
-		else System.out.println("Conn is null");
+		}
+		
+		
 
 		return reports;
 	}
@@ -277,7 +301,7 @@ public class Query {
 	 * @param month month of stock status
 	 * @param year year of stock status
 	 * @param currentMachine the machine associated with the stock status
-	 * @return
+	 * @return ArrayList of product stocks
 	 */
 	private static ArrayList<Product> getProductStockByDateAndMachine(String month, String year, String currentMachine) {
 		ArrayList<Product> productsStock = new ArrayList<>();
@@ -326,7 +350,7 @@ public class Query {
 	 * @param month month of checked client activity
 	 * @param year year of checked client activity
 	 * @param v the vending machine of the client activity
-	 * @return
+	 * @return HashMap of clients per order amount
 	 */
 	private static HashMap<Integer, Integer> getClientActivityByDateAndMachine(String month, String year, VendingMachine v) {
 		HashMap<Integer,Integer> clientsPerOrderAmount= new HashMap<>();
