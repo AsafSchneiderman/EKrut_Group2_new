@@ -17,12 +17,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
@@ -34,6 +31,14 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
 
+/**
+ * In the installation frame the user chooses which configuration he wants to
+ * use If EK - local, then he must also choose which vending machine the
+ * installation is on or OL - remote
+ * 
+ * @author Nofar Ben Simon
+ *
+ */
 public class InstallFrameController implements Initializable {
 
 	@FXML
@@ -58,8 +63,13 @@ public class InstallFrameController implements Initializable {
 
 	private ToggleGroup tg = new ToggleGroup(); // create a toggle group
 
-	private String config = ""; // (EK/OL)
+	private String config = "OL"; // (EK/OL)
 
+	/**
+	 * when choose this option it's shows the vending machine list to select
+	 * 
+	 * @param event (choose the EK - local)
+	 */
 	@FXML
 	void chooseEK(ActionEvent event) {
 
@@ -78,6 +88,10 @@ public class InstallFrameController implements Initializable {
 
 	}
 
+	/**
+	 * 
+	 * @param event (choose the OL - remote)
+	 */
 	@FXML
 	void chooseOL(ActionEvent event) {
 
@@ -86,32 +100,25 @@ public class InstallFrameController implements Initializable {
 		config = "OL";
 	}
 
+	/**
+	 * this method send the user install selections and continue to loginFrame
+	 * 
+	 * @param event (Click on Install button)
+	 */
 	@FXML
 	void install(ActionEvent event) {
 
 		if (config.equals("EK")) {
 
 			ClientMenuController.config = "EK";
-			ClientMenuController.clientStage.setScene(ClientMenuController.home);
+			ClientMenuController.vendingMachine = cmbBoxVendingMachine.getValue();
 		}
 
-		if (config.equals("OL")) {
+		else if (config.equals("OL")) {
 
 			ClientMenuController.config = "OL";
-			ClientMenuController.clientStage.setScene(ClientMenuController.home);
 		}
-		
-		Alert a = new Alert(AlertType.NONE);
-		 // set alert type
-        a.setAlertType(AlertType.ERROR);
-
-        // set content text
-        a.setContentText("No option selected!\r\n"
-        		+ "Select a configuration and click the Install button.");
-
-        // show the dialog
-        a.show();
-
+		ClientMenuController.startLoginFrame(); // start the login frame
 	}
 
 	public void start(Stage primaryStage) throws IOException {
@@ -124,6 +131,8 @@ public class InstallFrameController implements Initializable {
 		// On pressing X (close window) the client is disconnect from server.
 		primaryStage.setOnCloseRequest(e -> {
 			ClientMenuController.clientControl.accept(new Message(MessageType.disconnected, ""));
+			// create a PopUp message
+			PopUpMessageFrameController popUpMsgController = new PopUpMessageFrameController();
 		});
 		primaryStage.show();
 	}
@@ -142,7 +151,7 @@ public class InstallFrameController implements Initializable {
 		radioBtnOL.setToggleGroup(tg);
 
 		radioBtnOL.setSelected(true);
-		
+
 		lblMsg.setVisible(false);
 		cmbBoxVendingMachine.setVisible(false);
 	}

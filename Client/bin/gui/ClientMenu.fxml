@@ -19,7 +19,7 @@
             <Font name="Arial Bold" size="15.0" />
          </font></Label>
       <TextField fx:id="txtPort" layoutX="200.0" layoutY="217.0" prefHeight="35.0" prefWidth="200.0" text="5555" />
-      <Label layoutX="203.0" layoutY="78.0" prefHeight="21.0" prefWidth="178.0" text="Client Connection:">
+      <Label layoutX="203.0" layoutY="63.0" prefHeight="21.0" prefWidth="178.0" text="Client Connection:">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font></Label>

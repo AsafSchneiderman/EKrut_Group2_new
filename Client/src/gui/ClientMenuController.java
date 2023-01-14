@@ -36,9 +36,10 @@ public class ClientMenuController implements Initializable {
 	public static InstallFrameController installFrame;
 
 	public static String config; // installation configuration (EK/OL)
+	public static String vendingMachine; // vending Machine to install configuration (EK)
 
 	public static Stage clientStage;
-	
+
 	public static Scene home;
 
 	@FXML
@@ -72,15 +73,27 @@ public class ClientMenuController implements Initializable {
 		Message msg = new Message(MessageType.connected, Inet4Address.getLocalHost().getHostAddress());
 		ClientMenuController.clientControl.accept(msg);
 		try {
+
 			ClientMenuController.clientControl.accept(new Message(MessageType.Get_vendingMachines, ""));
 			installFrame.start(clientStage);
 
-			 //loginFrame.start(clientStage);
 		} catch (IOException e) {
 
 			e.printStackTrace();
 		} // send to UI
 
+	}
+
+	/**
+	 * Start the loginFrame
+	 */
+	public static void startLoginFrame() {
+		try {
+			loginFrame.start(clientStage);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void start(Stage primaryStage) throws IOException {

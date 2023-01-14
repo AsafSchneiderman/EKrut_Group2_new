@@ -271,6 +271,8 @@ public class LoginFrameController implements Initializable {
 		// On pressing X (close window) the client is disconnect from server.
 		primaryStage.setOnCloseRequest(e -> {
 			ClientMenuController.clientControl.accept(new Message(MessageType.disconnected, ""));
+			// create a PopUp message
+			this.exit(null);
 		});
 		primaryStage.show();
 	}
