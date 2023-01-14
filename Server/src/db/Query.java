@@ -186,7 +186,6 @@ public class Query {
 	 */
 	public static ArrayList<Report> getReports(String input) {
 		String[] inputArray = input.split("\\#");
-		ReportType reportType;
 		String type = inputArray[0];
 		String month = inputArray[1];
 		String year = inputArray[2];
@@ -203,7 +202,7 @@ public class Query {
 			
 			for (String currentType : reportTypes) {
 				Report r = null;
-				reportType = ReportType.valueOf(currentType);
+				ReportType reportType = ReportType.valueOf(currentType);
 				switch(reportType) {
 				case Order:
 					ArrayList<Order> orders = getOrdersByDateAndRegion(month, year, region);
@@ -297,27 +296,27 @@ public class Query {
 			while (rs.next()) {
 				String[] productsIDs = rs.getString("productsIDs").split("\\,");
 				String[] productsQuantities = rs.getString("QuantityPerProduct").split("\\,");
-				for (int i = 0; i < rs.getInt("productsQuantity"); i++) {
+				for (int i = 0; i < productsIDs.length; i++) {
 					int productID = Integer.parseInt(productsIDs[i]);
 					int productQuantity = Integer.parseInt(productsQuantities[i]);
 					removedStocks[productID] = removedStocks[productID] + productQuantity;
 				}
 			}
-
-			ResultSet rs2 = stmt.executeQuery("SELECT * FROM " + currentStock);
+			rs.close();
+			ResultSet rs2 = stmt2.executeQuery("SELECT * FROM " + currentStock);
 			while (rs2.next()) {
 				int ID = Integer.parseInt(rs2.getString("productID"));
 				int quantity = rs2.getInt("stockQuantity") + removedStocks[ID];
-				Product product = new Product(rs2.getString("productName"),
-						rs2.getString("productID"), rs2.getString("price"), quantity + "", null);
+				Product product = new Product(rs2.getString("productID"),
+						rs2.getString("productName"), rs2.getString("price"), quantity + "", null);
 				productsStock.add(product);
 			}
-			rs.close();
 			rs2.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
 		return productsStock;
 	}
 
