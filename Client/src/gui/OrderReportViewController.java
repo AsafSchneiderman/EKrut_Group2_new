@@ -17,6 +17,13 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
 
 public class OrderReportViewController implements Initializable{
@@ -30,6 +37,9 @@ public class OrderReportViewController implements Initializable{
 
     @FXML
     private NumberAxis numberAxisSales;
+    
+    @FXML
+    private AnchorPane pane;
 
     private static Series<String, Integer> series1;
     private static Series<String, Integer> series2;
@@ -50,7 +60,10 @@ public class OrderReportViewController implements Initializable{
 	public void start(Stage primaryStage, OrdersReport selectedReport) throws IOException{
 		orderReport = selectedReport;
 		ClientMenuController.clientStage = primaryStage;
-		primaryStage.setTitle("Ekrut - Client");
+		if (LoginFrameController.user.getRole().equals("RegionManager"))
+			primaryStage.setTitle("Ekrut - Region Manager >> Menu >> Report Search >> Orders Report");
+		else
+			primaryStage.setTitle("Ekrut - CEO >> Menu >> Report Search >> Orders Report");
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/OrderReportView.fxml"));
 		Scene home = new Scene(root);
 		primaryStage.setScene(home);
@@ -60,6 +73,17 @@ public class OrderReportViewController implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		BackgroundSize backgroundSize = new BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true, false);
+		Image backgroundImage = null;
+		if (LoginFrameController.user.getRole().equals("RegionManager"))
+			backgroundImage = new Image("images/RegionManagerFrame.png");
+		else
+			backgroundImage = new Image("images/CEOFrame.png");
+		BackgroundImage image = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
+														BackgroundPosition.DEFAULT, backgroundSize);
+		
+		pane.setBackground(new Background(image));
+		
 		series1 = orderReport.getGraph("local");
 		series2 = orderReport.getGraph("pickup");
 		BarChartSalesPerInstitution.setTitle("Number of orders per vending machine ("+orderReport.getMonth()+" - "+orderReport.getYear()+")");

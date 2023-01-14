@@ -7,7 +7,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ReportSearchFrameController">
+<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ReportSearchFrameController">
    <children>
       <Button layoutX="711.0" layoutY="87.0" mnemonicParsing="false" onAction="#searchReport" text="Search" />
       <Label layoutX="98.0" layoutY="28.0" text="Report Type:" />
@@ -17,10 +17,10 @@
       <ChoiceBox fx:id="selectReportType" layoutX="176.0" layoutY="23.0" prefHeight="26.0" prefWidth="161.0" />
       <ChoiceBox fx:id="selectMonth" layoutX="509.0" layoutY="24.0" prefWidth="150.0" />
       <ChoiceBox fx:id="selectYear" layoutX="509.0" layoutY="74.0" prefWidth="150.0" />
-      <TableView fx:id="tblReports" layoutY="118.0" prefHeight="333.0" prefWidth="800.0">
+      <TableView fx:id="tblReports" layoutX="100.0" layoutY="127.0" prefHeight="300.0" prefWidth="600.0">
         <columns>
-          <TableColumn fx:id="colReportName" prefWidth="630.3999450206757" text="Report name" />
-          <TableColumn fx:id="colViewReports" prefWidth="177.60003662109375" />
+          <TableColumn fx:id="colReportName" editable="false" prefWidth="504.79998779296875" text="Report name" />
+          <TableColumn fx:id="colViewReports" prefWidth="95.2000732421875" />
         </columns>
       </TableView>
    </children>
