@@ -558,13 +558,16 @@ public class Query {
 	public static void insertCreditCardAndRegion(String id,String data) {
 		Statement stmt;
 		String splitData[]= new String[3];
-		data.split("#");
+		splitData=data.split("#");
 		try {
 			if (mysqlConnection.conn != null) {
 				stmt = mysqlConnection.conn.createStatement();
-				ResultSet rs = stmt.executeQuery("INSERT INTO userstosignup(creditCard, region) SELECT ");
+				ResultSet rs = stmt.executeQuery("INSERT INTO userstosignup(creditCard, region) VALUES ("+splitData[1]+","+splitData[2]+") WHERE id="+splitData[0]);
 				if (rs.next()) {
+					return;
 				}
+				else
+					System.out.println("Error");
 				}
 				
 	}catch (SQLException e) {
