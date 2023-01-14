@@ -43,11 +43,8 @@ public class CustomerFrameController implements Initializable {
 
 	@FXML
 	private Button bntPickupOrder;
-
 	@FXML
-	void exitProg(ActionEvent event) {
-
-	}
+	private Label lblWelcome;
 
 	@FXML
 	void pickupOrder(ActionEvent event) {
@@ -73,8 +70,19 @@ public class CustomerFrameController implements Initializable {
 
 	}
 
+	/**
+	 * The user exit from the region manager frame and do logout to the user from
+	 * the DB
+	 * 
+	 * @param event (Click on Exit button)
+	 */
+
 	@FXML
-	void exit(ActionEvent event) {
+	void exitProg(ActionEvent event) {
+		ClientMenuController.clientStage.setScene(LoginFrameController.home);
+		// Logout
+		msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
+		ClientMenuController.clientControl.accept(msg);
 
 	}
 
@@ -115,6 +123,9 @@ public class CustomerFrameController implements Initializable {
 		BackgroundImage image = new BackgroundImage(new Image("images/LocalOrderFrame.png"), BackgroundRepeat.NO_REPEAT,
 				BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
 		pane.setBackground(new Background(image));
+		// initialize the Welcome label to welcome and the full name of the user
+		lblWelcome.setText(
+				"Welcome " + LoginFrameController.user.getFirstName() + " " + LoginFrameController.user.getLastName());
 	}
 
 }

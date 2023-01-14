@@ -370,14 +370,14 @@ public class Query {
 		return clientsPerOrderAmount;
 	}
 
-	public static ArrayList<Product> getProducts() {
+	public static ArrayList<Product> getProducts(String location) {
 		Product product;
 		ArrayList<Product> listOfProducts = new ArrayList<>();
 		Statement stmt;
 		try {
 			if (mysqlConnection.conn != null) {
 				stmt = mysqlConnection.conn.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT * FROM ortBraudeproducts");
+				ResultSet rs = stmt.executeQuery("SELECT * FROM "+ location+"products");
 				while (rs.next()) {
 
 					product = new Product(rs.getString("productID"), rs.getString("productName"), rs.getString("price"),

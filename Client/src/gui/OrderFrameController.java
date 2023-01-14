@@ -109,6 +109,8 @@ public class OrderFrameController implements Initializable {
 	private ImageView imgForIcon;
 	@FXML
 	private Text txtTimer;
+	@FXML
+	private Label lblWelcome;
 	int counterForProducts;
 
 	@SuppressWarnings({ "unchecked" })
@@ -123,6 +125,9 @@ public class OrderFrameController implements Initializable {
 		BackgroundImage image = new BackgroundImage(new Image("images/orderFrameBackground.png"),
 				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
 		pane.setBackground(new Background(image));
+		// initialize the Welcome label to welcome and the full name of the user
+		lblWelcome.setText(
+				"Welcome " + LoginFrameController.user.getFirstName() + " " + LoginFrameController.user.getLastName());
 		tblProducts.setEditable(true);
 		tblCart.setEditable(true);
 		Image cartIcone = new Image("images/addToBasket.png");
@@ -141,9 +146,14 @@ public class OrderFrameController implements Initializable {
 		addProdBntCol.setCellValueFactory(new PropertyValueFactory<OrderProductsForTbl, Button>("bntToAdd"));
 		subProdBntCol.setCellValueFactory(new PropertyValueFactory<OrderProductsForTbl, Button>("bntToSub"));
 		priceSelProdCol.setCellValueFactory(new PropertyValueFactory<OrderProductsForTbl, String>("price"));
+		if (ClientMenuController.config.equals("OL")) {
+			msg = new Message(MessageType.Show_products, OnlineOrderFrameController.machine);
+			ClientMenuController.clientControl.accept(msg);
+		} else {
+			msg = new Message(MessageType.Show_products, ClientMenuController.vendingMachine);
+			ClientMenuController.clientControl.accept(msg);
+		}
 
-		msg = new Message(MessageType.Show_products, "");
-		ClientMenuController.clientControl.accept(msg);
 		try {
 			Thread.sleep(1000);
 			System.out.println(ChatClient.msgServer.getMessageData().toString());
@@ -156,12 +166,12 @@ public class OrderFrameController implements Initializable {
 			Image pic = new Image(row.getImgSrc());
 			ImageView img = new ImageView();
 			img.setImage(pic);
-			img.setFitWidth(50);
-			img.setFitHeight(50);
+			img.setFitWidth(40);
+			img.setFitHeight(40);
 			Button addCartBnt = new Button("Add To Cart");
 			addCartBnt.setOnAction(e -> {
 
-				if (Integer.parseInt(row.getStockQuantity()) == 0) {
+				if (row.getStockQuantity().equals("0")) {
 
 					System.out.println("alert for add to cart\n");
 					stockAlert.setVisible(true);
@@ -171,16 +181,19 @@ public class OrderFrameController implements Initializable {
 					counterForProducts++;
 					ImageView imgForCart = new ImageView();
 					imgForCart.setImage(pic);
-					imgForCart.setFitWidth(50);
-					imgForCart.setFitHeight(50);
-					String stockTempStr = row.getStockQuantity();
-					int stockNumTemp = Integer.parseInt(stockTempStr);
-					stockNumTemp = stockNumTemp - 1;
-					stockTempStr = String.valueOf(stockNumTemp);
-					row.setStockQuantity(stockTempStr);
+					imgForCart.setFitWidth(40);
+					imgForCart.setFitHeight(40);
+					if((!OnlineOrderFrameController.machine.equals("warehouse")))
+					{
+						String stockTempStr = row.getStockQuantity();
+						int stockNumTemp = Integer.parseInt(stockTempStr);
+						stockNumTemp = stockNumTemp - 1;
+						stockTempStr = String.valueOf(stockNumTemp);
+						row.setStockQuantity(stockTempStr);
+					}
+					
 					Button addQuantity = new Button("+");
 					Button subQuantity = new Button("-");
-					// OrderProductsForTbl toCartAdd;
 					OrderProductsForTbl toCart = new OrderProductsForTbl(row.getProductName(), row.getPrice(), "1",
 							imgForCart, addQuantity, subQuantity);
 					float tempPrice = convertStringToFloat(row.getPrice());
@@ -188,7 +201,7 @@ public class OrderFrameController implements Initializable {
 					lblTotalPrice.setText(Float.toString(totPrice));
 					addQuantity.setOnAction(a -> {
 
-						if (Integer.parseInt(row.getStockQuantity()) == 0) {
+						if (row.getStockQuantity().equals("0")) {
 
 							stockAlert.setVisible(true);
 
@@ -200,13 +213,17 @@ public class OrderFrameController implements Initializable {
 							float tempPrice2 = convertStringToFloat(toCart.getPrice());
 							tempQuantityNum = tempQuantityNum + 1;
 							tempQuantityStr = String.valueOf(tempQuantityNum);
-							String stockTempStr2 = row.getStockQuantity();
-							int stockNumTemp2 = Integer.parseInt(stockTempStr2);
-							stockNumTemp2 = stockNumTemp2 - 1;
-							stockTempStr2 = String.valueOf(stockNumTemp2);
+							if((!OnlineOrderFrameController.machine.equals("warehouse")))
+							{
+								String stockTempStr2 = row.getStockQuantity();
+								int stockNumTemp2 = Integer.parseInt(stockTempStr2);
+								stockNumTemp2 = stockNumTemp2 - 1;
+								stockTempStr2 = String.valueOf(stockNumTemp2);
+								row.setStockQuantity(stockTempStr2);
+							}
+							
 							totPrice = totPrice + tempPrice2;
 							lblTotalPrice.setText(Float.toString(totPrice));
-							row.setStockQuantity(stockTempStr2);
 							toCart.setQuantity(tempQuantityStr);
 							tblCart.refresh();
 
@@ -221,11 +238,15 @@ public class OrderFrameController implements Initializable {
 							String stockTempStr1 = row.getStockQuantity();
 							int stockNumTemp1 = Integer.parseInt(stockTempStr1);
 							float tempPrice3 = convertStringToFloat(toCart.getPrice());
-							stockNumTemp1 = stockNumTemp1 + 1;
-							stockTempStr1 = String.valueOf(stockNumTemp1);
+							if((!OnlineOrderFrameController.machine.equals("warehouse")))
+							{
+								stockNumTemp1 = stockNumTemp1 + 1;
+								stockTempStr1 = String.valueOf(stockNumTemp1);
+								row.setStockQuantity(stockTempStr1);
+							}
+							
 							totPrice = totPrice - tempPrice3;
 							lblTotalPrice.setText(Float.toString(totPrice));
-							row.setStockQuantity(stockTempStr1);
 							cartObservableList.remove(toCart);
 						} else {
 							counterForProducts--;
@@ -234,13 +255,17 @@ public class OrderFrameController implements Initializable {
 							float tempPrice4 = convertStringToFloat(toCart.getPrice());
 							tempQuantityNum = tempQuantityNum - 1;
 							tempQuantityStr = String.valueOf(tempQuantityNum);
-							String stockTempStr2 = row.getStockQuantity();
-							int stockNumTemp2 = Integer.parseInt(stockTempStr2);
-							stockNumTemp2 = stockNumTemp2 + 1;
-							stockTempStr2 = String.valueOf(stockNumTemp2);
+							if((!OnlineOrderFrameController.machine.equals("warehouse")))
+							{
+								String stockTempStr2 = row.getStockQuantity();
+								int stockNumTemp2 = Integer.parseInt(stockTempStr2);
+								stockNumTemp2 = stockNumTemp2 + 1;
+								stockTempStr2 = String.valueOf(stockNumTemp2);
+								row.setStockQuantity(stockTempStr2);
+							}
+							
 							totPrice = totPrice - tempPrice4;
 							lblTotalPrice.setText(Float.toString(totPrice));
-							row.setStockQuantity(stockTempStr2);
 							toCart.setQuantity(tempQuantityStr);
 							tblCart.refresh();
 						}

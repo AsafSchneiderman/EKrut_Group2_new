@@ -80,6 +80,8 @@ public class OnlineOrderFrameController implements Initializable {
 
 	@FXML
 	private RadioButton rduDelivery;
+	@FXML
+	private Label lblWelcome;
 	private ToggleGroup tg = new ToggleGroup(); // create a toggle group
 
 	@FXML
@@ -93,7 +95,7 @@ public class OnlineOrderFrameController implements Initializable {
 		lblCity.setVisible(false);
 		lblDeliveryAddr.setVisible(false);
 
-		 vendingMachines = (ArrayList<VendingMachine>)ChatClient.msgServer.getMessageData();
+		vendingMachines = (ArrayList<VendingMachine>) ChatClient.msgServer.getMessageData();
 		ObservableList<String> list = FXCollections.observableArrayList(); // initialize the comboBox
 		for (VendingMachine row : vendingMachines)
 			list.add(row.getLocation());
@@ -188,6 +190,10 @@ public class OnlineOrderFrameController implements Initializable {
 				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
 		pane.setBackground(new Background(image));
 
+		// initialize the Welcome label to welcome and the full name of the user
+		lblWelcome.setText(
+				"Welcome " + LoginFrameController.user.getFirstName() + " " + LoginFrameController.user.getLastName());
+
 		rduPickup.setToggleGroup(tg);
 		rduDelivery.setToggleGroup(tg);
 
@@ -198,7 +204,7 @@ public class OnlineOrderFrameController implements Initializable {
 		txtFldStreet.setVisible(false);
 		lblCity.setVisible(false);
 		lblDeliveryAddr.setVisible(false);
-		
+
 		this.SelectVendingMachine(null);
 
 	}

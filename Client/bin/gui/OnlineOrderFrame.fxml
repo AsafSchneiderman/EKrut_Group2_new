@@ -27,5 +27,10 @@
       <ComboBox fx:id="cmbCity" layoutX="491.0" layoutY="210.0" prefWidth="150.0" />
       <RadioButton fx:id="rduPickup" layoutX="146.0" layoutY="148.0" mnemonicParsing="false" onAction="#SelectVendingMachine" prefHeight="17.0" prefWidth="126.0" text="New pickup Order" />
       <RadioButton fx:id="rduDelivery" layoutX="146.0" layoutY="190.0" mnemonicParsing="false" onAction="#SetDeliveryAddress" prefHeight="17.0" prefWidth="134.0" text="New Delivery Order" />
+      <Label fx:id="lblWelcome" layoutX="247.0" layoutY="37.0" text="Welcome" textFill="#e10000">
+         <font>
+            <Font name="Arial" size="16.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

@@ -32,8 +32,19 @@ public class pickupFrameController implements Initializable {
 	@FXML
 	private Button btnEnd;
 
+	/**
+	 * The user exit from the region manager frame and do logout to the user from
+	 * the DB
+	 * 
+	 * @param event (Click on Exit button)
+	 */
 	@FXML
 	void end(ActionEvent event) {
+
+		ClientMenuController.clientStage.setScene(LoginFrameController.home);
+		// Logout
+		msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
+		ClientMenuController.clientControl.accept(msg);
 
 	}
 
