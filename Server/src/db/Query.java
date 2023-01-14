@@ -531,4 +531,21 @@ public class Query {
 		return user;
 	}
 	
+	public static void insertCreditCardAndRegion(String id,String data) {
+		Statement stmt;
+		String splitData[]= new String[3];
+		data.split("#");
+		try {
+			if (mysqlConnection.conn != null) {
+				stmt = mysqlConnection.conn.createStatement();
+				ResultSet rs = stmt.executeQuery("INSERT INTO userstosignup(creditCard, region) SELECT ");
+				if (rs.next()) {
+				}
+				}
+				
+	}catch (SQLException e) {
+		e.printStackTrace();
+	}
+	}
+	
 }
