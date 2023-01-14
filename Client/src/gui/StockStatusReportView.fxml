@@ -17,9 +17,12 @@
          </font>
       </Label>
       <ChoiceBox fx:id="cbInstitution" layoutX="385.0" layoutY="23.0" prefHeight="26.0" prefWidth="183.0" />
-      <BarChart fx:id="BarChartStockPerMachine" layoutX="50.0" layoutY="52.0" legendVisible="false" prefHeight="400.0" prefWidth="700.0">
+      <BarChart fx:id="BarChartStockPerMachine" animated="false" layoutX="50.0" layoutY="52.0" legendVisible="false" prefHeight="400.0" prefWidth="700.0">
          <xAxis>
-            <CategoryAxis fx:id="categoryAxisProduct" animated="false" label="Products" side="BOTTOM" />
+            <CategoryAxis fx:id="categoryAxisProduct" animated="false" label="Products" side="BOTTOM">
+               <tickLabelFont>
+                  <Font name="System Bold" size="12.0" />
+               </tickLabelFont></CategoryAxis>
          </xAxis>
          <yAxis>
             <NumberAxis fx:id="numberAxisAmount" autoRanging="false" label="Amount In Stock" side="LEFT" tickLabelGap="10.0" upperBound="30.0">
@@ -29,6 +32,6 @@
          </yAxis>
       </BarChart>
       <Label layoutX="222.0" layoutY="27.0" text="Products Stock by Machine:" />
-      <Button layoutX="10.0" layoutY="418.0" mnemonicParsing="false" onAction="#BackToPreviosePage" text="Back" />
+      <Button layoutX="10.0" layoutY="418.0" mnemonicParsing="false" onAction="#BackToPreviousPage" text="Back" />
    </children>
 </AnchorPane>

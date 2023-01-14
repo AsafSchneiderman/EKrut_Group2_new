@@ -44,7 +44,8 @@ public class StockStatusReportViewController implements Initializable {
 	private static StockStatusReport stockStatusReport;
 	
 	@FXML
-	void BackToPreviosePage(ActionEvent event) {
+	void BackToPreviousPage(ActionEvent event) {
+		
 		ReportSearchFrameController reportSearchFrameController = new ReportSearchFrameController();
 		try {
 			reportSearchFrameController.start(ClientMenuController.clientStage);
@@ -66,6 +67,7 @@ public class StockStatusReportViewController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		cbInstitution.getItems().clear();
 		machineLocationsList.addAll(stockStatusReport.getVendingMachinesLocations());
 		cbInstitution.setItems(machineLocationsList);
 		cbInstitution.getSelectionModel().selectedItemProperty()
