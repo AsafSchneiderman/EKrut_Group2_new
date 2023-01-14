@@ -235,6 +235,7 @@ public class LoginFrameController implements Initializable {
 			if(ClientMenuController.config.equals("OL"))
 			{
 				OnlineOrderFrameController onlineOrder = new OnlineOrderFrameController();
+				ClientMenuController.clientControl.accept(new Message(MessageType.Get_vendingMachines, ""));
 				try {
 					onlineOrder.start(ClientMenuController.clientStage);
 				} catch (IOException e) {

@@ -52,287 +52,263 @@ public class OrderFrameController implements Initializable {
 	Product product;
 	public static float totPrice;
 	public static ArrayList<Product> productsList = new ArrayList<>();
-	public  static CustomerFrameController customerFrame;
+	public static CustomerFrameController customerFrame;
 	public static Stage clientStage;
-	public  static ConfirmOrderFrameController confirmOrderFrame;
+	public static ConfirmOrderFrameController confirmOrderFrame;
 	public static Message msg;
 	public static ObservableList<ProductForOrder> tvObservableList = FXCollections.observableArrayList();
 	public static ObservableList<OrderProductsForTbl> cartObservableList = FXCollections.observableArrayList();
-	//public static ObservableList<String>tempForProducts;
+	// public static ObservableList<String>tempForProducts;
 
 	@FXML
 	private AnchorPane pane;
-    @FXML
-    private TableView<ProductForOrder> tblProducts;
+	@FXML
+	private TableView<ProductForOrder> tblProducts;
 
-    @FXML
-    private TableView<OrderProductsForTbl> tblCart;
-    @FXML
-    private TableColumn<OrderProductsForTbl, ImageView> imgSelectedProdCol;
-    @FXML
-    private TableColumn<OrderProductsForTbl, String> colProductInCart;
+	@FXML
+	private TableView<OrderProductsForTbl> tblCart;
+	@FXML
+	private TableColumn<OrderProductsForTbl, ImageView> imgSelectedProdCol;
+	@FXML
+	private TableColumn<OrderProductsForTbl, String> colProductInCart;
 
-    @FXML
-    private TableColumn<OrderProductsForTbl, String> colQuantityInCart;
+	@FXML
+	private TableColumn<OrderProductsForTbl, String> colQuantityInCart;
 
+	@FXML
+	private TableColumn<OrderProductsForTbl, Button> addProdBntCol;
 
-    @FXML
-    private TableColumn<OrderProductsForTbl, Button> addProdBntCol;
-    
+	@FXML
+	private TableColumn<OrderProductsForTbl, Button> subProdBntCol;
 
-    @FXML
-    private TableColumn<OrderProductsForTbl, Button> subProdBntCol;
+	@FXML
+	private TableColumn<OrderProductsForTbl, String> priceSelProdCol;
 
-    @FXML
-    private TableColumn<OrderProductsForTbl, String> priceSelProdCol;
+	@FXML
+	private Button btnCheckOutOrder;
 
+	@FXML
+	private Label lblTotalPrice;
 
-    @FXML
-    private Button btnCheckOutOrder;
+	@FXML
+	private Button btnCancelOrder;
 
-    @FXML
-    private Label lblTotalPrice;
+	@FXML
+	private TableColumn<ProductForOrder, String> colNameOfProduct;
 
-    @FXML
-    private Button btnCancelOrder;
+	@FXML
+	private TableColumn<ProductForOrder, String> colPriceOfProduct;
 
-    @FXML
-    private TableColumn<ProductForOrder, String> colNameOfProduct;
+	@FXML
+	private TableColumn<ProductForOrder, ImageView> colProductImg;
+	@FXML
+	private TableColumn<ProductForOrder, String> bntColAddCart;
+	@FXML
+	private Label stockAlert;
+	@FXML
+	private ImageView imgForIcon;
+	@FXML
+	private Text txtTimer;
+	int counterForProducts;
 
-    @FXML
-    private TableColumn<ProductForOrder, String> colPriceOfProduct;
-    
-   
-    @FXML
-    private TableColumn<ProductForOrder, ImageView> colProductImg;
-    @FXML
-    private TableColumn<ProductForOrder, String> bntColAddCart;
-    @FXML
-    private Label stockAlert;
-    @FXML
-    private ImageView imgForIcon;
-    @FXML
-    private Text txtTimer;
-    int counterForProducts;
-    
-    @SuppressWarnings({ "unchecked"})
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-    	totPrice = 0;
-    	stockAlert.setVisible(false);
-    	counterForProducts = 0;
-    	// initialize the background image and icon
-    			BackgroundSize backgroundSize = new BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true,
-    					false);
-    			BackgroundImage image = new BackgroundImage(new Image("images/orderFrameBackground.png"),
-    					BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
-    			pane.setBackground(new Background(image));  			  			
-    			tblProducts.setEditable(true);
-    			tblCart.setEditable(true);
-    			Image cartIcone = new Image("images/addToBasket.png");
-    			imgForIcon.setImage(cartIcone);
-    			imgForIcon.setFitWidth(50);
-    			imgForIcon.setFitHeight(50);
-    			
-    			
-    			
-    			
-    			colProductImg.setCellValueFactory(new PropertyValueFactory<ProductForOrder, ImageView>("imgSrc"));
-    			colNameOfProduct.setCellValueFactory(new PropertyValueFactory<ProductForOrder, String>("productName"));
-    			colPriceOfProduct.setCellValueFactory(new PropertyValueFactory<ProductForOrder, String>("price"));
-    			bntColAddCart.setCellValueFactory(new PropertyValueFactory<ProductForOrder, String>("bntToAdd"));
-    			
-    			imgSelectedProdCol.setCellValueFactory(new PropertyValueFactory<OrderProductsForTbl, ImageView>("imgSrc"));
-    			colProductInCart.setCellValueFactory(new PropertyValueFactory<OrderProductsForTbl, String>("productName"));
-    			colQuantityInCart.setCellValueFactory(new PropertyValueFactory<OrderProductsForTbl, String>("quantity"));
-    			addProdBntCol.setCellValueFactory(new PropertyValueFactory<OrderProductsForTbl, Button>("bntToAdd"));
-    			subProdBntCol.setCellValueFactory(new PropertyValueFactory<OrderProductsForTbl, Button>("bntToSub"));
-    			priceSelProdCol.setCellValueFactory(new PropertyValueFactory<OrderProductsForTbl, String>("price"));
-    			
-    			msg = new Message(MessageType.Show_products, "");
-    			ClientMenuController.clientControl.accept(msg);
-    			try {
-					Thread.sleep(1000);
-					System.out.println(ChatClient.msgServer.getMessageData().toString());
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+	@SuppressWarnings({ "unchecked" })
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		totPrice = 0;
+		stockAlert.setVisible(false);
+		counterForProducts = 0;
+		// initialize the background image and icon
+		BackgroundSize backgroundSize = new BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true,
+				false);
+		BackgroundImage image = new BackgroundImage(new Image("images/orderFrameBackground.png"),
+				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
+		pane.setBackground(new Background(image));
+		tblProducts.setEditable(true);
+		tblCart.setEditable(true);
+		Image cartIcone = new Image("images/addToBasket.png");
+		imgForIcon.setImage(cartIcone);
+		imgForIcon.setFitWidth(50);
+		imgForIcon.setFitHeight(50);
+
+		colProductImg.setCellValueFactory(new PropertyValueFactory<ProductForOrder, ImageView>("imgSrc"));
+		colNameOfProduct.setCellValueFactory(new PropertyValueFactory<ProductForOrder, String>("productName"));
+		colPriceOfProduct.setCellValueFactory(new PropertyValueFactory<ProductForOrder, String>("price"));
+		bntColAddCart.setCellValueFactory(new PropertyValueFactory<ProductForOrder, String>("bntToAdd"));
+
+		imgSelectedProdCol.setCellValueFactory(new PropertyValueFactory<OrderProductsForTbl, ImageView>("imgSrc"));
+		colProductInCart.setCellValueFactory(new PropertyValueFactory<OrderProductsForTbl, String>("productName"));
+		colQuantityInCart.setCellValueFactory(new PropertyValueFactory<OrderProductsForTbl, String>("quantity"));
+		addProdBntCol.setCellValueFactory(new PropertyValueFactory<OrderProductsForTbl, Button>("bntToAdd"));
+		subProdBntCol.setCellValueFactory(new PropertyValueFactory<OrderProductsForTbl, Button>("bntToSub"));
+		priceSelProdCol.setCellValueFactory(new PropertyValueFactory<OrderProductsForTbl, String>("price"));
+
+		msg = new Message(MessageType.Show_products, "");
+		ClientMenuController.clientControl.accept(msg);
+		try {
+			Thread.sleep(1000);
+			System.out.println(ChatClient.msgServer.getMessageData().toString());
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		productsList = (ArrayList<Product>) ChatClient.msgServer.getMessageData();
+		for (Product row : productsList) {
+			Image pic = new Image(row.getImgSrc());
+			ImageView img = new ImageView();
+			img.setImage(pic);
+			img.setFitWidth(50);
+			img.setFitHeight(50);
+			Button addCartBnt = new Button("Add To Cart");
+			addCartBnt.setOnAction(e -> {
+
+				if (Integer.parseInt(row.getStockQuantity()) == 0) {
+
+					System.out.println("alert for add to cart\n");
+					stockAlert.setVisible(true);
+
+				} else {
+					stockAlert.setVisible(false);
+					counterForProducts++;
+					ImageView imgForCart = new ImageView();
+					imgForCart.setImage(pic);
+					imgForCart.setFitWidth(50);
+					imgForCart.setFitHeight(50);
+					String stockTempStr = row.getStockQuantity();
+					int stockNumTemp = Integer.parseInt(stockTempStr);
+					stockNumTemp = stockNumTemp - 1;
+					stockTempStr = String.valueOf(stockNumTemp);
+					row.setStockQuantity(stockTempStr);
+					Button addQuantity = new Button("+");
+					Button subQuantity = new Button("-");
+					// OrderProductsForTbl toCartAdd;
+					OrderProductsForTbl toCart = new OrderProductsForTbl(row.getProductName(), row.getPrice(), "1",
+							imgForCart, addQuantity, subQuantity);
+					float tempPrice = convertStringToFloat(row.getPrice());
+					totPrice = totPrice + tempPrice;
+					lblTotalPrice.setText(Float.toString(totPrice));
+					addQuantity.setOnAction(a -> {
+
+						if (Integer.parseInt(row.getStockQuantity()) == 0) {
+
+							stockAlert.setVisible(true);
+
+						} else {
+							stockAlert.setVisible(false);
+							counterForProducts++;
+							String tempQuantityStr = toCart.getQuantity();
+							int tempQuantityNum = Integer.parseInt(tempQuantityStr);
+							float tempPrice2 = convertStringToFloat(toCart.getPrice());
+							tempQuantityNum = tempQuantityNum + 1;
+							tempQuantityStr = String.valueOf(tempQuantityNum);
+							String stockTempStr2 = row.getStockQuantity();
+							int stockNumTemp2 = Integer.parseInt(stockTempStr2);
+							stockNumTemp2 = stockNumTemp2 - 1;
+							stockTempStr2 = String.valueOf(stockNumTemp2);
+							totPrice = totPrice + tempPrice2;
+							lblTotalPrice.setText(Float.toString(totPrice));
+							row.setStockQuantity(stockTempStr2);
+							toCart.setQuantity(tempQuantityStr);
+							tblCart.refresh();
+
+						}
+
+					});
+
+					subQuantity.setOnAction(b -> {
+
+						if (Integer.parseInt(toCart.getQuantity()) == 1) {
+							counterForProducts--;
+							String stockTempStr1 = row.getStockQuantity();
+							int stockNumTemp1 = Integer.parseInt(stockTempStr1);
+							float tempPrice3 = convertStringToFloat(toCart.getPrice());
+							stockNumTemp1 = stockNumTemp1 + 1;
+							stockTempStr1 = String.valueOf(stockNumTemp1);
+							totPrice = totPrice - tempPrice3;
+							lblTotalPrice.setText(Float.toString(totPrice));
+							row.setStockQuantity(stockTempStr1);
+							cartObservableList.remove(toCart);
+						} else {
+							counterForProducts--;
+							String tempQuantityStr = toCart.getQuantity();
+							int tempQuantityNum = Integer.parseInt(tempQuantityStr);
+							float tempPrice4 = convertStringToFloat(toCart.getPrice());
+							tempQuantityNum = tempQuantityNum - 1;
+							tempQuantityStr = String.valueOf(tempQuantityNum);
+							String stockTempStr2 = row.getStockQuantity();
+							int stockNumTemp2 = Integer.parseInt(stockTempStr2);
+							stockNumTemp2 = stockNumTemp2 + 1;
+							stockTempStr2 = String.valueOf(stockNumTemp2);
+							totPrice = totPrice - tempPrice4;
+							lblTotalPrice.setText(Float.toString(totPrice));
+							row.setStockQuantity(stockTempStr2);
+							toCart.setQuantity(tempQuantityStr);
+							tblCart.refresh();
+						}
+
+					});
+
+					cartObservableList.add(toCart);
 				}
-    			productsList = (ArrayList<Product>) ChatClient.msgServer.getMessageData();
-    			for (Product row : productsList)
-    			{
-    				Image pic = new Image(row.getImgSrc());
-    				ImageView img = new ImageView();
-    				img.setImage(pic);
-    				img.setFitWidth(50);
-    				img.setFitHeight(50);
-    				Button addCartBnt = new Button("Add To Cart");
-    				addCartBnt.setOnAction(e -> {
-    					
-    					if(Integer.parseInt(row.getStockQuantity()) == 0)
-    					{
-    						
-    						System.out.println("alert for add to cart\n");
-    						stockAlert.setVisible(true);
-    						
-    						
-    					}
-    					else
-    					{
-    						stockAlert.setVisible(false);
-    						counterForProducts++;
-    						ImageView imgForCart = new ImageView();
-    						imgForCart.setImage(pic);
-    						imgForCart.setFitWidth(50);
-    						imgForCart.setFitHeight(50);
-    						String stockTempStr = row.getStockQuantity();
-    						int stockNumTemp = Integer.parseInt(stockTempStr);
-    						stockNumTemp = stockNumTemp - 1;
-    						stockTempStr = String.valueOf(stockNumTemp);
-    						row.setStockQuantity(stockTempStr);
-    						Button addQuantity = new Button("+");
-        					Button subQuantity = new Button("-");
-        					//OrderProductsForTbl toCartAdd;
-        					OrderProductsForTbl toCart = new OrderProductsForTbl(row.getProductName(),row.getPrice(), "1",imgForCart,addQuantity,subQuantity);
-        					float tempPrice = convertStringToFloat(row.getPrice());
-        					totPrice = totPrice + tempPrice;
-        					lblTotalPrice.setText(Float.toString(totPrice));
-        					addQuantity.setOnAction(a->{
-        						
-        						if(Integer.parseInt(row.getStockQuantity()) == 0)
-            					{
-            						
-            						stockAlert.setVisible(true);
-            						
-            					
-            					}
-        						else
-        						{
-        							stockAlert.setVisible(false);
-        							counterForProducts++;
-        							String tempQuantityStr = toCart.getQuantity();
-        							int tempQuantityNum = Integer.parseInt(tempQuantityStr);
-        							float tempPrice2 =  convertStringToFloat(toCart.getPrice());
-        							tempQuantityNum = tempQuantityNum + 1;
-        							tempQuantityStr = String.valueOf(tempQuantityNum);
-        							String stockTempStr2 = row.getStockQuantity();
-            						int stockNumTemp2 = Integer.parseInt(stockTempStr2);
-            						stockNumTemp2 = stockNumTemp2 - 1;
-            						stockTempStr2 = String.valueOf(stockNumTemp2);
-            						totPrice = totPrice + tempPrice2;
-                					lblTotalPrice.setText(Float.toString(totPrice));
-            						row.setStockQuantity(stockTempStr2);
-            						toCart.setQuantity(tempQuantityStr);
-            						tblCart.refresh();
-        							
-        						}
-        						
-        					});
-        					
-        					subQuantity.setOnAction(b->{
-        						
-        						if(Integer.parseInt(toCart.getQuantity()) == 1)
-        						{
-        							counterForProducts--;
-        							String stockTempStr1 = row.getStockQuantity();
-            						int stockNumTemp1 = Integer.parseInt(stockTempStr1);
-            						float tempPrice3 =  convertStringToFloat(toCart.getPrice());
-            						stockNumTemp1 = stockNumTemp1 + 1;
-            						stockTempStr1 = String.valueOf(stockNumTemp1);
-            						totPrice = totPrice - tempPrice3;
-                					lblTotalPrice.setText(Float.toString(totPrice));
-            						row.setStockQuantity(stockTempStr1);
-            						cartObservableList.remove(toCart);
-        						}
-        						else
-        						{
-        							counterForProducts--;
-        							String tempQuantityStr = toCart.getQuantity();
-        							int tempQuantityNum = Integer.parseInt(tempQuantityStr);
-        							float tempPrice4 =  convertStringToFloat(toCart.getPrice());
-        							tempQuantityNum = tempQuantityNum - 1;
-        							tempQuantityStr = String.valueOf(tempQuantityNum);
-        							String stockTempStr2 = row.getStockQuantity();
-            						int stockNumTemp2 = Integer.parseInt(stockTempStr2);
-            						stockNumTemp2 = stockNumTemp2 + 1;
-            						stockTempStr2 = String.valueOf(stockNumTemp2);
-            						totPrice = totPrice - tempPrice4;
-                					lblTotalPrice.setText(Float.toString(totPrice));
-            						row.setStockQuantity(stockTempStr2);
-            						toCart.setQuantity(tempQuantityStr);
-            						tblCart.refresh();
-        						}
-        						
-        					});
-        					
-        					
-        					
-        					cartObservableList.add(toCart);
-    					}
-    					
-    				});
-    				tblCart.setItems(cartObservableList);
-    				ProductForOrder tempList = new ProductForOrder(row.getProductName(),row.getPrice(),img,addCartBnt);
-    				tvObservableList.add(tempList);
-    			}
 
-    			tblProducts.setItems(tvObservableList);
-    			
-    			Time time = new Time("00:15:00");
-    			  txtTimer.setText(time.getCurrentTime());
-    			    Timeline timeline = new Timeline(
-    			            new KeyFrame(Duration.seconds(1),e ->{
-    			            
-    			            		if(time.oneSecondPassed())
-    			            		{
-    			            			ClientMenuController.clientStage.setScene(LoginFrameController.home);
-    			            			// Logout
-    			            			msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
-    			            			ClientMenuController.clientControl.accept(msg);
-    			            		}
-    			                     txtTimer.setText(time.getCurrentTime());
-    			            }));
-    	        timeline.setCycleCount(Timeline.INDEFINITE);
-    	        timeline.play();
-			 	
-    }
-    
-    
- 
-    
+			});
+			tblCart.setItems(cartObservableList);
+			ProductForOrder tempList = new ProductForOrder(row.getProductName(), row.getPrice(), img, addCartBnt);
+			tvObservableList.add(tempList);
+		}
 
-    @FXML
-    void cancelOrder(ActionEvent event) {
-    	ClientMenuController.clientStage.setScene(LoginFrameController.home);
+		tblProducts.setItems(tvObservableList);
+
+		Time time = new Time("00:15:00");
+		txtTimer.setText(time.getCurrentTime());
+		Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
+
+			if (time.oneSecondPassed()) {
+				ClientMenuController.clientStage.setScene(LoginFrameController.home);
+				// Logout
+				msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
+				ClientMenuController.clientControl.accept(msg);
+			}
+			txtTimer.setText(time.getCurrentTime());
+		}));
+		timeline.setCycleCount(Timeline.INDEFINITE);
+		timeline.play();
+
+	}
+
+	@FXML
+	void cancelOrder(ActionEvent event) {
+		ClientMenuController.clientStage.setScene(LoginFrameController.home);
 		// Logout
 		msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
 		ClientMenuController.clientControl.accept(msg);
-    }
-/**
- * 
- * 
- * @param event - > costumer want to checkout order
- * The button switch to new frame -> invoice frame
- * it sends costumer order to invoice to update database
- */
-    @FXML
-    void checkOutOrder(ActionEvent event) {
-    	confirmOrderFrame = new ConfirmOrderFrameController(tvObservableList, cartObservableList, "ortBraudeproducts",lblTotalPrice,counterForProducts);
-    	try {
+	}
+
+	/**
+	 * 
+	 * 
+	 * @param event - > costumer want to checkout order The button switch to new
+	 *              frame -> invoice frame it sends costumer order to invoice to
+	 *              update database
+	 */
+	@FXML
+	void checkOutOrder(ActionEvent event) {
+		confirmOrderFrame = new ConfirmOrderFrameController(tvObservableList, cartObservableList, "ortBraudeproducts",
+				lblTotalPrice, counterForProducts);
+		try {
 			confirmOrderFrame.start(ClientMenuController.clientStage);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    }
- // Function to convert String to Float
-    public static float convertStringToFloat(String str)
-    {
-  
-        // Convert string to float
-        // using valueOf() method
-        return Float.valueOf(str);
-    }
+	}
+
+	// Function to convert String to Float
+	public static float convertStringToFloat(String str) {
+
+		// Convert string to float
+		// using valueOf() method
+		return Float.valueOf(str);
+	}
 
 	public void start(Stage customerStage) throws IOException {
 		ClientMenuController.clientStage = customerStage;
@@ -341,23 +317,25 @@ public class OrderFrameController implements Initializable {
 		Scene home = new Scene(root);
 		customerStage.setScene(home);
 		// On pressing X (close window) the user logout from system and the client is
-				// disconnect from server.
+		// disconnect from server
 		customerStage.setOnCloseRequest(e -> {
 			msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
 			ClientMenuController.clientControl.accept(msg);
 			ClientMenuController.clientControl
-			.accept(new Message(MessageType.disconnected, LoginFrameController.user.getUserName()));
+					.accept(new Message(MessageType.disconnected, LoginFrameController.user.getUserName()));
+			// create a PopUp message
+			PopUpMessageFrameController popUpMsgController = new PopUpMessageFrameController();
+
+			try {
+				popUpMsgController.start(ClientMenuController.clientStage);
+				popUpMsgController.closeMsg(3000);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
 		});
-		customerStage.show(); 
-    }
-	
-	
-	
+		customerStage.show();
+	}
 
-    
- 
-
-		
 }
-
-

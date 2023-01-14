@@ -23,86 +23,98 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
 
-public class CustomerFrameController implements Initializable{ 
+public class CustomerFrameController implements Initializable {
 	public static CustomerFrameController customerFrame;
 	public static OnlineOrderFrameController onlineOrderFrame;
 	public static OrderFrameController orderFrame;
 	public static Stage customerStage;
 	public static Message msg;
-    @FXML
-    private AnchorPane pane;
+	@FXML
+	private AnchorPane pane;
 
-    @FXML
-    private Label lblHelloUser;
+	@FXML
+	private Label lblHelloUser;
 
-    @FXML
-    private Button btnExit;
+	@FXML
+	private Button btnExit;
 
-    @FXML
-    private Button bntLocalOrder;
+	@FXML
+	private Button bntLocalOrder;
 
-    @FXML
-    private Button bntPickupOrder;
+	@FXML
+	private Button bntPickupOrder;
 
-    @FXML
-    void exitProg(ActionEvent event) {
+	@FXML
+	void exitProg(ActionEvent event) {
 
-    }
-    @FXML
-    void pickupOrder(ActionEvent event) {
-    	
-    	
-    	pickupFrameController pickup = new pickupFrameController();
+	}
+
+	@FXML
+	void pickupOrder(ActionEvent event) {
+
+		pickupFrameController pickup = new pickupFrameController();
 		try {
 			pickup.start(ClientMenuController.clientStage);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-    }
+	}
 
-    @FXML
-    void startLocalOrder(ActionEvent event) {
-    	
-    	OrderFrameController order = new OrderFrameController();
+	@FXML
+	void startLocalOrder(ActionEvent event) {
+
+		OrderFrameController order = new OrderFrameController();
 		try {
 			order.start(ClientMenuController.clientStage);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-    }
-    @FXML
-    void exit(ActionEvent event) {
+	}
 
-    }
+	@FXML
+	void exit(ActionEvent event) {
 
+	}
 
 	public void start(Stage primaryStage) throws IOException {
 		ClientMenuController.clientStage = primaryStage;
-    	primaryStage.setTitle("Ekrut - Customer -> Welcome to machine");
+		primaryStage.setTitle("Ekrut - Customer -> Welcome to machine");
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/CustomerFrame.fxml"));
 		Scene home = new Scene(root);
 		primaryStage.setScene(home);
-		primaryStage.show(); 
+		primaryStage.show();
 		// On pressing X (close window) the user logout from system and the client is
-				// disconnect from server.
-			primaryStage.setOnCloseRequest(e -> {
-				msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
-				ClientMenuController.clientControl.accept(msg);
-				ClientMenuController.clientControl
-				.accept(new Message(MessageType.disconnected, LoginFrameController.user.getUserName()));
-				});
-		
+		// disconnect from server.
+		primaryStage.setOnCloseRequest(e -> {
+			msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
+			ClientMenuController.clientControl.accept(msg);
+			ClientMenuController.clientControl
+					.accept(new Message(MessageType.disconnected, LoginFrameController.user.getUserName()));
+			// create a PopUp message
+			PopUpMessageFrameController popUpMsgController = new PopUpMessageFrameController();
+
+			try {
+				popUpMsgController.start(ClientMenuController.clientStage);
+				popUpMsgController.closeMsg(3000);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+		});
+
 	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// initialize the background image and icon
 		BackgroundSize backgroundSize = new BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true,
 				false);
-		BackgroundImage image = new BackgroundImage(new Image("images/localFrameBackground.png"),
-				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
-		pane.setBackground(new Background(image)); 
+		BackgroundImage image = new BackgroundImage(new Image("images/LocalOrderFrame.png"), BackgroundRepeat.NO_REPEAT,
+				BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
+		pane.setBackground(new Background(image));
 	}
 
 }
