@@ -17,6 +17,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -34,48 +36,85 @@ import javafx.stage.Stage;
 
 public class InstallFrameController implements Initializable {
 
-    @FXML
-    private AnchorPane pane;
+	@FXML
+	private AnchorPane pane;
 
-    @FXML
-    private RadioButton radioBtnOL;
+	@FXML
+	private RadioButton radioBtnOL;
 
-    @FXML
-    private RadioButton radioBtnEK;
+	@FXML
+	private RadioButton radioBtnEK;
 
-    @FXML
-    private Button btnInstall;
+	@FXML
+	private Button btnInstall;
 
-    @FXML
-    private ComboBox<String> cmbBoxVendingMachine;
+	@FXML
+	private ComboBox<String> cmbBoxVendingMachine;
 
-    @FXML
-    private Label lblMsg;
-    
-    private static ArrayList<VendingMachine> vendingMachines = new ArrayList<>(); // list of vending machines in the DB
-    
-    private ToggleGroup tg = new ToggleGroup();	// create a toggle group
+	@FXML
+	private Label lblMsg;
 
-    @FXML
-    void install(ActionEvent event) {
+	private static ArrayList<VendingMachine> vendingMachines = new ArrayList<>(); // list of vending machines in the DB
 
-    }
+	private ToggleGroup tg = new ToggleGroup(); // create a toggle group
 
-    @FXML
-    void showVendingMachines(ActionEvent event) {
-    	//radioBtnOL.setDisable(true);
-    	lblMsg.setVisible(true);
-    	cmbBoxVendingMachine.setVisible(true);
-    	vendingMachines = (ArrayList<VendingMachine>) ChatClient.msgServer.getMessageData();
-    	ObservableList<String> list =  FXCollections.observableArrayList(); // initialize the comboBox
-    	for (VendingMachine row : vendingMachines) {
+	private String config = ""; // (EK/OL)
+
+	@FXML
+	void chooseEK(ActionEvent event) {
+
+		lblMsg.setVisible(true);
+		cmbBoxVendingMachine.setVisible(true);
+		// show the vending machines
+		vendingMachines = (ArrayList<VendingMachine>) ChatClient.msgServer.getMessageData();
+		ObservableList<String> list = FXCollections.observableArrayList(); // initialize the comboBox
+		for (VendingMachine row : vendingMachines)
 			list.add(row.getLocation());
-		}
-    	cmbBoxVendingMachine.setItems(list);
-		
-    }
 
-    public void start(Stage primaryStage) throws IOException {
+		cmbBoxVendingMachine.setItems(list);
+		cmbBoxVendingMachine.setValue(list.get(0));
+
+		config = "EK";
+
+	}
+
+	@FXML
+	void chooseOL(ActionEvent event) {
+
+		lblMsg.setVisible(false);
+		cmbBoxVendingMachine.setVisible(false);
+		config = "OL";
+	}
+
+	@FXML
+	void install(ActionEvent event) {
+
+		if (config.equals("EK")) {
+
+			ClientMenuController.config = "EK";
+			ClientMenuController.clientStage.setScene(ClientMenuController.home);
+		}
+
+		if (config.equals("OL")) {
+
+			ClientMenuController.config = "OL";
+			ClientMenuController.clientStage.setScene(ClientMenuController.home);
+		}
+		
+		Alert a = new Alert(AlertType.NONE);
+		 // set alert type
+        a.setAlertType(AlertType.ERROR);
+
+        // set content text
+        a.setContentText("No option selected!\r\n"
+        		+ "Select a configuration and click the Install button.");
+
+        // show the dialog
+        a.show();
+
+	}
+
+	public void start(Stage primaryStage) throws IOException {
 		ClientMenuController.clientStage = primaryStage;
 		primaryStage.setTitle("Ekrut - Client >> Install");
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/InstallFrame.fxml"));
@@ -98,10 +137,10 @@ public class InstallFrameController implements Initializable {
 		BackgroundImage image = new BackgroundImage(new Image("images/InstallFrame.png"), BackgroundRepeat.NO_REPEAT,
 				BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
 		pane.setBackground(new Background(image));
-		
+
 		radioBtnEK.setToggleGroup(tg);
 		radioBtnOL.setToggleGroup(tg);
-		
+
 		lblMsg.setVisible(false);
 		cmbBoxVendingMachine.setVisible(false);
 	}

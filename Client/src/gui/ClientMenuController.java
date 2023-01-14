@@ -38,6 +38,8 @@ public class ClientMenuController implements Initializable {
 	public static String config; // installation configuration (EK/OL)
 
 	public static Stage clientStage;
+	
+	public static Scene home;
 
 	@FXML
 	private AnchorPane pane;
@@ -70,10 +72,10 @@ public class ClientMenuController implements Initializable {
 		Message msg = new Message(MessageType.connected, Inet4Address.getLocalHost().getHostAddress());
 		ClientMenuController.clientControl.accept(msg);
 		try {
-			//ClientMenuController.clientControl.accept(new Message(MessageType.Get_vendingMachines, ""));
-			//installFrame.start(clientStage);
+			ClientMenuController.clientControl.accept(new Message(MessageType.Get_vendingMachines, ""));
+			installFrame.start(clientStage);
 
-			 loginFrame.start(clientStage);
+			 //loginFrame.start(clientStage);
 		} catch (IOException e) {
 
 			e.printStackTrace();
@@ -85,7 +87,7 @@ public class ClientMenuController implements Initializable {
 		clientStage = primaryStage;
 		primaryStage.setTitle("Ekrut - Client Connection");
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/ClientMenu.fxml"));
-		Scene home = new Scene(root);
+		home = new Scene(root);
 		primaryStage.setScene(home);
 		primaryStage.show();
 	}
