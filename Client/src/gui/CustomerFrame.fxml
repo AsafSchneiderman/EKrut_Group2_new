@@ -7,17 +7,12 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CustomerFrameController">
    <children>
-      <Label fx:id="lblHelloUser" layoutX="113.0" layoutY="46.0" prefHeight="34.0" prefWidth="146.0" text="Hello" />
-      <Button fx:id="btnLocalOrder" layoutX="111.0" layoutY="189.0" mnemonicParsing="false" onAction="#newLocalOrder" prefHeight="100.0" prefWidth="150.0" text="Local Order" textAlignment="CENTER">
+      <Label fx:id="lblHelloUser" layoutX="43.0" layoutY="46.0" prefHeight="27.0" prefWidth="258.0" text="Hello, Please choose an action:">
          <font>
-            <Font name="System Bold" size="20.0" />
-         </font>
-      </Button>
-      <Button fx:id="btnExit" layoutX="40.0" layoutY="342.0" mnemonicParsing="false" onAction="#exit" text="Exit" textFill="#ee0303" />
-      <Button fx:id="btnOnlineOrder" layoutX="348.0" layoutY="189.0" mnemonicParsing="false" onAction="#newOnlineOrder" prefHeight="100.0" prefWidth="150.0" text="Online Order" textAlignment="CENTER">
-         <font>
-            <Font name="System Bold" size="20.0" />
-         </font>
-      </Button>
+            <Font size="18.0" />
+         </font></Label>
+      <Button fx:id="btnExit" layoutX="40.0" layoutY="342.0" mnemonicParsing="false" onAction="#exitProg" text="Exit" textFill="#ee0303" />
+      <Button fx:id="bntLocalOrder" layoutX="228.0" layoutY="136.0" mnemonicParsing="false" onAction="#startLocalOrder" prefHeight="25.0" prefWidth="139.0" text="Start local order" />
+      <Button fx:id="bntPickupOrder" layoutX="229.0" layoutY="200.0" mnemonicParsing="false" onAction="#pickupOrder" prefHeight="25.0" prefWidth="139.0" text="Pickup order" />
    </children>
 </AnchorPane>

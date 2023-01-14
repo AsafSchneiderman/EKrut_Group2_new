@@ -8,6 +8,8 @@ import java.util.ResourceBundle;
 
 import Entities.*;
 import controller.ChatClient;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
@@ -41,11 +43,14 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class OrderFrameController implements Initializable {
 	Order order;
 	Product product;
+	public static float totPrice;
 	public static ArrayList<Product> productsList = new ArrayList<>();
 	public  static CustomerFrameController customerFrame;
 	public static Stage clientStage;
@@ -103,13 +108,19 @@ public class OrderFrameController implements Initializable {
     @FXML
     private TableColumn<ProductForOrder, String> bntColAddCart;
     @FXML
+    private Label stockAlert;
+    @FXML
     private ImageView imgForIcon;
+    @FXML
+    private Text txtTimer;
     
     @SuppressWarnings({ "unchecked"})
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+    	totPrice = 0;
+    	stockAlert.setVisible(false);
     	
-    	// initialize the background image
+    	// initialize the background image and icon
     			BackgroundSize backgroundSize = new BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true,
     					false);
     			BackgroundImage image = new BackgroundImage(new Image("images/orderFrameBackground.png"),
@@ -121,6 +132,10 @@ public class OrderFrameController implements Initializable {
     			imgForIcon.setImage(cartIcone);
     			imgForIcon.setFitWidth(50);
     			imgForIcon.setFitHeight(50);
+    			
+    			
+    			
+    			
     			colProductImg.setCellValueFactory(new PropertyValueFactory<ProductForOrder, ImageView>("imgSrc"));
     			colNameOfProduct.setCellValueFactory(new PropertyValueFactory<ProductForOrder, String>("productName"));
     			colPriceOfProduct.setCellValueFactory(new PropertyValueFactory<ProductForOrder, String>("price"));
@@ -155,12 +170,15 @@ public class OrderFrameController implements Initializable {
     					
     					if(Integer.parseInt(row.getStockQuantity()) == 0)
     					{
-    						Label stockAlert = new Label();
-    						stockAlert.setText("Out Of Stock");
+    						
+    						System.out.println("alert for add to cart\n");
     						stockAlert.setVisible(true);
+    						
+    						
     					}
     					else
     					{
+    						stockAlert.setVisible(false);
     						ImageView imgForCart = new ImageView();
     						imgForCart.setImage(pic);
     						imgForCart.setFitWidth(50);
@@ -172,31 +190,37 @@ public class OrderFrameController implements Initializable {
     						row.setStockQuantity(stockTempStr);
     						Button addQuantity = new Button("+");
         					Button subQuantity = new Button("-");
-        					OrderProductsForTbl toCartAdd;
+        					//OrderProductsForTbl toCartAdd;
         					OrderProductsForTbl toCart = new OrderProductsForTbl(row.getProductName(),row.getPrice(), "1",imgForCart,addQuantity,subQuantity);
+        					float tempPrice = convertStringToFloat(row.getPrice());
+        					totPrice = totPrice + tempPrice;
+        					lblTotalPrice.setText(Float.toString(totPrice));
         					addQuantity.setOnAction(a->{
-        						
-        						//new handleAddToCartService(toCart).start();
-        					
         						
         						if(Integer.parseInt(row.getStockQuantity()) == 0)
             					{
-            						Label stockAlert = new Label();
-            						stockAlert.setText("Out Of Stock");
+            						
             						stockAlert.setVisible(true);
+            						
+            					
             					}
         						else
         						{
+        							stockAlert.setVisible(false);
         							String tempQuantityStr = toCart.getQuantity();
         							int tempQuantityNum = Integer.parseInt(tempQuantityStr);
+        							float tempPrice2 =  convertStringToFloat(toCart.getPrice());
         							tempQuantityNum = tempQuantityNum + 1;
         							tempQuantityStr = String.valueOf(tempQuantityNum);
         							String stockTempStr2 = row.getStockQuantity();
             						int stockNumTemp2 = Integer.parseInt(stockTempStr2);
             						stockNumTemp2 = stockNumTemp2 - 1;
             						stockTempStr2 = String.valueOf(stockNumTemp2);
+            						totPrice = totPrice + tempPrice2;
+                					lblTotalPrice.setText(Float.toString(totPrice));
             						row.setStockQuantity(stockTempStr2);
             						toCart.setQuantity(tempQuantityStr);
+            						tblCart.refresh();
         							
         						}
         						
@@ -209,8 +233,11 @@ public class OrderFrameController implements Initializable {
         							
         							String stockTempStr1 = row.getStockQuantity();
             						int stockNumTemp1 = Integer.parseInt(stockTempStr1);
+            						float tempPrice3 =  convertStringToFloat(toCart.getPrice());
             						stockNumTemp1 = stockNumTemp1 + 1;
             						stockTempStr1 = String.valueOf(stockNumTemp1);
+            						totPrice = totPrice - tempPrice3;
+                					lblTotalPrice.setText(Float.toString(totPrice));
             						row.setStockQuantity(stockTempStr1);
             						cartObservableList.remove(toCart);
         						}
@@ -218,14 +245,18 @@ public class OrderFrameController implements Initializable {
         						{
         							String tempQuantityStr = toCart.getQuantity();
         							int tempQuantityNum = Integer.parseInt(tempQuantityStr);
+        							float tempPrice4 =  convertStringToFloat(toCart.getPrice());
         							tempQuantityNum = tempQuantityNum - 1;
         							tempQuantityStr = String.valueOf(tempQuantityNum);
         							String stockTempStr2 = row.getStockQuantity();
             						int stockNumTemp2 = Integer.parseInt(stockTempStr2);
             						stockNumTemp2 = stockNumTemp2 + 1;
             						stockTempStr2 = String.valueOf(stockNumTemp2);
+            						totPrice = totPrice - tempPrice4;
+                					lblTotalPrice.setText(Float.toString(totPrice));
             						row.setStockQuantity(stockTempStr2);
             						toCart.setQuantity(tempQuantityStr);
+            						tblCart.refresh();
         						}
         						
         					});
@@ -242,89 +273,30 @@ public class OrderFrameController implements Initializable {
     			}
 
     			tblProducts.setItems(tvObservableList);
+    			
+    			Time time = new Time("00:15:00");
+    			  txtTimer.setText(time.getCurrentTime());
+    			    Timeline timeline = new Timeline(
+    			            new KeyFrame(Duration.seconds(1),e ->{
+    			            
+    			            		if(time.oneSecondPassed())
+    			            		{
+    			            			ClientMenuController.clientStage.setScene(LoginFrameController.home);
+    			            			// Logout
+    			            			msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
+    			            			ClientMenuController.clientControl.accept(msg);
+    			            		}
+    			                     txtTimer.setText(time.getCurrentTime());
+    			            }));
+    	        timeline.setCycleCount(Timeline.INDEFINITE);
+    	        timeline.play();
 			 	
     }
     
     
  
     
-    
-    /*
-     * private static class handleDbService extends Service<String> {
 
-		private handleDbService(Label lblAlert) {
-			setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-
-				@Override
-				public void handle(WorkerStateEvent event) {
-					lblAlert.setVisible(true);
-					lblAlert.setText((String) event.getSource().getValue());
-				}
-			});
-		}
-
-		@Override
-		protected Task<String> createTask() {
-
-			return new Task<String>() {
-
-				@Override
-				protected String call() throws Exception {
-					ClientMenuController.clientControl.accept((Object) msg);
-					Thread.sleep(500);
-					String data = (String) ChatClient.msgServer.getMessageData();
-					if (data.equals("Wrong_Input"))
-						return "Wrong user name or password!";
-					else if (data.equals("Already_logged_in"))
-						return "User already logged in";
-					else {
-						String[] userData = data.split("#"); // Export user data
-						user = new User(userData[0], userData[1], userData[2], userData[3], userData[4], userData[5],
-								userData[6], userData[7], userData[8], Integer.valueOf(userData[9]));
-					}
-					Thread.sleep(500);
-					return "";
-				}
-
-			};
-		}
-	}
-     */
-    
-    /**
-     * 
-     * Callback<TableColumn<Data, Void>, TableCell<Data, Void>> cellFactory = new Callback<TableColumn<Data, Void>, TableCell<Data, Void>>() {
-            @Override
-            public TableCell<Data, Void> call(final TableColumn<Data, Void> param) {
-                final TableCell<Data, Void> cell = new TableCell<Data, Void>() {
-
-                    private final Button btn = new Button("Action");
-
-                    {
-                        btn.setOnAction((ActionEvent event) -> {
-                            Data data = getTableView().getItems().get(getIndex());
-                            System.out.println("selectedData: " + data);
-                        });
-                    }
-
-                    @Override
-                    public void updateItem(Void item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                        } else {
-                            setGraphic(btn);
-                        }
-                    }
-                };
-                return cell;
-            }
-        };
-
-        colBtn.setCellFactory(cellFactory);
-
-        table.getColumns().add(colBtn);
-*/
     @FXML
     void cancelOrder(ActionEvent event) {
     	customerFrame = new CustomerFrameController();
@@ -344,7 +316,7 @@ public class OrderFrameController implements Initializable {
  */
     @FXML
     void checkOutOrder(ActionEvent event) {
-    	confirmOrderFrame = new ConfirmOrderFrameController(tvObservableList, cartObservableList);
+    	confirmOrderFrame = new ConfirmOrderFrameController(tvObservableList, cartObservableList, "ortBraudeproducts",lblTotalPrice);
     	try {
 			confirmOrderFrame.start(ClientMenuController.clientStage);
 		} catch (IOException e) {
@@ -367,9 +339,13 @@ public class OrderFrameController implements Initializable {
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/OrderFrame.fxml"));
 		Scene home = new Scene(root);
 		customerStage.setScene(home);
-		clientStage.setOnCloseRequest(e -> {
+		// On pressing X (close window) the user logout from system and the client is
+				// disconnect from server.
+		customerStage.setOnCloseRequest(e -> {
 			msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
 			ClientMenuController.clientControl.accept(msg);
+			ClientMenuController.clientControl
+			.accept(new Message(MessageType.disconnected, LoginFrameController.user.getUserName()));
 		});
 		customerStage.show(); 
     }

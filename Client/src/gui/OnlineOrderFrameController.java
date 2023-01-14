@@ -13,10 +13,14 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class OnlineOrderFrameController {
+
+    @FXML
+    private AnchorPane pane;
 
     @FXML
     private MenuButton menuBtnSelectOnlineOrder;
@@ -29,9 +33,6 @@ public class OnlineOrderFrameController {
 
     @FXML
     private Label lblDeliveryAddr;
-
-    @FXML
-    private TextField txtDeliveryAddr;
 
     @FXML
     private Button btnBack;
@@ -47,6 +48,24 @@ public class OnlineOrderFrameController {
 
     @FXML
     private TableColumn<?, ?> locationCol;
+
+    @FXML
+    private MenuButton bntSelectAdress;
+
+    @FXML
+    private MenuItem Haifa;
+
+    @FXML
+    private MenuItem Dubai;
+
+    @FXML
+    private MenuItem Karmiel;
+
+    @FXML
+    private MenuItem Afula;
+
+    @FXML
+    private ImageView imgIcone;
 
     @FXML
     void SelectVendingMachine(ActionEvent event) {
@@ -67,6 +86,9 @@ public class OnlineOrderFrameController {
     void continueToOrder(ActionEvent event) {
 
     }
+
+
+
 
 	public void start(Stage customerStage) throws IOException {
 		ClientMenuController.clientStage = customerStage;

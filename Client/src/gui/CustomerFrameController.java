@@ -2,6 +2,8 @@ package gui;
 
 import java.io.IOException;
 
+import Entities.Message;
+import Entities.MessageType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,55 +18,54 @@ public class CustomerFrameController{
 	public static OnlineOrderFrameController onlineOrderFrame;
 	public static OrderFrameController orderFrame;
 	public static Stage customerStage;
+	public static Message msg;
 
     @FXML
     private Label lblHelloUser;
 
     @FXML
-    private Button btnLocalOrder;
-
-    @FXML
     private Button btnExit;
 
     @FXML
-    private Button btnOnlineOrder;
+    private Button bntLocalOrder;
 
+    @FXML
+    private Button bntPickupOrder;
+
+    @FXML
+    void exitProg(ActionEvent event) {
+
+    }
+    @FXML
+    void pickupOrder(ActionEvent event) {
+
+    }
+
+    @FXML
+    void startLocalOrder(ActionEvent event) {
+
+    }
     @FXML
     void exit(ActionEvent event) {
 
     }
 
-    @FXML
-    void newLocalOrder(ActionEvent event) throws IOException {
-    	orderFrame= new OrderFrameController();
-    	try {
-			orderFrame.start(ClientMenuController.clientStage);
-	} catch (IOException e) {
-		
-		e.printStackTrace();
-	} //send to UI*/
-    	
-    	//comment1
-    }
-
-    @FXML
-    void newOnlineOrder(ActionEvent event) {
-    	onlineOrderFrame= new OnlineOrderFrameController();
-    	try {
-			onlineOrderFrame.start(ClientMenuController.clientStage);
-	} catch (IOException e) {
-		
-		e.printStackTrace();
-	} //send to UI
-    }
 
 	public void start(Stage primaryStage) throws IOException {
 		ClientMenuController.clientStage = primaryStage;
-    	primaryStage.setTitle("Ekrut - Customer");
+    	primaryStage.setTitle("Ekrut - Customer -> Welcome to machine");
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/CustomerFrame.fxml"));
 		Scene home = new Scene(root);
 		primaryStage.setScene(home);
 		primaryStage.show(); 
+		// On pressing X (close window) the user logout from system and the client is
+				// disconnect from server.
+			primaryStage.setOnCloseRequest(e -> {
+				msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
+				ClientMenuController.clientControl.accept(msg);
+				ClientMenuController.clientControl
+				.accept(new Message(MessageType.disconnected, LoginFrameController.user.getUserName()));
+				});
 		
 	}
 

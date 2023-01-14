@@ -6,12 +6,12 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.OnlineOrderFrameController">
+<AnchorPane fx:id="pane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.OnlineOrderFrameController">
    <children>
       <MenuButton fx:id="menuBtnSelectOnlineOrder" layoutX="25.0" layoutY="70.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="114.0" text="Select">
         <items>
@@ -20,7 +20,6 @@
         </items>
       </MenuButton>
       <Label fx:id="lblDeliveryAddr" layoutX="202.0" layoutY="67.0" text="Delivery Address:" />
-      <TextField fx:id="txtDeliveryAddr" layoutX="202.0" layoutY="107.0" prefHeight="31.0" prefWidth="373.0" text="Enter your address to deliver..." />
       <Button fx:id="btnBack" layoutX="26.0" layoutY="336.0" mnemonicParsing="false" onAction="#backToHomePage" prefHeight="50.0" prefWidth="80.0" text="Back" />
       <Button fx:id="btnContinue" layoutX="503.0" layoutY="336.0" mnemonicParsing="false" onAction="#continueToOrder" prefHeight="50.0" prefWidth="80.0" text="Continue">
          <font>
@@ -28,11 +27,20 @@
          </font>
       </Button>
       <Line endX="42.0" endY="258.29290771484375" layoutX="131.0" layoutY="144.0" startX="42.0" startY="-144.0" />
-      <TableView fx:id="vendingMachineTable" layoutX="211.0" layoutY="66.0" prefHeight="238.0" prefWidth="353.0">
+      <TableView fx:id="vendingMachineTable" layoutX="195.0" layoutY="91.0" prefHeight="238.0" prefWidth="281.0">
         <columns>
-          <TableColumn fx:id="machineNumCol" prefWidth="169.0" text="Machine Number" />
-          <TableColumn fx:id="locationCol" prefWidth="183.0" text="Location" />
+          <TableColumn fx:id="machineNumCol" prefWidth="116.0" text="Machine Number" />
+          <TableColumn fx:id="locationCol" prefWidth="236.0" text="Location" />
         </columns>
       </TableView>
+      <MenuButton fx:id="bntSelectAdress" layoutX="314.0" layoutY="60.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="114.0" text="Select">
+         <items>
+            <MenuItem fx:id="Haifa" mnemonicParsing="false" onAction="#SelectVendingMachine" text="addHaifa" />
+            <MenuItem fx:id="Dubai" mnemonicParsing="false" onAction="#SetDeliveryAddress" text="addDubai" />
+            <MenuItem fx:id="Karmiel" mnemonicParsing="false" text="addKarmiel" />
+            <MenuItem fx:id="Afula" mnemonicParsing="false" text="addAfula" />
+         </items>
+      </MenuButton>
+      <ImageView fx:id="imgIcone" fitHeight="82.0" fitWidth="101.0" layoutX="485.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

@@ -34,12 +34,12 @@
             <Font name="Arial" size="24.0" />
          </font>
       </Label>
-      <Label fx:id="lblTotalPrice" layoutX="237.0" layoutY="510.0" prefHeight="27.0" prefWidth="70.0">
+      <Label layoutX="117.0" layoutY="511.0" prefHeight="27.0" prefWidth="111.0" text="Total Price:">
          <font>
-            <Font size="18.0" />
+            <Font name="Arial" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="117.0" layoutY="511.0" prefHeight="27.0" prefWidth="111.0" text="Total Price:">
+      <Label fx:id="lblTotalPrice" layoutX="216.0" layoutY="514.0" prefHeight="17.0" prefWidth="54.0" text="Label">
          <font>
             <Font name="Arial" size="18.0" />
          </font>

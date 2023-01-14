@@ -55,23 +55,30 @@ public class Time implements Serializable {
 	    }
 
 	    public boolean oneSecondPassed() {
-	   
+	    if(hour > 0 && minute == 0)
+	    {
+	    	minute = 59;
+	    	hour --;
+	    }
+	    if(minute > 0 && second == 0)
+	    {
+	    	second = 60;
+	    	minute --;
+	    }
+	    if(minute > 0 || second > 0 || hour > 0)
+	    {
 	    	second--;
-	    	if(second >= 0) {
-	        if(second == 0 && minute > 0){
-	            minute--;
-	            second = 59;
-	            if(minute == 0 && hour > 0){
-	                hour--;
-	                }
-	            }
-	        }else {
-	        	second = 0;
-	        	return true;
-	        	}
 	    	return false;
-	    	}
-	    }	       
+	    }
+	    else if(second == 0)
+	    {
+	    	second = 0;
+        	return true;
+	    }
+	    return false;
+	   
+	    }
+	   }	       
 	        
 	    
 
