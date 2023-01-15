@@ -7,13 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
-import Entities.Message;
-import Entities.MessageType;
-import Entities.Order;
-import Entities.OrderProductsForTbl;
-import Entities.Product;
-import Entities.ProductForOrder;
-import Entities.Time;
 import controller.ChatClient;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -49,8 +42,9 @@ import java.time.format.DateTimeFormatter;
 
 public class ConfirmOrderFrameController implements Initializable {
 	public static Stage clientStage;
-	public static Message msg, msg2, msg3;
+	public static Message msg, msg2, msg3,msg4;
 	public static Order order, order2;
+	public static OrderToDeliveryDetails delivery;
 	public static ArrayList<Order>orderList = new ArrayList<>();;
 	 @FXML
 	    private AnchorPane pane;
@@ -86,9 +80,11 @@ public class ConfirmOrderFrameController implements Initializable {
 	private String location;
 	private int counterForProducts;
 	float totPrice;
-	java.sql.Date date;
+	java.sql.Date date, date2;
 	SimpleDateFormat formatter;
-	String strDate;
+	String strDate, strDate2;
+	private static ArrayList<VendingMachine> vendingMachines = new ArrayList<>(); // list of vending machines in the DB
+
     @FXML
     private Text txtTimer;
 
@@ -104,6 +100,13 @@ public class ConfirmOrderFrameController implements Initializable {
 
 	@FXML
     void cancelOrder(ActionEvent event) {
+		
+		OrderFrameController.productsList.removeAll(OrderFrameController.productsList);
+		OrderFrameController.tvObservableList.removeAll(tvObservableList);
+		OrderFrameController.cartObservableList.removeAll(cartObservableList);
+		OrderFrameController.counterForProducts = 0;
+		OrderFrameController toZero = new OrderFrameController();
+		toZero.setLabels();
 		
 		ClientMenuController.clientStage.setScene(LoginFrameController.home);
 		// Logout
@@ -149,6 +152,14 @@ public class ConfirmOrderFrameController implements Initializable {
     			order = new Order(orderNum,this.location,strDate,"placed",LoginFrameController.user.getUserID() ,totPrice,"delivery",this.counterForProducts);
     			msg3 = new  Message(MessageType.addOrder,order);
        			ClientMenuController.clientControl.accept(msg3);
+       			long millis2=System.currentTimeMillis();
+       		// creating a new object of the class Date  
+			     date2 = new java.sql.Date(millis2);       
+			     formatter = new SimpleDateFormat("MM.dd.yyyy");  
+			     strDate2 = formatter.format(date2);
+	   		delivery = new OrderToDeliveryDetails(Integer.toString(orderNum),OnlineOrderFrameController.city,strDate2,"notAccept","notDone");
+	   		msg4 = new  Message(MessageType.addDelivert,delivery);
+	   		ClientMenuController.clientControl.accept(msg4);
     			
     		}
     		else
@@ -168,6 +179,24 @@ public class ConfirmOrderFrameController implements Initializable {
 			     {
 			    	 type = "local";
 			     }
+			     vendingMachines = (ArrayList<VendingMachine>) ChatClient.msgServer.getMessageData();
+		   			for(int i = 0; i <vendingMachines.size();i++ )
+		   			{
+		   				if(vendingMachines.get(i).getLocation().equals(this.location))
+		   				{
+		   					for(int j = 0; j < OrderFrameController.productsList.size(); j++)
+		   					{
+		   						int thresholdLevel = Integer.parseInt(vendingMachines.get(i).getThresholdLevel());
+		   						int stockQuantity = Integer.parseInt(OrderFrameController.productsList.get(j).getStockQuantity());
+		   						if(stockQuantity <= thresholdLevel)
+		   						{
+		   							
+		   							break;
+		   						}
+		   					}
+		   					break;
+		   				}
+		   			}
     			order = new Order(orderNum,this.location,strDate,"placed",LoginFrameController.user.getUserID(),totPrice, type,this.counterForProducts);
     			msg2 = new Message(MessageType.updateProductStock,OrderFrameController.productsList);
        			ClientMenuController.clientControl.accept(msg2);
@@ -189,6 +218,14 @@ public class ConfirmOrderFrameController implements Initializable {
  			    order = new Order(orderNum,this.location,strDate,"placed",LoginFrameController.user.getUserID() ,totPrice,"delivery",this.counterForProducts);
  			   msg3 = new  Message(MessageType.addOrder,order);
  	   			ClientMenuController.clientControl.accept(msg3);
+ 	   		long millis2=System.currentTimeMillis(); 
+ 			// creating a new object of the class Date  
+			     date2 = new java.sql.Date(millis2);       
+			     formatter = new SimpleDateFormat("MM.dd.yyyy");  
+			     strDate2 = formatter.format(date2);
+ 	   		delivery = new OrderToDeliveryDetails(Integer.toString(orderNum),OnlineOrderFrameController.city,strDate2,"notAccept","notDone");
+ 	   	msg4 = new  Message(MessageType.addDelivert,delivery);
+   		ClientMenuController.clientControl.accept(msg4);
     		}
     		else
     		{
@@ -207,8 +244,26 @@ public class ConfirmOrderFrameController implements Initializable {
 			    	 type = "local";
 			     }
    			order = new Order(orderNum,this.location,strDate,"placed",LoginFrameController.user.getUserID(),totPrice, type,this.counterForProducts);
-   			
+   			vendingMachines = (ArrayList<VendingMachine>) ChatClient.msgServer.getMessageData();
+   			for(int i = 0; i <vendingMachines.size();i++ )
+   			{
+   				if(vendingMachines.get(i).getLocation().equals(this.location))
+   				{
+   					for(int j = 0; j < OrderFrameController.productsList.size(); j++)
+   					{
+   						int thresholdLevel = Integer.parseInt(vendingMachines.get(i).getThresholdLevel());
+   						int stockQuantity = Integer.parseInt(OrderFrameController.productsList.get(j).getStockQuantity());
+   						if(stockQuantity <= thresholdLevel)
+   						{
+   							
+   							break;
+   						}
+   					}
+   					break;
+   				}
+   			}
    			msg2 = new Message(MessageType.updateProductStock,OrderFrameController.productsList);
+   			
    			ClientMenuController.clientControl.accept(msg2);
    			
    			msg3 = new  Message(MessageType.addOrder,order);

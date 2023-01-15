@@ -9,6 +9,7 @@ public class Order implements Serializable{
 	private String products;
 	private int quantityOfProducts;
 	int [] quantityPerProducts;
+	private String paymentType;
 	/**
 	 * 
 	 * @param vendingMachineLocation - the location of the vending machine
@@ -29,6 +30,13 @@ public class Order implements Serializable{
 		this.totalPrice=totalPrice;
 		this.orderType=orderType;
 		this.quantityOfProducts = quantityOfProducts;
+		
+	}
+	public String getPaymentType() {
+		return paymentType;
+	}
+	public void setPaymentType(String paymentType) {
+		this.paymentType = paymentType;
 	}
 	public Order(int orderNum,String vendingMachineLocation,String orderDate) {
 		this.orderNum=orderNum;

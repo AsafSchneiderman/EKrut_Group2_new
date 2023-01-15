@@ -396,6 +396,63 @@ public class Query {
 
 		return listOfProducts;
 	}
+	public static ArrayList<Order> getOrders()
+	{
+		Order order;
+		ArrayList<Order> ordersList = new ArrayList<>();
+		Statement stmt;
+		try {
+			if (mysqlConnection.conn != null) {
+				stmt = mysqlConnection.conn.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT * FROM orders");
+				while (rs.next()) {
+
+					order = new Order(Integer.parseInt(rs.getString("orderNum")), rs.getString("vendingMachineLocation"), rs.getString("orderDate"),
+							rs.getString("orderStatus"), rs.getString("customerID"), convertStringToFloat(rs.getString("totalPrice")),rs.getString("orderType"),Integer.parseInt(rs.getString("quantityOfProducts")));
+					ordersList.add(order);
+				}
+				rs.close();
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return ordersList;
+	}
+	
+	// Function to convert String to Float
+    public static float convertStringToFloat(String str)
+    {
+  
+        // Convert string to float
+        // using valueOf() method
+        return Float.valueOf(str);
+    }
+    
+    public static void updateProductStock(ArrayList<Product> productList)
+    {
+    	PreparedStatement stmt;
+		try {
+			if (mysqlConnection.conn != null) {
+				for (Product row : productList) {
+					stmt = mysqlConnection.conn
+							.prepareStatement("UPDATE ? SET stockQuantity = ? where location = ?");
+					stmt.setString(1, );
+					stmt.setString(2, row.getStockQuantity());
+					stmt.setString(3, row.getProductName());
+					stmt.executeUpdate();
+				}
+			} else {
+				System.out.println("Conn is null");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    }
+	
 
 	/**
 	 * get region name by the manager user id

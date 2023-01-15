@@ -111,7 +111,7 @@ public class OrderFrameController implements Initializable {
 	private Text txtTimer;
 	@FXML
 	private Label lblWelcome;
-	int counterForProducts;
+	public static int counterForProducts;
 
 	@SuppressWarnings({ "unchecked" })
 	@Override
@@ -315,6 +315,14 @@ public class OrderFrameController implements Initializable {
 		// Logout
 		msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
 		ClientMenuController.clientControl.accept(msg);
+	}
+	
+	public void setLabels()
+	{
+		lblTotalPrice.setText(null);
+		tblProducts.setItems(null);
+		tblCart.setItems(null);
+		txtTimer.setText(null);
 	}
 
 	/**

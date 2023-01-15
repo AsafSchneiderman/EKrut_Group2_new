@@ -194,6 +194,24 @@ public class EchoServer extends AbstractServer {
 				String dataFromCustomer = resMessage.getMessageData().toString();
 				Query.insertCreditCardAndRegion(dataFromCustomer);
 				break;
+				
+			case Orders_list:
+			{
+				ArrayList<Order> pList;
+				pList = Query.getOrders();
+				try {
+					client.sendToClient(new Message(MessageType.Show_products, (Object) pList));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+			}
+			case updateProductStock:
+			{
+				ArrayList<Product> pList = ((ArrayList<Product>) resMessage.getMessageData());
+				break;
+			}
 			default:
 				break;
 			} // end of case
