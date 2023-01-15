@@ -117,6 +117,9 @@ public class EchoServer extends AbstractServer {
 			case update_messagesStatus: //update the worker messages status in the DB
 				Query.updateWorkerMessagesStatus((String) resMessage.getMessageData());
 				break;
+			case insert_messages: //update the worker messages status in the DB
+				Query.insertWorkerMessages((String) resMessage.getMessageData());
+				break;
 			case Get_reports:
 				try {
 

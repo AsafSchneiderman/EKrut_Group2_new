@@ -474,6 +474,40 @@ public class Query {
 			e.printStackTrace();
 		}
 	}
+		
+		/**
+		 * insert new messages to worker messages in DB
+		 * 
+		 * @param  msg - the messages of the worker
+		 */
+		public static void insertWorkerMessages(String msg) {
+			PreparedStatement stmt;
+			int id=0;
+			try {
+				if (mysqlConnection.conn != null) {
+					stmt = mysqlConnection.conn.prepareStatement("SELECT COUNT(*) FROM workermessages");
+					//stmt.setString(1, workerID);
+					//stmt.setString(2, "notRead");
+					ResultSet rs = stmt.executeQuery();
+					if (rs.next())
+						id = rs.getInt(1);
+///////////////////////////////////
+					stmt = mysqlConnection.conn.prepareStatement("INSERT INTO workermessages(id, workerID, message, msgStatus) VALUES (?, ?, ?, ?)");
+					stmt.setLong(1, ++id);
+					stmt.setString(2, "5");
+					stmt.setString(3, msg);
+					stmt.setString(4, "notRead");
+					stmt.executeQuery();
+				}
+				 else {
+						System.out.println("Conn is null");
+				 }
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	
 	/**
 	 * view delivery order data from DB
 	 * 

@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import Entities.Message;
 import Entities.MessageType;
 import Entities.VendingMachine;
+import Entities.WorkerMessage;
 import controller.ChatClient;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -186,10 +187,10 @@ public class RestockMessageController implements Initializable {
 							"WaitToRestock");
 					lblAlert.setText("A restock message sent to the worker"); // show update Alert
 					lblAlert.setStyle("-fx-background-color:#73bce4");
-					//v.print();
-					 msg = new Message(MessageType.update_restockStatus, v);
-					 ClientMenuController.clientControl.accept(msg);
+			
+					 ClientMenuController.clientControl.accept(new Message(MessageType.update_restockStatus, v));
 					row.getBtnRestock().setDisable(true);
+					ClientMenuController.clientControl.accept(new Message(MessageType.insert_messages, "The vending machine in"+row.getLocation() +" wait to restock"));
 				});
 				if (!row.getRestockStatus().equals("LowStock"))
 					row.getBtnRestock().setDisable(true);
