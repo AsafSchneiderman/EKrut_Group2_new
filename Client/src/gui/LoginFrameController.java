@@ -112,6 +112,7 @@ public class LoginFrameController implements Initializable {
 
 	@FXML
 	void pressEnter(ActionEvent event) {
+		user = null;
 		String password = txtPassword.getText();
 		String userName = txtUserName.getText();
 
@@ -129,8 +130,12 @@ public class LoginFrameController implements Initializable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			if (user != null)
-				this.openFrameByRole(user.getRole());
+
+			if (user != null) // by configuration (EK/OL)
+				if (ClientMenuController.config.equals("EK"))
+					this.openFrameByRole_EK(user.getRole());
+				else // OL
+					this.openFrameByRole_OL(user.getRole());
 		}
 	}
 
@@ -181,11 +186,50 @@ public class LoginFrameController implements Initializable {
 	}
 
 	/**
-	 * This method moves to the next frame according to the role of the user
+	 * This method moves to the next frame according to the role of the user EK
+	 * configuration - local connection, only Customer or ClubMember
 	 * 
 	 * @param role - the role of the user
 	 */
-	public void openFrameByRole(String role) {
+	public void openFrameByRole_EK(String role) {
+
+		// Customer
+		if (user.getRole().equals("Customer")) {
+			CustomerFrameController costumerFrame = new CustomerFrameController();
+			try {
+				costumerFrame.start(ClientMenuController.clientStage);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else if (user.getRole().equals("ClubMember")) {
+
+		} else // message to register
+		{
+			Alert a = new Alert(AlertType.WARNING);
+
+			// set title
+			a.setTitle("EKRUT Messages");
+			// set header text
+			a.setHeaderText("You are NOT registered in EKRUT system!				");
+
+			// set content text
+			a.setContentText("To login the EKRUT system you must register as a Customer or Club Member.\n"
+					+ "\nPlease register in our Customer Service:\nPhone Number:  077-77777777");
+			a.show();
+			// logout the user from DB
+			ClientMenuController.clientControl
+					.accept(new Message(MessageType.logout, LoginFrameController.user.getUserName()));
+		}
+
+	}
+
+	/**
+	 * This method moves to the next frame according to the role of the user OL
+	 * configuration - remote connection, all users role, except User
+	 * 
+	 * @param role - the role of the user
+	 */
+	public void openFrameByRole_OL(String role) {
 
 		// region manager
 		if (user.getRole().equals("RegionManager")) {
@@ -213,7 +257,7 @@ public class LoginFrameController implements Initializable {
 		}
 
 		// CEO
-		if (user.getRole().equals("CEO")) {
+		else if (user.getRole().equals("CEO")) {
 
 			// get the region of the CEO
 			ClientMenuController.clientControl
@@ -233,26 +277,27 @@ public class LoginFrameController implements Initializable {
 			}
 		}
 
-		// customer
-		if (user.getRole().equals("Customer")) {
-			if (ClientMenuController.config.equals("OL")) {
-				OnlineOrderFrameController onlineOrder = new OnlineOrderFrameController();
-				ClientMenuController.clientControl.accept(new Message(MessageType.Get_vendingMachines, ""));
-				try {
-					onlineOrder.start(ClientMenuController.clientStage);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-
-			} else {
-				CustomerFrameController costumerFrame = new CustomerFrameController();
-				try {
-					costumerFrame.start(ClientMenuController.clientStage);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+		// Customer
+		else if (user.getRole().equals("Customer")) {
+			/*
+			 * if (ClientMenuController.config.equals("OL")) { OnlineOrderFrameController
+			 * onlineOrder = new OnlineOrderFrameController();
+			 * ClientMenuController.clientControl.accept(new
+			 * Message(MessageType.Get_vendingMachines, "")); try {
+			 * onlineOrder.start(ClientMenuController.clientStage); } catch (IOException e)
+			 * { e.printStackTrace(); }
+			 * 
+			 * } else {
+			 */
+			CustomerFrameController costumerFrame = new CustomerFrameController();
+			try {
+				costumerFrame.start(ClientMenuController.clientStage);
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 			/*
+			 * }
+			 * 
 			 * OrderFrameController order = new OrderFrameController(); try {
 			 * order.start(ClientMenuController.clientStage); } catch (IOException e) {
 			 * e.printStackTrace(); }
@@ -260,7 +305,7 @@ public class LoginFrameController implements Initializable {
 		}
 
 		// delivery worker
-		if (user.getRole().equals("Deliver")) {
+		else if (user.getRole().equals("Deliver")) {
 			DeliveryWorkerFrameController order = new DeliveryWorkerFrameController();
 			try {
 				order.start(ClientMenuController.clientStage);
@@ -270,7 +315,7 @@ public class LoginFrameController implements Initializable {
 		}
 
 		// Customer Service Worker
-		if (user.getRole().equals("CustomerServiceWorker")) {
+		else if (user.getRole().equals("CustomerServiceWorker")) {
 			CustomerServiceController customerService = new CustomerServiceController();
 			try {
 				customerService.start(ClientMenuController.clientStage);
@@ -280,7 +325,7 @@ public class LoginFrameController implements Initializable {
 		}
 
 		// Operations worker
-		if (user.getRole().equals("OperationsWorker")) {
+		else if (user.getRole().equals("OperationsWorker")) {
 			// get the messages of the region manager
 			ClientMenuController.clientControl
 					.accept(new Message(MessageType.Get_messages, LoginFrameController.user.getUserID()));
@@ -290,9 +335,31 @@ public class LoginFrameController implements Initializable {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		} else // user role is none of the types above - send a message to register
+		{
+			Alert a = new Alert(AlertType.WARNING);
+
+			// set title
+			a.setTitle("EKRUT Messages");
+			// set header text
+			a.setHeaderText("You are NOT registered in EKRUT system!				");
+
+			// set content text
+			a.setContentText("To login the EKRUT system you must register.\n"
+					+ "\nPlease register in our Customer Service:\nPhone Number:  077-77777777");
+			a.show();
+			// logout the user from DB
+			ClientMenuController.clientControl
+					.accept(new Message(MessageType.logout, LoginFrameController.user.getUserName()));
 		}
 	}
 
+	/**
+	 * start the LoginFrame
+	 * 
+	 * @param primaryStage
+	 * @throws IOException
+	 */
 	public void start(Stage primaryStage) throws IOException {
 		ClientMenuController.clientStage = primaryStage;
 		primaryStage.setTitle("Ekrut - Client >> Login");
@@ -309,6 +376,9 @@ public class LoginFrameController implements Initializable {
 		primaryStage.show();
 	}
 
+	/**
+	 * initialize parameters when the frame start
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
