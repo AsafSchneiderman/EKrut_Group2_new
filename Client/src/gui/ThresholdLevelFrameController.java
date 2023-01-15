@@ -82,6 +82,9 @@ public class ThresholdLevelFrameController implements Initializable {
 	@FXML
 	void backToPreviousPage(ActionEvent event) {
 
+		// get the messages of the region manager
+		ClientMenuController.clientControl
+				.accept(new Message(MessageType.Get_messages, LoginFrameController.user.getUserID()));
 		RegionManagerFrameController RegionManagerController = new RegionManagerFrameController();
 		try {
 			RegionManagerController.start(ClientMenuController.clientStage);

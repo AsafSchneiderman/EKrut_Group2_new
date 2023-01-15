@@ -86,7 +86,14 @@ public class RestockMessageController implements Initializable {
 	 */
 	@FXML
 	void backToPreviousPage(ActionEvent event) {
-
+		
+		// close the buttons
+		for (VendingMachine row : vendingMachines)
+			if(row.getRegion().equals(LoginFrameController.user.getRegion())) //the vending machines at his region 
+				row.buttonClose();
+		// get the messages of the region manager
+		ClientMenuController.clientControl
+				.accept(new Message(MessageType.Get_messages, LoginFrameController.user.getUserID()));
 		RegionManagerFrameController RegionManagerController = new RegionManagerFrameController();
 		try {
 			RegionManagerController.start(ClientMenuController.clientStage);
@@ -161,7 +168,7 @@ public class RestockMessageController implements Initializable {
 
 		// initialize the vending machines table from DB
 		tblViewVendingMachines.setEditable(true);
-
+		
 		regionCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("region"));
 		locationCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("location"));
 		thresholdLevelCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("thresholdLevel"));

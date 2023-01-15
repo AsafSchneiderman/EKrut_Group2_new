@@ -123,7 +123,6 @@ public class LoginFrameController implements Initializable {
 
 			// handle message to server and GUI
 			new handleDbService(lblAlert).start();
-			// System.out.println(user.getFirstName());
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
@@ -201,6 +200,9 @@ public class LoginFrameController implements Initializable {
 				e.printStackTrace();
 			}
 			user.setRegion((String) ChatClient.msgServer.getMessageData());
+
+			// get the messages of the region manager
+			ClientMenuController.clientControl.accept(new Message(MessageType.Get_messages, LoginFrameController.user.getUserID()));
 			RegionManagerFrameController regionManagerFrameController = new RegionManagerFrameController();
 			try {
 				regionManagerFrameController.start(ClientMenuController.clientStage);
@@ -232,8 +234,7 @@ public class LoginFrameController implements Initializable {
 
 		// customer
 		if (user.getRole().equals("Customer")) {
-			if(ClientMenuController.config.equals("OL"))
-			{
+			if (ClientMenuController.config.equals("OL")) {
 				OnlineOrderFrameController onlineOrder = new OnlineOrderFrameController();
 				ClientMenuController.clientControl.accept(new Message(MessageType.Get_vendingMachines, ""));
 				try {
@@ -241,10 +242,8 @@ public class LoginFrameController implements Initializable {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				
-			}
-			else
-			{
+
+			} else {
 				CustomerFrameController costumerFrame = new CustomerFrameController();
 				try {
 					costumerFrame.start(ClientMenuController.clientStage);
@@ -252,12 +251,11 @@ public class LoginFrameController implements Initializable {
 					e.printStackTrace();
 				}
 			}
-			/*OrderFrameController order = new OrderFrameController();
-			try {
-				order.start(ClientMenuController.clientStage);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}*/
+			/*
+			 * OrderFrameController order = new OrderFrameController(); try {
+			 * order.start(ClientMenuController.clientStage); } catch (IOException e) {
+			 * e.printStackTrace(); }
+			 */
 		}
 
 		// delivery worker

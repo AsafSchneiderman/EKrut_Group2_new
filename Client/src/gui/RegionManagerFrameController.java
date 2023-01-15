@@ -2,17 +2,23 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import Entities.Message;
 import Entities.MessageType;
+import Entities.VendingMachine;
 import controller.ChatClient;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -51,7 +57,9 @@ public class RegionManagerFrameController implements Initializable {
 	private Button btnViewReports;
 
 	private static Message msg; // message to send to service
-	public static String region = null; // the region of this region manager
+	private ArrayList<String> messages = new ArrayList<>(); // list of messages from the DB
+	// private boolean
+	// public static String region = null; // the region of this region manager
 
 	/**
 	 * open Restock Message Frame
@@ -171,6 +179,24 @@ public class RegionManagerFrameController implements Initializable {
 		// initialize the Welcome label to welcome and the full name of the user
 		lblWelcome.setText(
 				"Welcome " + LoginFrameController.user.getFirstName() + " " + LoginFrameController.user.getLastName());
+
+		// popup messages from the DB
+		String message = (String) ChatClient.msgServer.getMessageData();
+		if (!message.equals("")) {
+			Alert a = new Alert(AlertType.NONE);
+			// set alert type
+			a.setAlertType(AlertType.INFORMATION);
+
+			// set header text
+			a.setHeaderText("You have new messages");
+
+			// set content text
+			a.setContentText(message);
+
+			// show the dialog
+			a.show();
+		
+		}
 
 	}
 

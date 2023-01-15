@@ -82,10 +82,11 @@ public class VendingMachine implements Serializable {
 	public void buttonInitialize() {
 		this.btnRestock = new Button("Restock");
 	}
-
-	public void print() {
-		System.out.println("vending machine: " + this.region + " " + this.location + " " + this.thresholdLevel + " "
-				+ this.restockStatus);
+	/**
+	 * close the buttons
+	 */
+	public void buttonClose() {
+		this.btnRestock = null;
 	}
 
 //////////////////////////////////

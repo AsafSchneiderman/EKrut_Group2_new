@@ -420,6 +420,35 @@ public class Query {
 	}
 	
 	/**
+	 * get notRead messages by the worker id
+	 * 
+	 * @param workerID - the userID of the worker
+	 * @return message - the messages of the worker
+	 */
+	public static String getWorkerMessages(String workerID) {
+		ArrayList<String> messages= new ArrayList<>();
+		PreparedStatement stmt;
+		try {
+			if (mysqlConnection.conn != null) {
+				stmt = mysqlConnection.conn.prepareStatement("SELECT message FROM workermessages WHERE workerID = ? and status=?");
+				stmt.setString(1, workerID);
+				stmt.setString(2, "notRead");
+				ResultSet rs = stmt.executeQuery();
+				while (rs.next())
+					messages.add(rs.getString("message"));
+				rs.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		String msg="";
+		for (String row : messages)
+			msg += row.toString()+"\n";
+		return msg;
+	}
+	
+	/**
 	 * view delivery order data from DB
 	 * 
 	 * @return ArrayList of orders from the DB
