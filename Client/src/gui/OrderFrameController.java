@@ -126,8 +126,7 @@ public class OrderFrameController implements Initializable {
 				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
 		pane.setBackground(new Background(image));
 		// initialize the Welcome label to welcome and the full name of the user
-		lblWelcome.setText(
-				"Welcome " + LoginFrameController.user.getFirstName() + " " + LoginFrameController.user.getLastName());
+		lblWelcome.setText("Welcome " + LoginFrameController.user.getFirstName() + " " + LoginFrameController.user.getLastName());
 		tblProducts.setEditable(true);
 		tblCart.setEditable(true);
 		Image cartIcone = new Image("images/addToBasket.png");
@@ -302,6 +301,16 @@ public class OrderFrameController implements Initializable {
 
 	@FXML
 	void cancelOrder(ActionEvent event) {
+		
+		productsList.removeAll(productsList);
+		tvObservableList.removeAll(tvObservableList);
+		cartObservableList.removeAll(cartObservableList);
+		counterForProducts = 0;
+		lblTotalPrice.setText(null);
+		tblProducts.setItems(null);
+		tblCart.setItems(null);
+		txtTimer.setText(null);
+		
 		ClientMenuController.clientStage.setScene(LoginFrameController.home);
 		// Logout
 		msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());

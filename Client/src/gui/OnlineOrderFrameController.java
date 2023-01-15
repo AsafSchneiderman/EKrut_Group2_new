@@ -83,6 +83,9 @@ public class OnlineOrderFrameController implements Initializable {
 	@FXML
 	private Label lblWelcome;
 	private ToggleGroup tg = new ToggleGroup(); // create a toggle group
+	public static String city;
+	public static String street;
+	public static String type;
 
 	@FXML
 	void SelectVendingMachine(ActionEvent event) {
@@ -94,6 +97,10 @@ public class OnlineOrderFrameController implements Initializable {
 		txtFldStreet.setVisible(false);
 		lblCity.setVisible(false);
 		lblDeliveryAddr.setVisible(false);
+		Image Icone = new Image("images/shop.png");
+		imgIcone.setImage(Icone);
+		imgIcone.setFitWidth(60);
+		imgIcone.setFitHeight(60);
 
 		vendingMachines = (ArrayList<VendingMachine>) ChatClient.msgServer.getMessageData();
 		ObservableList<String> list = FXCollections.observableArrayList(); // initialize the comboBox
@@ -102,8 +109,9 @@ public class OnlineOrderFrameController implements Initializable {
 
 		cmbBoxVendingMachine.setItems(list);
 		cmbBoxVendingMachine.setValue(list.get(0));
+		type = "pickup";
 
-		machine = cmbBoxVendingMachine.getValue();
+		
 
 	}
 
@@ -116,11 +124,18 @@ public class OnlineOrderFrameController implements Initializable {
 		txtFldStreet.setVisible(true);
 		lblCity.setVisible(true);
 		lblDeliveryAddr.setVisible(true);
+		Image Icone = new Image("images/drone.png");
+		imgIcone.setImage(Icone);
+		imgIcone.setFitWidth(60);
+		imgIcone.setFitHeight(60);
+
+		
 		ObservableList<String> list = FXCollections.observableArrayList("Haifa", "Karmiel", "TelAviv"); // initialize
 																										// the comboBox
 		cmbCity.setItems(list);
 		cmbCity.setValue(list.get(0));
-		machine = "warehouse";
+		type = "delivery";
+		
 
 	}
 
@@ -142,6 +157,16 @@ public class OnlineOrderFrameController implements Initializable {
 
 	@FXML
 	void continueToOrder(ActionEvent event) {
+		if(type.equals("pickup"))
+		{
+			machine = cmbBoxVendingMachine.getValue();
+		}
+		else if(type.equals("delivery"))
+		{
+			machine = "warehouse";
+			city = cmbCity.getValue();
+			street = txtFldStreet.getText();
+		}
 
 		OrderFrameController order = new OrderFrameController();
 		try {

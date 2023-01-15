@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -45,6 +46,8 @@ public class CustomerFrameController implements Initializable {
 	private Button bntPickupOrder;
 	@FXML
 	private Label lblWelcome;
+    @FXML
+    private ImageView imgIcon;
 
 	@FXML
 	void pickupOrder(ActionEvent event) {
@@ -126,6 +129,10 @@ public class CustomerFrameController implements Initializable {
 		// initialize the Welcome label to welcome and the full name of the user
 		lblWelcome.setText(
 				"Welcome " + LoginFrameController.user.getFirstName() + " " + LoginFrameController.user.getLastName());
+		Image Icone = new Image("images/dish.png");
+		imgIcon.setImage(Icone);
+		imgIcon.setFitWidth(70);
+		imgIcon.setFitHeight(70);
 	}
 
 }

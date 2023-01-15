@@ -36,22 +36,22 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </Button>
-      <TableView fx:id="tblProducts" layoutX="87.0" layoutY="121.0" prefHeight="314.0" prefWidth="344.0">
+      <TableView fx:id="tblProducts" layoutX="95.0" layoutY="121.0" prefHeight="314.0" prefWidth="368.0">
         <columns>
-          <TableColumn fx:id="colProductImg" prefWidth="90.0" />
+          <TableColumn fx:id="colProductImg" prefWidth="92.0" />
           <TableColumn fx:id="colNameOfProduct" minWidth="0.0" prefWidth="111.0" text="Product" />
-            <TableColumn fx:id="colPriceOfProduct" prefWidth="65.0" text="Price" />
-            <TableColumn fx:id="bntColAddCart" prefWidth="147.0" />
+            <TableColumn fx:id="colPriceOfProduct" prefWidth="62.0" text="Price" />
+            <TableColumn fx:id="bntColAddCart" prefWidth="102.0" />
         </columns>
       </TableView>
-      <TableView fx:id="tblCart" layoutX="431.0" layoutY="121.0" prefHeight="314.0" prefWidth="449.0">
+      <TableView fx:id="tblCart" layoutX="470.0" layoutY="121.0" prefHeight="314.0" prefWidth="407.0">
         <columns>
-          <TableColumn fx:id="imgSelectedProdCol" prefWidth="75.0" />
-          <TableColumn fx:id="colProductInCart" prefWidth="75.0" text="Products" />
-            <TableColumn fx:id="addProdBntCol" prefWidth="75.0" />
-            <TableColumn fx:id="colQuantityInCart" prefWidth="75.0" text="Quantity" />
-            <TableColumn fx:id="subProdBntCol" prefWidth="75.0" />
-            <TableColumn fx:id="priceSelProdCol" prefWidth="75.0" text="Price" />
+          <TableColumn fx:id="imgSelectedProdCol" prefWidth="82.0" />
+          <TableColumn fx:id="colProductInCart" prefWidth="117.0" text="Products" />
+            <TableColumn fx:id="addProdBntCol" prefWidth="40.0" />
+            <TableColumn fx:id="colQuantityInCart" prefWidth="63.0" text="Quantity" />
+            <TableColumn fx:id="subProdBntCol" minWidth="0.0" prefWidth="40.0" />
+            <TableColumn fx:id="priceSelProdCol" prefWidth="64.0" text="Price" />
         </columns>
       </TableView>
       <ImageView fx:id="imgForIcon" fitHeight="45.0" fitWidth="49.0" layoutX="437.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true" />
@@ -61,7 +61,7 @@
          </font>
       </Label>
       <Text fx:id="txtTimer" layoutX="159.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-      <Label fx:id="lblWelcome" layoutX="364.0" layoutY="13.0" text="Welcome" textFill="#e10000">
+      <Label fx:id="lblWelcome" layoutX="428.0" layoutY="44.0" text="Welcome" textFill="#e10000">
          <font>
             <Font name="Arial" size="16.0" />
          </font>

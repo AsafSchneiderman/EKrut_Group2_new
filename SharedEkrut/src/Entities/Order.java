@@ -20,7 +20,8 @@ public class Order implements Serializable{
 	 * @param orderType
 	 * @param quantityOfProducts
 	 */
-	public Order (String vendingMachineLocation,String orderDate,String orderStatus,String customerID,float totalPrice, String orderType, int quantityOfProducts) {
+	public Order (int orderNum,String vendingMachineLocation,String orderDate,String orderStatus,String customerID,float totalPrice, String orderType, int quantityOfProducts) {
+		this.orderNum=orderNum;
 		this.vendingMachineLocation=vendingMachineLocation;
 		this.orderDate=orderDate;
 		this.orderStatus=orderStatus;

@@ -3,14 +3,18 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import Entities.Message;
 import Entities.MessageType;
 import Entities.Order;
 import Entities.OrderProductsForTbl;
+import Entities.Product;
 import Entities.ProductForOrder;
 import Entities.Time;
+import controller.ChatClient;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
@@ -39,14 +43,15 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
+import Entities.*;
 import java.time.LocalDateTime;  
 import java.time.format.DateTimeFormatter; 
 
 public class ConfirmOrderFrameController implements Initializable {
 	public static Stage clientStage;
-	public static Message msg;
-	public static Order order;
+	public static Message msg, msg2, msg3;
+	public static Order order, order2;
+	public static ArrayList<Order>orderList = new ArrayList<>();;
 	 @FXML
 	    private AnchorPane pane;
 
@@ -109,6 +114,26 @@ public class ConfirmOrderFrameController implements Initializable {
 
     @FXML
     void confirmOrder(ActionEvent event) {
+    	msg = new Message(MessageType.Orders_list, "");
+		ClientMenuController.clientControl.accept(msg);
+		try {
+			Thread.sleep(1000);
+			System.out.println(ChatClient.msgServer.getMessageData().toString());
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		orderList = (ArrayList<Order>) ChatClient.msgServer.getMessageData();
+		int orderNum;
+		int[] arrOrderNums = new int [orderList.size()];
+		for(int i=0; i<orderList.size(); i++)
+		{
+			arrOrderNums[i] = orderList.get(i).getOrderNum();
+		
+		}
+		 Arrays.sort(arrOrderNums);
+		 orderNum = arrOrderNums[arrOrderNums.length-1]+1;
+
     	if(LoginFrameController.user.getRole().equals("ClubMember"))
     	{
     		if((this.location.equals("warehouse")))
@@ -117,26 +142,78 @@ public class ConfirmOrderFrameController implements Initializable {
     		      
     			    // creating a new object of the class Date  
     			     date = new java.sql.Date(millis);       
-    			     formatter = new SimpleDateFormat("MM.dd.yyyy");  
+    			     formatter = new SimpleDateFormat("MM-dd-yyyy");  
     			     strDate = formatter.format(date);
     			     totPrice = convertStringToFloat(this.lblTotalPrice.getText());
-    			   
-    			order = new Order(this.location,strDate,,LoginFrameController.user.getUserID(), totPrice,this.counterForProducts);
+    			     
+    			order = new Order(orderNum,this.location,strDate,"placed",LoginFrameController.user.getUserID() ,totPrice,"delivery",this.counterForProducts);
+    			msg3 = new  Message(MessageType.addOrder,order);
+       			ClientMenuController.clientControl.accept(msg3);
+    			
     		}
     		else
     		{
-    			order = new Order(, this.location,,,LoginFrameController.user.getUserID(),totPrice );
+    			 long millis=System.currentTimeMillis(); 
+    			// creating a new object of the class Date  
+			     date = new java.sql.Date(millis);       
+			     formatter = new SimpleDateFormat("MM-dd-yyyy");  
+			     strDate = formatter.format(date);
+			     totPrice = convertStringToFloat(this.lblTotalPrice.getText());
+			     String type;
+			     if(ClientMenuController.config.equals("OL"))
+			    {
+			    	 type = "pickup";
+			    }
+			     else
+			     {
+			    	 type = "local";
+			     }
+    			order = new Order(orderNum,this.location,strDate,"placed",LoginFrameController.user.getUserID(),totPrice, type,this.counterForProducts);
+    			msg2 = new Message(MessageType.updateProductStock,OrderFrameController.productsList);
+       			ClientMenuController.clientControl.accept(msg2);
+    			msg3 = new  Message(MessageType.addOrder,order);
+       			ClientMenuController.clientControl.accept(msg3);
+    		
     		}
     	}
     	else
     	{
     		if((this.location.equals("warehouse")))
     		{
-    			order = new Order(, this.location,,,LoginFrameController.user.getUserID(),this.lblTotalPrice );
+    			 long millis=System.currentTimeMillis(); 
+     			// creating a new object of the class Date  
+ 			     date = new java.sql.Date(millis);       
+ 			     formatter = new SimpleDateFormat("MM-dd-yyyy");  
+ 			     strDate = formatter.format(date);
+ 			     
+ 			    order = new Order(orderNum,this.location,strDate,"placed",LoginFrameController.user.getUserID() ,totPrice,"delivery",this.counterForProducts);
+ 			   msg3 = new  Message(MessageType.addOrder,order);
+ 	   			ClientMenuController.clientControl.accept(msg3);
     		}
     		else
     		{
-    			order = new Order(, this.location,,,LoginFrameController.user.getUserID(),this.lblTotalPrice );
+    			 long millis=System.currentTimeMillis(); 
+     			// creating a new object of the class Date  
+ 			     date = new java.sql.Date(millis);       
+ 			     formatter = new SimpleDateFormat("MM-dd-yyyy");  
+ 			     strDate = formatter.format(date);
+ 			    String type;
+			     if(ClientMenuController.config.equals("OL"))
+			    {
+			    	 type = "pickup";
+			    }
+			     else
+			     {
+			    	 type = "local";
+			     }
+   			order = new Order(orderNum,this.location,strDate,"placed",LoginFrameController.user.getUserID(),totPrice, type,this.counterForProducts);
+   			
+   			msg2 = new Message(MessageType.updateProductStock,OrderFrameController.productsList);
+   			ClientMenuController.clientControl.accept(msg2);
+   			
+   			msg3 = new  Message(MessageType.addOrder,order);
+   			ClientMenuController.clientControl.accept(msg3);
+   			
     		}
     	}
 
