@@ -178,9 +178,9 @@ public class EchoServer extends AbstractServer {
 				}
 				break;
 			case insertCreditCardAndRegion:
-				//Query.getUserToRegisterDetails((String)resMessage.getMessageData());
+				Query.getUserToRegisterDetails((String)resMessage.getMessageData());
 				try {
-					client.sendToClient(new Message(MessageType.insertCreditCardAndRegion, Query.getUserToRegisterDetails((String)resMessage.getMessageData())));
+					client.sendToClient(new Message(MessageType.insertCreditCardAndRegion, (String)resMessage.getMessageData()));
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

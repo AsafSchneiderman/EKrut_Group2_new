@@ -37,6 +37,8 @@ public class ShowCustomerToRegistrateController implements Initializable{
 	private String id;
 	public static UsersToRegister user;
 	public static int notificationToCEO=0;
+	public static String sendData;
+	public static CustomerServiceLastFrameController lastFrame;
 	
 	@FXML
     private AnchorPane pane;
@@ -88,8 +90,8 @@ public class ShowCustomerToRegistrateController implements Initializable{
     		else {
     			notificationToCEO++;
     			id=CustomerRegistrationController.userList.get(CustomerRegistrationController.userNum).getId();//get this specific user id
-    			String sendData=id+"#"+creditCardNum+"#"+customersRegion;
-    			msg=new Message(MessageType.insertCreditCardAndRegion,sendData);
+    			sendData=id+"#"+creditCardNum+"#"+customersRegion;
+    			/*msg=new Message(MessageType.insertCreditCardAndRegion,sendData);
     			ClientMenuController.clientControl.accept(msg);
     			try {
     				Thread.sleep(1000);
@@ -97,7 +99,14 @@ public class ShowCustomerToRegistrateController implements Initializable{
     			} catch (InterruptedException e) {
     				// TODO Auto-generated catch block
     				e.printStackTrace();
-    			}
+    			}*/
+    			lastFrame= new CustomerServiceLastFrameController();
+    	    	try {
+    	    		lastFrame.start(ClientMenuController.clientStage);
+    		} catch (IOException e) {
+    			
+    			e.printStackTrace();
+    		    } //send to UI*/
     		}
 
     			
