@@ -556,23 +556,26 @@ public class Query {
 	}
 	
 	public static void insertCreditCardAndRegion(String data) {
-		Statement stmt;
+		PreparedStatement stmt;
 		String splitData[]= new String[3];
 		splitData=data.split("#");
+		System.out.println("UpdateUserToSignUpDetails");
 		try {
 			if (mysqlConnection.conn != null) {
-				stmt = mysqlConnection.conn.createStatement();
-				ResultSet rs = stmt.executeQuery("INSERT INTO userstosignup(creditCard, region) VALUES ("+splitData[1]+","+splitData[2]+") WHERE id="+splitData[0]);
-				if (rs.next()) {
-					return;
-				}
-				else
-					System.out.println("Error");
-				}
+				 {
+				stmt = mysqlConnection.conn.prepareStatement("UPDATE userstosignup SET creditCard = '"+splitData[1]+"', region='"+splitData[2]+"' where id = ?");
+				stmt.setString(1, splitData[0]);
 				
-	}catch (SQLException e) {
-		e.printStackTrace();
-	}
+				
+				stmt.executeUpdate();
+				}
+			} else {
+				System.out.println("Conn is null");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 }
