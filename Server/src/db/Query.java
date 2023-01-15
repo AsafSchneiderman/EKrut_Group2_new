@@ -570,7 +570,7 @@ public class Query {
 		try {
 			if (mysqlConnection.conn != null) {
 				stmt = mysqlConnection.conn.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT * FROM userstosignup");
+				ResultSet rs = stmt.executeQuery("SELECT * FROM userstosignup WHERE creditCard IS NULL");
 				while (rs.next()) {
 
 					usersToRegister = new UsersToRegister(rs.getString("id"), rs.getString("firstName"),

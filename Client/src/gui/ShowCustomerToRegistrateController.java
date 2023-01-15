@@ -36,10 +36,11 @@ public class ShowCustomerToRegistrateController implements Initializable{
 	public static Message msg;
 	private String id;
 	public static UsersToRegister user;
-	public static int notificationToCEO=0;
+	//public static int notificationToCEO=0;
 	public static String sendData;
 	public static CustomerServiceLastFrameController lastFrame;
 	
+	 
 	@FXML
     private AnchorPane pane;
 
@@ -88,18 +89,9 @@ public class ShowCustomerToRegistrateController implements Initializable{
     		if(!creditCardNum.matches("[0-9]+"))
     			lblAlert.setText("credit card number is wrong");
     		else {
-    			notificationToCEO++;
+    			//notificationToCEO++;
     			id=CustomerRegistrationController.userList.get(CustomerRegistrationController.userNum).getId();//get this specific user id
     			sendData=id+"#"+creditCardNum+"#"+customersRegion;
-    			/*msg=new Message(MessageType.insertCreditCardAndRegion,sendData);
-    			ClientMenuController.clientControl.accept(msg);
-    			try {
-    				Thread.sleep(1000);
-    				System.out.println(ChatClient.msgServer.getMessageData().toString());
-    			} catch (InterruptedException e) {
-    				// TODO Auto-generated catch block
-    				e.printStackTrace();
-    			}*/
     			lastFrame= new CustomerServiceLastFrameController();
     	    	try {
     	    		lastFrame.start(ClientMenuController.clientStage);

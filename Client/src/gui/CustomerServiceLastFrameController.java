@@ -13,9 +13,18 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
 public class CustomerServiceLastFrameController implements Initializable {
 	public static Message msg;
+	 @FXML
+	    private AnchorPane pane;
 	
 	 @FXML
 	    private Button backToMainBtn;
@@ -35,7 +44,7 @@ public class CustomerServiceLastFrameController implements Initializable {
 
 		public void start(Stage primaryStage) throws IOException {
 			ClientMenuController.clientStage = primaryStage;
-	    	primaryStage.setTitle("Ekrut - Customer");
+	    	primaryStage.setTitle("Ekrut - Customer Registration");
 			Parent root = FXMLLoader.load(getClass().getResource("/gui/CustomerServiceLastFrame.fxml"));
 			Scene home = new Scene(root);
 			primaryStage.setScene(home);
@@ -53,6 +62,13 @@ public class CustomerServiceLastFrameController implements Initializable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			// initialize the background image
+						BackgroundSize backgroundSize = new BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true,
+								false);
+						BackgroundImage image = new BackgroundImage(new Image("images/BackgroundFrameCustomerService.png"), BackgroundRepeat.NO_REPEAT,
+								BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
+						pane.setBackground(new Background(image));
+			
 
 		}
 
