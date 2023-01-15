@@ -158,19 +158,20 @@ public class Query {
 	/**
 	 * update the Re-stock Status of the vending machine in location in the DB.
 	 * 
-	 * @param vendingmachines list to update them threshold level
+	 * @param vendingMachine to update his Restock Status
 	 */
-	public static void UpdateVendingMachineRestockStatus(ArrayList<VendingMachine> vendingMachines) {
+	public static void UpdateVendingMachineRestockStatus(VendingMachine vendingMachine) {
 		PreparedStatement stmt;
 		try {
 			if (mysqlConnection.conn != null) {
-				for (VendingMachine row : vendingMachines) {
+				
 					stmt = mysqlConnection.conn
-							.prepareStatement("UPDATE vendingmachines SET restockStatus = ? where location = ?");
-					stmt.setString(1, row.getRestockStatus());
-					stmt.setString(2, row.getLocation());
+							.prepareStatement("UPDATE vendingmachines SET restockStatus = ? where location = ? and restockStatus = ?");
+					
+					stmt.setString(1, vendingMachine.getRestockStatus());
+					stmt.setString(2, vendingMachine.getLocation());
+					stmt.setString(3, "LowStock");
 					stmt.executeUpdate();
-				}
 			} else {
 				System.out.println("Conn is null");
 			}

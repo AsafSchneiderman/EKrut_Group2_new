@@ -56,19 +56,12 @@ public class PopUpMessageFrameController implements Initializable {
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/PopUpMessageFrame.fxml"));
 		Scene home = new Scene(root);
 		primaryStage.setScene(home);
-
-		// On pressing X (close window) the user logout from system and the client is
-		// disconnect from server.
-		/*
-		 * primaryStage.setOnCloseRequest(e -> {
-		 * ClientMenuController.clientControl.accept(new Message(MessageType.logout,
-		 * LoginFrameController.user.getUserName())); ClientMenuController.clientControl
-		 * .accept(new Message(MessageType.disconnected,
-		 * LoginFrameController.user.getUserName())); });
-		 */
 		primaryStage.show();
 	}
 
+	/**
+	 * initialize parameters when the frame start
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 

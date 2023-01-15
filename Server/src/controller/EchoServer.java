@@ -104,7 +104,7 @@ public class EchoServer extends AbstractServer {
 				Query.UpdateVendingMachineThresholdLevel((ArrayList<VendingMachine>) resMessage.getMessageData());
 				break;
 			case update_restockStatus: // update the restock status of the vending machines in the DB
-				Query.UpdateVendingMachineRestockStatus((ArrayList<VendingMachine>) resMessage.getMessageData());
+				Query.UpdateVendingMachineRestockStatus((VendingMachine) resMessage.getMessageData());
 				break;
 
 			case Get_reports:

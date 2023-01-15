@@ -179,9 +179,9 @@ public class RestockMessageController implements Initializable {
 							"WaitToRestock");
 					lblAlert.setText("A restock message sent to the worker"); // show update Alert
 					lblAlert.setStyle("-fx-background-color:#73bce4");
-					v.print();
-					// msg = new Message(MessageType.update_restockStatus, v);
-					// ClientMenuController.clientControl.accept(msg);
+					//v.print();
+					 msg = new Message(MessageType.update_restockStatus, v);
+					 ClientMenuController.clientControl.accept(msg);
 					row.getBtnRestock().setDisable(true);
 				});
 				if (!row.getRestockStatus().equals("LowStock"))
