@@ -430,7 +430,7 @@ public class Query {
 		PreparedStatement stmt;
 		try {
 			if (mysqlConnection.conn != null) {
-				stmt = mysqlConnection.conn.prepareStatement("SELECT message FROM workermessages WHERE workerID = ? and status=?");
+				stmt = mysqlConnection.conn.prepareStatement("SELECT message FROM workermessages WHERE workerID = ? and msgStatus=?");
 				stmt.setString(1, workerID);
 				stmt.setString(2, "notRead");
 				ResultSet rs = stmt.executeQuery();
@@ -438,6 +438,9 @@ public class Query {
 					messages.add(rs.getString("message"));
 				rs.close();
 			}
+			 else {
+					System.out.println("Conn is null");
+			 }
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -448,6 +451,29 @@ public class Query {
 		return msg;
 	}
 	
+	/**
+	 * update the notRead messages of the worker id to read
+	 * 
+	 * @param workerID - the userID of the worker
+	 */
+	public static void updateWorkerMessagesStatus(String workerID) {  
+		PreparedStatement stmt;
+		try {
+			if (mysqlConnection.conn != null) {
+				
+				stmt = mysqlConnection.conn.prepareStatement("UPDATE workermessages SET msgStatus = ? where workerID = ? and msgStatus = ?");
+				stmt.setString(1, "read");
+				stmt.setString(2, workerID);
+				stmt.setString(3, "notRead");
+				stmt.executeUpdate();
+			}
+			 else {
+					System.out.println("Conn is null");
+			 }
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	/**
 	 * view delivery order data from DB
 	 * 

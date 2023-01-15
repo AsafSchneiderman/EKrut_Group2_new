@@ -106,7 +106,7 @@ public class EchoServer extends AbstractServer {
 			case update_restockStatus: // update the restock status of the vending machines in the DB
 				Query.UpdateVendingMachineRestockStatus((VendingMachine) resMessage.getMessageData());
 				break;
-			case Get_messages:
+			case Get_messages:	//get the worker messages from DB
 				try {
 					client.sendToClient(new Message(MessageType.Get_messages,
 							(Object) (Query.getWorkerMessages((String) resMessage.getMessageData()))));
@@ -114,7 +114,9 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
-
+			case update_messagesStatus: //update the worker messages status in the DB
+				Query.updateWorkerMessagesStatus((String) resMessage.getMessageData());
+				break;
 			case Get_reports:
 				try {
 

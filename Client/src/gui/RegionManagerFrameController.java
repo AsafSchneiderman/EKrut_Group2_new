@@ -3,6 +3,7 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import Entities.Message;
@@ -20,6 +21,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
@@ -127,6 +129,33 @@ public class RegionManagerFrameController implements Initializable {
 	}
 
 	/**
+	 * PopUp the messages of the region manager from the DB
+	 */
+	public void popUpMessages() {
+		// popup messages from the DB
+		String message = (String) ChatClient.msgServer.getMessageData();
+		if (!message.equals("")) {
+
+			Alert a = new Alert(AlertType.INFORMATION);
+
+			// set title
+			a.setTitle("EKRUT Messages");
+			// set header text
+			a.setHeaderText("You have new messages");
+
+			// set content text
+			a.setContentText(message);
+
+			// show the dialog
+			Optional<ButtonType> result = a.showAndWait();
+			if (result.get() == ButtonType.OK)
+				// update the messages status of the region manager to read
+				ClientMenuController.clientControl
+						.accept(new Message(MessageType.update_messagesStatus, LoginFrameController.user.getUserID()));
+		}
+	}
+
+	/**
 	 * start the RegionManagerFrame
 	 * 
 	 * @param primaryStage
@@ -161,6 +190,7 @@ public class RegionManagerFrameController implements Initializable {
 		});
 
 		primaryStage.show();
+		this.popUpMessages(); // show new messages
 	}
 
 	/**
@@ -179,25 +209,6 @@ public class RegionManagerFrameController implements Initializable {
 		// initialize the Welcome label to welcome and the full name of the user
 		lblWelcome.setText(
 				"Welcome " + LoginFrameController.user.getFirstName() + " " + LoginFrameController.user.getLastName());
-
-		// popup messages from the DB
-		String message = (String) ChatClient.msgServer.getMessageData();
-		if (!message.equals("")) {
-			Alert a = new Alert(AlertType.NONE);
-			// set alert type
-			a.setAlertType(AlertType.INFORMATION);
-
-			// set header text
-			a.setHeaderText("You have new messages");
-
-			// set content text
-			a.setContentText(message);
-
-			// show the dialog
-			a.show();
-		
-		}
-
 	}
 
 }
