@@ -202,7 +202,8 @@ public class LoginFrameController implements Initializable {
 			user.setRegion((String) ChatClient.msgServer.getMessageData());
 
 			// get the messages of the region manager
-			ClientMenuController.clientControl.accept(new Message(MessageType.Get_messages, LoginFrameController.user.getUserID()));
+			ClientMenuController.clientControl
+					.accept(new Message(MessageType.Get_messages, LoginFrameController.user.getUserID()));
 			RegionManagerFrameController regionManagerFrameController = new RegionManagerFrameController();
 			try {
 				regionManagerFrameController.start(ClientMenuController.clientStage);
@@ -273,6 +274,19 @@ public class LoginFrameController implements Initializable {
 			CustomerServiceController customerService = new CustomerServiceController();
 			try {
 				customerService.start(ClientMenuController.clientStage);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		// Operations worker
+		if (user.getRole().equals("OperationsWorker")) {
+			// get the messages of the region manager
+			ClientMenuController.clientControl
+					.accept(new Message(MessageType.Get_messages, LoginFrameController.user.getUserID()));
+			OperationsWorkerFrameController OperationsWorkerFrame = new OperationsWorkerFrameController();
+			try {
+				OperationsWorkerFrame.start(ClientMenuController.clientStage);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

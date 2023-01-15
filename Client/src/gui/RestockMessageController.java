@@ -173,7 +173,7 @@ public class RestockMessageController implements Initializable {
 		locationCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("location"));
 		thresholdLevelCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("thresholdLevel"));
 		statusCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("restockStatus"));
-		restockCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("btnRestock")); // 'Done')
+		restockCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("btnRestock")); // 'Restock'
 
 		ObservableList<VendingMachine> tvObservableList = FXCollections.observableArrayList();
 		vendingMachines = (ArrayList<VendingMachine>) ChatClient.msgServer.getMessageData();

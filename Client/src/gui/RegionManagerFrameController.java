@@ -59,10 +59,6 @@ public class RegionManagerFrameController implements Initializable {
 	private Button btnViewReports;
 
 	private static Message msg; // message to send to service
-	private ArrayList<String> messages = new ArrayList<>(); // list of messages from the DB
-	// private boolean
-	// public static String region = null; // the region of this region manager
-
 	/**
 	 * open Restock Message Frame
 	 * 
