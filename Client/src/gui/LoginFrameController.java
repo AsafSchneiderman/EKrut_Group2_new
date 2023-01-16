@@ -289,9 +289,11 @@ public class LoginFrameController implements Initializable {
 			 * 
 			 * } else {
 			 */
-			CustomerFrameController costumerFrame = new CustomerFrameController();
+			//CustomerFrameController costumerFrame = new CustomerFrameController();
+			OnlineOrderFrameController onlineOrder =  new OnlineOrderFrameController();
+			 ClientMenuController.clientControl.accept(new Message(MessageType.Get_vendingMachines, ""));
 			try {
-				costumerFrame.start(ClientMenuController.clientStage);
+				onlineOrder.start(ClientMenuController.clientStage);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
