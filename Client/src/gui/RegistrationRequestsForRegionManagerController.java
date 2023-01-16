@@ -79,9 +79,9 @@ public class RegistrationRequestsForRegionManagerController implements Initializ
 			primaryStage.setTitle("Ekrut - Region Manager >> View Requests");
 			Parent root = FXMLLoader.load(getClass().getResource("/gui/RegistrationRequestsForApproval.fxml"));
 			Scene home = new Scene(root);
-			primaryStage.setScene(home);
+			primaryStage.setScene(home);}
 
-			// On pressing X (close window) the user logout from system and the client is
+	/*		// On pressing X (close window) the user logout from system and the client is
 			// disconnect from server.
 			primaryStage.setOnCloseRequest(e -> {
 				msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
@@ -126,7 +126,7 @@ public class RegistrationRequestsForRegionManagerController implements Initializ
 					ClientMenuController.clientControl
 							.accept(new Message(MessageType.update_messagesStatus, LoginFrameController.user.getUserID()));
 			}
-		}
+		}*/
 		@Override
 		public void initialize(URL location, ResourceBundle resources) {
 			// initialize the background image

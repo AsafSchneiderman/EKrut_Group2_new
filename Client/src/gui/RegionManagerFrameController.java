@@ -39,6 +39,7 @@ import javafx.stage.Stage;
  *
  */
 public class RegionManagerFrameController implements Initializable {
+	public static RegistrationRequestsForRegionManagerController registrationRequests;
 
 	@FXML
 	private AnchorPane pane;
@@ -129,7 +130,7 @@ public class RegionManagerFrameController implements Initializable {
 	
 	@FXML
     void viewRegistrationRequests(ActionEvent event) {
-		RegistrationRequestsForRegionManagerController registrationRequests=new RegistrationRequestsForRegionManagerController();
+		registrationRequests=new RegistrationRequestsForRegionManagerController();
 		try {
 			registrationRequests.start(ClientMenuController.clientStage);
 		} catch (IOException e) {

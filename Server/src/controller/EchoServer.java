@@ -225,6 +225,20 @@ public class EchoServer extends AbstractServer {
 				Query.addOrder(order);
 				break;
 			}
+			case showRegistrationRequests:
+			{
+				ArrayList<UsersToRegister> uList;
+				uList = Query.getRegistrationRequests(resMessage.getMessageData().toString());
+				try {
+					client.sendToClient(new Message(MessageType.showUsersToRegister, (Object) uList));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+				
+			}
+			
 			default:
 				break;
 			} // end of case

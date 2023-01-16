@@ -782,4 +782,31 @@ public class Query {
 		
 	}
 	
+	public static ArrayList<UsersToRegister> getRegistrationRequests(String region) {
+		UsersToRegister usersToRegister;
+		ArrayList<UsersToRegister> listOfUsersToRegister = new ArrayList<>();
+		Statement stmt;
+		try {
+			if (mysqlConnection.conn != null) {
+				stmt = mysqlConnection.conn.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT * FROM userstosignup WHERE region='"+region+"'");
+				while (rs.next()) {
+
+					usersToRegister = new UsersToRegister(rs.getString("id"), rs.getString("firstName"),
+							rs.getString("lastName"), rs.getString("email"), rs.getString("phone"));
+					listOfUsersToRegister.add(usersToRegister);
+				}
+				rs.close();
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return listOfUsersToRegister;
+	}
+
+	
 }
