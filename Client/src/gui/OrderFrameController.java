@@ -242,10 +242,11 @@ public class OrderFrameController implements Initializable {
 						if (Integer.parseInt(toCart.getQuantity()) == 1) {
 							counterForProducts--;
 							String stockTempStr1 = row.getStockQuantity();
-							int stockNumTemp1 = Integer.parseInt(stockTempStr1);
+							
 							float tempPrice3 = convertStringToFloat(toCart.getPrice());
 							if(!(machine.equals("warehouse")))
 							{
+								int stockNumTemp1 = Integer.parseInt(stockTempStr1);
 								stockNumTemp1 = stockNumTemp1 + 1;
 								stockTempStr1 = String.valueOf(stockNumTemp1);
 								row.setStockQuantity(stockTempStr1);
@@ -295,16 +296,11 @@ public class OrderFrameController implements Initializable {
 
 			if (time.oneSecondPassed()) {
 			
-				/*productsList.removeAll(productsList);
-				tvObservableList.removeAll(tvObservableList);
-				cartObservableList.removeAll(cartObservableList);
-				counterForProducts = 0;
+				setZero();
 				lblTotalPrice.setText(null);
 				tblProducts.setItems(null);
 				tblCart.setItems(null);
-				txtTimer.setText(null);*/
-				setZero();
-				lblTotalPrice.setText(null);
+				txtTimer.setText(null);
 				ClientMenuController.clientStage.setScene(LoginFrameController.home);
 				// Logout
 				msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
@@ -321,14 +317,9 @@ public class OrderFrameController implements Initializable {
 	void cancelOrder(ActionEvent event) {
 		
 		setZero();
-		/*productsList.removeAll(productsList);
-		tvObservableList.removeAll(tvObservableList);
-		cartObservableList.removeAll(cartObservableList);
-		counterForProducts = 0;
-		lblTotalPrice.setText(null);
 		tblProducts.setItems(null);
 		tblCart.setItems(null);
-		txtTimer.setText(null);*/
+		txtTimer.setText(null);
 		lblTotalPrice.setText(null);
 		ClientMenuController.clientStage.setScene(LoginFrameController.home);
 		// Logout
@@ -345,9 +336,6 @@ public class OrderFrameController implements Initializable {
 		ProductsObservableList.removeAll(ProductsObservableList);
 		cartObservableList.removeAll(cartObservableList);
 		counterForProducts = 0;
-		tblProducts.setItems(null);
-		tblCart.setItems(null);
-		txtTimer.setText(null);
 	}
 
 	/**
@@ -357,6 +345,9 @@ public class OrderFrameController implements Initializable {
 	 */
 	@FXML
 	void checkOutOrder(ActionEvent event) {
+		tblProducts.setItems(null);
+		tblCart.setItems(null);
+		txtTimer.setText(null);
 		lblTotalPrice.setText(null);
 		for(int i = 0; i < cartObservableList.size(); i++)
 		{

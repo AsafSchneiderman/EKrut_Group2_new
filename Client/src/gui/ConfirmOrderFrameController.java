@@ -46,7 +46,7 @@ public class ConfirmOrderFrameController implements Initializable {
 	public static Message msg, msg2, msg3, msg4;
 	public static Order order, order2;
 	public static OrderToDeliveryDetails delivery;
-	public static ArrayList<Order> orderList = new ArrayList<>();;
+	public static ArrayList<Order> orderList = new ArrayList<Order>();;
 	@FXML
 	private AnchorPane pane;
 
@@ -73,18 +73,17 @@ public class ConfirmOrderFrameController implements Initializable {
 
 	@FXML
 	private ImageView imgIcone;
+    @FXML
+    private Label lblWelcome;
 
 	@FXML
 	private Label lblTotalPrice;
-	private ObservableList<ProductForOrder> tvObservableList;
-	private ObservableList<OrderProductsForTbl> cartObservableList;
-	private String location;
-	private int counterForProducts;
+	
 	//float totPrice;
 	java.sql.Date date, date2;
 	SimpleDateFormat formatter;
 	String strDate, strDate2;
-	private static ArrayList<VendingMachine> vendingMachines = new ArrayList<>(); // list of vending machines in the DB
+	private static ArrayList<VendingMachine> vendingMachines = new ArrayList<VendingMachine>(); // list of vending machines in the DB
 
 	@FXML
 	private Text txtTimer;
@@ -134,7 +133,7 @@ public class ConfirmOrderFrameController implements Initializable {
 
 		if (LoginFrameController.user.getRole().equals("ClubMember")) // if the costumer is club member
 		{
-			if ((this.location.equals("warehouse"))) // if the order is delivery
+			if ((OrderFrameController.machine.equals("warehouse"))) // if the order is delivery
 			{
 				// getting current date
 				long millis = System.currentTimeMillis();
@@ -177,7 +176,7 @@ public class ConfirmOrderFrameController implements Initializable {
 				// gets machine list
 				vendingMachines = (ArrayList<VendingMachine>) ChatClient.msgServer.getMessageData();
 				for (int i = 0; i < vendingMachines.size(); i++) { // checks if because of the order some of the products reached to threshold level
-					if (vendingMachines.get(i).getLocation().equals(this.location)) {
+					if (vendingMachines.get(i).getLocation().equals(OrderFrameController.machine)) {
 						for (int j = 0; j < OrderFrameController.productsList.size(); j++) {
 							int thresholdLevel = Integer.parseInt(vendingMachines.get(i).getThresholdLevel());
 							int stockQuantity = Integer
@@ -202,7 +201,7 @@ public class ConfirmOrderFrameController implements Initializable {
 
 			}
 		} else { // if the costumer is not club member
-			if ((this.location.equals("warehouse"))) { // if the order is delivery
+			if ((OrderFrameController.machine.equals("warehouse"))) { // if the order is delivery
 				long millis = System.currentTimeMillis();
 				// creating a new object of the class Date
 				date = new java.sql.Date(millis);
@@ -242,7 +241,7 @@ public class ConfirmOrderFrameController implements Initializable {
 				order.setProductsPrice(OrderFrameController.productsPrice);
 				vendingMachines = (ArrayList<VendingMachine>) ChatClient.msgServer.getMessageData();
 				for (int i = 0; i < vendingMachines.size(); i++) {
-					if (vendingMachines.get(i).getLocation().equals(this.location)) {
+					if (vendingMachines.get(i).getLocation().equals(OrderFrameController.machine)) {
 						for (int j = 0; j < OrderFrameController.productsList.size(); j++) {
 							int thresholdLevel = Integer.parseInt(vendingMachines.get(i).getThresholdLevel());
 							int stockQuantity = Integer
@@ -308,6 +307,7 @@ public class ConfirmOrderFrameController implements Initializable {
 		BackgroundImage image = new BackgroundImage(new Image("images/InvoiceBackgroundFrame.png"),
 				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
 		pane.setBackground(new Background(image));
+		lblWelcome.setText("Welcome " + LoginFrameController.user.getFirstName() + " " + LoginFrameController.user.getLastName());
 
 		tlbInvoice.setEditable(true);
 		Image cartIcone = new Image("images/addToBasket.png");
@@ -319,18 +319,7 @@ public class ConfirmOrderFrameController implements Initializable {
 		colProdName.setCellValueFactory(new PropertyValueFactory<OrderProductsForTbl, String>("productName"));
 		colQuantityProd.setCellValueFactory(new PropertyValueFactory<OrderProductsForTbl, String>("quantity"));
 		colProdPrice.setCellValueFactory(new PropertyValueFactory<OrderProductsForTbl, String>("price"));
-		/*
-		 * for(OrderProductsForTbl row : cartObservableList) {
-		 * 
-		 * //Image pic = new Image(row.getImgSrc()); ImageView img = new ImageView();
-		 * img = row.getImgSrc(); img.setFitWidth(50); img.setFitHeight(50);
-		 * 
-		 * OrderProductsForTbl tempList = new
-		 * OrderProductsForTbl(row.getProductName(),row.getPrice() ,row.getQuantity(),
-		 * img, row.getBntToAdd(), row.getBntToSub()); }
-		 */
-
-		// TODO Auto-generated method stub
+		
 		tlbInvoice.setItems(OrderFrameController.cartObservableList);
 		lblTotalPrice.setText(OrderFrameController.finalPrice);
 

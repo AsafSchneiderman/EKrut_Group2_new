@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Label;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -26,6 +27,8 @@ import javafx.stage.Stage;
 
 public class PaymentFrameController implements Initializable {
 	public static Message msg;
+    @FXML
+    private Label lblWelcome;
 
     @FXML
     private AnchorPane pane;
@@ -53,18 +56,25 @@ public class PaymentFrameController implements Initializable {
 
     @FXML
     void PayLater(ActionEvent event) {
+    	
+    	msg = new Message(,"delay");
+    	ClientMenuController.clientControl.accept(msg);
 
     }
 
     @FXML
     void PayNow(ActionEvent event) {
+    	msg = new Message(,"now");
+    	ClientMenuController.clientControl.accept(msg);
+    	txtCreditNum.setText(LoginFrameController.user.get);
 
     }
     
 	public void start(Stage customerStage) throws IOException {
 		ClientMenuController.clientStage = customerStage;
-		Parent root = FXMLLoader.load(getClass().getResource("/gui/ConfirmOrderFrame.fxml"));
-		ClientMenuController.clientStage.setTitle("Ekrut - Costumer >> Confirm Order");
+		//Parent root = FXMLLoader.load(getClass().getResource("/gui/ConfirmOrderFrame.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/gui/paymentFrame.fxml"));
+		ClientMenuController.clientStage.setTitle("Ekrut - Costumer >> Payment");
 		Scene home = new Scene(root);
 		customerStage.setScene(home);
 		// On pressing X (close window) the user logout from system and the client is
@@ -88,6 +98,11 @@ public class PaymentFrameController implements Initializable {
 				BackgroundImage image = new BackgroundImage(new Image("images/paymentBackground.png"),
 						BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
 				pane.setBackground(new Background(image));
+				lblWelcome.setText("Welcome " + LoginFrameController.user.getFirstName() + " " + LoginFrameController.user.getLastName());
+				if(LoginFrameController.user.getRole().equals("costumer"))
+				{
+					bntLatePay.setVisible(false);
+				}
 		
 		
 	}
