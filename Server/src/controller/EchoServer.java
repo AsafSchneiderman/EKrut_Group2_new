@@ -210,6 +210,19 @@ public class EchoServer extends AbstractServer {
 			case updateProductStock:
 			{
 				ArrayList<Product> pList = ((ArrayList<Product>) resMessage.getMessageData());
+				Query.updateProductStock(pList);
+				break;
+			}
+			case addDelivert:
+			{
+				OrderToDeliveryDetails delivery = (OrderToDeliveryDetails) resMessage.getMessageData();
+				Query.addDelivery(delivery);
+				break;
+			}
+			case addOrder:
+			{
+				Order order = (Order) resMessage.getMessageData();
+				Query.addOrder(order);
 				break;
 			}
 			default:

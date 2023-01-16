@@ -16,6 +16,8 @@ import java.util.List;
 import Entities.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import java.text.SimpleDateFormat;  
+import java.util.Date;  
 
 public class Query {
 
@@ -440,7 +442,7 @@ public class Query {
 				for (Product row : productList) {
 					stmt = mysqlConnection.conn
 							.prepareStatement("UPDATE ? SET stockQuantity = ? where location = ?");
-					stmt.setString(1, );
+					stmt.setString(1,row.getMachineName() );
 					stmt.setString(2, row.getStockQuantity());
 					stmt.setString(3, row.getProductName());
 					stmt.executeUpdate();
@@ -452,7 +454,62 @@ public class Query {
 			e.printStackTrace();
 		}
     }
-	
+    public static void addDelivery(OrderToDeliveryDetails delivery)
+    {
+    	//INSERT INTO table_name (column1, column2, column3,etc) VALUES (value1, value2, value3, etc);
+    	PreparedStatement stmt;
+		try {
+			if (mysqlConnection.conn != null) {
+				
+					stmt = mysqlConnection.conn
+							.prepareStatement("INSERT ordertodelivery (orderId, address, date, accept, done) VALUES (?, ?, ?, ?, ?)");
+					stmt.setString(1,delivery.getOrderId());
+					stmt.setString(2,delivery.getAddressToDelivey());
+					stmt.setString(3,delivery.getDate());
+					stmt.setString(4, delivery.getAccept());
+					stmt.setString(5, delivery.getDone());
+					stmt.executeUpdate();
+				
+			} else {
+				System.out.println("Conn is null");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    }
+    public static void addOrder(Order order)
+    {
+    	//INSERT INTO table_name (column1, column2, column3,etc) VALUES (value1, value2, value3, etc);
+    	PreparedStatement stmt;
+		try {
+			if (mysqlConnection.conn != null) {
+				
+					stmt = mysqlConnection.conn
+							.prepareStatement("INSERT orders (orderNum, orderDate, status, customerID, machineLocation, totPrice, type, productsIDs, productsPrice, QuantityPerProduct, paymentType)"
+									+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+					stmt.setString(1,Integer.toString(order.getOrderNum()));
+					Date date=new SimpleDateFormat("dd/MM/yyyy").parse(order.getOrderDate())
+					stmt.setDate(2, (java.sql.Date) date);
+					stmt.setString(3,order.getOrderStatus());
+					stmt.setString(4, order.getCustomerID());
+					stmt.setString(5, order.getVendingMachineLocation());
+					stmt.setString(6, Float.toString(order.getTotalPrice()));
+					stmt.setString(7, order.getOrderType());
+					stmt.setString(8, order.getProducts());
+					stmt.setString(9, order.getProductsPrice());
+					stmt.setString(10, order.getQuantityPerProducts());
+					stmt.setString(11, Integer.toString(order.getQuantityOfProducts()));
+					stmt.setString(12,null);
+					stmt.executeUpdate();
+				
+			} else {
+				System.out.println("Conn is null");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    }
+    
 
 	/**
 	 * get region name by the manager user id

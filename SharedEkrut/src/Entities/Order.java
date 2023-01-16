@@ -8,7 +8,8 @@ public class Order implements Serializable{
 	private float totalPrice;
 	private String products;
 	private int quantityOfProducts;
-	int [] quantityPerProducts;
+	private String quantityPerProducts;
+	private String productsPrice;
 	private String paymentType;
 	/**
 	 * 
@@ -97,11 +98,17 @@ public class Order implements Serializable{
 	public void setProducts(String products) {
 		this.products=products;
 	}
-	public int getQuantityPerProducts(int index) {
-		return quantityPerProducts[index];
+	public String getQuantityPerProducts() {
+		return quantityPerProducts;
 	}
-	public void setQuantityPerProducts(int index, int quantity) {
-		quantityPerProducts[index] = quantity;
+	public void setQuantityPerProducts(String quantity) {
+		quantityPerProducts = quantity;
+	}
+	public String getProductsPrice() {
+		return productsPrice;
+	}
+	public void setProductsPrice(String productsPrice) {
+		this.productsPrice = productsPrice;
 	}
 	
 	@Override

@@ -136,6 +136,10 @@ public class ConfirmOrderFrameController implements Initializable {
 		}
 		 Arrays.sort(arrOrderNums);
 		 orderNum = arrOrderNums[arrOrderNums.length-1]+1;
+		 for(int j=0; j<OrderFrameController.productsList.size();j++)
+		 {
+			 OrderFrameController.productsList.get(j).setMachineName(location);
+		 }
 
     	if(LoginFrameController.user.getRole().equals("ClubMember"))
     	{
@@ -150,6 +154,9 @@ public class ConfirmOrderFrameController implements Initializable {
     			     totPrice = convertStringToFloat(this.lblTotalPrice.getText());
     			     
     			order = new Order(orderNum,this.location,strDate,"placed",LoginFrameController.user.getUserID() ,totPrice,"delivery",this.counterForProducts);
+    			order.setProducts(OrderFrameController.productsID);
+    			order.setQuantityPerProducts(OrderFrameController.productsQuantity);
+    			order.setProductsPrice(OrderFrameController.productsPrice);
     			msg3 = new  Message(MessageType.addOrder,order);
        			ClientMenuController.clientControl.accept(msg3);
        			long millis2=System.currentTimeMillis();
@@ -198,6 +205,9 @@ public class ConfirmOrderFrameController implements Initializable {
 		   				}
 		   			}
     			order = new Order(orderNum,this.location,strDate,"placed",LoginFrameController.user.getUserID(),totPrice, type,this.counterForProducts);
+    			order.setProducts(OrderFrameController.productsID);
+    			order.setQuantityPerProducts(OrderFrameController.productsQuantity);
+    			order.setProductsPrice(OrderFrameController.productsPrice);
     			msg2 = new Message(MessageType.updateProductStock,OrderFrameController.productsList);
        			ClientMenuController.clientControl.accept(msg2);
     			msg3 = new  Message(MessageType.addOrder,order);
@@ -216,6 +226,9 @@ public class ConfirmOrderFrameController implements Initializable {
  			     strDate = formatter.format(date);
  			     
  			    order = new Order(orderNum,this.location,strDate,"placed",LoginFrameController.user.getUserID() ,totPrice,"delivery",this.counterForProducts);
+ 			   order.setProducts(OrderFrameController.productsID);
+   			order.setQuantityPerProducts(OrderFrameController.productsQuantity);
+   			order.setProductsPrice(OrderFrameController.productsPrice);
  			   msg3 = new  Message(MessageType.addOrder,order);
  	   			ClientMenuController.clientControl.accept(msg3);
  	   		long millis2=System.currentTimeMillis(); 
@@ -244,6 +257,9 @@ public class ConfirmOrderFrameController implements Initializable {
 			    	 type = "local";
 			     }
    			order = new Order(orderNum,this.location,strDate,"placed",LoginFrameController.user.getUserID(),totPrice, type,this.counterForProducts);
+   			order.setProducts(OrderFrameController.productsID);
+			order.setQuantityPerProducts(OrderFrameController.productsQuantity);
+			order.setProductsPrice(OrderFrameController.productsPrice);
    			vendingMachines = (ArrayList<VendingMachine>) ChatClient.msgServer.getMessageData();
    			for(int i = 0; i <vendingMachines.size();i++ )
    			{
