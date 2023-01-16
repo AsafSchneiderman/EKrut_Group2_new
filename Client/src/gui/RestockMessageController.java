@@ -189,8 +189,8 @@ public class RestockMessageController implements Initializable {
 					lblAlert.setStyle("-fx-background-color:#73bce4");
 			
 					 ClientMenuController.clientControl.accept(new Message(MessageType.update_restockStatusToWaitToRestock, v));
-					row.getBtnRestock().setDisable(true);
-					ClientMenuController.clientControl.accept(new Message(MessageType.insert_messages, "The vending machine in "+row.getLocation() +" wait to restock"));
+					row.getBtnRestock().setDisable(true);														///////////////////////////////////////////////////////////
+					ClientMenuController.clientControl.accept(new Message(MessageType.insert_RegionManagerMessages, "The vending machine in "+row.getLocation() +" wait to restock"));
 				});
 				if (!row.getRestockStatus().equals("LowStock"))
 					row.getBtnRestock().setDisable(true);

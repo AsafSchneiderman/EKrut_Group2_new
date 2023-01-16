@@ -98,8 +98,12 @@ public class ViewVendingMachinesFrameController implements Initializable {
 		primaryStage.setTitle("Ekrut - Operations Worker >> Vending Machines to restock");
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/ViewVendingMachinesFrame.fxml"));
 		Scene home = new Scene(root);
+		//home.getStylesheets().add(getClass().getResource("tableDesign.css").toExternalForm());
 		primaryStage.setScene(home);
-
+		primaryStage.show();
+		
+		
+		
 		// On pressing X (close window) the user logout from system and the client is
 		// disconnect from server.
 		primaryStage.setOnCloseRequest(e -> {
@@ -117,7 +121,7 @@ public class ViewVendingMachinesFrameController implements Initializable {
 				e1.printStackTrace();
 			}
 		});
-		primaryStage.show();
+		
 	}
 
 	/**
