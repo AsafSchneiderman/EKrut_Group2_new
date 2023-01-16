@@ -10,19 +10,15 @@ public class Product implements Serializable {
 	private String productName;
 	private String price;
 	private String stockQuantity;
-<<<<<<< Upstream, based on branch 'main' of https://github.com/AsafSchneiderman/EKrut_Group2_new.git
 	private String imgSrc;
 	private String machineName;
+	
 	public String getMachineName() {
 		return machineName;
 	}
 	public void setMachineName(String machineName) {
 		this.machineName = machineName;
 	}
-=======
-	private String imgSrc;	
-	
->>>>>>> 7833389 update stock and operation worker
 	public Product(String productID, String productName, String price, String stockQuantity,String imgSrc) {
 		super();
 		this.productID = productID;

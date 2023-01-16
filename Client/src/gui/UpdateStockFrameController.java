@@ -159,7 +159,7 @@ public class UpdateStockFrameController implements Initializable{
 				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
 		pane.setBackground(new Background(image));
 
-		
+		//combo box
 		cmbBoxVendingMachine.setVisible(true);
 		// show the vending machines
 		vendingMachines = (ArrayList<VendingMachine>) ChatClient.msgServer.getMessageData();
@@ -173,13 +173,17 @@ public class UpdateStockFrameController implements Initializable{
 		
 		
 		
-		// initialize the vending machines table from DB
-		tblViewVendingMachines.setEditable(true);
+		// initialize the products table from DB
+		tblViewProducts.setEditable(true);
 
 		regionCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("region"));
 		locationCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("location"));
 		thresholdLevelCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("thresholdLevel"));
 
+	    productIDCol.setCellValueFactory(new PropertyValueFactory<Product, String>("region"));
+	    productNameCol
+	    priceCol
+	    stockQuantityCol
 		ObservableList<VendingMachine> tvObservableList = FXCollections.observableArrayList();
 		vendingMachines = (ArrayList<VendingMachine>) ChatClient.msgServer.getMessageData();
 		for (VendingMachine row : vendingMachines)
