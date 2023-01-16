@@ -2,6 +2,7 @@ package controller;
 
 import java.io.*;
 import java.net.Inet4Address;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import db.mysqlConnection;
@@ -236,7 +237,12 @@ public class EchoServer extends AbstractServer {
 			}
 			case addOrder: {
 				Order order = (Order) resMessage.getMessageData();
-				Query.addOrder(order);
+				try {
+					Query.addOrder(order);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				break;
 			}
 			case showRegistrationRequests: {
