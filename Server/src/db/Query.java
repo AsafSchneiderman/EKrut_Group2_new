@@ -792,7 +792,6 @@ public class Query {
 		PreparedStatement stmt;
 		String splitData[]= new String[3];
 		splitData=data.split("#");
-		System.out.println("UpdateUserToSignUpDetails");
 		try {
 			if (mysqlConnection.conn != null) {
 				 {
@@ -878,5 +877,24 @@ public class Query {
 		
 	
 
-	}	
+	}
+	public static void ChangeRoleToClubMember(String id) {
+		PreparedStatement stmt;
+		try {
+			if (mysqlConnection.conn != null) {
+				 {
+				stmt = mysqlConnection.conn.prepareStatement("UPDATE userstosignup SET role = 'ClubMember' where id = ?");
+				stmt.setString(1, id);
+				
+				
+				stmt.executeUpdate();
+				}
+			} else {
+				System.out.println("Conn is null");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
 }

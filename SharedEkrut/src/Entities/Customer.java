@@ -9,8 +9,8 @@ public class Customer extends User implements Serializable {
 	private String creditCard;
 
 	public Customer(String userID, String id, String firstName, String lastName, String userName, String password,
-			String role, String email, String phoneNumber, int isLoggedIn, int accountNum, String creditCard) {
-		super(userID, id, firstName, lastName, userName, password, role, email, phoneNumber, isLoggedIn);
+			String role, String email, String phoneNumber, int isLoggedIn, int accountNum, String creditCard,String region) {
+		super(userID, id, firstName, lastName, userName, password, role, email, phoneNumber, isLoggedIn, region);
 		this.accountNum = accountNum;
 		this.creditCard = creditCard;
 	}

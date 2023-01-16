@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import Entities.Message;
 import Entities.MessageType;
+import controller.ChatClient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -119,8 +120,16 @@ public class CustomerServiceController implements Initializable{
 					BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
 			pane.setBackground(new Background(image));
 			
-			String path="customersToRegistrate.csv";
+			String path="SharedEkrut\\Entities\\customersToRegistrate.csv";
 			msg = new Message(MessageType.importUsersToRegistrate, path);
+			ClientMenuController.clientControl.accept(msg);
+			try {
+				Thread.sleep(1000);
+				System.out.println(ChatClient.msgServer.getMessageData().toString());
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	 
 

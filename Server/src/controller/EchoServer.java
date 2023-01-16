@@ -268,14 +268,18 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
-			
+			case registrateClubMember:
+				String idToUpdate=resMessage.getMessageData().toString();
+				Query.ChangeRoleToClubMember(idToUpdate);
+				break;
 
 			default:
 				break;
 			} // end of case
 		}
-
 	}
+
+
 
 	/**
 	 * This method overrides the one in the superclass. Called when the server
