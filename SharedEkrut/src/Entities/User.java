@@ -14,12 +14,11 @@ public class User implements Serializable{
 	private String password;
 	private String role;
 	private int isLoggedIn;
-	
-	private String region = new String();	//for region manager
+	private String region;	
 	
 	
 	public User(String userID, String id, String firstName, String lastName,String userName,  String password,  String role, String email,  String phoneNumber,
-			 int isLoggedIn) {
+			 int isLoggedIn, String region) {
 		super();
 		this.userID = userID;
 		this.firstName = firstName;
@@ -31,7 +30,7 @@ public class User implements Serializable{
 		this.password = password;
 		this.role = role;
 		this.isLoggedIn=isLoggedIn;	
-		this.region = null;	//for region manager
+		this.region = region;	
 	}
 	
 	public User(User user) {
@@ -45,6 +44,7 @@ public class User implements Serializable{
 		this.password = user.password;
 		this.role = user.role;
 		this.isLoggedIn = user.isLoggedIn;
+		this.region=user.region;
 	}
 	
 	public User() {
@@ -117,7 +117,6 @@ public class User implements Serializable{
 	}
 	
 	
-	//for region manager
 	public String getRegion() {
 		return region;
 	}

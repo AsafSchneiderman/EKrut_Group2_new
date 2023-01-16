@@ -10,7 +10,7 @@ public class Worker extends User implements Serializable {
 
 	public Worker(String userID, String id, String firstName, String lastName, String userName, String password,
 			String role, String email, String phoneNumber, int isLoggedIn, String jobType, String region) {
-		super(userID, id, firstName, lastName, userName, password, role, email, phoneNumber, isLoggedIn);
+		super(userID, id, firstName, lastName, userName, password, role, email, phoneNumber, isLoggedIn, region);
 		this.jobType = jobType;
 		this.region = region;
 	}

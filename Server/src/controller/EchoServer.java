@@ -84,14 +84,14 @@ public class EchoServer extends AbstractServer {
 				ServerUI.serverGUI.appendToConsole(client.getName() + " connected successfully");
 				break;
 			/** Region Manager section **/
-			case Get_region:
+			/*case Get_region:
 				try {
 					client.sendToClient(new Message(MessageType.Get_region,
 							(Object) (Query.getRegion((String) resMessage.getMessageData()))));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				break;
+				break;*/
 
 			case Get_vendingMachines: // get list of vending machines from DB
 				try {
@@ -246,10 +246,11 @@ public class EchoServer extends AbstractServer {
 				break;
 			}
 			case showRegistrationRequests: {
+				String regionToRead=(String) resMessage.getMessageData().toString();
 				ArrayList<UsersToRegister> uList;
-				uList = Query.getRegistrationRequests(resMessage.getMessageData().toString());
+				uList = Query.getRegistrationRequests(regionToRead);
 				try {
-					client.sendToClient(new Message(MessageType.showUsersToRegister, (Object) uList));
+					client.sendToClient(new Message(MessageType.showRegistrationRequests, (Object) uList));
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

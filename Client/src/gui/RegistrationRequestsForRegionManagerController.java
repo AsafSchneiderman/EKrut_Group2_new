@@ -74,37 +74,7 @@ public class RegistrationRequestsForRegionManagerController implements Initializ
 
 	    }
 
-		public void start(Stage primaryStage) throws IOException {
-			ClientMenuController.clientStage = primaryStage;
-			primaryStage.setTitle("Ekrut - Region Manager >> View Requests");
-			Parent root = FXMLLoader.load(getClass().getResource("/gui/RegistarationRequestsForApprovalFrame.fxml"));
-			Scene home = new Scene(root);
-			primaryStage.setScene(home);}
-
-	/*		// On pressing X (close window) the user logout from system and the client is
-			// disconnect from server.
-			primaryStage.setOnCloseRequest(e -> {
-				msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
-				ClientMenuController.clientControl.accept(msg);
-				ClientMenuController.clientControl
-						.accept(new Message(MessageType.disconnected, LoginFrameController.user.getUserName()));
-				// create a PopUp message
-				PopUpMessageFrameController popUpMsgController = new PopUpMessageFrameController();
-
-				try {
-					popUpMsgController.start(ClientMenuController.clientStage);
-					popUpMsgController.closeMsg(3000);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-
-			});
-
-			primaryStage.show();
-			this.popUpMessages(); // show new messages
-	}
-		public void popUpMessages() {
+	    public void popUpMessages() {
 			// popup messages from the DB
 			String message = (String) ChatClient.msgServer.getMessageData();
 			if (!message.equals("")) {
@@ -126,8 +96,41 @@ public class RegistrationRequestsForRegionManagerController implements Initializ
 					ClientMenuController.clientControl
 							.accept(new Message(MessageType.update_messagesStatus, LoginFrameController.user.getUserID()));
 			}
-		}*/
-		@Override
+		}
+
+	    
+		public void start(Stage primaryStage) throws IOException {
+
+			ClientMenuController.clientStage = primaryStage;
+			primaryStage.setTitle("Ekrut - Region Manager >> View Requests");
+			Parent root = FXMLLoader.load(getClass().getResource("/gui/RegistarationRequestsForApprovalFrame.fxml"));
+			Scene home = new Scene(root);
+			primaryStage.setScene(home);
+
+		// On pressing X (close window) the user logout from system and the client is
+		// disconnect from server.
+		primaryStage.setOnCloseRequest(e -> {
+			msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
+			ClientMenuController.clientControl.accept(msg);
+			ClientMenuController.clientControl
+					.accept(new Message(MessageType.disconnected, LoginFrameController.user.getUserName()));
+			// create a PopUp message
+			PopUpMessageFrameController popUpMsgController = new PopUpMessageFrameController();
+
+			try {
+				popUpMsgController.start(ClientMenuController.clientStage);
+				popUpMsgController.closeMsg(3000);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+		});
+
+		primaryStage.show();
+		this.popUpMessages(); // show new messages
+	}
+				@Override
 		public void initialize(URL location, ResourceBundle resources) {
 			// initialize the background image
 			BackgroundSize backgroundSize = new BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true,
@@ -143,6 +146,7 @@ public class RegistrationRequestsForRegionManagerController implements Initializ
 			lastNameCol.setCellValueFactory(new PropertyValueFactory<ButtonForUsersToSignup,String>("lastName"));
 			buttonsCol.setCellValueFactory(new PropertyValueFactory<ButtonForUsersToSignup,Button>("btnShow"));
 			ObservableList<ButtonForUsersToSignup> tvObservableList = FXCollections.observableArrayList();
+			System.out.println(LoginFrameController.user.getRegion());//**********************************
 			msg=new Message(MessageType.showRegistrationRequests, LoginFrameController.user.getRegion());
 			ClientMenuController.clientControl.accept(msg);
 			try {

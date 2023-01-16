@@ -175,7 +175,9 @@ public class LoginFrameController implements Initializable {
 					else {
 						String[] userData = data.split("#"); // Export user data
 						user = new User(userData[0], userData[1], userData[2], userData[3], userData[4], userData[5],
-								userData[6], userData[7], userData[8], Integer.valueOf(userData[9]));
+								userData[6], userData[7], userData[8], Integer.valueOf(userData[9]), userData[10]);
+						System.out.println(userData[10]);
+						System.out.println(user.getRegion());
 					}
 					Thread.sleep(500);
 					return "";
@@ -243,7 +245,6 @@ public class LoginFrameController implements Initializable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			user.setRegion((String) ChatClient.msgServer.getMessageData());
 
 			// get the messages of the region manager
 			ClientMenuController.clientControl

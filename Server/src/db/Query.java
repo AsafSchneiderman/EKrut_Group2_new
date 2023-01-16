@@ -69,10 +69,8 @@ public class Query {
 					result.append(rs.getString(9)); // phoneNumber
 					result.append("#");
 					result.append(rs.getString(10)); // isLoggedIn
-					//result.append("#");
-					//result.append(rs.getString(11)); //region
-					//result.append("#");
-					//result.append(rs.getString(12)); //creditCard
+					result.append("#");
+					result.append(rs.getString(11)); //region
 				}
 				rs.close();
 				// empty result
@@ -293,7 +291,7 @@ public class Query {
 					+ " WHERE MONTH(orderDate)=" + month + " AND YEAR(orderDate)=" + year + " AND region=\"" + region + "\"");
 			while (rs.next()) {
 	
-				Order o = new Order(rs.getString("machineLocation"), rs.getString("orderDate"),
+				Order o = new Order(rs.getInt("orderNum"),rs.getString("machineLocation"), rs.getString("orderDate"),
 						rs.getString("status"), rs.getString("customerID"), rs.getFloat("totPrice"),
 						rs.getString("type"), rs.getInt("productsQuantity"));
 				orders.add(o);
@@ -813,13 +811,16 @@ public class Query {
 	public static ArrayList<UsersToRegister> getRegistrationRequests(String region) {
 		UsersToRegister usersToRegister;
 		ArrayList<UsersToRegister> listOfUsersToRegister = new ArrayList<>();
-		Statement stmt;
+		PreparedStatement stmt;
 		try {
 			if (mysqlConnection.conn != null) {
-				stmt = mysqlConnection.conn.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT * FROM userstosignup WHERE region='"+region+"'");
+				
+				stmt = mysqlConnection.conn.prepareStatement("SELECT * FROM userstosignup WHERE region= ?");
+				stmt.setString(1, region);
+				ResultSet rs = stmt.executeQuery();
+				
 				while (rs.next()) {
-
+					System.out.println(rs.getString("id")+"hi");
 					usersToRegister = new UsersToRegister(rs.getString("id"), rs.getString("firstName"),
 							rs.getString("lastName"), rs.getString("email"), rs.getString("phone"));
 					listOfUsersToRegister.add(usersToRegister);
