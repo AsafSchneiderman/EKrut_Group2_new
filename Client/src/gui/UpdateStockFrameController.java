@@ -16,6 +16,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -74,9 +75,16 @@ public class UpdateStockFrameController implements Initializable{
     private Button btnShowProducts;
     
     @FXML
-	private Label lblAlert;
+    private Label lblMsg1;
 
-	private static Message msg; // message to send to server
+    @FXML
+    private Label lblMsg2;
+
+    @FXML
+    private Label lblMsg3;
+    
+    @FXML
+	private Label lblAlert;
 	
 	private static ArrayList<VendingMachine> vendingMachines = new ArrayList<>(); // list of vending machines in the DB
 
@@ -103,14 +111,73 @@ public class UpdateStockFrameController implements Initializable{
 
    	}
 
+   	/**
+   	 * call to read products from DB and show in the table the products of the selected combo box location
+   	 * @param event (Click on Show Products button)
+   	 */
     @FXML
     void showProducts(ActionEvent event) {
+    	ClientMenuController.clientControl.accept(new Message(MessageType.Show_products, cmbBoxVendingMachine.getValue()));
+    	lblMsg1.setVisible(true);
+		lblMsg2.setVisible(true);
+		lblMsg3.setVisible(true);
+		tblViewProducts.setVisible(true);
+		btnUpdateStock.setVisible(true);
 
+		// initialize the products table from DB
+		tblViewProducts.setEditable(true);
+
+	    productIDCol.setCellValueFactory(new PropertyValueFactory<Product, String>("productID"));
+	    productNameCol.setCellValueFactory(new PropertyValueFactory<Product, String>("productName"));
+	    priceCol.setCellValueFactory(new PropertyValueFactory<Product, String>("price"));
+	    stockQuantityCol.setCellValueFactory(new PropertyValueFactory<Product, String>("stockQuantity"));
+		
+	    ObservableList<Product> tvObservableList = FXCollections.observableArrayList();
+	    
+	    try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    
+		products = (ArrayList<Product>) ChatClient.msgServer.getMessageData();
+		for (Product row : products)
+			//if (row.getRegion().equals(LoginFrameController.user.getRegion())) // show the vending machines at his
+																				// region
+				tvObservableList.add(row);
+
+		tblViewProducts.setItems(tvObservableList);
+
+		// Open the option to update the stock quantity on the table
+		stockQuantityCol.setCellFactory(TextFieldTableCell.forTableColumn());
+		stockQuantityCol.setOnEditCommit(new EventHandler<CellEditEvent<Product, String>>() {
+			// A method that handles the stock quantity update changes in the table
+			@Override
+			public void handle(CellEditEvent<Product, String> event) {
+				lblAlert.setText("");
+				lblAlert.setStyle("");
+				Product p = event.getRowValue();
+				p.setStockQuantity(event.getNewValue());
+				for (Product row : products)
+					//if (row.getRegion().equals(LoginFrameController.user.getRegion())) // update the vending machines at
+																						// his region
+						if (p.getProductID().equals(row.getProductID()))
+							row.setStockQuantity(p.getStockQuantity());
+			}
+		});
     }
 
+    /**
+	 * update the stock of the vending machines products in the DB
+	 * 
+	 * @param event (Click on Update Stock button)
+	 */
     @FXML
     void updateStock(ActionEvent event) {
-
+    	lblAlert.setText("The stock updated in DB"); // show update Alert
+		lblAlert.setStyle("-fx-background-color:#73bce4");
+		ClientMenuController.clientControl.accept(new Message(MessageType.update_thresholdLevel, products)); /////////////////////////////////////////
     }
     
     /**
@@ -159,8 +226,13 @@ public class UpdateStockFrameController implements Initializable{
 				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
 		pane.setBackground(new Background(image));
 
+		lblMsg1.setVisible(false);
+		lblMsg2.setVisible(false);
+		lblMsg3.setVisible(false);
+		tblViewProducts.setVisible(false);
+		btnUpdateStock.setVisible(false);
+		
 		//combo box
-		cmbBoxVendingMachine.setVisible(true);
 		// show the vending machines
 		vendingMachines = (ArrayList<VendingMachine>) ChatClient.msgServer.getMessageData();
 		ObservableList<String> list = FXCollections.observableArrayList(); // initialize the comboBox
@@ -169,48 +241,6 @@ public class UpdateStockFrameController implements Initializable{
 
 		cmbBoxVendingMachine.setItems(list);
 		cmbBoxVendingMachine.setValue(list.get(0));
-		
-		
-		
-		
-		// initialize the products table from DB
-		tblViewProducts.setEditable(true);
-
-		regionCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("region"));
-		locationCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("location"));
-		thresholdLevelCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("thresholdLevel"));
-
-	    productIDCol.setCellValueFactory(new PropertyValueFactory<Product, String>("region"));
-	    productNameCol
-	    priceCol
-	    stockQuantityCol
-		ObservableList<VendingMachine> tvObservableList = FXCollections.observableArrayList();
-		vendingMachines = (ArrayList<VendingMachine>) ChatClient.msgServer.getMessageData();
-		for (VendingMachine row : vendingMachines)
-			if (row.getRegion().equals(LoginFrameController.user.getRegion())) // show the vending machines at his
-																				// region
-				tvObservableList.add(row);
-
-		tblViewVendingMachines.setItems(tvObservableList);
-
-		// Open the option to update the threshold level on the table
-		thresholdLevelCol.setCellFactory(TextFieldTableCell.forTableColumn());
-		thresholdLevelCol.setOnEditCommit(new EventHandler<CellEditEvent<VendingMachine, String>>() {
-			// A method that handles the threshold level update changes in the table
-			@Override
-			public void handle(CellEditEvent<VendingMachine, String> event) {
-				lblAlert.setText("");
-				lblAlert.setStyle("");
-				VendingMachine ven = event.getRowValue();
-				ven.setThresholdLevel(event.getNewValue());
-				for (VendingMachine row : vendingMachines)
-					if (row.getRegion().equals(LoginFrameController.user.getRegion())) // update the vending machines at
-																						// his region
-						if (ven.getLocation().equals(row.getLocation()))
-							row.setThresholdLevel(ven.getThresholdLevel());
-			}
-		});
-
 	}
 
 }

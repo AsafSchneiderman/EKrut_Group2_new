@@ -29,39 +29,40 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
 
 /**
- * This frame is for Operations Worker:
- * 1. View vending machines details
- * 2. Update vending machines stock
+ * This frame is for Operations Worker: 1. View vending machines details 2.
+ * Update vending machines stock
+ * 
  * @author Nofar Ben Simon
  *
  */
-public class OperationsWorkerFrameController implements Initializable{
+public class OperationsWorkerFrameController implements Initializable {
 
-    @FXML
-    private AnchorPane pane;
+	@FXML
+	private AnchorPane pane;
 
-    @FXML
-    private Label lblWelcome;
+	@FXML
+	private Label lblWelcome;
 
-    @FXML
-    private Button btnExit;
+	@FXML
+	private Button btnExit;
 
-    @FXML
-    private Button btnUpdateStock;
+	@FXML
+	private Button btnUpdateStock;
 
-    @FXML
-    private Button btnViewVendingMachines;
-    
-    private static Message msg; // message to send to service
+	@FXML
+	private Button btnViewVendingMachines;
 
-    /**
-     * open View Vending Machines Frame
-     * @param event (Click on View Vending Machines Details button)
-     */
-    @FXML
-    void ViewVendingMachinesDetails(ActionEvent event) {
+	private static Message msg; // message to send to service
 
-    	ViewVendingMachinesFrameController ViewVendingMachinesFrame = new ViewVendingMachinesFrameController();
+	/**
+	 * open View Vending Machines Frame
+	 * 
+	 * @param event (Click on View Vending Machines Details button)
+	 */
+	@FXML
+	void ViewVendingMachinesDetails(ActionEvent event) {
+
+		ViewVendingMachinesFrameController ViewVendingMachinesFrame = new ViewVendingMachinesFrameController();
 		try {
 			// Create message to send to server
 			msg = new Message(MessageType.Get_vendingMachines, "");
@@ -70,7 +71,7 @@ public class OperationsWorkerFrameController implements Initializable{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-    }
+	}
 
 	/**
 	 * The user exit from the region manager frame and do logout to the user from
@@ -90,16 +91,21 @@ public class OperationsWorkerFrameController implements Initializable{
 
 	/**
 	 * Open update stock frame
+	 * 
 	 * @param event (Click on Update vending machines stock button)
 	 */
-    @FXML
-    void updateStocks(ActionEvent event) {
-    	
-    	ClientMenuController.clientControl.accept(new Message(MessageType.Get_vendingMachines, ""));
-		
+	@FXML
+	void updateStocks(ActionEvent event) {
 
-    }
-    
+		UpdateStockFrameController updateStockFrame = new UpdateStockFrameController();
+		ClientMenuController.clientControl.accept(new Message(MessageType.Get_vendingMachines, ""));
+		try {
+			updateStockFrame.start(ClientMenuController.clientStage);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * PopUp the messages of the region manager from the DB
 	 */
