@@ -377,6 +377,11 @@ public class Query {
 		return clientsPerOrderAmount;
 	}
 
+	/**
+	 * get the products in location from DB
+	 * @param location - the location of the vending machine
+	 * @return list of products
+	 */
 	public static ArrayList<Product> getProducts(String location) {
 		Product product;
 		ArrayList<Product> listOfProducts = new ArrayList<>();
@@ -384,11 +389,12 @@ public class Query {
 		try {
 			if (mysqlConnection.conn != null) {
 				stmt = mysqlConnection.conn.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT * FROM "+ location+"products");
+				ResultSet rs = stmt.executeQuery("SELECT * FROM "+ location.toLowerCase() +"products");
 				while (rs.next()) {
 
 					product = new Product(rs.getString("productID"), rs.getString("productName"), rs.getString("price"),
 							rs.getString("stockQuantity"), rs.getString("imgSrc"));
+					product.setMachineName(location);
 					listOfProducts.add(product);
 				}
 				rs.close();
@@ -438,17 +444,21 @@ public class Query {
         return Float.valueOf(str);
     }
     
+    /**
+     * update the stock quantity in the products tables in DB
+     * @param productList - the products after update
+     */
     public static void updateProductStock(ArrayList<Product> productList)
     {
     	PreparedStatement stmt;
-		try {
+    	String location = (productList.get(0).getMachineName()).toLowerCase();
+    	try {
 			if (mysqlConnection.conn != null) {
 				for (Product row : productList) {
 					stmt = mysqlConnection.conn
-							.prepareStatement("UPDATE ? SET stockQuantity = ? where location = ?");
-					stmt.setString(1,row.getMachineName() );
-					stmt.setString(2, row.getStockQuantity());
-					stmt.setString(3, row.getProductName());
+							.prepareStatement("UPDATE " + location + "products SET stockQuantity = ? where productID = ?");
+					stmt.setString(1, row.getStockQuantity());
+					stmt.setString(2, row.getProductID());
 					stmt.executeUpdate();
 				}
 			} else {

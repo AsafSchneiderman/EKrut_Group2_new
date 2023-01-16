@@ -13,12 +13,6 @@ public class Product implements Serializable {
 	private String imgSrc;
 	private String machineName;
 	
-	public String getMachineName() {
-		return machineName;
-	}
-	public void setMachineName(String machineName) {
-		this.machineName = machineName;
-	}
 	public Product(String productID, String productName, String price, String stockQuantity,String imgSrc) {
 		super();
 		this.productID = productID;
@@ -57,6 +51,13 @@ public class Product implements Serializable {
 	}
 	public void setImgSrc(String imgSrc) {
 		this.imgSrc = imgSrc;
+	}
+	
+	public String getMachineName() {
+		return machineName;
+	}
+	public void setMachineName(String machineName) {
+		this.machineName = machineName;
 	}
 	
 	@Override

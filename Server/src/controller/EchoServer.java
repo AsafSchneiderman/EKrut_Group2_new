@@ -129,7 +129,7 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
-			case Show_products: // to show products in order frame
+			case Show_products: // to show products in order frame and update stock frame
 			{
 				ArrayList<Product> pList;
 				pList = Query.getProducts((String)resMessage.getMessageData());
@@ -207,7 +207,7 @@ public class EchoServer extends AbstractServer {
 				}
 				break;
 			}
-			case updateProductStock:
+			case updateProductStock:	//update the product stock in DB
 			{
 				ArrayList<Product> pList = ((ArrayList<Product>) resMessage.getMessageData());
 				Query.updateProductStock(pList);

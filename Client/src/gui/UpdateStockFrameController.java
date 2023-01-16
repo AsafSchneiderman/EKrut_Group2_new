@@ -89,6 +89,8 @@ public class UpdateStockFrameController implements Initializable{
 	private static ArrayList<VendingMachine> vendingMachines = new ArrayList<>(); // list of vending machines in the DB
 
 	private static ArrayList<Product> products = new ArrayList<>(); // list of products in the DB
+	
+	private static String location = new String();	//the location of the vending machine to stock
 
 
     /**
@@ -117,7 +119,9 @@ public class UpdateStockFrameController implements Initializable{
    	 */
     @FXML
     void showProducts(ActionEvent event) {
-    	ClientMenuController.clientControl.accept(new Message(MessageType.Show_products, cmbBoxVendingMachine.getValue()));
+    	location = cmbBoxVendingMachine.getValue();
+    	System.out.println(location);   	/////////////////////////////////////////
+    	ClientMenuController.clientControl.accept(new Message(MessageType.Show_products, location));
     	lblMsg1.setVisible(true);
 		lblMsg2.setVisible(true);
 		lblMsg3.setVisible(true);
@@ -177,7 +181,22 @@ public class UpdateStockFrameController implements Initializable{
     void updateStock(ActionEvent event) {
     	lblAlert.setText("The stock updated in DB"); // show update Alert
 		lblAlert.setStyle("-fx-background-color:#73bce4");
-		ClientMenuController.clientControl.accept(new Message(MessageType.update_thresholdLevel, products)); /////////////////////////////////////////
+		ClientMenuController.clientControl.accept(new Message(MessageType.updateProductStock, products)); 
+		
+		 try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	
+		 /*
+		//update the restock status to "Done"
+		for (VendingMachine row : vendingMachines)
+			if(row.getLocation().equals(location) && row.getRestockStatus().equals("WaitToRestock"))
+				row.setRestockStatus("Done");
+		ClientMenuController.clientControl.accept(new Message(MessageType.update_restockStatus, vendingMachines)); 
+		*/
     }
     
     /**

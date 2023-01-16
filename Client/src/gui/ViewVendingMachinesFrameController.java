@@ -32,11 +32,12 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
 
 /**
- * show the vending machines and there details.
+ * show the vending machines that wait to restock.
+ * 
  * @author Nofar Ben Simon
  *
  */
-public class ViewVendingMachinesFrameController implements Initializable{
+public class ViewVendingMachinesFrameController implements Initializable {
 
 	@FXML
 	private AnchorPane pane;
@@ -66,15 +67,14 @@ public class ViewVendingMachinesFrameController implements Initializable{
 
 	private static ArrayList<VendingMachine> vendingMachines = new ArrayList<>(); // list of vending machines in the DB
 
-
-    /**
+	/**
 	 * Goes back to the previous window of OperationsWorkerFrameController
 	 * 
 	 * @param event (Click on Back button)
 	 */
 	@FXML
 	void backToPreviousPage(ActionEvent event) {
-		
+
 		// get the messages of the region manager
 		ClientMenuController.clientControl
 				.accept(new Message(MessageType.Get_messages, LoginFrameController.user.getUserID()));
@@ -86,7 +86,7 @@ public class ViewVendingMachinesFrameController implements Initializable{
 		}
 
 	}
-	
+
 	/**
 	 * start the OperationsWorkerFrame
 	 * 
@@ -95,7 +95,7 @@ public class ViewVendingMachinesFrameController implements Initializable{
 	 */
 	public void start(Stage primaryStage) throws IOException {
 		ClientMenuController.clientStage = primaryStage;
-		primaryStage.setTitle("Ekrut - Operations Worker >> Vending Machines");
+		primaryStage.setTitle("Ekrut - Operations Worker >> Vending Machines to restock");
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/ViewVendingMachinesFrame.fxml"));
 		Scene home = new Scene(root);
 		primaryStage.setScene(home);
@@ -135,7 +135,7 @@ public class ViewVendingMachinesFrameController implements Initializable{
 
 		// initialize the vending machines table from DB
 		tblViewVendingMachines.setEditable(true);
-		
+
 		regionCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("region"));
 		locationCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("location"));
 		thresholdLevelCol.setCellValueFactory(new PropertyValueFactory<VendingMachine, String>("thresholdLevel"));
@@ -143,7 +143,8 @@ public class ViewVendingMachinesFrameController implements Initializable{
 
 		ObservableList<VendingMachine> tvObservableList = FXCollections.observableArrayList();
 		vendingMachines = (ArrayList<VendingMachine>) ChatClient.msgServer.getMessageData();
-		for (VendingMachine row : vendingMachines) {			
+		for (VendingMachine row : vendingMachines) {
+			if (row.getRestockStatus().equals("WaitToRestock"))
 				tvObservableList.add(row);
 		}
 

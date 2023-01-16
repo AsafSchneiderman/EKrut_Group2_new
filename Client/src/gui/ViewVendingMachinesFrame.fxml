@@ -7,8 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane fx:id="pane" prefHeight="450.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="gui.ViewVendingMachinesFrameController">
+<AnchorPane fx:id="pane" prefHeight="450.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ViewVendingMachinesFrameController">
    <children>
       <TableView fx:id="tblViewVendingMachines" layoutX="94.0" layoutY="74.0" prefHeight="314.0" prefWidth="613.0">
          <columns>
@@ -18,7 +17,7 @@
             <TableColumn fx:id="statusCol" minWidth="0.0" prefWidth="164.0" text="Status" />
          </columns>
       </TableView>
-      <Label layoutX="96.0" layoutY="22.0" text="Vending machines:" underline="true">
+      <Label layoutX="96.0" layoutY="22.0" text="Vending machines waiting to be restocked:" underline="true">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
