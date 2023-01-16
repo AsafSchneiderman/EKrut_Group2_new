@@ -88,8 +88,15 @@ public class OperationsWorkerFrameController implements Initializable{
 
 	}
 
+	/**
+	 * Open update stock frame
+	 * @param event (Click on Update vending machines stock button)
+	 */
     @FXML
     void updateStocks(ActionEvent event) {
+    	
+    	ClientMenuController.clientControl.accept(new Message(MessageType.Get_vendingMachines, ""));
+		
 
     }
     
