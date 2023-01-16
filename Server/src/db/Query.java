@@ -1,5 +1,7 @@
 package db;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,6 +22,7 @@ import javafx.scene.image.ImageView;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;  
 import java.util.Date;  
+import static java.lang.Integer.parseInt;
 
 public class Query {
 
@@ -820,7 +823,6 @@ public class Query {
 				ResultSet rs = stmt.executeQuery();
 				
 				while (rs.next()) {
-					System.out.println(rs.getString("id")+"hi");
 					usersToRegister = new UsersToRegister(rs.getString("id"), rs.getString("firstName"),
 							rs.getString("lastName"), rs.getString("email"), rs.getString("phone"));
 					listOfUsersToRegister.add(usersToRegister);
@@ -836,6 +838,45 @@ public class Query {
 
 		return listOfUsersToRegister;
 	}
+	
+	public static void fileImportToCustomerRegistration(String path) {
+		PreparedStatement stmt;
+		int batchSize=20;
+		String sql="INSERT INTO userstosignup(id,firstName,lastName,email,phone) VALUES (?,?,?,?,?)";
+		try {
+			if (mysqlConnection.conn != null) {
+				
+				stmt = mysqlConnection.conn.prepareStatement(sql);
+				BufferedReader lineReader=new BufferedReader(new FileReader(path));
+				String lineText=null;
+				int count=0;
+				lineReader.readLine();
+				while((lineText=lineReader.readLine()) != null) {
+					String[] data=lineText.split(",");
+					String id=data[0];
+					String firstName=data[1];
+					String lastName=data[2];
+					String email=data[3];
+					String phone=data[4];
+					stmt.setInt(1, parseInt(id));
+					stmt.setString(2, firstName);
+					stmt.setString(3, lastName);
+					stmt.setString(4, email);
+					stmt.setString(5, phone);
+					stmt.addBatch();
+					if(count%batchSize==0)
+						stmt.executeBatch();
+				}
+				lineReader.close();
+				stmt.executeBatch();
+				System.out.println("data inserted");
+			}
+		}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		
+	
 
 	
 }

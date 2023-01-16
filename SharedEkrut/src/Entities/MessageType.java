@@ -6,7 +6,7 @@ public enum MessageType {
 	Login_Wrong_Input, Add_product_succ, Add_product_fail, Customer_list, Customer_list_update_Succ,
 	Customer_registration_approved, Customer_registration_not_approved, Show_products_succ, download_report_pdf_succ,
 	get_recipt, Orders_list, order_approved, showUsersToRegister, showUserDetails, insertCreditCardAndRegion,
-	updateProductStock, addOrder, addDelivert, showRegistrationRequests,
+	updateProductStock, addOrder, addDelivert, showRegistrationRequests, importUsersToRegistrate,
 
 	// client messages
 	Show_all_monthly_orders_for_subscriber, Show_orders_history, Show_vending_machines, Add_product, Delete_Account,

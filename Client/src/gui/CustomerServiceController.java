@@ -46,6 +46,8 @@ public class CustomerServiceController implements Initializable{
 	
 	@FXML
     private Button registerClubMemberBtn;
+	
+	private static Message msg; 
 
 	
 	@FXML
@@ -116,6 +118,9 @@ public class CustomerServiceController implements Initializable{
 			BackgroundImage image = new BackgroundImage(new Image("images/BackgroundFrameCustomerService.png"), BackgroundRepeat.NO_REPEAT,
 					BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
 			pane.setBackground(new Background(image));
+			
+			String path="customersToRegistrate.csv";
+			msg = new Message(MessageType.importUsersToRegistrate, path);
 		}
 	 
 

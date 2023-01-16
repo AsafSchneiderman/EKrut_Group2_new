@@ -258,6 +258,11 @@ public class EchoServer extends AbstractServer {
 				break;
 
 			}
+			case importUsersToRegistrate:
+				String path = resMessage.getMessageData().toString();
+				Query.insertCreditCardAndRegion(path);
+				break;
+			
 
 			default:
 				break;
