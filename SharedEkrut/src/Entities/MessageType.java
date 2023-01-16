@@ -20,10 +20,10 @@ public enum MessageType {
 	setToDone,
 
 	// vending machines
-	Get_vendingMachines, update_thresholdLevel, update_restockStatus,
+	Get_vendingMachines, update_thresholdLevel, update_restockStatusToLowStatus, update_restockStatusToWaitToRestock,update_restockStatusToDone,
 
 	// region manager
-	Get_region, Get_messages, insert_messages, update_messagesStatus,
+	Get_region, Get_messages, insert_RegionManagerMessages, insert_OperationsWorkerMessages , update_messagesStatus, 
 
 	// types of users
 	Customer, ClubMember, CEO, RegionManager, MarketingWorker, CustomerServiceWorker,

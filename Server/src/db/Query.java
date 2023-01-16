@@ -162,21 +162,21 @@ public class Query {
 	}
 
 	/**
-	 * update the Re-stock Status of the vending machine in location in the DB.
+	 * update the Re-stock Status of the vending machine in location in the DB to LowStock.
 	 * 
 	 * @param vendingMachine to update his Restock Status
+	 * @param oldStatus - the old status to update
 	 */
-	public static void UpdateVendingMachineRestockStatus(VendingMachine vendingMachine) {
+	public static void UpdateVendingMachineRestockStatus(VendingMachine vendingMachine,String oldStatus) {
 		PreparedStatement stmt;
 		try {
 			if (mysqlConnection.conn != null) {
 				
 					stmt = mysqlConnection.conn
 							.prepareStatement("UPDATE vendingmachines SET restockStatus = ? where location = ? and restockStatus = ?");
-					
 					stmt.setString(1, vendingMachine.getRestockStatus());
 					stmt.setString(2, vendingMachine.getLocation());
-					stmt.setString(3, "LowStock");
+					stmt.setString(3, oldStatus);
 					stmt.executeUpdate();
 			} else {
 				System.out.println("Conn is null");
@@ -502,7 +502,7 @@ public class Query {
 							.prepareStatement("INSERT orders (orderNum, orderDate, status, customerID, machineLocation, totPrice, type, productsIDs, productsPrice, QuantityPerProduct, paymentType)"
 									+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 					stmt.setString(1,Integer.toString(order.getOrderNum()));
-					Date date=new SimpleDateFormat("dd/MM/yyyy").parse(order.getOrderDate())
+					Date date=new SimpleDateFormat(("dd/MM/yyyy").parse(order.getOrderDate());
 					stmt.setDate(2, (java.sql.Date) date);
 					stmt.setString(3,order.getOrderStatus());
 					stmt.setString(4, order.getCustomerID());
@@ -608,9 +608,9 @@ public class Query {
 		 * 
 		 * @param  msg - the messages of the worker
 		 */
-		public static void insertWorkerMessages(String msg) {
+		public static void insertWorkerMessages(SystemMessage msg) {	////////////////////////////////////////////////
 			PreparedStatement stmt;
-			int id=0;
+			int id=0;	//SELECT userID FROM users WHERE role="RegionManager"
 			try {
 				if (mysqlConnection.conn != null) {
 					stmt = mysqlConnection.conn.prepareStatement("SELECT COUNT(*) FROM workermessages");
@@ -619,13 +619,13 @@ public class Query {
 					ResultSet rs = stmt.executeQuery();
 					if (rs.next())
 						id = rs.getInt(1);
-///////////////////////////////////
-					stmt = mysqlConnection.conn.prepareStatement("INSERT INTO workermessages(id, workerID, message, msgStatus) VALUES (?, ?, ?, ?)");
-					stmt.setLong(1, ++id);
-					stmt.setString(2, "5");
-					stmt.setString(3, msg);
+					rs.close();
+					stmt = mysqlConnection.conn.prepareStatement("INSERT workermessages (id, workerID, message, msgStatus) VALUES (?, ?, ?, ?)");
+					stmt.setInt(1, ++id);
+					stmt.setString(2, msg.getWorkerID());
+					stmt.setString(3, msg.getMessage());
 					stmt.setString(4, "notRead");
-					stmt.executeQuery();
+					stmt.executeUpdate();
 				}
 				 else {
 						System.out.println("Conn is null");

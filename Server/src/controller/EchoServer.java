@@ -103,10 +103,22 @@ public class EchoServer extends AbstractServer {
 			case update_thresholdLevel: // update the threshold level of the vending machines in the DB
 				Query.UpdateVendingMachineThresholdLevel((ArrayList<VendingMachine>) resMessage.getMessageData());
 				break;
-			case update_restockStatus: // update the restock status of the vending machines in the DB
-				Query.UpdateVendingMachineRestockStatus((VendingMachine) resMessage.getMessageData());
+			case update_restockStatusToLowStatus: // update the restock status of the vending machines in the DB
+														// from Done to LowStock
+				Query.UpdateVendingMachineRestockStatus((VendingMachine) resMessage.getMessageData(),
+						"Done");
 				break;
-			case Get_messages:	//get the worker messages from DB
+			case update_restockStatusToWaitToRestock: // update the restock status of the vending machines in the DB
+														// from LowStock to WaitToRestock
+				Query.UpdateVendingMachineRestockStatus((VendingMachine) resMessage.getMessageData(),
+						"LowStock");
+				break;
+			case update_restockStatusToDone: // update the restock status of the vending machines in the DB
+														// from WaitToRestock to Done
+				Query.UpdateVendingMachineRestockStatus((VendingMachine) resMessage.getMessageData(),
+						"WaitToRestock");
+				break;
+			case Get_messages: // get the worker messages from DB
 				try {
 					client.sendToClient(new Message(MessageType.Get_messages,
 							(Object) (Query.getWorkerMessages((String) resMessage.getMessageData()))));
@@ -114,16 +126,20 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
-			case update_messagesStatus: //update the worker messages status in the DB
+			case update_messagesStatus: // update the worker messages status in the DB
 				Query.updateWorkerMessagesStatus((String) resMessage.getMessageData());
 				break;
-			case insert_messages: //update the worker messages status in the DB
-				Query.insertWorkerMessages((String) resMessage.getMessageData());
+			case insert_RegionManagerMessages: // insert the message for region manager to the DB
+				Query.insertWorkerMessages((SystemMessage) resMessage.getMessageData());
+				break;
+			case insert_OperationsWorkerMessages: //insert the message for operations worker to the DB
+				Query.insertWorkerMessages((SystemMessage) resMessage.getMessageData());
 				break;
 			case Get_reports:
 				try {
 
-					client.sendToClient(new Message(MessageType.Get_reports, (Object) (Query.getReports((String) resMessage.getMessageData()))));
+					client.sendToClient(new Message(MessageType.Get_reports,
+							(Object) (Query.getReports((String) resMessage.getMessageData()))));
 
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -132,7 +148,7 @@ public class EchoServer extends AbstractServer {
 			case Show_products: // to show products in order frame and update stock frame
 			{
 				ArrayList<Product> pList;
-				pList = Query.getProducts((String)resMessage.getMessageData());
+				pList = Query.getProducts((String) resMessage.getMessageData());
 				try {
 					client.sendToClient(new Message(MessageType.Show_products, (Object) pList));
 				} catch (IOException e) {
@@ -141,8 +157,7 @@ public class EchoServer extends AbstractServer {
 				}
 				break;
 			}
-			case showUsersToRegister:
-			{
+			case showUsersToRegister: {
 				ArrayList<UsersToRegister> uList;
 				uList = Query.getUsersToRegister();
 				try {
@@ -152,27 +167,28 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
-				
+
 			}
-			
+
 			case GetDeliveryOrder:
 				try {
 
-					client.sendToClient(new Message(MessageType.GetDeliveryOrder, (Object) (Query.viewDeliveryOrders())));
+					client.sendToClient(
+							new Message(MessageType.GetDeliveryOrder, (Object) (Query.viewDeliveryOrders())));
 
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				break;
-			
+
 			case setToDone:
 				String id = resMessage.getMessageData().toString();
 				Query.UpdateOrderDeliveryToDone(id);
 				break;
-				
+
 			case showUserDetails:
 				UsersToRegister user;
-				user=Query.getUserToRegisterDetails((String)resMessage.getMessageData());
+				user = Query.getUserToRegisterDetails((String) resMessage.getMessageData());
 				try {
 					client.sendToClient(new Message(MessageType.showUserDetails, (Object) user));
 				} catch (IOException e) {
@@ -180,11 +196,12 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
-			
+
 			case getUserToDelivery:
 				String orderId = resMessage.getMessageData().toString();
 				try {
-					client.sendToClient(new Message(MessageType.getUserToDelivery, (Object) (Query.getUserNameToDeliveryOrder(orderId))));
+					client.sendToClient(new Message(MessageType.getUserToDelivery,
+							(Object) (Query.getUserNameToDeliveryOrder(orderId))));
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -194,9 +211,8 @@ public class EchoServer extends AbstractServer {
 				String dataFromCustomer = resMessage.getMessageData().toString();
 				Query.insertCreditCardAndRegion(dataFromCustomer);
 				break;
-				
-			case Orders_list:
-			{
+
+			case Orders_list: {
 				ArrayList<Order> pList;
 				pList = Query.getOrders();
 				try {
@@ -207,26 +223,23 @@ public class EchoServer extends AbstractServer {
 				}
 				break;
 			}
-			case updateProductStock:	//update the product stock in DB
+			case updateProductStock: // update the product stock in DB
 			{
 				ArrayList<Product> pList = ((ArrayList<Product>) resMessage.getMessageData());
 				Query.updateProductStock(pList);
 				break;
 			}
-			case addDelivert:
-			{
+			case addDelivert: {
 				OrderToDeliveryDetails delivery = (OrderToDeliveryDetails) resMessage.getMessageData();
 				Query.addDelivery(delivery);
 				break;
 			}
-			case addOrder:
-			{
+			case addOrder: {
 				Order order = (Order) resMessage.getMessageData();
 				Query.addOrder(order);
 				break;
 			}
-			case showRegistrationRequests:
-			{
+			case showRegistrationRequests: {
 				ArrayList<UsersToRegister> uList;
 				uList = Query.getRegistrationRequests(resMessage.getMessageData().toString());
 				try {
@@ -236,9 +249,9 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
-				
+
 			}
-			
+
 			default:
 				break;
 			} // end of case
