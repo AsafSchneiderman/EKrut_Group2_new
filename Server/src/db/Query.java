@@ -426,8 +426,8 @@ public class Query {
 				ResultSet rs = stmt.executeQuery("SELECT * FROM orders");
 				while (rs.next()) {
 
-					order = new Order(Integer.parseInt(rs.getString("orderNum")), rs.getString("vendingMachineLocation"), rs.getString("orderDate"),
-							rs.getString("orderStatus"), rs.getString("customerID"), convertStringToFloat(rs.getString("totalPrice")),rs.getString("orderType"),Integer.parseInt(rs.getString("quantityOfProducts")));
+					order = new Order(Integer.parseInt(rs.getString("orderNum")), rs.getString("machineLocation"), rs.getString("orderDate"),
+							rs.getString("status"), rs.getString("customerID"), convertStringToFloat(rs.getString("totPrice")),rs.getString("type"),Integer.parseInt(rs.getString("productsQuantity")));
 					ordersList.add(order);
 				}
 				rs.close();
