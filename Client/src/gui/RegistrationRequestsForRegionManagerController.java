@@ -143,7 +143,7 @@ public class RegistrationRequestsForRegionManagerController implements Initializ
 			lastNameCol.setCellValueFactory(new PropertyValueFactory<ButtonForUsersToSignup,String>("lastName"));
 			buttonsCol.setCellValueFactory(new PropertyValueFactory<ButtonForUsersToSignup,Button>("btnShow"));
 			ObservableList<ButtonForUsersToSignup> tvObservableList = FXCollections.observableArrayList();
-			msg=new Message(MessageType.showRegistrationRequests,"");
+			msg=new Message(MessageType.showRegistrationRequests, LoginFrameController.user.getRegion());
 			ClientMenuController.clientControl.accept(msg);
 			try {
 				Thread.sleep(1000);
