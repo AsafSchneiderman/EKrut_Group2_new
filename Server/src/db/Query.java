@@ -67,6 +67,10 @@ public class Query {
 					result.append(rs.getString(9)); // phoneNumber
 					result.append("#");
 					result.append(rs.getString(10)); // isLoggedIn
+					//result.append("#");
+					//result.append(rs.getString(11)); //region
+					//result.append("#");
+					//result.append(rs.getString(12)); //creditCard
 				}
 				rs.close();
 				// empty result

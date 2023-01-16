@@ -77,7 +77,7 @@ public class RegistrationRequestsForRegionManagerController implements Initializ
 		public void start(Stage primaryStage) throws IOException {
 			ClientMenuController.clientStage = primaryStage;
 			primaryStage.setTitle("Ekrut - Region Manager >> View Requests");
-			Parent root = FXMLLoader.load(getClass().getResource("/gui/RegistrationRequestsForApproval.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("/gui/RegistarationRequestsForApprovalFrame.fxml"));
 			Scene home = new Scene(root);
 			primaryStage.setScene(home);}
 
