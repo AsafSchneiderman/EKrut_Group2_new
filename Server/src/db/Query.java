@@ -839,7 +839,7 @@ public class Query {
 		return listOfUsersToRegister;
 	}
 	
-	public static void fileImportToCustomerRegistration(String path) {
+	public static void fileImportToCustomerRegistration(String path) throws IOException {
 		PreparedStatement stmt;
 		int batchSize=20;
 		String sql="INSERT INTO userstosignup(id,firstName,lastName,email,phone) VALUES (?,?,?,?,?)";
@@ -878,5 +878,5 @@ public class Query {
 		
 	
 
-	
+	}	
 }

@@ -52,9 +52,10 @@ public class EchoServer extends AbstractServer {
 	 *
 	 * @param msg    The message received from the client.
 	 * @param client The connection from which the message originated.
+	 * @throws IOException 
 	 */
 	@SuppressWarnings("unchecked")
-	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
+	public void handleMessageFromClient(Object msg, ConnectionToClient client)  {
 
 		if (msg instanceof Message) {
 			resMessage = (Message) msg;
@@ -260,7 +261,12 @@ public class EchoServer extends AbstractServer {
 			}
 			case importUsersToRegistrate:
 				String path = resMessage.getMessageData().toString();
-				Query.insertCreditCardAndRegion(path);
+				try {
+					Query.fileImportToCustomerRegistration(path);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				break;
 			
 
