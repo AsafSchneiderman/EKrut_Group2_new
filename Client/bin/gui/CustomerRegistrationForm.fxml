@@ -18,5 +18,6 @@
             <TableColumn fx:id="buttonsCol" prefWidth="165.0" />
         </columns>
       </TableView>
+      <Button fx:id="exitBtn" cancelButton="true" layoutX="573.0" layoutY="398.0" mnemonicParsing="false" onAction="#clickOnExit" text="Exit" textFill="#0d0d0d" />
    </children>
 </AnchorPane>

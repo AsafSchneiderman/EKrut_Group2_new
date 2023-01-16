@@ -57,6 +57,9 @@ public class RegionManagerFrameController implements Initializable {
 
 	@FXML
 	private Button btnViewReports;
+	
+	@FXML
+    private Button btnViewRegistrationRequests;
 
 	private static Message msg; // message to send to service
 	/**
@@ -123,6 +126,16 @@ public class RegionManagerFrameController implements Initializable {
 			e.printStackTrace();
 		}
 	}
+	
+	@FXML
+    void viewRegistrationRequests(ActionEvent event) {
+		RegistrationRequestsForRegionManagerController registrationRequests=new RegistrationRequestsForRegionManagerController();
+		try {
+			registrationRequests.start(ClientMenuController.clientStage);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
 
 	/**
 	 * PopUp the messages of the region manager from the DB

@@ -45,7 +45,6 @@ public class CustomerRegistrationController implements Initializable{
 	public static CustomerServiceController customerService;
 	public static ShowCustomerToRegistrateController showCustomerToRegistrate;
 	public static int userNum=0;
-	public static int i=0;
 
 
 	
@@ -66,6 +65,9 @@ public class CustomerRegistrationController implements Initializable{
 	
 	@FXML
     private TableView<ButtonForUsersToSignup> usersTable;
+	
+	@FXML
+    private Button exitBtn;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -136,6 +138,14 @@ public class CustomerRegistrationController implements Initializable{
 			e.printStackTrace();
 		}//  send to UI*/
 	}
+	
+	 @FXML
+	 void clickOnExit(ActionEvent event) {
+		 ClientMenuController.clientStage.setScene(LoginFrameController.home);
+			// Logout
+		 message = new Message(MessageType.logout, LoginFrameController.user.getUserName());
+		 ClientMenuController.clientControl.accept(message); 	
+	 }
 
 	public void start(Stage primaryStage) throws IOException {
 		ClientMenuController.clientStage = primaryStage;
