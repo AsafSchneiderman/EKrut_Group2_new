@@ -341,13 +341,19 @@ public class OrderFrameController implements Initializable {
 		{
 			for(int j = 0; j < productsList.size(); j++)
 			{
+				System.out.println(cartObservableList.get(i).getProductName());
+				System.out.println(productsList.get(j).getProductName());
 				if(cartObservableList.get(i).getProductName().equals(productsList.get(j).getProductName()))
 				{
-					if(productsID.equals(null))
+					System.out.println(cartObservableList.get(i).getProductName());
+					System.out.println(productsList.get(j).getProductName());
+					if(productsID==null)
 					{
+			
 						productsID = productsList.get(j).getProductID();
 						productsPrice = productsList.get(j).getPrice();
 						productsQuantity = cartObservableList.get(i).getQuantity();
+					
 					}
 					else
 					{
@@ -357,6 +363,7 @@ public class OrderFrameController implements Initializable {
 						productsPrice.concat(productsList.get(j).getPrice());
 						productsQuantity.concat(",");
 						productsQuantity.concat(cartObservableList.get(i).getQuantity());
+						
 					}
 					break;
 				}
