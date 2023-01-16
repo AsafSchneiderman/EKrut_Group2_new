@@ -115,6 +115,7 @@ public class OrderFrameController implements Initializable {
 	public static String productsID;
 	public static String productsPrice;
 	public static String productsQuantity;
+	public static String machine;
 
 	@SuppressWarnings({ "unchecked" })
 	@Override
@@ -149,9 +150,11 @@ public class OrderFrameController implements Initializable {
 		subProdBntCol.setCellValueFactory(new PropertyValueFactory<OrderProductsForTbl, Button>("bntToSub"));
 		priceSelProdCol.setCellValueFactory(new PropertyValueFactory<OrderProductsForTbl, String>("price"));
 		if (ClientMenuController.config.equals("OL")) {
+			machine = OnlineOrderFrameController.machine;
 			msg = new Message(MessageType.Show_products, OnlineOrderFrameController.machine);
 			ClientMenuController.clientControl.accept(msg);
-		} else {
+		} else {// EK configuration
+			machine = ClientMenuController.vendingMachine;
 			msg = new Message(MessageType.Show_products, ClientMenuController.vendingMachine);
 			ClientMenuController.clientControl.accept(msg);
 		}
@@ -290,6 +293,14 @@ public class OrderFrameController implements Initializable {
 		Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
 
 			if (time.oneSecondPassed()) {
+				productsList.removeAll(productsList);
+				tvObservableList.removeAll(tvObservableList);
+				cartObservableList.removeAll(cartObservableList);
+				counterForProducts = 0;
+				lblTotalPrice.setText(null);
+				tblProducts.setItems(null);
+				tblCart.setItems(null);
+				txtTimer.setText(null);
 				ClientMenuController.clientStage.setScene(LoginFrameController.home);
 				// Logout
 				msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
@@ -369,7 +380,7 @@ public class OrderFrameController implements Initializable {
 				}
 			}
 		}
-		confirmOrderFrame = new ConfirmOrderFrameController(tvObservableList, cartObservableList, "ortBraudeproducts",
+		confirmOrderFrame = new ConfirmOrderFrameController(tvObservableList, cartObservableList, machine,
 				lblTotalPrice, counterForProducts);
 		try {
 			confirmOrderFrame.start(ClientMenuController.clientStage);
