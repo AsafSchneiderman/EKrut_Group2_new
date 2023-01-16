@@ -120,22 +120,35 @@ public class EchoServer extends AbstractServer {
 				Query.UpdateVendingMachineRestockStatus((VendingMachine) resMessage.getMessageData(),
 						"WaitToRestock");
 				break;
-			case Get_messages: // get the worker messages from DB
+			case Get_workerMessages: // get the worker messages from DB
 				try {
-					client.sendToClient(new Message(MessageType.Get_messages,
+					client.sendToClient(new Message(MessageType.Get_workerMessages,
 							(Object) (Query.getWorkerMessages((String) resMessage.getMessageData()))));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				break;
-			case update_messagesStatus: // update the worker messages status in the DB
+			case update_workerMessagesStatus: // update the worker messages status in the DB
 				Query.updateWorkerMessagesStatus((String) resMessage.getMessageData());
 				break;
-			case insert_RegionManagerMessages: // insert the message for region manager to the DB
-				Query.insertWorkerMessages((SystemMessage) resMessage.getMessageData());
+			case insert_WorkerMessages: // insert the message for worker to the DB
+				Query.insertWorkerMessages((WorkerMessage) resMessage.getMessageData());
 				break;
-			case insert_OperationsWorkerMessages: //insert the message for operations worker to the DB
-				Query.insertWorkerMessages((SystemMessage) resMessage.getMessageData());
+			case get_operationWorkerByRegion: // get the operation worker details from DB by region
+				try {
+					client.sendToClient(new Message(MessageType.get_operationWorkerByRegion,
+							(Object) (Query.getWorkerIDByRegion((String) resMessage.getMessageData(),"OperationsWorker"))));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				break;
+			case get_regionManagerByRegion: // get the regionManager details from DB by region
+				try {
+					client.sendToClient(new Message(MessageType.get_operationWorkerByRegion,
+							(Object) (Query.getWorkerIDByRegion((String) resMessage.getMessageData(),"RegionManager"))));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 				break;
 			case Get_reports:
 				try {

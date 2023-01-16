@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class WorkerMessage implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private String id;
+	private int id;
 	private String workerID;
 	private String message;
 	private String msgStatus;
@@ -15,14 +15,14 @@ public class WorkerMessage implements Serializable {
 	 * @param message
 	 * @param msgStatus
 	 */
-	public WorkerMessage(String id, String workerID, String message, String msgStatus) {
+	public WorkerMessage(int id, String workerID, String message, String msgStatus) {
 		super();
 		this.id = id;
 		this.workerID = workerID;
 		this.message = message;
 		this.msgStatus = msgStatus;
 	}
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 	public String getWorkerID() {
@@ -34,7 +34,7 @@ public class WorkerMessage implements Serializable {
 	public String getMsgStatus() {
 		return msgStatus;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public void setWorkerID(String workerID) {

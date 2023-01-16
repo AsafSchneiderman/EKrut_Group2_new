@@ -84,7 +84,7 @@ public class ThresholdLevelFrameController implements Initializable {
 
 		// get the messages of the region manager
 		ClientMenuController.clientControl
-				.accept(new Message(MessageType.Get_messages, LoginFrameController.user.getUserID()));
+				.accept(new Message(MessageType.Get_workerMessages, LoginFrameController.user.getUserID()));
 		RegionManagerFrameController RegionManagerController = new RegionManagerFrameController();
 		try {
 			RegionManagerController.start(ClientMenuController.clientStage);

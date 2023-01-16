@@ -563,6 +563,30 @@ public class Query {
 	}
 	
 	/**
+	 * get userID of the worker by the region and role
+	 * 
+	 * @param region of the worker
+	 * @param role of the worker
+	 * @return userID of the worker
+	 */
+	public static String getWorkerIDByRegion(String region,String role) {
+		PreparedStatement stmt;
+		try {
+			if (mysqlConnection.conn != null) {
+				stmt = mysqlConnection.conn.prepareStatement("SELECT userID FROM users WHERE region = ? and role = ?");
+				stmt.setString(1, region);
+				stmt.setString(2, role);
+				ResultSet rs = stmt.executeQuery();
+				if (rs.next())
+					return rs.getString("userID");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return "noRegion";
+	}
+	
+	/**
 	 * get notRead messages by the worker id
 	 * 
 	 * @param workerID - the userID of the worker
@@ -623,9 +647,9 @@ public class Query {
 		 * 
 		 * @param  msg - the messages of the worker
 		 */
-		public static void insertWorkerMessages(SystemMessage msg) {	////////////////////////////////////////////////
+		public static void insertWorkerMessages(WorkerMessage msg) {	////////////////////////////////////////////////
 			PreparedStatement stmt;
-			int id=0;	//SELECT userID FROM users WHERE role="RegionManager"
+			int id=0;	
 			try {
 				if (mysqlConnection.conn != null) {
 					stmt = mysqlConnection.conn.prepareStatement("SELECT COUNT(*) FROM workermessages");
@@ -639,7 +663,7 @@ public class Query {
 					stmt.setInt(1, ++id);
 					stmt.setString(2, msg.getWorkerID());
 					stmt.setString(3, msg.getMessage());
-					stmt.setString(4, "notRead");
+					stmt.setString(4, msg.getMsgStatus());
 					stmt.executeUpdate();
 				}
 				 else {

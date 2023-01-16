@@ -94,7 +94,7 @@ public class RestockMessageController implements Initializable {
 				row.buttonClose();
 		// get the messages of the region manager
 		ClientMenuController.clientControl
-				.accept(new Message(MessageType.Get_messages, LoginFrameController.user.getUserID()));
+				.accept(new Message(MessageType.Get_workerMessages, LoginFrameController.user.getUserID()));
 		RegionManagerFrameController RegionManagerController = new RegionManagerFrameController();
 		try {
 			RegionManagerController.start(ClientMenuController.clientStage);
@@ -190,7 +190,7 @@ public class RestockMessageController implements Initializable {
 			
 					 ClientMenuController.clientControl.accept(new Message(MessageType.update_restockStatusToWaitToRestock, v));
 					row.getBtnRestock().setDisable(true);														///////////////////////////////////////////////////////////
-					ClientMenuController.clientControl.accept(new Message(MessageType.insert_RegionManagerMessages, "The vending machine in "+row.getLocation() +" wait to restock"));
+					ClientMenuController.clientControl.accept(new Message(MessageType.insert_WorkerMessages, "The vending machine in "+row.getLocation() +" wait to restock"));
 				});
 				if (!row.getRestockStatus().equals("LowStock"))
 					row.getBtnRestock().setDisable(true);

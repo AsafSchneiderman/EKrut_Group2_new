@@ -161,7 +161,7 @@ public class RegionManagerFrameController implements Initializable {
 			if (result.get() == ButtonType.OK)
 				// update the messages status of the region manager to read
 				ClientMenuController.clientControl
-						.accept(new Message(MessageType.update_messagesStatus, LoginFrameController.user.getUserID()));
+						.accept(new Message(MessageType.update_workerMessagesStatus, LoginFrameController.user.getUserID()));
 		}
 	}
 

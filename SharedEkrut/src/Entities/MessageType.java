@@ -23,8 +23,11 @@ public enum MessageType {
 	Get_vendingMachines, update_thresholdLevel, update_restockStatusToLowStatus, update_restockStatusToWaitToRestock,update_restockStatusToDone,
 
 	// region manager
-	Get_region, Get_messages, insert_RegionManagerMessages, insert_OperationsWorkerMessages , update_messagesStatus, 
+	Get_region, get_regionManagerByRegion, Get_workerMessages, insert_WorkerMessages, update_workerMessagesStatus, 
 
+	//operation worker
+	get_operationWorkerByRegion,
+	
 	// types of users
 	Customer, ClubMember, CEO, RegionManager, MarketingWorker, CustomerServiceWorker,
 

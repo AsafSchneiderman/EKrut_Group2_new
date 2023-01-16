@@ -8,8 +8,8 @@ import java.util.ResourceBundle;
 import Entities.Message;
 import Entities.MessageType;
 import Entities.Product;
-import Entities.SystemMessage;
 import Entities.VendingMachine;
+import Entities.WorkerMessage;
 import controller.ChatClient;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -104,7 +104,7 @@ public class UpdateStockFrameController implements Initializable {
 
 		// get the messages of the region manager
 		ClientMenuController.clientControl
-				.accept(new Message(MessageType.Get_messages, LoginFrameController.user.getUserID()));
+				.accept(new Message(MessageType.Get_workerMessages, LoginFrameController.user.getUserID()));
 		OperationsWorkerFrameController OperationsWorkerFrame = new OperationsWorkerFrameController();
 		try {
 			OperationsWorkerFrame.start(ClientMenuController.clientStage);
@@ -194,8 +194,17 @@ public class UpdateStockFrameController implements Initializable {
 				ClientMenuController.clientControl.accept(new Message(MessageType.update_restockStatusToDone, row));
 			}
 		
-		SystemMessage m = new SystemMessage("ChangeID",location, "The vending machine in "+location +" Done to restock");
-		ClientMenuController.clientControl.accept(new Message(MessageType.insert_RegionManagerMessages, m));
+		//find the operation worker
+		ClientMenuController.clientControl.accept(new Message(MessageType.get_regionManagerByRegion, LoginFrameController.user.getRegion()));
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//create message to insert
+		WorkerMessage m = new WorkerMessage(0,(String) ChatClient.msgServer.getMessageData(), "The vending machine in "+location +" Done to restock","notRead");
+		ClientMenuController.clientControl.accept(new Message(MessageType.insert_WorkerMessages, m));
 		
 
 	}
@@ -208,7 +217,7 @@ public class UpdateStockFrameController implements Initializable {
 	 */
 	public void start(Stage primaryStage) throws IOException {
 		ClientMenuController.clientStage = primaryStage;
-		primaryStage.setTitle("Ekrut - Operations Worker >> Update Stock");
+		primaryStage.setTitle("Ekrut - Operations Worker >> Menu >> Update Stock");
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/UpdateStockFrame.fxml"));
 		Scene home = new Scene(root);
 		primaryStage.setScene(home);

@@ -77,7 +77,7 @@ public class ViewVendingMachinesFrameController implements Initializable {
 
 		// get the messages of the region manager
 		ClientMenuController.clientControl
-				.accept(new Message(MessageType.Get_messages, LoginFrameController.user.getUserID()));
+				.accept(new Message(MessageType.Get_workerMessages, LoginFrameController.user.getUserID()));
 		OperationsWorkerFrameController OperationsWorkerFrame = new OperationsWorkerFrameController();
 		try {
 			OperationsWorkerFrame.start(ClientMenuController.clientStage);
@@ -95,7 +95,7 @@ public class ViewVendingMachinesFrameController implements Initializable {
 	 */
 	public void start(Stage primaryStage) throws IOException {
 		ClientMenuController.clientStage = primaryStage;
-		primaryStage.setTitle("Ekrut - Operations Worker >> Vending Machines to restock");
+		primaryStage.setTitle("Ekrut - Operations Worker >> Menu >> Vending Machines to restock");
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/ViewVendingMachinesFrame.fxml"));
 		Scene home = new Scene(root);
 		//home.getStylesheets().add(getClass().getResource("tableDesign.css").toExternalForm());
