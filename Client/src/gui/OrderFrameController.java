@@ -56,7 +56,7 @@ public class OrderFrameController implements Initializable {
 	public static Stage clientStage;
 	public static ConfirmOrderFrameController confirmOrderFrame;
 	public static Message msg;
-	public static ObservableList<ProductForOrder> tvObservableList = FXCollections.observableArrayList();
+	public static ObservableList<ProductForOrder> ProductsObservableList = FXCollections.observableArrayList();
 	public static ObservableList<OrderProductsForTbl> cartObservableList = FXCollections.observableArrayList();
 	// public static ObservableList<String>tempForProducts;
 
@@ -116,6 +116,7 @@ public class OrderFrameController implements Initializable {
 	public static String productsPrice;
 	public static String productsQuantity;
 	public static String machine;
+	public static String finalPrice;
 
 	@SuppressWarnings({ "unchecked" })
 	@Override
@@ -283,24 +284,25 @@ public class OrderFrameController implements Initializable {
 			});
 			tblCart.setItems(cartObservableList);
 			ProductForOrder tempList = new ProductForOrder(row.getProductName(), row.getPrice(), img, addCartBnt);
-			tvObservableList.add(tempList);
+			ProductsObservableList.add(tempList);
 		}
 
-		tblProducts.setItems(tvObservableList);
+		tblProducts.setItems(ProductsObservableList);
 
 		Time time = new Time("00:15:00");
 		txtTimer.setText(time.getCurrentTime());
 		Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
 
 			if (time.oneSecondPassed()) {
-				productsList.removeAll(productsList);
+				setLabels();
+				/*productsList.removeAll(productsList);
 				tvObservableList.removeAll(tvObservableList);
 				cartObservableList.removeAll(cartObservableList);
 				counterForProducts = 0;
 				lblTotalPrice.setText(null);
 				tblProducts.setItems(null);
 				tblCart.setItems(null);
-				txtTimer.setText(null);
+				txtTimer.setText(null);*/
 				ClientMenuController.clientStage.setScene(LoginFrameController.home);
 				// Logout
 				msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
@@ -316,23 +318,31 @@ public class OrderFrameController implements Initializable {
 	@FXML
 	void cancelOrder(ActionEvent event) {
 		
-		productsList.removeAll(productsList);
+		setLabels();
+		/*productsList.removeAll(productsList);
 		tvObservableList.removeAll(tvObservableList);
 		cartObservableList.removeAll(cartObservableList);
 		counterForProducts = 0;
 		lblTotalPrice.setText(null);
 		tblProducts.setItems(null);
 		tblCart.setItems(null);
-		txtTimer.setText(null);
+		txtTimer.setText(null);*/
 		
 		ClientMenuController.clientStage.setScene(LoginFrameController.home);
 		// Logout
 		msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
 		ClientMenuController.clientControl.accept(msg);
 	}
-	
+	/***
+	 * if order is canceled for some reason erase data from tables, list etc..
+	 */
+	 	
 	public void setLabels()
 	{
+		productsList.removeAll(productsList);
+		ProductsObservableList.removeAll(ProductsObservableList);
+		cartObservableList.removeAll(cartObservableList);
+		counterForProducts = 0;
 		lblTotalPrice.setText(null);
 		tblProducts.setItems(null);
 		tblCart.setItems(null);
@@ -342,9 +352,7 @@ public class OrderFrameController implements Initializable {
 	/**
 	 * 
 	 * 
-	 * @param event - > costumer want to checkout order The button switch to new
-	 *              frame -> invoice frame it sends costumer order to invoice to
-	 *              update database
+	 * @param event - click on the button "Get Order"
 	 */
 	@FXML
 	void checkOutOrder(ActionEvent event) {
@@ -380,8 +388,8 @@ public class OrderFrameController implements Initializable {
 				}
 			}
 		}
-		confirmOrderFrame = new ConfirmOrderFrameController(tvObservableList, cartObservableList, machine,
-				lblTotalPrice, counterForProducts);
+		finalPrice = lblTotalPrice.getText();
+		confirmOrderFrame = new ConfirmOrderFrameController();
 		try {
 			confirmOrderFrame.start(ClientMenuController.clientStage);
 		} catch (IOException e) {
