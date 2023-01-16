@@ -98,7 +98,8 @@ public class ConfirmOrderFrameController implements Initializable {
 		OrderFrameController.cartObservableList.removeAll(cartObservableList);
 		OrderFrameController.counterForProducts = 0;*/
 		//OrderFrameController toZero = new OrderFrameController();
-		toZero.setLabels();
+		toZero.setZero();
+		lblTotalPrice.setText(null);
 
 		ClientMenuController.clientStage.setScene(LoginFrameController.home);
 		// Logout
@@ -331,6 +332,7 @@ public class ConfirmOrderFrameController implements Initializable {
 
 		// TODO Auto-generated method stub
 		tlbInvoice.setItems(OrderFrameController.cartObservableList);
+		lblTotalPrice.setText(OrderFrameController.finalPrice);
 
 		Time time = new Time("00:15:00");
 		txtTimer.setText(time.getCurrentTime());
@@ -338,7 +340,7 @@ public class ConfirmOrderFrameController implements Initializable {
 
 			if (time.oneSecondPassed()) {
 				
-				toZero.setLabels();
+				toZero.setZero();
 				ClientMenuController.clientStage.setScene(LoginFrameController.home);
 				// Logout
 				msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());

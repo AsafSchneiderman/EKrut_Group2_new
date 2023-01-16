@@ -244,7 +244,7 @@ public class OrderFrameController implements Initializable {
 							String stockTempStr1 = row.getStockQuantity();
 							int stockNumTemp1 = Integer.parseInt(stockTempStr1);
 							float tempPrice3 = convertStringToFloat(toCart.getPrice());
-							if((!OnlineOrderFrameController.machine.equals("warehouse")))
+							if(!(machine.equals("warehouse")))
 							{
 								stockNumTemp1 = stockNumTemp1 + 1;
 								stockTempStr1 = String.valueOf(stockNumTemp1);
@@ -261,7 +261,7 @@ public class OrderFrameController implements Initializable {
 							float tempPrice4 = convertStringToFloat(toCart.getPrice());
 							tempQuantityNum = tempQuantityNum - 1;
 							tempQuantityStr = String.valueOf(tempQuantityNum);
-							if((!OnlineOrderFrameController.machine.equals("warehouse")))
+							if(!(machine.equals("warehouse")))
 							{
 								String stockTempStr2 = row.getStockQuantity();
 								int stockNumTemp2 = Integer.parseInt(stockTempStr2);
@@ -294,7 +294,7 @@ public class OrderFrameController implements Initializable {
 		Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
 
 			if (time.oneSecondPassed()) {
-				setLabels();
+			
 				/*productsList.removeAll(productsList);
 				tvObservableList.removeAll(tvObservableList);
 				cartObservableList.removeAll(cartObservableList);
@@ -303,6 +303,8 @@ public class OrderFrameController implements Initializable {
 				tblProducts.setItems(null);
 				tblCart.setItems(null);
 				txtTimer.setText(null);*/
+				setZero();
+				lblTotalPrice.setText(null);
 				ClientMenuController.clientStage.setScene(LoginFrameController.home);
 				// Logout
 				msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
@@ -318,7 +320,7 @@ public class OrderFrameController implements Initializable {
 	@FXML
 	void cancelOrder(ActionEvent event) {
 		
-		setLabels();
+		setZero();
 		/*productsList.removeAll(productsList);
 		tvObservableList.removeAll(tvObservableList);
 		cartObservableList.removeAll(cartObservableList);
@@ -327,7 +329,7 @@ public class OrderFrameController implements Initializable {
 		tblProducts.setItems(null);
 		tblCart.setItems(null);
 		txtTimer.setText(null);*/
-		
+		lblTotalPrice.setText(null);
 		ClientMenuController.clientStage.setScene(LoginFrameController.home);
 		// Logout
 		msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
@@ -337,13 +339,12 @@ public class OrderFrameController implements Initializable {
 	 * if order is canceled for some reason erase data from tables, list etc..
 	 */
 	 	
-	public void setLabels()
+	public void setZero()
 	{
 		productsList.removeAll(productsList);
 		ProductsObservableList.removeAll(ProductsObservableList);
 		cartObservableList.removeAll(cartObservableList);
 		counterForProducts = 0;
-		lblTotalPrice.setText(null);
 		tblProducts.setItems(null);
 		tblCart.setItems(null);
 		txtTimer.setText(null);
@@ -356,6 +357,7 @@ public class OrderFrameController implements Initializable {
 	 */
 	@FXML
 	void checkOutOrder(ActionEvent event) {
+		lblTotalPrice.setText(null);
 		for(int i = 0; i < cartObservableList.size(); i++)
 		{
 			for(int j = 0; j < productsList.size(); j++)
