@@ -136,6 +136,10 @@ public class ConfirmOrderFrameController implements Initializable {
 		}
 		 Arrays.sort(arrOrderNums);
 		 orderNum = arrOrderNums[arrOrderNums.length-1]+1;
+		 for(int j=0; j<OrderFrameController.productsList.size();j++)
+		 {
+			 OrderFrameController.productsList.get(j).setMachineName(location);
+		 }
 
     	if(LoginFrameController.user.getRole().equals("ClubMember"))
     	{

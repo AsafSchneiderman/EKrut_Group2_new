@@ -112,6 +112,9 @@ public class OrderFrameController implements Initializable {
 	@FXML
 	private Label lblWelcome;
 	public static int counterForProducts;
+	public static String productsID;
+	public static String productsPrice;
+	public static String productsQuantity;
 
 	@SuppressWarnings({ "unchecked" })
 	@Override
@@ -334,6 +337,31 @@ public class OrderFrameController implements Initializable {
 	 */
 	@FXML
 	void checkOutOrder(ActionEvent event) {
+		for(int i = 0; i < cartObservableList.size(); i++)
+		{
+			for(int j = 0; j < productsList.size(); j++)
+			{
+				if(cartObservableList.get(i).getProductName().equals(productsList.get(j).getProductName()))
+				{
+					if(productsID.equals(null))
+					{
+						productsID = productsList.get(j).getProductID();
+						productsPrice = productsList.get(j).getPrice();
+						productsQuantity = cartObservableList.get(i).getQuantity();
+					}
+					else
+					{
+						productsID.concat(",");
+						productsID.concat(productsList.get(j).getProductID());
+						productsPrice.concat(",");
+						productsPrice.concat(productsList.get(j).getPrice());
+						productsQuantity.concat(",");
+						productsQuantity.concat(cartObservableList.get(i).getQuantity());
+					}
+					break;
+				}
+			}
+		}
 		confirmOrderFrame = new ConfirmOrderFrameController(tvObservableList, cartObservableList, "ortBraudeproducts",
 				lblTotalPrice, counterForProducts);
 		try {
