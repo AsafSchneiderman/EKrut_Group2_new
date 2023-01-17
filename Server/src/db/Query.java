@@ -549,14 +549,15 @@ public class Query {
      * gets credit card number from user table
      * @return credit card number
      */
-    public static String getCreditCard()
+    public static String getCreditCard(String id)
     {
     	String card = "";
-    	Statement stmt;
+    	PreparedStatement stmt;
 		try {
 			if (mysqlConnection.conn != null) {
-				stmt = mysqlConnection.conn.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT creditCardNum FROM users");
+				stmt = mysqlConnection.conn.prepareStatement("SELECT creditCardNum FROM users where userID = ?");
+				stmt.setString(1,id);
+				ResultSet rs = stmt.executeQuery();
 				while (rs.next()) {
 
 					card = rs.getString("creditCardNum");
@@ -584,7 +585,7 @@ public class Query {
 			if (mysqlConnection.conn != null) {
 				
 					stmt = mysqlConnection.conn
-							.prepareStatement("UPDATE orders  SET payment = ? where orderNum = ?");
+							.prepareStatement("UPDATE orders  SET paymentType = ? where orderNum = ?");
 					stmt.setString(1, payTime);
 					stmt.setInt(2, order.getOrderNum());
 					stmt.executeUpdate();
