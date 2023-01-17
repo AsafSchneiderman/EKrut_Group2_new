@@ -35,7 +35,8 @@ public class RegistrationRequestDetailsController implements Initializable {
 	public static UsersToRegister user;
 
 
-	 @FXML
+	 
+	   @FXML
 	    private AnchorPane pane;
 
 	    @FXML
