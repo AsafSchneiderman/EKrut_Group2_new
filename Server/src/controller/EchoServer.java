@@ -285,7 +285,24 @@ public class EchoServer extends AbstractServer {
 				String idToUpdate=resMessage.getMessageData().toString();
 				Query.ChangeRoleToClubMember(idToUpdate);
 				break;
-
+			case getPromtion:
+				try {
+					client.sendToClient(new Message(MessageType.getPromtion, (Object) (Query.viewPromotion())));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+			case setToActivate:
+				String[] dataStr = resMessage.getMessageData().toString().split("#");
+					 Query.activatePremition(dataStr[1],dataStr[0]);
+				
+				break;
+			case setToDeActivate:
+				String[] str = resMessage.getMessageData().toString().split("#");
+					 Query.deActivatePremition(str[1], str[0]);
+				
+				break;
 			default:
 				break;
 			} // end of case
