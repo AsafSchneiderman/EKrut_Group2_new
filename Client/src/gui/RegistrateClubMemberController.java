@@ -81,7 +81,13 @@ public class RegistrateClubMemberController implements Initializable{
 
     @FXML
     void clickOnBack(ActionEvent event) {
+    	customerService= new CustomerServiceController();
+    	try {
+			customerService.start(ClientMenuController.clientStage);
+		} catch (IOException e) {
 
+			e.printStackTrace();
+		}//  send to UI*/
     }
 
 	public void start(Stage primaryStage) throws IOException {
@@ -90,11 +96,27 @@ public class RegistrateClubMemberController implements Initializable{
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/RegistrateClubMemberForm.fxml"));
 		Scene home = new Scene(root);
 		primaryStage.setScene(home);
-		// On pressing X (close window) the client is disconnect from server.
+		// On pressing X (close window) the user logout from system and the client is
+		// disconnect from server.
 		primaryStage.setOnCloseRequest(e -> {
-			ClientMenuController.clientControl.accept(new Message(MessageType.disconnected,""));
+		msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
+		ClientMenuController.clientControl.accept(msg);
+		ClientMenuController.clientControl
+			.accept(new Message(MessageType.disconnected, LoginFrameController.user.getUserName()));
+		// create a PopUp message
+		PopUpMessageFrameController popUpMsgController = new PopUpMessageFrameController();
+
+		try {
+			popUpMsgController.start(ClientMenuController.clientStage);
+			popUpMsgController.closeMsg(3000);
+		} catch (IOException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+		}
+
 		});
-		primaryStage.show();
+
+	    primaryStage.show();
 		
 		
 	}
