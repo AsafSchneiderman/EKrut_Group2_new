@@ -1320,7 +1320,7 @@ public class Query {
      */
     public static void insertIntoUsers(UsersToRegister user) {
 		PreparedStatement stmt;
-		String sql="INSERT INTO users(userID,id,firstName,lastName,userName,password,role,email,phoneNumber,isLoggedIn,region, creditCard) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+		String sql="INSERT INTO users(userID,id,firstName,lastName,userName,password,role,email,phoneNumber,isLoggedIn,region, creditCardNum) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 		try {
 			if (mysqlConnection.conn != null) {
 				stmt = mysqlConnection.conn.prepareStatement(sql);
