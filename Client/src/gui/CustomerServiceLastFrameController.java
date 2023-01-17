@@ -22,6 +22,8 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
 public class CustomerServiceLastFrameController implements Initializable {
+	public static CustomerServiceController customerService;
+
 	public static Message msg;
 	 @FXML
 	    private AnchorPane pane;
@@ -34,12 +36,21 @@ public class CustomerServiceLastFrameController implements Initializable {
 
 	    @FXML
 	    void clickBackToMainPage(ActionEvent event) {
+	    	customerService= new CustomerServiceController();
+	    	try {
+				customerService.start(ClientMenuController.clientStage);
+			} catch (IOException e) {
 
+				e.printStackTrace();
+			}//  send to UI*/
 	    }
 
 	    @FXML
 	    void clickOnLogout(ActionEvent event) {
-
+	    	ClientMenuController.clientStage.setScene(LoginFrameController.home);
+			// Logout
+			msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
+			ClientMenuController.clientControl.accept(msg);
 	    }
 
 		public void start(Stage primaryStage) throws IOException {
