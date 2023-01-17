@@ -199,6 +199,7 @@ public class OrderFrameController implements Initializable {
 		}
 		if(LoginFrameController.user.getRole().equals("ClubMember"))
 		{
+			System.out.println("hi 1");
 			msg2 = new Message(MessageType.getPromtion, "");
 			ClientMenuController.clientControl.accept(msg2);
 			try {
@@ -208,11 +209,14 @@ public class OrderFrameController implements Initializable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			System.out.println(ChatClient.msgServer.getMessageData());
 			discountList = (ArrayList<PromotionSells>) ChatClient.msgServer.getMessageData();
 			for(int i = 0; i < discountList.size(); i++)
 			{
 				if(discountList.get(i).getRegion().equals(region) && discountList.get(i).getActivated().equals("'activate'") )
 				{
+					System.out.println(discountList.get(i).getRegion());
+					System.out.println(discountList.get(i).getActivated());
 					lblDiscount.setVisible(true);
 					lblDiscount.setText("You Have %"+discountList.get(i).getPromotion()+" Discount!!");
 					lblDiscount.setStyle("-fx-background-color:#73bce4");

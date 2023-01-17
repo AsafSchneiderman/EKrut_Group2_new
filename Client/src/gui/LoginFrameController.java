@@ -204,7 +204,13 @@ public class LoginFrameController implements Initializable {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} else if (user.getRole().equals("ClubMember")) {
+		} else if (user.getRole().equals("ClubMember")) { // club member
+			CustomerFrameController costumerFrame = new CustomerFrameController();
+			try {
+				costumerFrame.start(ClientMenuController.clientStage);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 
 		} else // message to register
 		{
@@ -310,7 +316,7 @@ public class LoginFrameController implements Initializable {
 
 		// delivery worker
 		else if (user.getRole().equals("Deliver")) {
-			DeliveryWorkerFrameController order = new DeliveryWorkerFrameController();
+			DeliveryWorkerMenuController order = new DeliveryWorkerMenuController();
 			try {
 				order.start(ClientMenuController.clientStage);
 			} catch (IOException e) {
@@ -339,7 +345,18 @@ public class LoginFrameController implements Initializable {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} else // user role is none of the types above - send a message to register
+		}
+		else if(user.getRole().equals("ClubMember")) // club member
+		{
+			OnlineOrderFrameController onlineOrder = new OnlineOrderFrameController();
+			ClientMenuController.clientControl.accept(new Message(MessageType.Get_vendingMachines, ""));
+			try {
+				onlineOrder.start(ClientMenuController.clientStage);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		else // user role is none of the types above - send a message to register
 		{
 			Alert a = new Alert(AlertType.WARNING);
 
