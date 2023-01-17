@@ -29,7 +29,6 @@ import javafx.stage.Stage;
 
 public class CustomerServiceController implements Initializable{
 	public static CustomerServiceController customerService;
-	public static EmployeeRegistrationController employeeRegistration;
 	public static CustomerRegistrationController coustomerRegistration;
 	public static LoginFrameController loginFrame;
 	public static RegistrateClubMemberController registrateClubMember;
@@ -68,18 +67,12 @@ public class CustomerServiceController implements Initializable{
 
 	    @FXML
 	    void clickRegisterNewEmployee(ActionEvent event) {
-	    	employeeRegistration= new EmployeeRegistrationController();
-	    	try {
-	    		employeeRegistration.start(ClientMenuController.clientStage);
-		} catch (IOException e) {
-			
-			e.printStackTrace();
-		    } //send to UI*/
 	    }
 	    
 	    @FXML
 	    void clickOnLogout(ActionEvent event) {
-	    	ClientMenuController.clientControl.accept(new Message(MessageType.disconnected,""));
+	    	msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
+			ClientMenuController.clientControl.accept(msg);
 	    	loginFrame= new LoginFrameController();
 	    	try {
 	    		loginFrame.start(ClientMenuController.clientStage);
