@@ -3,10 +3,9 @@ package gui;
 import java.awt.Label;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import Entities.Message;
-import Entities.MessageType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,6 +23,8 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
+import Entities.*;
+import controller.ChatClient;
 
 public class PaymentFrameController implements Initializable {
 	public static Message msg;
@@ -59,15 +60,16 @@ public class PaymentFrameController implements Initializable {
 
     @FXML
     void PayLater(ActionEvent event) {
-    	
-    	msg = new Message(,"delay");
+    	ConfirmOrderFrameController.order.setPaymentType("delay");
+    	msg = new Message(MessageType.updatePayment,ConfirmOrderFrameController.order);
     	ClientMenuController.clientControl.accept(msg);
 
     }
 
     @FXML
     void PayNow(ActionEvent event) {
-    	msg = new Message(,"now");
+    	ConfirmOrderFrameController.order.setPaymentType("now");
+    	msg = new Message(MessageType.updatePayment,ConfirmOrderFrameController.order);
     	ClientMenuController.clientControl.accept(msg);
     	
 
@@ -118,8 +120,21 @@ public class PaymentFrameController implements Initializable {
 				{
 					bntLatePay.setVisible(false);
 				}
-				msg = Message(,)
-				txtCreditNum.setText(LoginFrameController.user.get);
+				Image Icone = new Image("images/paying.png");
+				imgPic.setImage(Icone);
+				imgPic.setFitWidth(80);
+				imgPic.setFitHeight(80);
+				msg = new Message(MessageType.getCard,"");
+				ClientMenuController.clientControl.accept(msg);
+				try {
+					Thread.sleep(1000); // wait for answer from server
+					System.out.println(ChatClient.msgServer.getMessageData().toString());
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				LoginFrameController.user.setCreditCard( (String) ChatClient.msgServer.getMessageData()); 
+				txtCreditNum.setText(LoginFrameController.user.getCreditCard());
 		
 		
 	}

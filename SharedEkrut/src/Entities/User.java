@@ -14,7 +14,8 @@ public class User implements Serializable{
 	private String password;
 	private String role;
 	private int isLoggedIn;
-	private String region;	
+	private String region;
+	private String creditCard;
 	
 	
 	public User(String userID, String id, String firstName, String lastName,String userName,  String password,  String role, String email,  String phoneNumber,
@@ -50,8 +51,18 @@ public class User implements Serializable{
 	public User() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	
 
 
+
+	public String getCreditCard() {
+		return creditCard;
+	}
+
+	public void setCreditCard(String creditCard) {
+		this.creditCard = creditCard;
+	}
 
 	public String getUserID() {
 		return userID;

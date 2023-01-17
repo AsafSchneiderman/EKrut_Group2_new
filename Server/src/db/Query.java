@@ -412,7 +412,7 @@ public class Query {
 		return listOfProducts;
 	}
 	/**
-	 * 
+	 * gets order list from table
 	 * @return ArrayList of existing Orders
 	 */
 	public static ArrayList<Order> getOrders()
@@ -475,6 +475,10 @@ public class Query {
 			e.printStackTrace();
 		}
     }
+    /**
+     *  adds new delivery order to delivery table the delivery is new and needs to be prepared
+     * @param delivery - new delivery order to deliver
+     */
     public static void addDelivery(OrderToDeliveryDetails delivery)
     {
     	//INSERT INTO table_name (column1, column2, column3,etc) VALUES (value1, value2, value3, etc);
@@ -508,7 +512,6 @@ public class Query {
 	 */
     public static void addOrder(Order order) throws ParseException
     {
-    	//INSERT INTO table_name (column1, column2, column3,etc) VALUES (value1, value2, value3, etc);
     	PreparedStatement stmt;
 		try {
 			if (mysqlConnection.conn != null) {
@@ -538,6 +541,104 @@ public class Query {
 			e.printStackTrace();
 		}
     }
+    
+    /**
+     * gets credit card number from user table
+     * @return credit card number
+     */
+    public static String getCreditCard()
+    {
+    	String card = "";
+    	Statement stmt;
+		try {
+			if (mysqlConnection.conn != null) {
+				stmt = mysqlConnection.conn.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT creditCardNum FROM users");
+				while (rs.next()) {
+
+					card = rs.getString("creditCardNum");
+				}
+				rs.close();
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	
+    	return card;
+    }
+    /**
+     * updates payment time of user to an order (now or later)
+     * @param payTime - now or delayed
+     */
+    public static void updatePayment(Order order)
+    {
+    	PreparedStatement stmt;
+    	String payTime = order.getPaymentType();
+    	try {
+			if (mysqlConnection.conn != null) {
+				
+					stmt = mysqlConnection.conn
+							.prepareStatement("UPDATE orders  SET payment = ? where orderNum = ?");
+					stmt.setString(1, payTime);
+					stmt.setInt(2, order.getOrderNum());
+					stmt.executeUpdate();
+				}
+			 else {
+				System.out.println("Conn is null");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    }
+    /**
+     * changes pickup order status if it is collected 
+     * @param order  - order that collected from pickup
+     */
+    public static void updatePickup(Order order)
+    {
+    	PreparedStatement stmt;
+    	try {
+			if (mysqlConnection.conn != null) {
+				
+					stmt = mysqlConnection.conn
+							.prepareStatement("UPDATE orders  SET status = ? where orderNum = ?");
+					stmt.setString(1, order.getOrderStatus());
+					stmt.setInt(2, order.getOrderNum());
+					stmt.executeUpdate();
+				}
+			 else {
+				System.out.println("Conn is null");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    }
+    /**
+     * check if user pickup order exits in DB and not collected
+     * @param orderNum - checks pickup order by order Number
+     * @return if pickup order exists
+     */
+    public static String getPickup(int orderNum)
+    {
+    	PreparedStatement stmt;
+		try {
+			if (mysqlConnection.conn != null) {
+				stmt = mysqlConnection.conn.prepareStatement("SELECT * FROM orders WHERE orderNum = ? and status = placed");
+				stmt.setInt(1, orderNum);
+				
+				ResultSet rs = stmt.executeQuery();
+				if (rs.next())
+					return "pickupOrder";
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return "noPickupOrder";
+    }
+    
     
 
 	/**
@@ -583,7 +684,7 @@ public class Query {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return "noRegion";
+		return "noUserID";
 	}
 	
 	/**

@@ -227,7 +227,7 @@ public class EchoServer extends AbstractServer {
 				Query.insertCreditCardAndRegion(dataFromCustomer);
 				break;
 
-			case Orders_list: {
+			case Orders_list: { // to get info about existing orders (for pickup and order num)
 				ArrayList<Order> pList;
 				pList = Query.getOrders();
 				try {
@@ -244,12 +244,12 @@ public class EchoServer extends AbstractServer {
 				Query.updateProductStock(pList);
 				break;
 			}
-			case addDelivert: {
+			case addDelivert: { // add new order to deliver
 				OrderToDeliveryDetails delivery = (OrderToDeliveryDetails) resMessage.getMessageData();
 				Query.addDelivery(delivery);
 				break;
 			}
-			case addOrder: {
+			case addOrder: { // add new order to DB
 				Order order = (Order) resMessage.getMessageData();
 				try {
 					Query.addOrder(order);
@@ -303,6 +303,44 @@ public class EchoServer extends AbstractServer {
 					 Query.deActivatePremition(str[1], str[0]);
 				
 				break;
+			case updatePayment: // to update payment time (now or later (for club members))
+			{
+				Order order = (Order) resMessage.getMessageData();
+				
+				Query.updatePayment(order);
+				
+				break;
+			}
+			case getCard: // get credit cart from users
+			{
+				String card = Query.getCreditCard(); 
+				try {
+					client.sendToClient(new Message(MessageType.getCard, (Object) card));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+			}
+			case updatePickupStatus: // if costumer picked up an order from machine
+			{
+				Order order = (Order) resMessage.getMessageData();
+				
+				Query.updatePickup(order);
+				break;
+			}
+			case getPickupOrder: // checks if pickup Order exists
+			{
+				int orderNum = (int) resMessage.getMessageData();
+				String res = Query.getPickup(orderNum);
+				try {
+					client.sendToClient(new Message(MessageType.getPickupOrder, (Object) res));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+			}
 			default:
 				break;
 			} // end of case

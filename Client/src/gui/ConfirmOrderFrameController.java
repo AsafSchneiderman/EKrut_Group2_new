@@ -44,7 +44,7 @@ public class ConfirmOrderFrameController implements Initializable {
 	public static OrderFrameController toZero = new OrderFrameController();
 	public static Stage clientStage;
 	public static Message msg, msg2, msg3, msg4, msg5;
-	public static Order order, order2;
+	public static Order order;
 	public static OrderToDeliveryDetails delivery;
 	public static ArrayList<Order> orderList = new ArrayList<Order>();;
 	@FXML
@@ -241,7 +241,7 @@ public class ConfirmOrderFrameController implements Initializable {
 				order.setQuantityPerProducts(OrderFrameController.productsQuantity);
 				order.setProductsPrice(OrderFrameController.productsPrice);
 				vendingMachines = (ArrayList<VendingMachine>) ChatClient.msgServer.getMessageData();
-				for (int i = 0; i < vendingMachines.size(); i++) {
+				for (int i = 0; i < vendingMachines.size(); i++) { // checks threshold level
 					if (vendingMachines.get(i).getLocation().equals(OrderFrameController.machine)) {
 						for (int j = 0; j < OrderFrameController.productsList.size(); j++) {
 							int thresholdLevel = Integer.parseInt(vendingMachines.get(i).getThresholdLevel());
@@ -265,7 +265,7 @@ public class ConfirmOrderFrameController implements Initializable {
 			}
 		}
 		
-		PaymentFrameController pay = new PaymentFrameController();
+		PaymentFrameController pay = new PaymentFrameController(); // open payment frame after order added and DB updated
 		try {
 			pay.start(ClientMenuController.clientStage);
 		} catch (IOException e) {
