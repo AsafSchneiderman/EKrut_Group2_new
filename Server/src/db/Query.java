@@ -1138,12 +1138,16 @@ public class Query {
 	
 
 	}
+	/**@param id of client
+	 * changes the client to club member if he exists **/
+	
+	
 	public static void ChangeRoleToClubMember(String id) {
 		PreparedStatement stmt;
 		try {
 			if (mysqlConnection.conn != null) {
 				 {
-				stmt = mysqlConnection.conn.prepareStatement("UPDATE userstosignup SET role = 'ClubMember' where id = ?");
+				stmt = mysqlConnection.conn.prepareStatement("UPDATE user SET role = 'ClubMember' where (id = ? AND role='Customer')");
 				stmt.setString(1, id);
 				
 				
@@ -1157,4 +1161,5 @@ public class Query {
 		}
 		
 	}
+	
 }

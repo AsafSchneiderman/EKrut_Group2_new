@@ -144,7 +144,7 @@ public class CustomerRegistrationController implements Initializable{
 		 ClientMenuController.clientStage.setScene(LoginFrameController.home);
 			// Logout
 		 message = new Message(MessageType.logout, LoginFrameController.user.getUserName());
-		 ClientMenuController.clientControl.accept(message); 	
+			ClientMenuController.clientControl.accept(message);
 	 }
 
 	public void start(Stage primaryStage) throws IOException {
