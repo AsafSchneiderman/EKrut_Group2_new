@@ -21,15 +21,15 @@
       <TextField fx:id="txtMonth" layoutX="282.0" layoutY="227.0" prefHeight="31.0" prefWidth="51.0" text="12" />
       <TextField fx:id="txtCvv" layoutX="281.0" layoutY="282.0" prefHeight="25.0" prefWidth="107.0" text="333" />
       <TextField fx:id="txtYear" layoutX="370.0" layoutY="227.0" prefHeight="31.0" prefWidth="57.0" text="26" />
-      <Label layoutX="146.0" layoutY="171.0" text="Card Number*:" textFill="#ae0707">
+      <Label layoutX="146.0" layoutY="167.0" text="Card Number*:" textFill="#ae0707">
          <font>
             <Font name="System Bold" size="18.0" />
          </font></Label>
-      <Label layoutX="164.0" layoutY="229.0" text="Expiry Date*:" textFill="#ab0303">
+      <Label layoutX="164.0" layoutY="227.0" text="Expiry Date*:" textFill="#ab0303">
          <font>
             <Font name="System Bold" size="18.0" />
          </font></Label>
-      <Label layoutX="230.0" layoutY="284.0" text="CVV*:" textFill="#8a0505">
+      <Label layoutX="230.0" layoutY="281.0" text="CVV*:" textFill="#8a0505">
          <font>
             <Font name="System Bold" size="18.0" />
          </font></Label>
@@ -57,9 +57,14 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="253.0" layoutY="335.0" prefHeight="17.0" prefWidth="45.0" text="Price:">
+      <Label layoutX="241.0" layoutY="335.0" prefHeight="27.0" prefWidth="57.0" text="Price:">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="586.0" layoutY="43.0" text="(*)Must Filed" textFill="#9e0707">
+         <font>
+            <Font name="System Bold" size="15.0" />
          </font>
       </Label>
    </children>
