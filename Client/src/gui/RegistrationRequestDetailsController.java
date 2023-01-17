@@ -129,15 +129,26 @@ public class RegistrationRequestDetailsController implements Initializable {
 			pane.setBackground(new Background(image));
             //show user details
 			id=RegistrationRequestsForRegionManagerController.userList.get(CustomerRegistrationController.userNum).getId();//get this specific user id
-			msg=new Message(MessageType.showUserToRegionManager,id);
+			msg=new Message(MessageType.showUserDetails,id);
 			ClientMenuController.clientControl.accept(msg);
 			try {
 				Thread.sleep(1000);
-				System.out.println(ChatClient.msgServer.getMessageData().toString());
+				user=(UsersToRegister) ChatClient.msgServer.getMessageData();
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			idLbl.setText(id);
+			System.out.println(user.getCreditCard()+ "From controller");
+			firstNameLbl.setText(user.getFirstName());
+			lastNameLbl.setText(user.getLastName());
+			emailLbl.setText(user.getEmail());
+			phoneLbl.setText(user.getPhone());
+			creditCardLbl.setText(user.getCreditCard());
+			regionLbl.setText(user.getRegion());
+			
+			
+			
 		}
 		
 		

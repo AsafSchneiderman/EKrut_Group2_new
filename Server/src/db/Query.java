@@ -1038,15 +1038,19 @@ public class Query {
 			if (mysqlConnection.conn != null) {
 				stmt = mysqlConnection.conn.createStatement();
 				ResultSet rs = stmt.executeQuery("SELECT * FROM userstosignup WHERE id='"+id+"'");
-				if (rs.next())
+				if (rs.next()) {
 					user = new UsersToRegister(rs.getString("id"), rs.getString("firstName"),
 						rs.getString("lastName"), rs.getString("email"), rs.getString("phone"));
+				user.setCreditCard(rs.getString("creditCard"));
+				user.setRegion(rs.getString("region"));
+				System.out.println(user.getCreditCard()+"From query");
 				rs.close();
 			} else {
 				System.out.println("Conn is null");
 			}
 
-		} catch (SQLException e) {
+		} 
+		}catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return user;
