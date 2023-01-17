@@ -306,7 +306,7 @@ public class ConfirmOrderFrameController implements Initializable {
 				OrderFrameController.finalPrice = String.valueOf(tempTotPrice);
 			}
 		}
-		
+		//hi
 		lblTotalPrice.setText(OrderFrameController.finalPrice);
 
 		Time time = new Time("00:15:00");
