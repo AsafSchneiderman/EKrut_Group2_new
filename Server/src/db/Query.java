@@ -513,12 +513,13 @@ public class Query {
 	 */
     public static void addOrder(Order order) throws ParseException
     {
+    	System.out.println(order);
     	PreparedStatement stmt;
 		try {
 			if (mysqlConnection.conn != null) {
 				
 					stmt = mysqlConnection.conn
-							.prepareStatement("INSERT orders (orderNum, orderDate, status, customerID, machineLocation, totPrice, type, productsIDs, productsPrice, QuantityPerProduct, paymentType)"
+							.prepareStatement("INSERT orders (orderNum, orderDate, status, customerID, machineLocation, totPrice, type, productsIDs, productsPrice, productsQuantity,QuantityPerProduct, paymentType)"
 									+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 					stmt.setString(1,Integer.toString(order.getOrderNum()));
 					//Date date1=new SimpleDateFormat("dd-MM-yyyy").parse(order.getOrderDate());  
@@ -530,8 +531,9 @@ public class Query {
 					stmt.setString(7, order.getOrderType());
 					stmt.setString(8, order.getProducts());
 					stmt.setString(9, order.getProductsPrice());
-					stmt.setString(10, order.getQuantityPerProducts());
-					stmt.setString(11, Integer.toString(order.getQuantityOfProducts()));
+					stmt.setString(10, Integer.toString(order.getQuantityOfProducts()));
+					stmt.setString(11, order.getQuantityPerProducts());
+					
 					stmt.setString(12,null);
 					stmt.executeUpdate();
 				
@@ -598,7 +600,7 @@ public class Query {
      * changes pickup order status if it is collected 
      * @param order  - order that collected from pickup
      */
-    public static void updatePickup(Order order)
+    public static void updatePickup(int num)
     {
     	PreparedStatement stmt;
     	try {
@@ -606,8 +608,8 @@ public class Query {
 				
 					stmt = mysqlConnection.conn
 							.prepareStatement("UPDATE orders  SET status = ? where orderNum = ?");
-					stmt.setString(1, order.getOrderStatus());
-					stmt.setInt(2, order.getOrderNum());
+					stmt.setString(1, "collected");
+					stmt.setInt(2, num);
 					stmt.executeUpdate();
 				}
 			 else {
@@ -1269,6 +1271,29 @@ public class Query {
     	
     	return clubMemberList;
     	
+    }
+    /**
+     * changes club member that used his discount status 
+     * @param clubMember  - club member that used his discount
+     */
+    public static void updateClubMemberStatus(ClubMember clubMember)
+    {
+    	PreparedStatement stmt;
+    	try {
+			if (mysqlConnection.conn != null) {
+				
+					stmt = mysqlConnection.conn
+							.prepareStatement("UPDATE newclubmembers  SET isNew = ? where userID = ?");
+					stmt.setInt(1, clubMember.getIsNew());
+					stmt.setString(2, clubMember.getUserID());
+					stmt.executeUpdate();
+				}
+			 else {
+				System.out.println("Conn is null");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
     }
 }
 

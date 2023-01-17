@@ -9,11 +9,11 @@
 <AnchorPane fx:id="pane" prefHeight="450.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CustomerFrameController">
    <children>
       <Button fx:id="btnExit" layoutX="683.0" layoutY="384.0" mnemonicParsing="false" onAction="#exitProg" prefHeight="35.0" prefWidth="70.0" text="Exit" textFill="#ee0303" />
-      <Button fx:id="bntLocalOrder" layoutX="264.0" layoutY="121.0" mnemonicParsing="false" onAction="#startLocalOrder" prefHeight="60.0" prefWidth="222.0" text="Start new local order">
+      <Button fx:id="bntLocalOrder" layoutX="264.0" layoutY="176.0" mnemonicParsing="false" onAction="#startLocalOrder" prefHeight="60.0" prefWidth="222.0" text="Start new local order">
          <font>
             <Font name="System Bold" size="18.0" />
          </font></Button>
-      <Button fx:id="bntPickupOrder" layoutX="264.0" layoutY="225.0" mnemonicParsing="false" onAction="#pickupOrder" prefHeight="60.0" prefWidth="222.0" text="Pickup order">
+      <Button fx:id="bntPickupOrder" layoutX="264.0" layoutY="273.0" mnemonicParsing="false" onAction="#pickupOrder" prefHeight="60.0" prefWidth="222.0" text="Pickup order">
          <font>
             <Font name="System Bold" size="18.0" />
          </font></Button>
@@ -22,6 +22,6 @@
             <Font name="Arial" size="16.0" />
          </font>
       </Label>
-      <ImageView fx:id="imgIcon" fitHeight="150.0" fitWidth="200.0" layoutX="525.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imgIcon" fitHeight="150.0" fitWidth="200.0" layoutX="533.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

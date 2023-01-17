@@ -21,12 +21,12 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </Button>
-      <TableView fx:id="tlbInvoice" layoutX="221.0" layoutY="57.0" prefHeight="354.0" prefWidth="379.0">
+      <TableView fx:id="tlbInvoice" layoutX="232.0" layoutY="57.0" prefHeight="354.0" prefWidth="368.0">
         <columns>
-          <TableColumn fx:id="colImgProd" minWidth="0.0" prefWidth="0.0" />
-          <TableColumn fx:id="colQuantityProd" prefWidth="138.0" text="Quantity" />
-            <TableColumn fx:id="colProdName" prefWidth="128.0" text="ProductName" />
-            <TableColumn fx:id="colProdPrice" prefWidth="112.0" text="Price $" />
+          <TableColumn fx:id="colImgProd" minWidth="0.0" prefWidth="71.0" />
+          <TableColumn fx:id="colQuantityProd" prefWidth="64.0" text="Quantity" />
+            <TableColumn fx:id="colProdName" prefWidth="168.0" text="ProductName" />
+            <TableColumn fx:id="colProdPrice" prefWidth="75.0" text="Price $" />
         </columns>
       </TableView>
       <ImageView fx:id="imgIcone" fitHeight="48.0" fitWidth="54.0" layoutX="305.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" />

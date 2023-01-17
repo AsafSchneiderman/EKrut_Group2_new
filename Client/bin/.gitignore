@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-/common/
-/controller/
-/entity/
-=======
->>>>>>> branch 'main' of https://github.com/AsafSchneiderman/EKrut_Group2_new.git
->>>>>>> branch 'main' of https://github.com/AsafSchneiderman/EKrut_Group2_new.git
 /gui/
 /images/
-/endFrame.fxml
+/controller/

@@ -338,7 +338,7 @@ public class EchoServer extends AbstractServer {
 			}
 			case updatePickupStatus: // if costumer picked up an order from machine
 			{
-				Order order = (Order) resMessage.getMessageData();
+				int order = (int) resMessage.getMessageData();
 				
 				Query.updatePickup(order);
 				break;
@@ -366,6 +366,14 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
+			}
+			case changeClubMemberStatus:
+			{
+				ClubMember clubMember = (ClubMember) resMessage.getMessageData();
+				
+				Query.updateClubMemberStatus(clubMember);
+				break;
+				
 			}
 			default:
 				break;
