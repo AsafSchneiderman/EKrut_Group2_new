@@ -7,21 +7,24 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.DeliveryWorkerFrameController">
+<AnchorPane fx:id="pane" prefHeight="450.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.DeliveryWorkerFrameController">
    <children>
-      <Label fx:id="welcomeWorkerLbl" layoutX="65.0" layoutY="50.0" text="Welcom" />
-      <Button fx:id="btnExit" layoutX="33.0" layoutY="543.0" mnemonicParsing="false" onAction="#exit" text="Exit" textFill="RED" />
-      <Label layoutX="57.0" layoutY="89.0" prefHeight="36.0" prefWidth="701.0" text="                                   List of orders to Deliver:" textAlignment="CENTER">
+      <Label fx:id="welcomeWorkerLbl" layoutX="94.0" layoutY="21.0" prefHeight="25.0" prefWidth="495.0" text="Welcome" textFill="#e10000">
+         <font>
+            <Font name="Arial" size="16.0" />
+         </font></Label>
+      <Button fx:id="btnExit" layoutX="65.0" layoutY="391.0" mnemonicParsing="false" onAction="#exit" prefHeight="35.0" prefWidth="70.0" text="Back" />
+      <Label layoutX="46.0" layoutY="62.0" prefHeight="36.0" prefWidth="701.0" text="                                   List of orders to Deliver:" textAlignment="CENTER">
          <font>
             <Font size="24.0" />
          </font></Label>
-      <TableView fx:id="tblViewDelivery" layoutX="29.0" layoutY="139.0" prefHeight="262.0" prefWidth="741.0">
+      <TableView fx:id="tblViewDelivery" layoutX="65.0" layoutY="110.0" prefHeight="258.0" prefWidth="701.0">
         <columns>
-          <TableColumn fx:id="orderIdCol" prefWidth="117.0" text="Order Id" />
-          <TableColumn fx:id="addrCol" prefWidth="197.0" text="Address" />
-            <TableColumn fx:id="dateCol" minWidth="0.0" prefWidth="89.0" text="Date" />
-            <TableColumn fx:id="deliveryRecievedDeliveryCol" minWidth="0.0" prefWidth="186.0" text="Deliver Recived delivery " />
-            <TableColumn fx:id="CustomerRecivedOrderCol" prefWidth="155.0" text="Customer Recived Order" />
+          <TableColumn fx:id="orderIdCol" prefWidth="81.0" text="Order Id" />
+          <TableColumn fx:id="addrCol" prefWidth="158.0" text="Address" />
+            <TableColumn fx:id="dateCol" minWidth="0.0" prefWidth="84.0" text="Date" />
+            <TableColumn fx:id="deliveryRecievedDeliveryCol" minWidth="0.0" prefWidth="187.0" text="Deliver Recived delivery " />
+            <TableColumn fx:id="CustomerRecivedOrderCol" prefWidth="190.0" text="Customer Recived Order" />
         </columns>
       </TableView>
    </children>
