@@ -753,39 +753,7 @@ public class Query {
 		}
 	}	
 	
-	/**
-	 * Get userName for delivery order
-	 * 
-	 *  @param orderId
-	 *  @return String with userName 
-	 * */
-	public static String getUserNameToDeliveryOrder(String orderId){
-		
-		String userName ="";
-		
-		PreparedStatement stmt;
-		try {
-			if (mysqlConnection.conn != null) {
-				 {
-				stmt = mysqlConnection.conn.prepareStatement
-						("SELECT distinct userName FROM  db_ekrut.orders as o,db_ekrut.users as u where o.orderNum = ? and o.customerID = u.userID");
-				stmt.setString(1, orderId);
-				
-				ResultSet rs = stmt.executeQuery();
-				while (rs.next()) {
-					userName = rs.getString("userName");
-				}
 
-				}
-			} else {
-				System.out.println("Conn is null");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return userName; //user name is primary key so there will be just one String.
-	}
 	
 
 	/**
