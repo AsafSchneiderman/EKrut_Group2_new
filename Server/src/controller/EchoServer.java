@@ -212,11 +212,11 @@ public class EchoServer extends AbstractServer {
 				}
 				break;
 
-			case getUserToDelivery:
+			case getUserToDeliveryAndChangeAccept:
 				String orderId = resMessage.getMessageData().toString();
 				try {
-					client.sendToClient(new Message(MessageType.getUserToDelivery,
-							(Object) (Query.getUserNameToDeliveryOrder(orderId))));
+					Query.UpdateOrderDeliveryToAccept(orderId);
+					client.sendToClient(new Message(MessageType.getUserToDelivery, (Object) (Query.getUserNameToDeliveryOrder(orderId))));
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
