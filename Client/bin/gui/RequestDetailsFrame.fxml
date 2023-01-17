@@ -5,7 +5,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.RegistrationRequestDetailsController">
    <children>
       <Label layoutX="151.0" layoutY="81.0" prefHeight="17.0" prefWidth="80.0" text="User ID:">
@@ -73,9 +72,8 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Button fx:id="approveBtn" layoutX="117.0" layoutY="339.0" mnemonicParsing="false" onAction="#clickOnApprove" prefWidth="116.0" text="Approve Requesr" />
+      <Button fx:id="approveBtn" layoutX="117.0" layoutY="339.0" mnemonicParsing="false" onAction="#clickOnApprove" prefWidth="116.0" text="Approve Request" />
       <Button fx:id="deleteBtn" layoutX="295.0" layoutY="339.0" mnemonicParsing="false" onAction="#clickOnDelete" prefHeight="25.0" prefWidth="116.0" text="Delete Request" />
       <Button fx:id="backBtn" layoutX="57.0" layoutY="404.0" mnemonicParsing="false" onAction="#clickOnBack" text="Back" />
-      <Button fx:id="exitBtn" layoutX="617.0" layoutY="404.0" mnemonicParsing="false" onAction="#clickOnExit" text="Exit" />
    </children>
 </AnchorPane>

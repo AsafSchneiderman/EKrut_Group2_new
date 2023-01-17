@@ -33,10 +33,11 @@ public class RegistrationRequestDetailsController implements Initializable {
 	private static Message msg; 
 	private String id;
 	public static UsersToRegister user;
+	public static RegistrationRequestsForRegionManagerController requestsTable;
 
 
 	 
-	   @FXML
+	    @FXML
 	    private AnchorPane pane;
 
 	    @FXML
@@ -69,8 +70,6 @@ public class RegistrationRequestDetailsController implements Initializable {
 	    @FXML
 	    private Button backBtn;
 
-	    @FXML
-	    private Button exitBtn;
 
 	    @FXML
 	    void clickOnApprove(ActionEvent event) {
@@ -94,22 +93,49 @@ public class RegistrationRequestDetailsController implements Initializable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			requestsTable=new RegistrationRequestsForRegionManagerController();
+			try {
+				requestsTable.start(ClientMenuController.clientStage);
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		    } //send to UI*/
 	    }
 
 	    @FXML
 	    void clickOnBack(ActionEvent event) {
-
+	    	requestsTable=new RegistrationRequestsForRegionManagerController();
+			try {
+				requestsTable.start(ClientMenuController.clientStage);
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		    } //send to UI*/
 	    }
 
 	    @FXML
 	    void clickOnDelete(ActionEvent event) {
+	    	msg=new Message(MessageType.deleteRow,user.getId());
+			ClientMenuController.clientControl.accept(msg);
+			try {
+				Thread.sleep(1000);
+				System.out.println(ChatClient.msgServer.getMessageData());
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			JOptionPane.showMessageDialog(null, "user was imported", "notification",JOptionPane.INFORMATION_MESSAGE);
+
+			requestsTable=new RegistrationRequestsForRegionManagerController();
+			try {
+				requestsTable.start(ClientMenuController.clientStage);
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		    } //send to UI*/
 
 	    }
 
-	    @FXML
-	    void clickOnExit(ActionEvent event) {
-
-	    }
 
 		public void start(Stage primaryStage) throws IOException {
 			ClientMenuController.clientStage = primaryStage;
