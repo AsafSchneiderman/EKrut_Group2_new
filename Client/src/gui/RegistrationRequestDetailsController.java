@@ -71,13 +71,17 @@ public class RegistrationRequestDetailsController implements Initializable {
 	    private Button backBtn;
 
 
+	    /**
+	     * 
+	     * @param event click on approve 
+	     * approve the request and import the user to users table, then delete the row of this user from userstosignup table
+	     */
 	    @FXML
 	    void clickOnApprove(ActionEvent event) {
 	    	msg=new Message(MessageType.insertIntoUsers,user);
 			ClientMenuController.clientControl.accept(msg);
 			try {
 				Thread.sleep(1000);
-				System.out.println(ChatClient.msgServer.getMessageData());
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -88,7 +92,6 @@ public class RegistrationRequestDetailsController implements Initializable {
 			ClientMenuController.clientControl.accept(msg);
 			try {
 				Thread.sleep(1000);
-				System.out.println(ChatClient.msgServer.getMessageData());
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -102,6 +105,11 @@ public class RegistrationRequestDetailsController implements Initializable {
 		    } //send to UI*/
 	    }
 
+	    /**
+	     * 
+	     * @param event click on back
+	     * go back to Registration Requests For Region Manager frame
+	     */
 	    @FXML
 	    void clickOnBack(ActionEvent event) {
 	    	requestsTable=new RegistrationRequestsForRegionManagerController();
@@ -113,13 +121,17 @@ public class RegistrationRequestDetailsController implements Initializable {
 		    } //send to UI*/
 	    }
 
+	    /**
+	     * 
+	     * @param event click on delete
+	     * delete the request and delete the row from the userstoregister table
+	     */
 	    @FXML
 	    void clickOnDelete(ActionEvent event) {
 	    	msg=new Message(MessageType.deleteRow,user.getId());
 			ClientMenuController.clientControl.accept(msg);
 			try {
 				Thread.sleep(1000);
-				System.out.println(ChatClient.msgServer.getMessageData());
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -136,7 +148,12 @@ public class RegistrationRequestDetailsController implements Initializable {
 
 	    }
 
-
+/**
+ * 
+ * @param primaryStage
+ * @throws IOException
+ * start the page and disconnect when click on X
+ */
 		public void start(Stage primaryStage) throws IOException {
 			ClientMenuController.clientStage = primaryStage;
 			primaryStage.setTitle("Ekrut - Region Manager >> View Request Details");
@@ -167,6 +184,9 @@ public class RegistrationRequestDetailsController implements Initializable {
 			primaryStage.show();
 			
 		}
+		/**
+		 * initialize the background and the user shown
+		 */
 		@Override
 		public void initialize(URL location, ResourceBundle resources) {
 			// initialize the background image

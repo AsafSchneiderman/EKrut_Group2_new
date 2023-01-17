@@ -69,6 +69,9 @@ public class CustomerRegistrationController implements Initializable{
 	@FXML
     private Button exitBtn;
 	
+	/**
+	 * initializing the background and the table
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// initialize the background image
@@ -88,7 +91,6 @@ public class CustomerRegistrationController implements Initializable{
 		ClientMenuController.clientControl.accept(message);
 		try {
 			Thread.sleep(1000);
-			System.out.println(ChatClient.msgServer.getMessageData().toString());
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -115,19 +117,13 @@ public class CustomerRegistrationController implements Initializable{
 		usersTable.setItems(tvObservableList);
 		
 	}
-	/*void clickOnShowUser(ActionEvent event) {
-		showCustomerToRegistrate = new ShowCustomerToRegistrateController();
-		try {
-			showCustomerToRegistrate.start(ClientMenuController.clientStage);
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}//  send to UI*/
-	//}
 
 
 	
-
+/**
+ * 
+ * @param event click on back and go to customer service frame
+ */
 	@FXML
 	void clickOnBack(ActionEvent event) {
 		customerService = new CustomerServiceController();
@@ -139,6 +135,11 @@ public class CustomerRegistrationController implements Initializable{
 		}//  send to UI*/
 	}
 	
+	/**
+	 * 
+	 * @param event click in exit
+	 * disconnect and go back to login frame
+	 */
 	 @FXML
 	 void clickOnExit(ActionEvent event) {
 		 ClientMenuController.clientStage.setScene(LoginFrameController.home);
@@ -147,6 +148,12 @@ public class CustomerRegistrationController implements Initializable{
 			ClientMenuController.clientControl.accept(message);
 	 }
 
+	 /**
+	  * 
+	  * @param primaryStage
+	  * @throws IOException
+	  * show the page
+	  */
 	public void start(Stage primaryStage) throws IOException {
 		ClientMenuController.clientStage = primaryStage;
 		primaryStage.setTitle("Ekrut - Customer");

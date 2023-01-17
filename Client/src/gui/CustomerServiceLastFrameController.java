@@ -34,6 +34,11 @@ public class CustomerServiceLastFrameController implements Initializable {
 	    @FXML
 	    private Button logoutBtn;
 
+	    /**
+	     * 
+	     * @param event click back to main page
+	     * frame changes to customer service page 
+	     */
 	    @FXML
 	    void clickBackToMainPage(ActionEvent event) {
 	    	customerService= new CustomerServiceController();
@@ -44,7 +49,11 @@ public class CustomerServiceLastFrameController implements Initializable {
 				e.printStackTrace();
 			}//  send to UI*/
 	    }
-
+	    /**
+	     * 
+	     * @param event click on logout
+	     * disconnect client and go to login frame
+	     */
 	    @FXML
 	    void clickOnLogout(ActionEvent event) {
 	    	ClientMenuController.clientStage.setScene(LoginFrameController.home);
@@ -52,7 +61,12 @@ public class CustomerServiceLastFrameController implements Initializable {
 			msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
 			ClientMenuController.clientControl.accept(msg);
 	    }
-
+/**
+ * 
+ * @param primaryStage
+ * @throws IOException
+ * start the page and disconnect when click X
+ */
 		public void start(Stage primaryStage) throws IOException {
 			ClientMenuController.clientStage = primaryStage;
 	    	primaryStage.setTitle("Ekrut - Customer Registration");
@@ -83,13 +97,15 @@ public class CustomerServiceLastFrameController implements Initializable {
 			primaryStage.show();
 			
 		}
+		/**
+		 * initialize the background and insert the details to the data base 
+		 */
 		@Override
 		public void initialize(URL location, ResourceBundle resources) {
 			msg=new Message(MessageType.insertCreditCardAndRegion,ShowCustomerToRegistrateController.sendData);
 			ClientMenuController.clientControl.accept(msg);
 			try {
 				Thread.sleep(1000);
-				System.out.println(ChatClient.msgServer.getMessageData().toString());
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

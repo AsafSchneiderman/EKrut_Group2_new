@@ -80,7 +80,12 @@ public class RegistrationRequestsForRegionManagerController implements Initializ
 			}
 
 	    }
-	    
+	    /**
+	     * 
+	     * @param primaryStage
+	     * @throws IOException
+	     * start the page, disconnect when click on X
+	     */
 		public void start(Stage primaryStage) throws IOException {
 
 			ClientMenuController.clientStage = primaryStage;
@@ -111,6 +116,10 @@ public class RegistrationRequestsForRegionManagerController implements Initializ
 
 		primaryStage.show();
 	}
+		
+		/**
+		 * initialize the background and the table
+		 */
 				@Override
 		public void initialize(URL location, ResourceBundle resources) {
 			// initialize the background image
@@ -131,7 +140,6 @@ public class RegistrationRequestsForRegionManagerController implements Initializ
 			ClientMenuController.clientControl.accept(msg);
 			try {
 				Thread.sleep(1000);
-				System.out.println(ChatClient.msgServer.getMessageData().toString());
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

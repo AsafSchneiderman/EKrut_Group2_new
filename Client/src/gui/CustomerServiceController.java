@@ -57,7 +57,13 @@ public class CustomerServiceController implements Initializable{
 	
 	private static Message msg; 
 
-	
+	/**
+	 * 
+	 * @param event click on register new customer
+	 * @throws IOException
+	 * show the customer registration frame 
+	 * 
+	 */
 	@FXML
 	void clickRegisterNewCustomer(ActionEvent event) throws IOException{
 		coustomerRegistration= new CustomerRegistrationController();
@@ -69,6 +75,11 @@ public class CustomerServiceController implements Initializable{
 	    } //send to UI*/
     }
 
+	/**
+	 * 
+	 * @param event click on register employee 
+	 * import employee from external file 
+	 */
 	    @FXML
 	    void clickRegisterNewEmployee(ActionEvent event) {
 	    	String path="C:\\workersToRegistrate.csv";//please change to file path 
@@ -76,7 +87,6 @@ public class CustomerServiceController implements Initializable{
 			ClientMenuController.clientControl.accept(msg);
 			try {
 				Thread.sleep(1000);
-				System.out.println(ChatClient.msgServer.getMessageData().toString());
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -84,7 +94,11 @@ public class CustomerServiceController implements Initializable{
     		JOptionPane.showMessageDialog(null, "employees were imported", "notification",JOptionPane.INFORMATION_MESSAGE);
 
 	    }
-	    
+	    /**
+	     * 
+	     * @param event click on logout
+	     * user disconnects and login frame is shown 
+	     */
 	    @FXML
 	    void clickOnLogout(ActionEvent event) {
 	    	msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
@@ -97,7 +111,11 @@ public class CustomerServiceController implements Initializable{
 			e.printStackTrace();
 		    } //send to UI*/
 	    }
-	    
+	    /**
+	     * 
+	     * @param event click on register club member 
+	     * frame changes to registrate club member
+	     */
 	    @FXML
 	    void clickRegisterClubMember(ActionEvent event) {
 	    	registrateClubMember= new RegistrateClubMemberController();
@@ -110,7 +128,12 @@ public class CustomerServiceController implements Initializable{
 	    }
 	    
 
-
+/**
+ * 
+ * @param primaryStage
+ * @throws IOException
+ * start the page, disconnect when click on X
+ */
 		public void start(Stage primaryStage) throws IOException {
 			ClientMenuController.clientStage = primaryStage;
 		    primaryStage.setTitle("Ekrut - Customer Service");
@@ -146,6 +169,9 @@ public class CustomerServiceController implements Initializable{
 			primaryStage.show();}
 		
 
+		/**
+		 * initialize the background and import users that want to register 
+		 */
 		@Override
 		public void initialize(URL location, ResourceBundle resources) {
 
@@ -162,7 +188,6 @@ public class CustomerServiceController implements Initializable{
 			ClientMenuController.clientControl.accept(msg);
 			try {
 				Thread.sleep(1000);
-				System.out.println(ChatClient.msgServer.getMessageData().toString());
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

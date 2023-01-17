@@ -45,6 +45,11 @@ public class RegistrateClubMemberController implements Initializable{
     @FXML
     private Label lblAlert;
 
+    /**
+     * 
+     * @param event click become member 
+     * change the role of the customer and insert it to the table of new club members
+     */
     @FXML
     void clickBecomeClubMemebr(ActionEvent event) {
     	boolean result;
@@ -56,7 +61,6 @@ public class RegistrateClubMemberController implements Initializable{
     		ClientMenuController.clientControl.accept(msg);
     		try {
     			Thread.sleep(1000);
-    			System.out.println(ChatClient.msgServer.getMessageData().toString());
     			
     		} catch (InterruptedException e) {
     			// TODO Auto-generated catch block
@@ -69,7 +73,6 @@ public class RegistrateClubMemberController implements Initializable{
     		ClientMenuController.clientControl.accept(msg);
     		try {
     			Thread.sleep(1000);
-    			System.out.println(ChatClient.msgServer.getMessageData().toString());
     			
     		} catch (InterruptedException e) {
     			// TODO Auto-generated catch block
@@ -89,6 +92,11 @@ public class RegistrateClubMemberController implements Initializable{
     }
     }
 
+    /**
+     * 
+     * @param event click on back 
+     * go to customer service frame 
+     */
     @FXML
     void clickOnBack(ActionEvent event) {
     	customerService= new CustomerServiceController();
@@ -100,6 +108,12 @@ public class RegistrateClubMemberController implements Initializable{
 		}//  send to UI*/
     }
 
+    /**
+     * 
+     * @param primaryStage
+     * @throws IOException
+     * start the page and disconnect when click on X
+     */
 	public void start(Stage primaryStage) throws IOException {
 		ClientMenuController.clientStage = primaryStage;
 	    primaryStage.setTitle("Ekrut - Registrate Customer as Club Member");
@@ -131,6 +145,9 @@ public class RegistrateClubMemberController implements Initializable{
 		
 	}
 	
+	/**
+	 * initialize the background
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// initialize the background image
