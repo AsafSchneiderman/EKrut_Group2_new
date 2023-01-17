@@ -26,6 +26,8 @@ import javafx.stage.Stage;
 
 public class FinishOrderFrameController implements Initializable {
 	
+	public static Message msg;
+	
 
     @FXML
     private AnchorPane pane;
@@ -42,18 +44,24 @@ public class FinishOrderFrameController implements Initializable {
     private ImageView imgPic;
 
 
+    /*
+     * closing order
+     * @param event click on close button 
+     */
     @FXML
     void close(ActionEvent event) {
     	
-    	
+    	ClientMenuController.clientStage.setScene(LoginFrameController.home);
+		// Logout
+		msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
+		ClientMenuController.clientControl.accept(msg);
 
     }
     
 	public void start(Stage customerStage) throws IOException {
 		ClientMenuController.clientStage = customerStage;
-		//Parent root = FXMLLoader.load(getClass().getResource("/gui/ConfirmOrderFrame.fxml"));
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/FinishOrderFrame.fxml"));
-		ClientMenuController.clientStage.setTitle("Ekrut - Costumer >> Payment");
+		ClientMenuController.clientStage.setTitle("Ekrut - Costumer >> End Of Order");
 		Scene home = new Scene(root);
 		customerStage.setScene(home);
 		// On pressing X (close window) the user logout from system and the client is
@@ -74,10 +82,15 @@ public class FinishOrderFrameController implements Initializable {
 		// initialize the background image and pic
 		BackgroundSize backgroundSize = new BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true,
 				false);
-		BackgroundImage image = new BackgroundImage(new Image("images/paymentBackground.png"),
+		BackgroundImage image = new BackgroundImage(new Image("images/FinishBackgroundFrame.png"),
 				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
 		pane.setBackground(new Background(image));
 		lblWelcome.setText("Welcome " + LoginFrameController.user.getFirstName() + " " + LoginFrameController.user.getLastName());
+		Image Icone = new Image("images/foodDelivery.png");
+		imgPic.setImage(Icone);
+		imgPic.setFitWidth(80);
+		imgPic.setFitHeight(80);
+		lblOrderID.setText(String.valueOf(ConfirmOrderFrameController.order.getOrderNum()));
 		
 		
 	}

@@ -57,24 +57,49 @@ public class PaymentFrameController implements Initializable {
     private ImageView imgPic;
     @FXML
     private Button btnCancelOrder;
-
+/**
+ * 
+ * @param event
+ */
     @FXML
     void PayLater(ActionEvent event) {
     	ConfirmOrderFrameController.order.setPaymentType("delay");
     	msg = new Message(MessageType.updatePayment,ConfirmOrderFrameController.order);
     	ClientMenuController.clientControl.accept(msg);
+    	
+    	FinishOrderFrameController finish = new FinishOrderFrameController();
+		try {
+			finish.start(ClientMenuController.clientStage);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
     }
 
+    /**
+     * 
+     * @param event
+     */
     @FXML
     void PayNow(ActionEvent event) {
     	ConfirmOrderFrameController.order.setPaymentType("now");
     	msg = new Message(MessageType.updatePayment,ConfirmOrderFrameController.order);
     	ClientMenuController.clientControl.accept(msg);
     	
+    	FinishOrderFrameController finish = new FinishOrderFrameController();
+		try {
+			finish.start(ClientMenuController.clientStage);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	
+    	
 
     }
-    
+    /*
+     * 
+     * @param event
+     */
     @FXML
     void cancelOrder(ActionEvent event) {
     	
@@ -89,7 +114,6 @@ public class PaymentFrameController implements Initializable {
     
 	public void start(Stage customerStage) throws IOException {
 		ClientMenuController.clientStage = customerStage;
-		//Parent root = FXMLLoader.load(getClass().getResource("/gui/ConfirmOrderFrame.fxml"));
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/paymentFrame.fxml"));
 		ClientMenuController.clientStage.setTitle("Ekrut - Costumer >> Payment");
 		Scene home = new Scene(root);
