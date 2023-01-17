@@ -150,7 +150,6 @@ public class RegistrationRequestsForRegionManagerController implements Initializ
 				final Button show=new Button("show user");
 				show.setOnAction((ActionEvent event)->{
 					userNum=userList.indexOf(row);
-					//clickOnShowUser(event);
 					requestDetails = new RegistrationRequestDetailsController();
 					try {
 						requestDetails.start(ClientMenuController.clientStage);

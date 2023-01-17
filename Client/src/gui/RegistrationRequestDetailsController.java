@@ -207,7 +207,6 @@ public class RegistrationRequestDetailsController implements Initializable {
 				e.printStackTrace();
 			}
 			idLbl.setText(id);
-			System.out.println(user.getCreditCard()+ "From controller");
 			firstNameLbl.setText(user.getFirstName());
 			lastNameLbl.setText(user.getLastName());
 			emailLbl.setText(user.getEmail());
