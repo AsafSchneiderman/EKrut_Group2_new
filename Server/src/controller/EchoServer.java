@@ -375,6 +375,10 @@ public class EchoServer extends AbstractServer {
 				break;
 				
 			}
+			case insertIntoUsers:
+				UsersToRegister userToRegister= (UsersToRegister) resMessage.getMessageData();
+				Query.insertIntoUsers(userToRegister);
+				break;
 			default:
 				break;
 			} // end of case

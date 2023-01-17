@@ -1002,7 +1002,7 @@ public class Query {
 	
 	/**
 	 * 
-	 * @return
+	 * @return a list from userstosignup according to the query
 	 */
 	public static ArrayList<UsersToRegister> getUsersToRegister() {
 		UsersToRegister usersToRegister;
@@ -1030,7 +1030,11 @@ public class Query {
 		return listOfUsersToRegister;
 	}
 
-	
+	/**
+	 * 
+	 * @param id
+	 * @return user details from userstosignup table
+	 */
 	public static UsersToRegister getUserToRegisterDetails(String id){
 		UsersToRegister user = null;
 		Statement stmt;
@@ -1043,7 +1047,6 @@ public class Query {
 						rs.getString("lastName"), rs.getString("email"), rs.getString("phone"));
 				user.setCreditCard(rs.getString("creditCard"));
 				user.setRegion(rs.getString("region"));
-				System.out.println(user.getCreditCard()+"From query");
 				rs.close();
 			} else {
 				System.out.println("Conn is null");
@@ -1218,7 +1221,6 @@ public class Query {
 				lineReader.close();
 				stmt.executeBatch();
 				
-				System.out.println("data inserted");
 			}
 		}
 			catch (SQLException e) {
@@ -1300,6 +1302,38 @@ public class Query {
 			e.printStackTrace();
 		}
     }
-}
+    
+    public static void insertIntoUsers(UsersToRegister user) {
+		PreparedStatement stmt;
+		String sql="INSERT INTO users(userID,id,firstName,lastName,userName,password,role,email,phoneNumber,isLoggedIn,region, creditCard) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+		try {
+			if (mysqlConnection.conn != null) {
+				stmt = mysqlConnection.conn.prepareStatement(sql);
+				stmt.setInt(1, countRowsinUsersTable()+1);
+				stmt.setInt(2, parseInt(user.getId()));
+				stmt.setString(3, user.getFirstName());
+				stmt.setString(4, user.getLastName());
+				stmt.setString(5, user.getFirstName()+countRowsinUsersTable());
+				stmt.setString(6, "123456");
+				stmt.setString(7, "Customer");
+				stmt.setString(8, user.getEmail());
+				stmt.setString(9, user.getPhone());
+				stmt.setInt(10, 0);
+				stmt.setString(11, user.getRegion());
+				stmt.setString(12, user.getCreditCard());
+
+				
+				stmt.addBatch();
+				stmt.executeBatch();
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+		
+  }
+
 
 

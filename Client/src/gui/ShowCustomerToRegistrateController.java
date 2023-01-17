@@ -37,9 +37,9 @@ public class ShowCustomerToRegistrateController implements Initializable{
 	public static Message msg;
 	private String id;
 	public static UsersToRegister user;
-	//public static int notificationToCEO=0;
 	public static String sendData;
 	public static CustomerServiceLastFrameController lastFrame;
+	public static CustomerRegistrationController customerRegistration;
 	
 	 
 	@FXML
@@ -77,6 +77,13 @@ public class ShowCustomerToRegistrateController implements Initializable{
 
     @FXML
     void clickBack(ActionEvent event) {
+    	customerRegistration = new CustomerRegistrationController();
+		try {
+			customerRegistration.start(ClientMenuController.clientStage);
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}//  send to UI*/
 
     }
 

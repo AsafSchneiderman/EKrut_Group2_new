@@ -27,6 +27,8 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
+import javax.swing.JOptionPane;
+
 public class RegistrationRequestDetailsController implements Initializable {
 	private static Message msg; 
 	private String id;
@@ -71,7 +73,17 @@ public class RegistrationRequestDetailsController implements Initializable {
 
 	    @FXML
 	    void clickOnApprove(ActionEvent event) {
-
+	    	msg=new Message(MessageType.insertIntoUsers,user);
+			ClientMenuController.clientControl.accept(msg);
+			try {
+				Thread.sleep(1000);
+				System.out.println(ChatClient.msgServer.getMessageData());
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			JOptionPane.showMessageDialog(null, "user was imported", "notification",JOptionPane.INFORMATION_MESSAGE);
+			
 	    }
 
 	    @FXML
