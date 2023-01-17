@@ -754,8 +754,6 @@ public class Query {
 	}	
 	
 
-	
-
 	/**
 	 * @author Aviram fishman
 	 * @return
