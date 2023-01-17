@@ -33,7 +33,7 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
 
 public class ShowCustomerToRegistrateController implements Initializable{
-	private Region regions[]= {Region.North,Region.South,Region.UAE};
+	private String regions[]= {"TelAviv","Karmiel","Haifa"};
 	public static Message msg;
 	private String id;
 	public static UsersToRegister user;
@@ -64,7 +64,7 @@ public class ShowCustomerToRegistrateController implements Initializable{
     private TextField creditCardTxt;
 
     @FXML
-    private ChoiceBox<Region> regionChoiceBox;
+    private ChoiceBox<String> regionChoiceBox;
 
     @FXML
     private Button sendForApprovalBtn;
@@ -75,6 +75,11 @@ public class ShowCustomerToRegistrateController implements Initializable{
     @FXML
     private Label lblAlert;
 
+    /**
+     * 
+     * @param event click on back button
+     * goes back to the customer registration frame
+     */
     @FXML
     void clickBack(ActionEvent event) {
     	customerRegistration = new CustomerRegistrationController();
@@ -87,10 +92,15 @@ public class ShowCustomerToRegistrateController implements Initializable{
 
     }
 
+    /**
+     * 
+     * @param event click on approve 
+     * sends the user for approval to the region manager
+     */
     @FXML
     void clickSendForApproval(ActionEvent event) {
     	String creditCardNum=creditCardTxt.getText();
-    	Region customersRegion=regionChoiceBox.getValue();
+    	String customersRegion=regionChoiceBox.getValue();
     	if(creditCardNum.trim().isEmpty() || customersRegion.toString().trim().isEmpty())
     		lblAlert.setText("please fill all fields");
     	else {
@@ -130,6 +140,11 @@ public class ShowCustomerToRegistrateController implements Initializable{
     		
     }
 
+    /**
+     * 
+     * @param primaryStage
+     * @throws IOException
+     */
 	public void start(Stage primaryStage) throws IOException {
 		ClientMenuController.clientStage = primaryStage;
 		primaryStage.setTitle("Ekrut - Customer");
@@ -137,8 +152,33 @@ public class ShowCustomerToRegistrateController implements Initializable{
 		Scene home = new Scene(root);
 		primaryStage.setScene(home);
 		primaryStage.show();
+		// On pressing X (close window) the user logout from system and the client is
+		// disconnect from server.
+		primaryStage.setOnCloseRequest(e -> {
+		msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
+		ClientMenuController.clientControl.accept(msg);
+		ClientMenuController.clientControl
+				.accept(new Message(MessageType.disconnected, LoginFrameController.user.getUserName()));
+		// create a PopUp message
+		PopUpMessageFrameController popUpMsgController = new PopUpMessageFrameController();
+
+		try {
+			popUpMsgController.start(ClientMenuController.clientStage);
+			popUpMsgController.closeMsg(3000);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+	});
+
+		primaryStage.show();
+		}
+				
 		
-	}
+	/**
+	 * initialize the background and the label
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		regionChoiceBox.getItems().addAll(regions);
