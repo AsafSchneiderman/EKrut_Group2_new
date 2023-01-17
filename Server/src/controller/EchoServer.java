@@ -329,7 +329,7 @@ public class EchoServer extends AbstractServer {
 				Query.updatePickup(order);
 				break;
 			}
-			case getPickupOrder: // checks if pickup Order exists
+			case getPickupOrder: // checks if pickup Order exists in DB
 			{
 				int orderNum = (int) resMessage.getMessageData();
 				String res = Query.getPickup(orderNum);
