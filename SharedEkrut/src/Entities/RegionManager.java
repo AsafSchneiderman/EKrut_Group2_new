@@ -9,7 +9,7 @@ public class RegionManager extends User implements Serializable {
 
 	public RegionManager(String userID, String id, String firstName, String lastName, String userName, String password,
 			String role, String email, String phoneNumber, int isLoggedIn, String region) {
-		super(userID, id, firstName, lastName, userName, password, role, email, phoneNumber, isLoggedIn);
+		super(userID, id, firstName, lastName, userName, password, role, email, phoneNumber, isLoggedIn, region);
 		this.region = region;
 
 	}
