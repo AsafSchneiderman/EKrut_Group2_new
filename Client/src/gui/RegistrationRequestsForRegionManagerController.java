@@ -61,48 +61,30 @@ public class RegistrationRequestsForRegionManagerController implements Initializ
 	    @FXML
 	    private Button backBtn;
 
-	    @FXML
-	    private Button exitBtn;
 
+	    /**
+		 * Goes back to the previous window of RegionManagerFrameController
+		 * 
+		 * @param event (Click on Back button)
+		 */
 	    @FXML
 	    void clickOnBack(ActionEvent event) {
-
-	    }
-
-	    @FXML
-	    void clickOnExit(ActionEvent event) {
-
-	    }
-
-	    public void popUpMessages() {
-			// popup messages from the DB
-			String message = (String) ChatClient.msgServer.getMessageData();
-			if (!message.equals("")) {
-
-				Alert a = new Alert(AlertType.INFORMATION);
-
-				// set title
-				a.setTitle("EKRUT Messages");
-				// set header text
-				a.setHeaderText("You have new messages");
-
-				// set content text
-				a.setContentText(message);
-
-				// show the dialog
-				Optional<ButtonType> result = a.showAndWait();
-				if (result.get() == ButtonType.OK)
-					// update the messages status of the region manager to read
-					ClientMenuController.clientControl
-							.accept(new Message(MessageType.update_workerMessagesStatus, LoginFrameController.user.getUserID()));
+	    	// get the messages of the region manager
+			ClientMenuController.clientControl
+					.accept(new Message(MessageType.Get_workerMessages, LoginFrameController.user.getUserID()));
+			RegionManagerFrameController RegionManagerController = new RegionManagerFrameController();
+			try {
+				RegionManagerController.start(ClientMenuController.clientStage);
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-		}
 
+	    }
 	    
 		public void start(Stage primaryStage) throws IOException {
 
 			ClientMenuController.clientStage = primaryStage;
-			primaryStage.setTitle("Ekrut - Region Manager >> View Requests");
+			primaryStage.setTitle("Ekrut - Region Manager >> Menu >> View Requests");
 			Parent root = FXMLLoader.load(getClass().getResource("/gui/RegistarationRequestsForApprovalFrame.fxml"));
 			Scene home = new Scene(root);
 			primaryStage.setScene(home);
@@ -128,7 +110,6 @@ public class RegistrationRequestsForRegionManagerController implements Initializ
 		});
 
 		primaryStage.show();
-		this.popUpMessages(); // show new messages
 	}
 				@Override
 		public void initialize(URL location, ResourceBundle resources) {
@@ -146,7 +127,6 @@ public class RegistrationRequestsForRegionManagerController implements Initializ
 			lastNameCol.setCellValueFactory(new PropertyValueFactory<ButtonForUsersToSignup,String>("lastName"));
 			buttonsCol.setCellValueFactory(new PropertyValueFactory<ButtonForUsersToSignup,Button>("btnShow"));
 			ObservableList<ButtonForUsersToSignup> tvObservableList = FXCollections.observableArrayList();
-			System.out.println(LoginFrameController.user.getRegion());//**********************************
 			msg=new Message(MessageType.showRegistrationRequests, LoginFrameController.user.getRegion());
 			ClientMenuController.clientControl.accept(msg);
 			try {
