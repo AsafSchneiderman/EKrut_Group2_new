@@ -28,31 +28,8 @@ public class endFrameController implements Initializable {
     @FXML
     private AnchorPane pane;
 
-    @FXML
-    private Button bntEND;
-/**
- * customer takes his order
- * @param event - click on end
- */
-    @FXML
-    void endPickup(ActionEvent event) {
-    	
-    	msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
-		ClientMenuController.clientControl.accept(msg);
-		ClientMenuController.clientControl
-				.accept(new Message(MessageType.disconnected, LoginFrameController.user.getUserName()));
-		// create a PopUp message
-		PopUpMessageFrameController popUpMsgController = new PopUpMessageFrameController();
+   
 
-		try {
-			popUpMsgController.start(ClientMenuController.clientStage);
-			popUpMsgController.closeMsg(3000);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
-    }
     /**
 	 * start the ThresholdLevelFrame
 	 * 
@@ -85,6 +62,19 @@ public class endFrameController implements Initializable {
 			}
 
 		});
+		
+		long mTime = System.currentTimeMillis();
+		long end = mTime + 5000; // in seconds 
+
+		while (mTime < end) 
+		{
+		    mTime = System.currentTimeMillis();
+		} 
+		//ClientMenuController.clientStage.close();
+		ClientMenuController.clientStage.setScene(LoginFrameController.home);
+		// Logout
+		msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
+		ClientMenuController.clientControl.accept(msg);
 
 	}
 
@@ -93,7 +83,7 @@ public class endFrameController implements Initializable {
 		// initialize the background image and icon
 				BackgroundSize backgroundSize = new BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true,
 						false);
-				BackgroundImage image = new BackgroundImage(new Image("images/PickupFinish.png"), BackgroundRepeat.NO_REPEAT,
+				BackgroundImage image = new BackgroundImage(new Image("images/PickupOrderMsg.png"), BackgroundRepeat.NO_REPEAT,
 						BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
 				pane.setBackground(new Background(image));
 

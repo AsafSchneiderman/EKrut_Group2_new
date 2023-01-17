@@ -138,7 +138,7 @@ public class pickupFrameController implements Initializable {
 		// initialize the background image and icon
 		BackgroundSize backgroundSize = new BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true,
 				false);
-		BackgroundImage image = new BackgroundImage(new Image("images/PickUpOrderMsg.png"), BackgroundRepeat.NO_REPEAT,
+		BackgroundImage image = new BackgroundImage(new Image("images/PickUpOrderFrame.png"), BackgroundRepeat.NO_REPEAT,
 				BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
 		pane.setBackground(new Background(image));
 
