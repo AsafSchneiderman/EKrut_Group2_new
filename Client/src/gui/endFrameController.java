@@ -70,7 +70,7 @@ public class endFrameController implements Initializable {
 		{
 		    mTime = System.currentTimeMillis();
 		} 
-		//ClientMenuController.clientStage.close();
+		//ClientMenuController.clientStage.close();//
 		ClientMenuController.clientStage.setScene(LoginFrameController.home);
 		// Logout
 		msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
