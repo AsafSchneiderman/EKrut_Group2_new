@@ -729,6 +729,175 @@ public class Query {
 	}
 	
 	/**
+	 * Delivery is accept one delivery pressed. Set "accept" in the DB.
+	 * 
+	 * @param order id
+	 */
+	public static void UpdateOrderDeliveryToAccept(String id) {
+		PreparedStatement stmt;
+		
+		try {
+			if (mysqlConnection.conn != null) {
+				 {
+				stmt = mysqlConnection.conn.prepareStatement("UPDATE ordertodelivery SET accept = 'accept'  where orderId = ?");
+				stmt.setString(1, id);
+				
+				
+				stmt.executeUpdate();
+				}
+			} else {
+				System.out.println("Conn is null");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}	
+	
+	/**
+	 * Get userName for delivery order
+	 * 
+	 *  @param orderId
+	 *  @return String with userName 
+	 * */
+	public static String getUserNameToDeliveryOrder(String orderId){
+		
+		String userName ="";
+		
+		PreparedStatement stmt;
+		try {
+			if (mysqlConnection.conn != null) {
+				 {
+				stmt = mysqlConnection.conn.prepareStatement
+						("SELECT distinct userName FROM  db_ekrut.orders as o,db_ekrut.users as u where o.orderNum = ? and o.customerID = u.userID");
+				stmt.setString(1, orderId);
+				
+				ResultSet rs = stmt.executeQuery();
+				while (rs.next()) {
+					userName = rs.getString("userName");
+				}
+
+				}
+			} else {
+				System.out.println("Conn is null");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return userName; //user name is primary key so there will be just one String.
+	}
+	
+
+	/**
+	 * @author Aviram fishman
+	 * @return
+	 */
+	public static ArrayList<PromotionSells> viewPromotion(){
+		ArrayList<PromotionSells> Promotions = new ArrayList<>();
+
+		Statement stmt;
+		try {
+			if (mysqlConnection.conn != null) {
+				stmt = mysqlConnection.conn.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT * FROM promotions");
+				while (rs.next()) {
+					PromotionSells v = new PromotionSells(rs.getString("discountAmount"), rs.getString("activate"),rs.getString("region")); //change///
+					Promotions.add(v);
+				}
+				rs.close();
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return Promotions;
+	}
+
+	/**
+	 * @author Aviram fishman
+	 * @return
+	 */
+	public static ArrayList<String> getRegion(){
+		ArrayList<String> region = new ArrayList<>();
+
+		Statement stmt;
+		try {
+			if (mysqlConnection.conn != null) {
+				stmt = mysqlConnection.conn.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT * FROM region");
+				while (rs.next()) {
+					region.add(rs.getString("region"));
+				}
+				rs.close();
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return region;
+	}
+	
+	/**
+	 * @author Aviram Fishman
+	 * */
+	public static void activatePremition(String promotionKey, String setRegion) {
+	PreparedStatement stmt;
+		
+	System.out.println("ActivatePremition: "+ setRegion + " "+ promotionKey );
+		try {
+			if (mysqlConnection.conn != null) {
+				 {
+				stmt = mysqlConnection.conn.prepareStatement("UPDATE promotions SET activate = 'activate' ,region = ?  where discountAmount = ?");
+				stmt.setString(1, setRegion);
+				stmt.setString(2, promotionKey);
+				
+				stmt.executeUpdate();
+				}
+			} else {
+				System.out.println("Conn is null");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		
+	}
+		ArrayList<PromotionSells> str = viewPromotion();
+		for(PromotionSells s : str) {
+			System.out.println(s.getRegion());
+		}
+		
+	}
+	
+	/**
+	 * @author Aviram Fishman
+	 * */
+	public static void deActivatePremition(String promotionKey, String setRegion) {
+	PreparedStatement stmt;
+	
+	System.out.println("deActivatePremition: "+ setRegion + " "+ promotionKey );
+		try {
+			if (mysqlConnection.conn != null) {
+				 {
+				stmt = mysqlConnection.conn.prepareStatement("UPDATE promotions SET activate = 'notActivate' ,region = ?  where discountAmount = ?");
+				stmt.setString(1, setRegion);
+				stmt.setString(2, promotionKey);
+				
+				stmt.executeUpdate();
+				}
+			} else {
+				System.out.println("Conn is null");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		
+	}
+	}
+	
+	/**
 	 * Get userName for delivery order
 	 * 
 	 *  @param orderId
