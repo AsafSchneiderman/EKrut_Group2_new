@@ -1,6 +1,5 @@
 package gui;
 
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -27,8 +26,9 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
+
 /**
- * 
+ * customer insert order number and program check if order exist
  * @author Marina
  *
  */
@@ -41,14 +41,14 @@ public class pickupFrameController implements Initializable {
 
 	@FXML
 	private Button btnEnd;
-    @FXML
-    private Button bntCheckOrder;
+	@FXML
+	private Button bntCheckOrder;
 
-    @FXML
-    private TextField txtOrderCode;
+	@FXML
+	private TextField txtOrderCode;
 
-    @FXML
-    private Label lblAlert;
+	@FXML
+	private Label lblAlert;
 
 	/**
 	 * The user exit from the region manager frame and do logout to the user from
@@ -65,50 +65,50 @@ public class pickupFrameController implements Initializable {
 		ClientMenuController.clientControl.accept(msg);
 
 	}
+
 	/**
 	 * check if pickup order exists
+	 * if not shows alert
+	 * 
 	 * @param event - click on take order button
 	 */
-    @FXML
-    void checkOrder(ActionEvent event) {
-    	int orderNum;
-    	orderNum = Integer.parseInt(txtOrderCode.getText());
-    	msg1 = new Message(MessageType.getPickupOrder,orderNum );
-    	ClientMenuController.clientControl.accept(msg1);
-    	try {
+	@FXML
+	void checkOrder(ActionEvent event) {
+		int orderNum;
+		orderNum = Integer.parseInt(txtOrderCode.getText());
+		msg1 = new Message(MessageType.getPickupOrder, orderNum);
+		ClientMenuController.clientControl.accept(msg1);
+		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	String res = (String) ChatClient.msgServer.getMessageData();
-    	if(res.equals("pickupOrder"))
-    	{
-    		endFrameController ending = new endFrameController();
-    		msg2 = new Message(MessageType.updatePickupStatus,orderNum );
-    		ClientMenuController.clientControl.accept(msg2);
-    		try {
-    			Thread.sleep(1000);
-    		} catch (InterruptedException e) {
-    			// TODO Auto-generated catch block
-    			e.printStackTrace();
-    		}
-    		
-    		try {
-    			ending.start(ClientMenuController.clientStage);
-    		} catch (IOException e) {
-    			e.printStackTrace();
-    		}
-    		
-    	}
-    	else
-    	{
-    		lblAlert.setVisible(true);
-    	}
+		String res = (String) ChatClient.msgServer.getMessageData();
+		if (res.equals("pickupOrder")) {
+			endFrameController ending = new endFrameController();
+			msg2 = new Message(MessageType.updatePickupStatus, orderNum);
+			ClientMenuController.clientControl.accept(msg2);
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
-    }
+			try {
+				ending.start(ClientMenuController.clientStage);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 
-    /**
+		} else {
+			lblAlert.setVisible(true);
+		}
+
+	}
+
+	/**
 	 * start the pickupFrame
 	 * 
 	 * @param primaryStage
@@ -143,15 +143,21 @@ public class pickupFrameController implements Initializable {
 
 	}
 
+	/**
+	 * 
+	 * 
+	 * initialize parameters when the frame start
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
-	    lblAlert.setVisible(false);;
+		lblAlert.setVisible(false);
+		;
 		// initialize the background image and icon
 		BackgroundSize backgroundSize = new BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true,
 				false);
-		BackgroundImage image = new BackgroundImage(new Image("images/PickUpOrderFrame.png"), BackgroundRepeat.NO_REPEAT,
-				BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
+		BackgroundImage image = new BackgroundImage(new Image("images/PickUpOrderFrame.png"),
+				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
 		pane.setBackground(new Background(image));
 
 	}

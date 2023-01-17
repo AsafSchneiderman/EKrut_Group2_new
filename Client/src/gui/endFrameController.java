@@ -21,7 +21,9 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
+
 /**
+ * when customer gets pickup order
  * 
  * @author Marina
  *
@@ -29,25 +31,30 @@ import javafx.stage.Stage;
 public class endFrameController implements Initializable {
 	Message msg;
 
-    @FXML
-    private AnchorPane pane;
-    
-    @FXML
-    private Button bntExit;
+	@FXML
+	private AnchorPane pane;
 
-    @FXML
-    void exit(ActionEvent event) {
-    	
-    	ClientMenuController.clientStage.setScene(LoginFrameController.home);
+	@FXML
+	private Button bntExit;
+
+	/**
+	 * The user exit from the region manager frame and do logout to the user from
+	 * the DB
+	 * 
+	 * @param event (Click on Exit button)
+	 */
+
+	@FXML
+	void exit(ActionEvent event) {
+
+		ClientMenuController.clientStage.setScene(LoginFrameController.home);
 		// Logout
 		msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
 		ClientMenuController.clientControl.accept(msg);
 
-    }
+	}
 
-   
-
-    /**
+	/**
 	 * start the endFrame
 	 * 
 	 * @param primaryStage
@@ -82,16 +89,21 @@ public class endFrameController implements Initializable {
 
 	}
 
+	/**
+	 * 
+	 * 
+	 * initialize parameters when the frame start
+	 */
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// initialize the background image and icon
-				BackgroundSize backgroundSize = new BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true,
-						false);
-				BackgroundImage image = new BackgroundImage(new Image("images/PickupOrderMsg.png"), BackgroundRepeat.NO_REPEAT,
-						BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
-				pane.setBackground(new Background(image));
+		BackgroundSize backgroundSize = new BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true,
+				false);
+		BackgroundImage image = new BackgroundImage(new Image("images/PickupOrderMsg.png"), BackgroundRepeat.NO_REPEAT,
+				BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
+		pane.setBackground(new Background(image));
 
-		
 	}
 
 }

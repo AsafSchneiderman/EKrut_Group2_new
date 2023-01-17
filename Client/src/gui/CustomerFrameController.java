@@ -23,7 +23,9 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
+
 /**
+ * give the customer the option to choose pickup his order or create new order
  * 
  * @author Marina
  *
@@ -50,13 +52,14 @@ public class CustomerFrameController implements Initializable {
 	private Button bntPickupOrder;
 	@FXML
 	private Label lblWelcome;
-    @FXML
-    private ImageView imgIcon;
-    
-/**
- * if the costumer wants to pick up order
- * @param event - click on pickup Order
- */
+	@FXML
+	private ImageView imgIcon;
+
+	/**
+	 * if the costumer wants to pick up order
+	 * 
+	 * @param event - click on pickup Order
+	 */
 	@FXML
 	void pickupOrder(ActionEvent event) {
 
@@ -68,10 +71,12 @@ public class CustomerFrameController implements Initializable {
 		}
 
 	}
-/**
- * if the customer wants to start new local order
- * @param event - click on start new local order
- */
+
+	/**
+	 * if the customer wants to start new local order
+	 * 
+	 * @param event - click on start new local order
+	 */
 	@FXML
 	void startLocalOrder(ActionEvent event) {
 
@@ -99,6 +104,7 @@ public class CustomerFrameController implements Initializable {
 		ClientMenuController.clientControl.accept(msg);
 
 	}
+
 	/**
 	 * start the customerFrame
 	 * 
@@ -134,6 +140,12 @@ public class CustomerFrameController implements Initializable {
 		});
 
 	}
+
+	/**
+	 * 
+	 * 
+	 * initialize parameters when the frame start
+	 */
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

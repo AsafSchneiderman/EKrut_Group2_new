@@ -46,8 +46,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
 /**
  * in this frame the customer picks the products that he wants to buy
+ * 
  * @author Marina
  * 
  *
@@ -119,8 +121,8 @@ public class OrderFrameController implements Initializable {
 	private Text txtTimer;
 	@FXML
 	private Label lblWelcome;
-    @FXML
-    private Label lblDiscount;
+	@FXML
+	private Label lblDiscount;
 	public static int counterForProducts;
 	public static String productsID;
 	public static String productsPrice;
@@ -130,6 +132,13 @@ public class OrderFrameController implements Initializable {
 	public static String region;
 	public static String discountVar = "0";
 	private static ArrayList<VendingMachine> vendingMachines = new ArrayList<>(); // list of vending machines in the DB
+
+	/**
+	 * 
+	 * initialize parameters when the frame start initialize tables and images and
+	 * buttons the buttons that responsible for add to cart and add to quantity and
+	 * sub from it also initialize timer
+	 */
 
 	@SuppressWarnings({ "unchecked" })
 	@Override
@@ -144,8 +153,9 @@ public class OrderFrameController implements Initializable {
 				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
 		pane.setBackground(new Background(image));
 		// initialize the Welcome label to welcome and the full name of the user
-		lblWelcome.setText("Welcome " + LoginFrameController.user.getFirstName() + " " + LoginFrameController.user.getLastName());
-	    lblDiscount.setVisible(false);
+		lblWelcome.setText(
+				"Welcome " + LoginFrameController.user.getFirstName() + " " + LoginFrameController.user.getLastName());
+		lblDiscount.setVisible(false);
 		tblProducts.setEditable(true);
 		tblCart.setEditable(true);
 		Image cartIcone = new Image("images/addToBasket.png");
@@ -153,7 +163,6 @@ public class OrderFrameController implements Initializable {
 		imgForIcon.setFitWidth(50);
 		imgForIcon.setFitHeight(50);
 		// Create message to send to server
-	
 
 		colProductImg.setCellValueFactory(new PropertyValueFactory<ProductForOrder, ImageView>("imgSrc"));
 		colNameOfProduct.setCellValueFactory(new PropertyValueFactory<ProductForOrder, String>("productName"));
@@ -185,25 +194,22 @@ public class OrderFrameController implements Initializable {
 		productsList = (ArrayList<Product>) ChatClient.msgServer.getMessageData();
 		msg5 = new Message(MessageType.Get_vendingMachines, "");
 		ClientMenuController.clientControl.accept(msg5);
-		
+
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		vendingMachines = (ArrayList<VendingMachine>) ChatClient.msgServer.getMessageData();
-		for (VendingMachine row : vendingMachines)
-		{
-			if(machine.equals(row.getLocation()))
-			{
+		for (VendingMachine row : vendingMachines) {
+			if (machine.equals(row.getLocation())) {
 				region = row.getRegion();
 			}
 		}
-		
-		if(LoginFrameController.user.getRole().equals("ClubMember"))
-		{
+
+		if (LoginFrameController.user.getRole().equals("ClubMember")) {
 			msg2 = new Message(MessageType.getPromtion, "");
 			ClientMenuController.clientControl.accept(msg2);
 			try {
@@ -213,8 +219,8 @@ public class OrderFrameController implements Initializable {
 				e.printStackTrace();
 			}
 			discountList = (ArrayList<PromotionSells>) ChatClient.msgServer.getMessageData();
-			
-			msg3 = new Message(MessageType.showNewClubMebers,"");
+
+			msg3 = new Message(MessageType.showNewClubMebers, "");
 			int flagForNoDoubleDis = 1;
 			ClientMenuController.clientControl.accept(msg3);
 			try {
@@ -224,45 +230,36 @@ public class OrderFrameController implements Initializable {
 				e.printStackTrace();
 			}
 			clubMemberList = (ArrayList<ClubMember>) ChatClient.msgServer.getMessageData();
-			if(flagForNoDoubleDis == 1)
-			{
-				for(int j = 0; j < clubMemberList.size(); j++)
-				{
-					if(clubMemberList.get(j).getUserID().equals(LoginFrameController.user.getUserID()))
-					{
-						if(clubMemberList.get(j).getIsNew() == 1)
-						{
+			if (flagForNoDoubleDis == 1) {
+				for (int j = 0; j < clubMemberList.size(); j++) {
+					if (clubMemberList.get(j).getUserID().equals(LoginFrameController.user.getUserID())) {
+						if (clubMemberList.get(j).getIsNew() == 1) {
 							discountVar = "20";
 							lblDiscount.setVisible(true);
-							lblDiscount.setText("You Have %"+discountVar+" Discount!!");
+							lblDiscount.setText("You Have %" + discountVar + " Discount!!");
 							flagForNoDoubleDis = 0;
 							clubMemberList.get(j).setIsNew(0);
-							msg4 = new Message(MessageType.changeClubMemberStatus,clubMemberList.get(j));
+							msg4 = new Message(MessageType.changeClubMemberStatus, clubMemberList.get(j));
 							ClientMenuController.clientControl.accept(msg4);
-							
+
 						}
 					}
 				}
 			}
-			if(flagForNoDoubleDis == 1)
-			{
-				for(int i = 0; i < discountList.size(); i++)
-				{
-					if(discountList.get(i).getRegion().equals(region) && discountList.get(i).getActivated().equals("activate") )
-					{
-						System.out.println(discountList.get(i).getPromotion());
+			if (flagForNoDoubleDis == 1) {
+				for (int i = 0; i < discountList.size(); i++) {
+					if (discountList.get(i).getRegion().equals(region)
+							&& discountList.get(i).getActivated().equals("activate")) {
 						lblDiscount.setVisible(true);
-						lblDiscount.setText("You Have %"+discountList.get(i).getPromotion()+" Discount!!");
+						lblDiscount.setText("You Have %" + discountList.get(i).getPromotion() + " Discount!!");
 						discount = discountList.get(i);
 						discountVar = discountList.get(i).getPromotion();
 					}
 				}
 			}
-		
+
 		}
-		
-		
-		
+
 		for (Product row : productsList) {
 			Image pic = new Image(row.getImgSrc());
 			ImageView img = new ImageView();
@@ -284,15 +281,14 @@ public class OrderFrameController implements Initializable {
 					imgForCart.setImage(pic);
 					imgForCart.setFitWidth(40);
 					imgForCart.setFitHeight(40);
-					if(!(row.getStockQuantity().equals("infinity")))
-					{
+					if (!(row.getStockQuantity().equals("infinity"))) {
 						String stockTempStr = row.getStockQuantity();
 						int stockNumTemp = Integer.parseInt(stockTempStr);
 						stockNumTemp = stockNumTemp - 1;
 						stockTempStr = String.valueOf(stockNumTemp);
 						row.setStockQuantity(stockTempStr);
 					}
-					
+
 					Button addQuantity = new Button("+");
 					Button subQuantity = new Button("-");
 					OrderProductsForTbl toCart = new OrderProductsForTbl(row.getProductName(), row.getPrice(), "1",
@@ -315,15 +311,14 @@ public class OrderFrameController implements Initializable {
 							float tempPrice2 = convertStringToFloat(toCart.getPrice());
 							tempQuantityNum = tempQuantityNum + 1;
 							tempQuantityStr = String.valueOf(tempQuantityNum);
-							if(!(row.getStockQuantity().equals("infinity")))
-							{
+							if (!(row.getStockQuantity().equals("infinity"))) {
 								String stockTempStr2 = row.getStockQuantity();
 								int stockNumTemp2 = Integer.parseInt(stockTempStr2);
 								stockNumTemp2 = stockNumTemp2 - 1;
 								stockTempStr2 = String.valueOf(stockNumTemp2);
 								row.setStockQuantity(stockTempStr2);
 							}
-							
+
 							totPrice = totPrice + tempPrice2;
 							lblTotalPrice.setText(Float.toString(totPrice));
 							toCart.setQuantity(tempQuantityStr);
@@ -338,16 +333,15 @@ public class OrderFrameController implements Initializable {
 						if (Integer.parseInt(toCart.getQuantity()) == 1) {
 							counterForProducts--;
 							String stockTempStr1 = row.getStockQuantity();
-							
+
 							float tempPrice3 = convertStringToFloat(toCart.getPrice());
-							if(!(machine.equals("warehouse")))
-							{
+							if (!(machine.equals("warehouse"))) {
 								int stockNumTemp1 = Integer.parseInt(stockTempStr1);
 								stockNumTemp1 = stockNumTemp1 + 1;
 								stockTempStr1 = String.valueOf(stockNumTemp1);
 								row.setStockQuantity(stockTempStr1);
 							}
-							
+
 							totPrice = totPrice - tempPrice3;
 							lblTotalPrice.setText(Float.toString(totPrice));
 							cartObservableList.remove(toCart);
@@ -358,15 +352,14 @@ public class OrderFrameController implements Initializable {
 							float tempPrice4 = convertStringToFloat(toCart.getPrice());
 							tempQuantityNum = tempQuantityNum - 1;
 							tempQuantityStr = String.valueOf(tempQuantityNum);
-							if(!(machine.equals("warehouse")))
-							{
+							if (!(machine.equals("warehouse"))) {
 								String stockTempStr2 = row.getStockQuantity();
 								int stockNumTemp2 = Integer.parseInt(stockTempStr2);
 								stockNumTemp2 = stockNumTemp2 + 1;
 								stockTempStr2 = String.valueOf(stockNumTemp2);
 								row.setStockQuantity(stockTempStr2);
 							}
-							
+
 							totPrice = totPrice - tempPrice4;
 							lblTotalPrice.setText(Float.toString(totPrice));
 							toCart.setQuantity(tempQuantityStr);
@@ -391,7 +384,7 @@ public class OrderFrameController implements Initializable {
 		Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
 
 			if (time.oneSecondPassed()) {
-			
+
 				setZero();
 				lblTotalPrice.setText(null);
 				tblProducts.setItems(null);
@@ -409,9 +402,14 @@ public class OrderFrameController implements Initializable {
 
 	}
 
+	/**
+	 * cancel the order erased all data from vars and get to login frame
+	 * 
+	 * @param event - click cancel button
+	 */
 	@FXML
 	void cancelOrder(ActionEvent event) {
-		
+
 		setZero();
 		tblProducts.setItems(null);
 		tblCart.setItems(null);
@@ -422,12 +420,12 @@ public class OrderFrameController implements Initializable {
 		msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
 		ClientMenuController.clientControl.accept(msg);
 	}
+
 	/***
 	 * if order is canceled for some reason erase data from tables, list etc..
 	 */
-	 	
-	public void setZero()
-	{
+
+	public void setZero() {
 		productsList.removeAll(productsList);
 		ProductsObservableList.removeAll(ProductsObservableList);
 		cartObservableList.removeAll(cartObservableList);
@@ -436,6 +434,7 @@ public class OrderFrameController implements Initializable {
 
 	/**
 	 * 
+	 * open invoice frame and sum the order for the user
 	 * 
 	 * @param event - click on the button "Get Order"
 	 */
@@ -445,33 +444,25 @@ public class OrderFrameController implements Initializable {
 		tblCart.setItems(null);
 		txtTimer.setText(null);
 		lblTotalPrice.setText(null);
-		for(int i = 0; i < cartObservableList.size(); i++)
-		{
-			for(int j = 0; j < productsList.size(); j++)
-			{
-				System.out.println(cartObservableList.get(i).getProductName());
-				System.out.println(productsList.get(j).getProductName());
-				if(cartObservableList.get(i).getProductName().equals(productsList.get(j).getProductName()))
-				{
-					System.out.println(cartObservableList.get(i).getProductName());
-					System.out.println(productsList.get(j).getProductName());
-					if(productsID==null)
-					{
-			
+		for (int i = 0; i < cartObservableList.size(); i++) {
+			for (int j = 0; j < productsList.size(); j++) {
+				
+				if (cartObservableList.get(i).getProductName().equals(productsList.get(j).getProductName())) {
+					
+					if (productsID == null) {
+
 						productsID = productsList.get(j).getProductID();
 						productsPrice = productsList.get(j).getPrice();
 						productsQuantity = cartObservableList.get(i).getQuantity();
-					
-					}
-					else
-					{
+
+					} else {
 						productsID.concat(",");
 						productsID.concat(productsList.get(j).getProductID());
 						productsPrice.concat(",");
 						productsPrice.concat(productsList.get(j).getPrice());
 						productsQuantity.concat(",");
 						productsQuantity.concat(cartObservableList.get(i).getQuantity());
-						
+
 					}
 					break;
 				}
@@ -495,6 +486,12 @@ public class OrderFrameController implements Initializable {
 		return Float.valueOf(str);
 	}
 
+	/**
+	 * start the OrderFrame
+	 * 
+	 * @param primaryStage
+	 * @throws IOException
+	 */
 	public void start(Stage customerStage) throws IOException {
 		ClientMenuController.clientStage = customerStage;
 		ClientMenuController.clientStage.setTitle("Ekrut - Costumer >> Make an Order");

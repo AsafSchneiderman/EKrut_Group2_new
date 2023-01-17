@@ -34,7 +34,9 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
+
 /**
+ * gives the customer the option to pick order type delivery or pickup
  * 
  * @author Marina
  *
@@ -90,10 +92,12 @@ public class OnlineOrderFrameController implements Initializable {
 	public static String city;
 	public static String street;
 	public static String type;
-/**
- * customer wants a pickup order
- * @param event - click pickup
- */
+
+	/**
+	 * customer wants a pickup order
+	 * 
+	 * @param event - click pickup
+	 */
 	@FXML
 	void SelectVendingMachine(ActionEvent event) {
 
@@ -118,13 +122,13 @@ public class OnlineOrderFrameController implements Initializable {
 		cmbBoxVendingMachine.setValue(list.get(0));
 		type = "pickup";
 
-		
-
 	}
-/**
- * customer wants a delivery order
- * @param event - click delivery
- */
+
+	/**
+	 * customer wants a delivery order
+	 * 
+	 * @param event - click delivery
+	 */
 	@FXML
 	void SetDeliveryAddress(ActionEvent event) {
 		lblMachine.setVisible(false);
@@ -139,13 +143,11 @@ public class OnlineOrderFrameController implements Initializable {
 		imgIcone.setFitWidth(60);
 		imgIcone.setFitHeight(60);
 
-		
 		ObservableList<String> list = FXCollections.observableArrayList("Haifa", "Karmiel", "TelAviv"); // initialize
 																										// the comboBox
 		cmbCity.setItems(list);
 		cmbCity.setValue(list.get(0));
 		type = "delivery";
-		
 
 	}
 
@@ -164,18 +166,17 @@ public class OnlineOrderFrameController implements Initializable {
 		ClientMenuController.clientControl.accept(msg);
 
 	}
-/**
- * the customer chose his order type
- * @param event - click on continue order
- */
+
+	/**
+	 * the customer chose his order type
+	 * 
+	 * @param event - click on continue order
+	 */
 	@FXML
 	void continueToOrder(ActionEvent event) {
-		if(type.equals("pickup"))
-		{
+		if (type.equals("pickup")) {
 			machine = cmbBoxVendingMachine.getValue();
-		}
-		else if(type.equals("delivery"))
-		{
+		} else if (type.equals("delivery")) {
 			machine = "warehouse";
 			city = cmbCity.getValue();
 			street = txtFldStreet.getText();
@@ -189,7 +190,7 @@ public class OnlineOrderFrameController implements Initializable {
 		}
 
 	}
-	
+
 	/**
 	 * start the OnlineOrderFrame
 	 * 
@@ -225,6 +226,11 @@ public class OnlineOrderFrameController implements Initializable {
 
 	}
 
+	/**
+	 * 
+	 * 
+	 * initialize parameters when the frame start
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 

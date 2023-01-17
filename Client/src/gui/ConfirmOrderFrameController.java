@@ -39,7 +39,10 @@ import javafx.util.Duration;
 import Entities.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
 /**
+ * in this frame the customer get his invoice and can still confirm or cancel
+ * his order
  * 
  * @author Marina
  *
@@ -96,6 +99,11 @@ public class ConfirmOrderFrameController implements Initializable {
 	@FXML
 	private Text txtTimer;
 
+	/**
+	 * cancel the order erased all data from vars and get to login frame
+	 * 
+	 * @param event - click cancel button
+	 */
 	@FXML
 	void cancelOrder(ActionEvent event) {
 
@@ -109,6 +117,12 @@ public class ConfirmOrderFrameController implements Initializable {
 
 	}
 
+	/**
+	 * save order to DB and update stock and delivery and stock workers if needed
+	 * (if delivery order or the stock reached to threshold level)
+	 * 
+	 * @param event - click confirm order
+	 */
 	@FXML
 	void confirmOrder(ActionEvent event) {
 		msg = new Message(MessageType.Orders_list, ""); // sends request from server to get all orders
@@ -129,7 +143,7 @@ public class ConfirmOrderFrameController implements Initializable {
 		}
 		Arrays.sort(arrOrderNums); // sorts the number from small to big
 		orderNum = arrOrderNums[arrOrderNums.length - 1] + 1; // give new number to new order by chronological order
-		
+
 		for (int j = 0; j < OrderFrameController.productsList.size(); j++) { // sets machine name
 			OrderFrameController.productsList.get(j).setMachineName(OrderFrameController.machine);
 		}
@@ -245,6 +259,12 @@ public class ConfirmOrderFrameController implements Initializable {
 
 	}
 
+	/**
+	 * start the confirmOrderFrame
+	 * 
+	 * @param primaryStage
+	 * @throws IOException
+	 */
 	public void start(Stage customerStage) throws IOException {
 		ClientMenuController.clientStage = customerStage;
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/ConfirmOrderFrame.fxml"));
@@ -258,6 +278,16 @@ public class ConfirmOrderFrameController implements Initializable {
 			ClientMenuController.clientControl.accept(msg);
 			ClientMenuController.clientControl
 					.accept(new Message(MessageType.disconnected, LoginFrameController.user.getUserName()));
+			// create a PopUp message
+			PopUpMessageFrameController popUpMsgController = new PopUpMessageFrameController();
+
+			try {
+				popUpMsgController.start(ClientMenuController.clientStage);
+				popUpMsgController.closeMsg(3000);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		});
 
 		customerStage.show();
@@ -271,6 +301,10 @@ public class ConfirmOrderFrameController implements Initializable {
 		return Float.valueOf(str);
 	}
 
+	/**
+	 * initialize parameters when the frame start sets total price table with the
+	 * order calculate price if there is discount(if club member) initialize timer
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		lblDiscount.setVisible(false);
@@ -296,18 +330,15 @@ public class ConfirmOrderFrameController implements Initializable {
 		colProdPrice.setCellValueFactory(new PropertyValueFactory<OrderProductsForTbl, String>("price"));
 
 		tlbInvoice.setItems(OrderFrameController.cartObservableList);
-		
-		
-		if(LoginFrameController.user.getRole().equals("ClubMember"))
-		{
-			if(!(OrderFrameController.discountVar.equals("0")))
-			{
+
+		if (LoginFrameController.user.getRole().equals("ClubMember")) {
+			if (!(OrderFrameController.discountVar.equals("0"))) {
 				lblDiscount.setVisible(true);
-				lblDiscount.setText("You Have "+OrderFrameController.discountVar+"% Discount!!");
+				lblDiscount.setText("You Have " + OrderFrameController.discountVar + "% Discount!!");
 				float tempTotPrice = convertStringToFloat(finalPrice);
 				int discountInt = Integer.parseInt(OrderFrameController.discountVar);
 				float forPercent = (float) 100.0;
-				float tempNum = tempTotPrice*(discountInt/forPercent);
+				float tempNum = tempTotPrice * (discountInt / forPercent);
 				tempTotPrice = tempTotPrice - tempNum;
 				finalPrice = String.valueOf(tempTotPrice);
 			}
