@@ -214,7 +214,8 @@ public class OrderFrameController implements Initializable {
 			discountList = (ArrayList<PromotionSells>) ChatClient.msgServer.getMessageData();
 			
 			msg3 = new Message(MessageType.showNewClubMebers,"");
-			ClientMenuController.clientControl.accept(msg2);
+			int flagForNoDoubleDis = 1;
+			ClientMenuController.clientControl.accept(msg3);
 			try {
 				Thread.sleep(1000);
 				System.out.println(ChatClient.msgServer.getMessageData().toString());
@@ -223,22 +224,41 @@ public class OrderFrameController implements Initializable {
 				e.printStackTrace();
 			}
 			clubMemberList = (ArrayList<ClubMember>) ChatClient.msgServer.getMessageData();
-			
-			
-			
-			for(int i = 0; i < discountList.size(); i++)
+			if(flagForNoDoubleDis == 1)
 			{
-				if(discountList.get(i).getRegion().equals(region) && discountList.get(i).getActivated().equals("'activate'") )
+				for(int j = 0; j < clubMemberList.size(); j++)
 				{
-					System.out.println(discountList.get(i).getRegion());
-					System.out.println(discountList.get(i).getActivated());
-					lblDiscount.setVisible(true);
-					lblDiscount.setText("You Have %"+discountList.get(i).getPromotion()+" Discount!!");
-					lblDiscount.setStyle("-fx-background-color:#73bce4");
-					discount = discountList.get(i);
-					discountVar = discountList.get(i).getPromotion();
+					if(clubMemberList.get(j).getUserID().equals(LoginFrameController.user.getUserID()))
+					{
+						if(clubMemberList.get(j).getIsNew() == 1)
+						{
+							discountVar = "20";
+							lblDiscount.setVisible(true);
+							lblDiscount.setText("You Have %"+discountVar+" Discount!!");
+							lblDiscount.setStyle("-fx-background-color:#73bce4");
+							flagForNoDoubleDis = 0;
+							
+						}
+					}
 				}
 			}
+			else
+			{
+				for(int i = 0; i < discountList.size(); i++)
+				{
+					if(discountList.get(i).getRegion().equals(region) && discountList.get(i).getActivated().equals("'activate'") )
+					{
+						System.out.println(discountList.get(i).getRegion());
+						System.out.println(discountList.get(i).getActivated());
+						lblDiscount.setVisible(true);
+						lblDiscount.setText("You Have %"+discountList.get(i).getPromotion()+" Discount!!");
+						lblDiscount.setStyle("-fx-background-color:#73bce4");
+						discount = discountList.get(i);
+						discountVar = discountList.get(i).getPromotion();
+					}
+				}
+			}
+		
 		}
 		
 		

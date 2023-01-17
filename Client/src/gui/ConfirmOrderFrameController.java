@@ -125,6 +125,7 @@ public class ConfirmOrderFrameController implements Initializable {
 		}
 		Arrays.sort(arrOrderNums); // sorts the number from small to big
 		orderNum = arrOrderNums[arrOrderNums.length - 1] + 1; // give new number to new order by chronological order
+		System.out.println(orderNum);
 		for (int j = 0; j < OrderFrameController.productsList.size(); j++) { // sets machine name
 			OrderFrameController.productsList.get(j).setMachineName(OrderFrameController.machine);
 		}

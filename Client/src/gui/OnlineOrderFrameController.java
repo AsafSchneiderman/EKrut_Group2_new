@@ -86,7 +86,10 @@ public class OnlineOrderFrameController implements Initializable {
 	public static String city;
 	public static String street;
 	public static String type;
-
+/**
+ * customer wants a pickup order
+ * @param event - click pickup
+ */
 	@FXML
 	void SelectVendingMachine(ActionEvent event) {
 
@@ -114,7 +117,10 @@ public class OnlineOrderFrameController implements Initializable {
 		
 
 	}
-
+/**
+ * customer wants a delivery order
+ * @param event - click delivery
+ */
 	@FXML
 	void SetDeliveryAddress(ActionEvent event) {
 		lblMachine.setVisible(false);
@@ -154,7 +160,10 @@ public class OnlineOrderFrameController implements Initializable {
 		ClientMenuController.clientControl.accept(msg);
 
 	}
-
+/**
+ * the customer chose his order type
+ * @param event - click on continue order
+ */
 	@FXML
 	void continueToOrder(ActionEvent event) {
 		if(type.equals("pickup"))
@@ -176,6 +185,13 @@ public class OnlineOrderFrameController implements Initializable {
 		}
 
 	}
+	
+	/**
+	 * start the ThresholdLevelFrame
+	 * 
+	 * @param primaryStage
+	 * @throws IOException
+	 */
 
 	public void start(Stage customerStage) throws IOException {
 		ClientMenuController.clientStage = customerStage;

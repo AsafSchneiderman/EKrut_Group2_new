@@ -48,7 +48,11 @@ public class CustomerFrameController implements Initializable {
 	private Label lblWelcome;
     @FXML
     private ImageView imgIcon;
-
+    
+/**
+ * if the costumer wants to pick up order
+ * @param event - click on pickup Order
+ */
 	@FXML
 	void pickupOrder(ActionEvent event) {
 
@@ -60,7 +64,10 @@ public class CustomerFrameController implements Initializable {
 		}
 
 	}
-
+/**
+ * if the customer wants to start new local order
+ * @param event - click on start new local order
+ */
 	@FXML
 	void startLocalOrder(ActionEvent event) {
 
@@ -88,6 +95,12 @@ public class CustomerFrameController implements Initializable {
 		ClientMenuController.clientControl.accept(msg);
 
 	}
+	/**
+	 * start the ThresholdLevelFrame
+	 * 
+	 * @param primaryStage
+	 * @throws IOException
+	 */
 
 	public void start(Stage primaryStage) throws IOException {
 		ClientMenuController.clientStage = primaryStage;
