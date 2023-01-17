@@ -58,9 +58,13 @@ public class DeliveryTimerController implements Initializable{
    * */
 	@FXML
     void pressedRecieved(ActionEvent event) {
+		
 		int position = DeliveryWorkerFrameController.pos.get(1);
 		Button b = DeliveryWorkerFrameController.btn1.get(position+1);
 		b.setDisable(false);
+		
+		//close window
+		DeliveryWorkerFrameController.newWindow.hide();
     }
 
 	@Override
@@ -68,14 +72,15 @@ public class DeliveryTimerController implements Initializable{
 		btnReceived.setDisable(true);
 		String userName = (String)ChatClient.msgServer.getMessageData();
 		
-		lblHelloCustomer.setText("Hi"+userName + "your order will arrived in");
+		
+		lblHelloCustomer.setText("Hi "+userName);
 
 		//Setting Background
-		/*BackgroundSize backgroundSize = new BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true,
+		BackgroundSize backgroundSize = new BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true,
 				false);
 		BackgroundImage image = new BackgroundImage(new Image("images/DeliveryTimer.png"), BackgroundRepeat.NO_REPEAT,
-				BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
-		pane.setBackground(new Background(image));*/
+				BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize.DEFAULT);
+		pane.setBackground(new Background(image));
 		
 		
 		Time time = new Time(DeliveryWorkerFrameController.time1.getCurrentTime());

@@ -270,7 +270,6 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
-
 			}
 			case importUsersToRegistrate:
 				String path = resMessage.getMessageData().toString();
