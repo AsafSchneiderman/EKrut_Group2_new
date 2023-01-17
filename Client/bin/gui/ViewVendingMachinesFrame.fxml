@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="pane" prefHeight="450.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ViewVendingMachinesFrameController">
+   <children>
+      <TableView fx:id="tblViewVendingMachines" layoutX="94.0" layoutY="74.0" prefHeight="314.0" prefWidth="613.0">
+         <columns>
+            <TableColumn fx:id="regionCol" prefWidth="129.0" text="Region" />
+            <TableColumn fx:id="locationCol" prefWidth="148.0" text="location" />
+            <TableColumn fx:id="thresholdLevelCol" minWidth="0.0" prefWidth="171.0" text="Threshold Level" />
+            <TableColumn fx:id="statusCol" minWidth="0.0" prefWidth="164.0" text="Status" />
+         </columns>
+      </TableView>
+      <Label layoutX="96.0" layoutY="22.0" text="Vending machines waiting to be restocked:" underline="true">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnBack" layoutX="96.0" layoutY="401.0" mnemonicParsing="false" onAction="#backToPreviousPage" prefHeight="35.0" prefWidth="70.0" text="Back" />
+   </children>
+</AnchorPane>

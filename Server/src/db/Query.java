@@ -505,7 +505,7 @@ public class Query {
     }
     
 
-	/**
+    /**
 	 * add new order to DB
 	 * @param order - new order that made by costumer
 	 * @throws ParseException 
@@ -521,8 +521,8 @@ public class Query {
 							.prepareStatement("INSERT orders (orderNum, orderDate, status, customerID, machineLocation, totPrice, type, productsIDs, productsPrice, QuantityPerProduct, paymentType)"
 									+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 					stmt.setString(1,Integer.toString(order.getOrderNum()));
-					Date date1=new SimpleDateFormat("dd-MM-yyyy").parse(order.getOrderDate());  
-					stmt.setDate(2, (java.sql.Date) date1);
+					//Date date1=new SimpleDateFormat("dd-MM-yyyy").parse(order.getOrderDate());  
+					stmt.setString(2, order.getOrderDate());
 					stmt.setString(3,order.getOrderStatus());
 					stmt.setString(4, order.getCustomerID());
 					stmt.setString(5, order.getVendingMachineLocation());
@@ -1240,6 +1240,36 @@ public class Query {
 		}
 		return count;
 	}
+	/**
+     * get new club members from DB to give them new club member discount
+     * @return clubMemberList - returns List of new club members
+     */
+    public static ArrayList<ClubMember> getNewClubMembers()
+    {
+    	ClubMember clubMember;
+    	ArrayList<ClubMember> clubMemberList = new ArrayList<>();
+    	Statement stmt;
+		try {
+			if (mysqlConnection.conn != null) {
+				stmt = mysqlConnection.conn.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT * FROM newclubmembers");
+				while (rs.next()) {
+
+					clubMember = new ClubMember(rs.getString("userID"), rs.getInt("isNew"));
+					clubMemberList.add(clubMember);
+				}
+				rs.close();
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	
+    	return clubMemberList;
+    	
+    }
 }
 
 
