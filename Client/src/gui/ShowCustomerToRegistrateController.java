@@ -1,5 +1,6 @@
 package gui;
 import java.io.IOException;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -7,7 +8,6 @@ import java.util.ResourceBundle;
 import Entities.ButtonForUsersToSignup;
 import Entities.Message;
 import Entities.MessageType;
-import Entities.Region;
 import Entities.UsersToRegister;
 import Entities.WorkerMessage;
 import controller.ChatClient;
