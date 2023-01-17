@@ -1,13 +1,17 @@
 package gui;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 import Entities.Message;
 import Entities.MessageType;
+import Entities.UsersToRegister;
 import controller.ChatClient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -15,10 +19,19 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
-public class RegistrationRequestDetailsController {
+public class RegistrationRequestDetailsController implements Initializable {
 	private static Message msg; 
+	private String id;
+	public static UsersToRegister user;
+
 
 	 @FXML
 	    private AnchorPane pane;
@@ -104,30 +117,29 @@ public class RegistrationRequestDetailsController {
 			});
 
 			primaryStage.show();
-			this.popUpMessages(); // show new messages
 			
 		}
-		public void popUpMessages() {
-			// popup messages from the DB
-			String message = (String) ChatClient.msgServer.getMessageData();
-			if (!message.equals("")) {
-
-				Alert a = new Alert(AlertType.INFORMATION);
-
-				// set title
-				a.setTitle("EKRUT Messages");
-				// set header text
-				a.setHeaderText("You have new messages");
-
-				// set content text
-				a.setContentText(message);
-
-				// show the dialog
-				Optional<ButtonType> result = a.showAndWait();
-				if (result.get() == ButtonType.OK)
-					// update the messages status of the region manager to read
-					ClientMenuController.clientControl
-							.accept(new Message(MessageType.update_workerMessagesStatus, LoginFrameController.user.getUserID()));
+		@Override
+		public void initialize(URL location, ResourceBundle resources) {
+			// initialize the background image
+			BackgroundSize backgroundSize = new BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true,
+					false);
+			BackgroundImage image = new BackgroundImage(new Image("images/CustomerRegistrationBackground.png"), BackgroundRepeat.NO_REPEAT,
+			BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
+			pane.setBackground(new Background(image));
+            //show user details
+			id=RegistrationRequestsForRegionManagerController.userList.get(CustomerRegistrationController.userNum).getId();//get this specific user id
+			msg=new Message(MessageType.showUserToRegionManager,id);
+			ClientMenuController.clientControl.accept(msg);
+			try {
+				Thread.sleep(1000);
+				System.out.println(ChatClient.msgServer.getMessageData().toString());
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
+		
+		
+		
 }

@@ -630,7 +630,7 @@ public class Query {
     	PreparedStatement stmt;
 		try {
 			if (mysqlConnection.conn != null) {
-				stmt = mysqlConnection.conn.prepareStatement("SELECT * FROM orders WHERE orderNum = ? and status = placed");
+				stmt = mysqlConnection.conn.prepareStatement("SELECT * FROM orders WHERE orderNum = ? and status = 'placed'");
 				stmt.setInt(1, orderNum);
 				
 				ResultSet rs = stmt.executeQuery();
