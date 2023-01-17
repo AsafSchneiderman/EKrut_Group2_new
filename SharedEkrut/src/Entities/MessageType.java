@@ -14,11 +14,14 @@ public enum MessageType {
 	Download_PDF_Report, Change_status_to_delivered_Succ, Order_Done, Show_Histogram, Get_reports, Show_report,
 
 	// deliver
-	GetDeliveryOrder, notAcceptDelivery, AcceptDelivery, doneDelivery, notDoneDelivery, getUserToDelivery,
+	GetDeliveryOrder, notAcceptDelivery, AcceptDelivery, doneDelivery, notDoneDelivery, getUserToDelivery,getUserToDeliveryAndChangeAccept,
 
 	// deliveryTimer
 	setToDone,
 
+	//marketing manager
+	getPromtion, getRegion, setToActivate, setToDeActivate,
+	
 	// vending machines
 	Get_vendingMachines, update_thresholdLevel, update_restockStatusToLowStatus, update_restockStatusToWaitToRestock,update_restockStatusToDone,
 
