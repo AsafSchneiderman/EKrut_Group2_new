@@ -979,7 +979,7 @@ public class Query {
 			if (mysqlConnection.conn != null) {
 				 {
 				stmt = mysqlConnection.conn.prepareStatement
-						("SELECT distinct userName FROM  db_ekrut.orders as o,db_ekrut.users as u where o.orderNum = ? and o.customerID = u.id");
+						("SELECT distinct userName FROM  db_ekrut.orders as o,db_ekrut.users as u where o.orderNum = ? and o.customerID = u.userID");
 				stmt.setString(1, orderId);
 				
 				ResultSet rs = stmt.executeQuery();
