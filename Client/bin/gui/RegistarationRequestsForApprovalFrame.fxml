@@ -5,18 +5,16 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.RegistrationRequestsForRegionManagerController">
    <children>
-      <TableView fx:id="userTable" layoutX="181.0" layoutY="69.0" prefHeight="272.0" prefWidth="422.0">
+      <TableView fx:id="userTable" layoutX="129.0" layoutY="59.0" prefHeight="308.0" prefWidth="561.0">
         <columns>
-          <TableColumn fx:id="userIDCol" prefWidth="127.0" text="User ID" />
-          <TableColumn fx:id="firstNameCol" prefWidth="103.0" text="First Name" />
-            <TableColumn fx:id="lastNameCol" prefWidth="117.0" text="Last Name" />
-            <TableColumn fx:id="buttonsCol" prefWidth="75.0" />
+          <TableColumn fx:id="userIDCol" prefWidth="94.0" text="User ID" />
+          <TableColumn fx:id="firstNameCol" prefWidth="156.0" text="First Name" />
+            <TableColumn fx:id="lastNameCol" prefWidth="172.0" text="Last Name" />
+            <TableColumn fx:id="buttonsCol" prefWidth="138.0" />
         </columns>
       </TableView>
-      <Button fx:id="backBtn" layoutX="129.0" layoutY="382.0" mnemonicParsing="false" onAction="#clickOnBack" text="Back" />
-      <Button fx:id="exitBtn" layoutX="591.0" layoutY="382.0" mnemonicParsing="false" onAction="#clickOnExit" text="Exit" />
+      <Button fx:id="backBtn" layoutX="129.0" layoutY="382.0" mnemonicParsing="false" onAction="#clickOnBack" prefHeight="35.0" prefWidth="70.0" text="Back" />
    </children>
 </AnchorPane>

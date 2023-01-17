@@ -10,7 +10,7 @@ public class ClubMember extends Customer implements Serializable {
 			String role, String email, String phoneNumber, int isLoggedIn, int accountNum, String creditCard,
 			float priceForTheEndOfTheMonth) {
 		super(userID, firstName, lastName, id, phoneNumber, email, userName, password, role, isLoggedIn, accountNum,
-				creditCard);
+				creditCard, creditCard);
 		this.priceForTheEndOfTheMonth = priceForTheEndOfTheMonth;
 	}
 
