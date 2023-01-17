@@ -1,5 +1,6 @@
 package gui;
 import java.io.IOException;
+
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -26,6 +27,8 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
+import javax.swing.JOptionPane;
+
 
 public class CustomerServiceController implements Initializable{
 	public static CustomerServiceController customerService;
@@ -67,6 +70,18 @@ public class CustomerServiceController implements Initializable{
 
 	    @FXML
 	    void clickRegisterNewEmployee(ActionEvent event) {
+	    	String path="C:\\Users\\USER\\Downloads\\workersToRegistrate.csv";//please change to file path 
+			msg = new Message(MessageType.importWorkersToRegister, path);
+			ClientMenuController.clientControl.accept(msg);
+			try {
+				Thread.sleep(1000);
+				System.out.println(ChatClient.msgServer.getMessageData().toString());
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		JOptionPane.showMessageDialog(null, "employees were imported", "notification",JOptionPane.INFORMATION_MESSAGE);
+
 	    }
 	    
 	    @FXML
@@ -140,7 +155,7 @@ public class CustomerServiceController implements Initializable{
 					BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
 			pane.setBackground(new Background(image));
 			
-			//import data from an exteral file 
+			// data from an external file 
 			String path="C:\\Users\\USER\\Downloads\\customersToRegistrate.csv";//please change to file path 
 			msg = new Message(MessageType.importUsersToRegistrate, path);
 			ClientMenuController.clientControl.accept(msg);
@@ -151,6 +166,8 @@ public class CustomerServiceController implements Initializable{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			
 		}
 	 
 

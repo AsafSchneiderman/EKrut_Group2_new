@@ -281,6 +281,15 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
+			case importWorkersToRegister:
+				String pathtoWorker = resMessage.getMessageData().toString();
+				try {
+					Query.fileImportToWorkersRegistration(pathtoWorker);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
 			case registrateClubMember:
 				String idToUpdate=resMessage.getMessageData().toString();
 				boolean result= Query.ChangeRoleToClubMember(idToUpdate);

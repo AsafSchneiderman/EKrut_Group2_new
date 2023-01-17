@@ -1,6 +1,7 @@
 package db;
 
 import java.io.BufferedReader;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
@@ -1112,6 +1113,7 @@ public class Query {
 			if (mysqlConnection.conn != null) {
 				
 				stmt = mysqlConnection.conn.prepareStatement(sql);
+				System.out.println("prepared statement");//*************
 				BufferedReader lineReader=new BufferedReader(new FileReader(path));
 				String lineText=null;
 				int count=0;
@@ -1169,4 +1171,75 @@ public class Query {
 		return false;
 	}
 	
+	public static void fileImportToWorkersRegistration(String path) throws IOException {
+		PreparedStatement stmt;
+		int batchSize=20;
+		String sql="INSERT INTO users(userID,id,firstName,lastName,userName,password,role,email,phoneNumber,isLoggedIn,region) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+		try {
+			if (mysqlConnection.conn != null) {
+				stmt = mysqlConnection.conn.prepareStatement(sql);
+				BufferedReader lineReader=new BufferedReader(new FileReader(path));
+				String lineText=null;
+				int count=0;
+				lineReader.readLine();
+				while((lineText=lineReader.readLine()) != null) {
+					String[] data=lineText.split(",");
+					String id=data[0];
+					String firstName=data[1];
+					String lastName=data[2];
+					String role=data[3];
+					String email=data[4];
+					String phoneNumber=data[5];
+					String region=data[6];
+					
+					stmt.setInt(1, countRowsinUsersTable()+1);
+					stmt.setInt(2, parseInt(id));
+					stmt.setString(3, firstName);
+					stmt.setString(4, lastName);
+					stmt.setString(5, firstName+countRowsinUsersTable());
+					stmt.setString(6, "123456");
+					stmt.setString(7, role);
+					stmt.setString(8, email);
+					stmt.setString(9, phoneNumber);
+					stmt.setInt(10, 0);
+					stmt.setString(11, region);
+					stmt.addBatch();
+					if(count%batchSize==0)
+						stmt.executeBatch();
+					
+				}
+				lineReader.close();
+				stmt.executeBatch();
+				
+				System.out.println("data inserted");
+			}
+		}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		
+	
+
+	}
+
+	public static int countRowsinUsersTable() {
+		PreparedStatement stmt;
+		int count=0;	
+		try {
+			if (mysqlConnection.conn != null) {
+				stmt = mysqlConnection.conn.prepareStatement("SELECT COUNT(*) FROM users");
+				
+				ResultSet rs = stmt.executeQuery();
+				if (rs.next())
+					count = rs.getInt(1);
+				rs.close();
+
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
 }
+
+
