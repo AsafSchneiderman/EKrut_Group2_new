@@ -124,7 +124,7 @@ public class RegistrationRequestDetailsController implements Initializable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			JOptionPane.showMessageDialog(null, "user was imported", "notification",JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "user was deleted", "notification",JOptionPane.INFORMATION_MESSAGE);
 
 			requestsTable=new RegistrationRequestsForRegionManagerController();
 			try {
