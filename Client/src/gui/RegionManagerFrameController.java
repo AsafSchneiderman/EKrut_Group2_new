@@ -33,7 +33,12 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
 
 /**
- * This frame is for region manager worker and he manage the work by his region.
+ * This frame is for region manager worker and he manage the work by his region:
+ * 
+ * 1.Update threshold level
+ * 2.Restock message to worker
+ * 3.View reports
+ * 4.View Registration Requests
  * 
  * @author Nofar Ben Simon
  *

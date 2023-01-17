@@ -2,10 +2,7 @@ package Entities;
 
 import java.io.Serializable;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 
 //import javafx.scene.control.ComboBox;
 
@@ -17,8 +14,6 @@ public class VendingMachine implements Serializable {
 	private String thresholdLevel;
 	private String restockStatus;
 	private Button btnRestock;
-
-	// private ComboBox<String> cmbBoxStatus; ////////////////////////
 
 	/**
 	 * @param region         - the region of the vending machine
@@ -82,38 +77,11 @@ public class VendingMachine implements Serializable {
 	public void buttonInitialize() {
 		this.btnRestock = new Button("Restock");
 	}
+
 	/**
 	 * close the buttons
 	 */
 	public void buttonClose() {
 		this.btnRestock = null;
 	}
-
-//////////////////////////////////
-
-//	public ComboBox<String> getCmbBoxStatus() {
-//		return cmbBoxStatus;
-//	}
-//	public void setCmbBoxStatus(ComboBox<String> cmbBoxStatus) {
-//		this.cmbBoxStatus = cmbBoxStatus;
-//	}
-
-	/**
-	 * Initialize the comboBox with the statusData list
-	 * 
-	 * @param statusData - ("LowStock","WaitToRestock", "Done")
-	 */
-//	public void comboBoxInitialize(ObservableList<String> statusData) {
-//		cmbBoxStatus = new ComboBox<String>(statusData);
-//		cmbBoxStatus.setValue(restockStatus);
-//	}
-
-	/**
-	 * update the restockStatus from the comboBox selected options
-	 */
-//	public void comboBoxUpdateStatus() {
-//		this.restockStatus = cmbBoxStatus.getValue();
-//		cmbBoxStatus = null;
-//	}
-
 }

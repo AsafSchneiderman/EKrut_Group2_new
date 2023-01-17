@@ -26,6 +26,8 @@ import javafx.stage.Stage;
 /**
  * This frame is for CEO worker and he manage the work by all regions.
  * 
+ * 1.View reports
+ * 
  * @author Nofar Ben Simon
  * 
  */

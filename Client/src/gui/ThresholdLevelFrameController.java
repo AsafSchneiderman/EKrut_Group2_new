@@ -116,7 +116,7 @@ public class ThresholdLevelFrameController implements Initializable {
 	 */
 	public void start(Stage primaryStage) throws IOException {
 		ClientMenuController.clientStage = primaryStage;
-		primaryStage.setTitle("Ekrut - Region Manager >> Threshold Level");
+		primaryStage.setTitle("Ekrut - Region Manager >> Menu >> Threshold Level");
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/ThresholdLevelFrame.fxml"));
 		Scene home = new Scene(root);
 		primaryStage.setScene(home);

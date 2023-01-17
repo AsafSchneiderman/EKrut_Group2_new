@@ -11,7 +11,7 @@
          <font>
             <Font name="Arial" size="16.0" />
          </font></Label>
-      <Button fx:id="btnUpdateThresholdLevel" layoutX="189.0" layoutY="102.0" mnemonicParsing="false" onAction="#updateThresholdLevel" prefHeight="50.0" prefWidth="500.0" text="Update threshold level">
+      <Button fx:id="btnUpdateThresholdLevel" layoutX="150.0" layoutY="84.0" mnemonicParsing="false" onAction="#updateThresholdLevel" prefHeight="50.0" prefWidth="500.0" text="Update threshold level">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -20,17 +20,17 @@
          <font>
             <Font size="16.0" />
          </font></Button>
-      <Button fx:id="btnRestockMessage" layoutX="189.0" layoutY="180.0" mnemonicParsing="false" onAction="#restockMessageToWorker" prefHeight="50.0" prefWidth="500.0" text="Restock message to worker">
+      <Button fx:id="btnRestockMessage" layoutX="150.0" layoutY="162.0" mnemonicParsing="false" onAction="#restockMessageToWorker" prefHeight="50.0" prefWidth="500.0" text="Restock message to worker">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="btnViewReports" layoutX="189.0" layoutY="255.0" mnemonicParsing="false" onAction="#viewReports" prefHeight="50.0" prefWidth="500.0" text="View reports">
+      <Button fx:id="btnViewReports" layoutX="150.0" layoutY="237.0" mnemonicParsing="false" onAction="#viewReports" prefHeight="50.0" prefWidth="500.0" text="View reports">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="btnViewRegistrationRequests" layoutX="189.0" layoutY="335.0" mnemonicParsing="false" onAction="#viewRegistrationRequests" prefHeight="50.0" prefWidth="500.0" text="View Registration Requests">
+      <Button fx:id="btnViewRegistrationRequests" layoutX="150.0" layoutY="317.0" mnemonicParsing="false" onAction="#viewRegistrationRequests" prefHeight="50.0" prefWidth="500.0" text="View Registration Requests">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>

@@ -187,24 +187,29 @@ public class UpdateStockFrameController implements Initializable {
 		lblAlert.setStyle("-fx-background-color:#73bce4");
 		ClientMenuController.clientControl.accept(new Message(MessageType.updateProductStock, products));
 
-		// update the restock status to "Done"
+		// update the restock status to "Done" and add message to region manager
 		for (VendingMachine row : vendingMachines)
-			if (row.getLocation().equals(location)) {
+			if (row.getLocation().equals(location) && row.getRestockStatus().equals("WaitToRestock")) {
 				row.setRestockStatus("Done");
+				
+				// find the region manager
+				ClientMenuController.clientControl
+						.accept(new Message(MessageType.get_regionManagerByRegion, LoginFrameController.user.getRegion()));
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				// create message to insert to worker messages
+				WorkerMessage m = new WorkerMessage(0, (String) ChatClient.msgServer.getMessageData(),
+						"The vending machine in " + location + " Done to restock", "notRead");
+				ClientMenuController.clientControl.accept(new Message(MessageType.insert_WorkerMessages, m));
+				//update the restock status to "Done"
 				ClientMenuController.clientControl.accept(new Message(MessageType.update_restockStatusToDone, row));
 			}
-		
-		//find the operation worker
-		ClientMenuController.clientControl.accept(new Message(MessageType.get_regionManagerByRegion, LoginFrameController.user.getRegion()));
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//create message to insert
-		WorkerMessage m = new WorkerMessage(0,(String) ChatClient.msgServer.getMessageData(), "The vending machine in "+location +" Done to restock","notRead");
-		ClientMenuController.clientControl.accept(new Message(MessageType.insert_WorkerMessages, m));
+
 		
 
 	}
@@ -267,7 +272,8 @@ public class UpdateStockFrameController implements Initializable {
 		vendingMachines = (ArrayList<VendingMachine>) ChatClient.msgServer.getMessageData();
 		ObservableList<String> list = FXCollections.observableArrayList(); // initialize the comboBox
 		for (VendingMachine row : vendingMachines)
-			list.add(row.getLocation());
+			if (row.getRegion().equals(LoginFrameController.user.getRegion()))
+				list.add(row.getLocation());
 
 		cmbBoxVendingMachine.setItems(list);
 		cmbBoxVendingMachine.setValue(list.get(0));

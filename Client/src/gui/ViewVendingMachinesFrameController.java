@@ -98,12 +98,10 @@ public class ViewVendingMachinesFrameController implements Initializable {
 		primaryStage.setTitle("Ekrut - Operations Worker >> Menu >> Vending Machines to restock");
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/ViewVendingMachinesFrame.fxml"));
 		Scene home = new Scene(root);
-		//home.getStylesheets().add(getClass().getResource("tableDesign.css").toExternalForm());
+		// home.getStylesheets().add(getClass().getResource("tableDesign.css").toExternalForm());
 		primaryStage.setScene(home);
 		primaryStage.show();
-		
-		
-		
+
 		// On pressing X (close window) the user logout from system and the client is
 		// disconnect from server.
 		primaryStage.setOnCloseRequest(e -> {
@@ -121,7 +119,7 @@ public class ViewVendingMachinesFrameController implements Initializable {
 				e1.printStackTrace();
 			}
 		});
-		
+
 	}
 
 	/**
@@ -148,8 +146,9 @@ public class ViewVendingMachinesFrameController implements Initializable {
 		ObservableList<VendingMachine> tvObservableList = FXCollections.observableArrayList();
 		vendingMachines = (ArrayList<VendingMachine>) ChatClient.msgServer.getMessageData();
 		for (VendingMachine row : vendingMachines) {
-			if (row.getRestockStatus().equals("WaitToRestock"))
-				tvObservableList.add(row);
+			if (row.getRegion().equals(LoginFrameController.user.getRegion()))
+				if (row.getRestockStatus().equals("WaitToRestock"))
+					tvObservableList.add(row);
 		}
 
 		tblViewVendingMachines.setItems(tvObservableList);
