@@ -43,7 +43,7 @@ import java.time.format.DateTimeFormatter;
 public class ConfirmOrderFrameController implements Initializable {
 	public static OrderFrameController toZero = new OrderFrameController();
 	public static Stage clientStage;
-	public static Message msg, msg2, msg3, msg4;
+	public static Message msg, msg2, msg3, msg4, msg5;
 	public static Order order, order2;
 	public static OrderToDeliveryDetails delivery;
 	public static ArrayList<Order> orderList = new ArrayList<Order>();;
@@ -92,11 +92,6 @@ public class ConfirmOrderFrameController implements Initializable {
 	@FXML
 	void cancelOrder(ActionEvent event) {
 
-		/*OrderFrameController.productsList.removeAll(OrderFrameController.productsList);
-		OrderFrameController.tvObservableList.removeAll(tvObservableList);
-		OrderFrameController.cartObservableList.removeAll(cartObservableList);
-		OrderFrameController.counterForProducts = 0;*/
-		//OrderFrameController toZero = new OrderFrameController();
 		toZero.setZero();
 		lblTotalPrice.setText(null);
 
@@ -162,6 +157,9 @@ public class ConfirmOrderFrameController implements Initializable {
 
 			} else // pickup order or local order
 			{
+				
+				msg5 = new Message(MessageType.Get_vendingMachines,"");
+				ClientMenuController.clientControl.accept(msg5); // gets machine list to check threshold level
 				// getting current date
 				long millis = System.currentTimeMillis();
 				date = new java.sql.Date(millis);
@@ -224,6 +222,9 @@ public class ConfirmOrderFrameController implements Initializable {
 				msg4 = new Message(MessageType.addDelivert, delivery);
 				ClientMenuController.clientControl.accept(msg4);
 			} else { // if order is from machine
+				msg5 = new Message(MessageType.Get_vendingMachines,"");
+				ClientMenuController.clientControl.accept(msg5); // gets machine list to check threshold level
+				// gets current date
 				long millis = System.currentTimeMillis();
 				date = new java.sql.Date(millis);
 				formatter = new SimpleDateFormat("MM-dd-yyyy");

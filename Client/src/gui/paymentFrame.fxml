@@ -9,8 +9,8 @@
 
 <AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button fx:id="bntLatePay" layoutX="616.0" layoutY="357.0" mnemonicParsing="false" onAction="#PayLater" text="Pay Later" />
-      <Button fx:id="bntNowPay" layoutX="302.0" layoutY="357.0" mnemonicParsing="false" onAction="#PayNow" text="Pay Now" />
+      <Button fx:id="bntLatePay" layoutX="509.0" layoutY="354.0" mnemonicParsing="false" onAction="#PayLater" prefHeight="31.0" prefWidth="67.0" text="Pay Later" />
+      <Button fx:id="bntNowPay" layoutX="373.0" layoutY="354.0" mnemonicParsing="false" onAction="#PayNow" prefHeight="31.0" prefWidth="67.0" text="Pay Now" />
       <TextField fx:id="txtCreditNum" layoutX="259.0" layoutY="111.0" />
       <TextField fx:id="txtMonth" layoutX="261.0" layoutY="171.0" prefHeight="25.0" prefWidth="41.0" />
       <TextField fx:id="txtCvv" layoutX="261.0" layoutY="240.0" prefHeight="25.0" prefWidth="107.0" />
@@ -26,5 +26,10 @@
             <Font name="Arial" size="16.0" />
          </font>
       </Label>
+      <Button fx:id="btnCancelOrder" layoutX="179.0" layoutY="354.0" mnemonicParsing="false" onAction="#cancelOrder" style="-fx-background-color: red;" text="Cancel Order">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

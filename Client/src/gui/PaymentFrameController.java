@@ -27,6 +27,7 @@ import javafx.stage.Stage;
 
 public class PaymentFrameController implements Initializable {
 	public static Message msg;
+	public static OrderFrameController toZero = new OrderFrameController();
     @FXML
     private Label lblWelcome;
 
@@ -53,6 +54,8 @@ public class PaymentFrameController implements Initializable {
 
     @FXML
     private ImageView imgPic;
+    @FXML
+    private Button btnCancelOrder;
 
     @FXML
     void PayLater(ActionEvent event) {
@@ -66,7 +69,19 @@ public class PaymentFrameController implements Initializable {
     void PayNow(ActionEvent event) {
     	msg = new Message(,"now");
     	ClientMenuController.clientControl.accept(msg);
-    	txtCreditNum.setText(LoginFrameController.user.get);
+    	
+
+    }
+    
+    @FXML
+    void cancelOrder(ActionEvent event) {
+    	
+    	toZero.setZero();
+
+		ClientMenuController.clientStage.setScene(LoginFrameController.home);
+		// Logout
+		msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
+		ClientMenuController.clientControl.accept(msg);
 
     }
     
@@ -103,6 +118,8 @@ public class PaymentFrameController implements Initializable {
 				{
 					bntLatePay.setVisible(false);
 				}
+				msg = Message(,)
+				txtCreditNum.setText(LoginFrameController.user.get);
 		
 		
 	}
