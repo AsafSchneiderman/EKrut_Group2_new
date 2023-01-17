@@ -2,7 +2,7 @@ package Entities;
 
 public enum MessageType {
 	// server messages
-	Updated_successfully, show_orders_successfull, login, logout, disconnected, connected, Already_Logged_In,
+    login, logout, disconnected, connected, Already_Logged_In,
 	Login_Wrong_Input, Add_product_succ, Add_product_fail, Customer_list, Customer_list_update_Succ,
 	Customer_registration_approved, Customer_registration_not_approved, Show_products_succ, download_report_pdf_succ,
 	get_recipt, Orders_list, order_approved, showUsersToRegister, showUserDetails, insertCreditCardAndRegion,
