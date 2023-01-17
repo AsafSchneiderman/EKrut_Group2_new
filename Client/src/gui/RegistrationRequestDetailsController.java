@@ -84,6 +84,15 @@ public class RegistrationRequestDetailsController implements Initializable {
 			}
 			JOptionPane.showMessageDialog(null, "user was imported", "notification",JOptionPane.INFORMATION_MESSAGE);
 			
+			msg=new Message(MessageType.deleteRow,user.getId());
+			ClientMenuController.clientControl.accept(msg);
+			try {
+				Thread.sleep(1000);
+				System.out.println(ChatClient.msgServer.getMessageData());
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	    }
 
 	    @FXML

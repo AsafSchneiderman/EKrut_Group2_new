@@ -1230,7 +1230,10 @@ public class Query {
 	
 
 	}
-
+/**
+ * 
+ * @return the number of rows in the user table dataBase
+ */
 	public static int countRowsinUsersTable() {
 		PreparedStatement stmt;
 		int count=0;	
@@ -1302,7 +1305,11 @@ public class Query {
 			e.printStackTrace();
 		}
     }
-    
+    /**
+     * 
+     * @param user
+     * inserts the given user to the user table database
+     */
     public static void insertIntoUsers(UsersToRegister user) {
 		PreparedStatement stmt;
 		String sql="INSERT INTO users(userID,id,firstName,lastName,userName,password,role,email,phoneNumber,isLoggedIn,region, creditCard) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -1331,6 +1338,22 @@ public class Query {
 		}
 		
 	}
+    
+    public static void deleteRow(String id) {
+    	PreparedStatement stmt;
+    	try {
+			if (mysqlConnection.conn != null) {
+				
+					stmt = mysqlConnection.conn
+							.prepareStatement("DELETE FROM userstosignup WHERE id = ?");
+					stmt.setString(1, id);
+					stmt.addBatch();
+					stmt.executeBatch();
+			}
+    	}catch (SQLException e) {
+			e.printStackTrace();
+		}
+    }
 
 		
   }

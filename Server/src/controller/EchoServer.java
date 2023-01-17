@@ -379,6 +379,10 @@ public class EchoServer extends AbstractServer {
 				UsersToRegister userToRegister= (UsersToRegister) resMessage.getMessageData();
 				Query.insertIntoUsers(userToRegister);
 				break;
+			case deleteRow:
+				String userToDelete= (String) resMessage.getMessageData();
+				Query.deleteRow(userToDelete);
+				break;
 			default:
 				break;
 			} // end of case
