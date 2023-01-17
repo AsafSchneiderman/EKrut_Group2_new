@@ -1,10 +1,12 @@
 package gui;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import Entities.Message;
 import Entities.MessageType;
+import Entities.UsersToRegister;
 import controller.ChatClient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,6 +28,7 @@ import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 public class RegistrateClubMemberController implements Initializable{
 	private static Message msg; // message to send to server
+	public static CustomerServiceController customerService;
 
 	@FXML
     private AnchorPane pane;
@@ -44,6 +47,7 @@ public class RegistrateClubMemberController implements Initializable{
 
     @FXML
     void clickBecomeClubMemebr(ActionEvent event) {
+    	boolean result;
     	String id=idTxt.getText();
     	if(id.trim().isEmpty())
     		lblAlert.setText("Fill in ID");
@@ -53,13 +57,26 @@ public class RegistrateClubMemberController implements Initializable{
     		try {
     			Thread.sleep(1000);
     			System.out.println(ChatClient.msgServer.getMessageData().toString());
-    			JOptionPane.showMessageDialog(null, "Thank you, an email has been sent to the client", "notification",JOptionPane.INFORMATION_MESSAGE);
+    			
     		} catch (InterruptedException e) {
     			// TODO Auto-generated catch block
     			e.printStackTrace();
-    			lblAlert.setText("No such client");
-    		}
     	}
+    	result=(boolean) ChatClient.msgServer.getMessageData();
+    	if (result) {
+    		JOptionPane.showMessageDialog(null, "Thank you, an email has been sent to the client", "notification",JOptionPane.INFORMATION_MESSAGE);
+    		customerService = new CustomerServiceController();
+    		try {
+    			customerService.start(ClientMenuController.clientStage);
+    		} catch (IOException e) {
+
+    			e.printStackTrace();
+    		}//  send t
+    	}
+    	else
+    		lblAlert.setText("No such customer");
+    		
+    }
     }
 
     @FXML

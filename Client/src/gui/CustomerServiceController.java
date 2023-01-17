@@ -100,32 +100,6 @@ public class CustomerServiceController implements Initializable{
 		    } //send to UI*/	
 	    }
 	    
-	    /**
-		 * PopUp the messages of the region manager from the DB
-		 */
-		public void popUpMessages() {
-			// popup messages from the DB
-			String message = (String) ChatClient.msgServer.getMessageData();
-			if (!message.equals("")) {
-
-				Alert a = new Alert(AlertType.INFORMATION);
-
-				// set title
-				a.setTitle("EKRUT Messages");
-				// set header text
-				a.setHeaderText("You have new messages");
-
-				// set content text
-				a.setContentText(message);
-
-				// show the dialog
-				Optional<ButtonType> result = a.showAndWait();
-				if (result.get() == ButtonType.OK)
-					// update the messages status of the region manager to read
-					ClientMenuController.clientControl
-							.accept(new Message(MessageType.update_workerMessagesStatus, LoginFrameController.user.getUserID()));
-			}
-		}
 
 
 		public void start(Stage primaryStage) throws IOException {
@@ -160,9 +134,8 @@ public class CustomerServiceController implements Initializable{
 
 			});
 
-			primaryStage.show();
-			this.popUpMessages(); // show new messages
-		}
+			primaryStage.show();}
+		
 
 		@Override
 		public void initialize(URL location, ResourceBundle resources) {

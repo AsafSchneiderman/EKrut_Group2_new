@@ -283,7 +283,13 @@ public class EchoServer extends AbstractServer {
 				break;
 			case registrateClubMember:
 				String idToUpdate=resMessage.getMessageData().toString();
-				Query.ChangeRoleToClubMember(idToUpdate);
+				boolean result= Query.ChangeRoleToClubMember(idToUpdate);
+				try {
+					client.sendToClient(new Message(MessageType.registrateClubMember, (boolean) result));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				break;
 			case getPromtion:
 				try {

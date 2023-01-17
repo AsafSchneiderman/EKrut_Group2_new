@@ -1097,6 +1097,12 @@ public class Query {
 
 		return listOfUsersToRegister;
 	}
+	/**
+	 * 
+	 * @param path
+	 * @throws IOException
+	 * imports a file to the userdtosignup table in the database
+	 */
 	
 	public static void fileImportToCustomerRegistration(String path) throws IOException {
 		PreparedStatement stmt;
@@ -1142,16 +1148,17 @@ public class Query {
 	 * changes the client to club member if he exists **/
 	
 	
-	public static void ChangeRoleToClubMember(String id) {
+	public static boolean ChangeRoleToClubMember(String id) {
 		PreparedStatement stmt;
 		try {
 			if (mysqlConnection.conn != null) {
 				 {
-				stmt = mysqlConnection.conn.prepareStatement("UPDATE user SET role = 'ClubMember' where (id = ? AND role='Customer')");
+				stmt = mysqlConnection.conn.prepareStatement("UPDATE users SET role = 'ClubMember' where (id = ? AND role='Customer')");
 				stmt.setString(1, id);
 				
 				
 				stmt.executeUpdate();
+				return true;
 				}
 			} else {
 				System.out.println("Conn is null");
@@ -1159,7 +1166,7 @@ public class Query {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+		return false;
 	}
 	
 }
