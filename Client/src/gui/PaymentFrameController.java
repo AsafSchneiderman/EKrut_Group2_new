@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.Label;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -13,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -148,11 +148,11 @@ public class PaymentFrameController implements Initializable {
 				imgPic.setImage(Icone);
 				imgPic.setFitWidth(80);
 				imgPic.setFitHeight(80);
-				msg = new Message(MessageType.getCard,"");
+				msg = new Message(MessageType.getCard,LoginFrameController.user.getUserID());
 				ClientMenuController.clientControl.accept(msg);
 				try {
 					Thread.sleep(1000); // wait for answer from server
-					System.out.println(ChatClient.msgServer.getMessageData().toString());
+					
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

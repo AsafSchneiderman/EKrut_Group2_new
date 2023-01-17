@@ -327,7 +327,7 @@ public class EchoServer extends AbstractServer {
 			}
 			case getCard: // get credit cart from users
 			{
-				String card = Query.getCreditCard(); 
+				String card = Query.getCreditCard((String) resMessage.getMessageData()); 
 				try {
 					client.sendToClient(new Message(MessageType.getCard, (Object) card));
 				} catch (IOException e) {
