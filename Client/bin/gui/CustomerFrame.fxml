@@ -8,14 +8,20 @@
 
 <AnchorPane fx:id="pane" prefHeight="450.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CustomerFrameController">
    <children>
-      <Button fx:id="btnExit" layoutX="228.0" layoutY="333.0" mnemonicParsing="false" onAction="#exitProg" text="Exit" textFill="#ee0303" />
-      <Button fx:id="bntLocalOrder" layoutX="400.0" layoutY="175.0" mnemonicParsing="false" onAction="#startLocalOrder" prefHeight="25.0" prefWidth="139.0" text="Start new local order" />
-      <Button fx:id="bntPickupOrder" layoutX="400.0" layoutY="236.0" mnemonicParsing="false" onAction="#pickupOrder" prefHeight="25.0" prefWidth="139.0" text="Pickup order" />
-      <Label fx:id="lblWelcome" layoutX="573.0" layoutY="14.0" text="Welcome" textFill="#e10000">
+      <Button fx:id="btnExit" layoutX="683.0" layoutY="384.0" mnemonicParsing="false" onAction="#exitProg" prefHeight="35.0" prefWidth="70.0" text="Exit" textFill="#ee0303" />
+      <Button fx:id="bntLocalOrder" layoutX="264.0" layoutY="121.0" mnemonicParsing="false" onAction="#startLocalOrder" prefHeight="60.0" prefWidth="222.0" text="Start new local order">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font></Button>
+      <Button fx:id="bntPickupOrder" layoutX="264.0" layoutY="225.0" mnemonicParsing="false" onAction="#pickupOrder" prefHeight="60.0" prefWidth="222.0" text="Pickup order">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font></Button>
+      <Label fx:id="lblWelcome" layoutX="109.0" layoutY="23.0" text="Welcome" textFill="#e10000">
          <font>
             <Font name="Arial" size="16.0" />
          </font>
       </Label>
-      <ImageView fx:id="imgIcon" fitHeight="150.0" fitWidth="200.0" layoutX="573.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imgIcon" fitHeight="150.0" fitWidth="200.0" layoutX="525.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

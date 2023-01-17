@@ -9,66 +9,69 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="pane" prefHeight="513.0" prefWidth="891.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.OrderFrameController">
+<AnchorPane fx:id="pane" prefHeight="450.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.OrderFrameController">
    <children>
-      <Button fx:id="btnCheckOutOrder" layoutX="603.0" layoutY="439.0" mnemonicParsing="false" onAction="#checkOutOrder" style="-fx-background-color: green;" text="Get Order">
+      <Button fx:id="btnCheckOutOrder" layoutX="695.0" layoutY="414.0" mnemonicParsing="false" onAction="#checkOutOrder" style="-fx-background-color: green;" text="Get Order" textFill="#8be84d">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Button>
-      <Label layoutX="729.0" layoutY="441.0" text="Total:">
+      <Label layoutX="479.0" layoutY="414.0" text="Total Price:" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="lblTotalPrice" layoutX="786.0" layoutY="442.0" text="price $$$">
+      <Label fx:id="lblTotalPrice" layoutX="580.0" layoutY="416.0" prefHeight="27.0" prefWidth="53.0" text="0.0$" textFill="WHITE">
          <font>
-            <Font size="16.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="493.0" layoutY="80.0" text="Cart:">
+      <Label layoutX="567.0" layoutY="10.0" text="My Cart:" textFill="WHITE" underline="true">
          <font>
-            <Font name="System Italic" size="20.0" />
+            <Font name="System Bold Italic" size="20.0" />
          </font>
       </Label>
-      <Button fx:id="btnCancelOrder" layoutX="437.0" layoutY="439.0" mnemonicParsing="false" onAction="#cancelOrder" style="-fx-background-color: red;" text="Cancel Order">
+      <Button fx:id="btnCancelOrder" layoutX="66.0" layoutY="414.0" mnemonicParsing="false" onAction="#cancelOrder" style="-fx-background-color: red;" text="Cancel Order">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Button>
-      <TableView fx:id="tblProducts" layoutX="95.0" layoutY="121.0" prefHeight="314.0" prefWidth="368.0">
+      <TableView fx:id="tblProducts" layoutX="66.0" layoutY="50.0" prefHeight="359.0" prefWidth="327.0">
         <columns>
-          <TableColumn fx:id="colProductImg" prefWidth="92.0" />
-          <TableColumn fx:id="colNameOfProduct" minWidth="0.0" prefWidth="111.0" text="Product" />
-            <TableColumn fx:id="colPriceOfProduct" prefWidth="62.0" text="Price" />
-            <TableColumn fx:id="bntColAddCart" prefWidth="102.0" />
+          <TableColumn fx:id="colProductImg" prefWidth="52.0" />
+          <TableColumn fx:id="colNameOfProduct" minWidth="0.0" prefWidth="124.0" text="Product" />
+            <TableColumn fx:id="colPriceOfProduct" prefWidth="46.0" text="Price" />
+            <TableColumn fx:id="bntColAddCart" minWidth="0.0" prefWidth="104.0" />
         </columns>
       </TableView>
-      <TableView fx:id="tblCart" layoutX="470.0" layoutY="121.0" prefHeight="314.0" prefWidth="407.0">
+      <TableView fx:id="tblCart" layoutX="394.0" layoutY="50.0" prefHeight="359.0" prefWidth="391.0">
         <columns>
-          <TableColumn fx:id="imgSelectedProdCol" prefWidth="82.0" />
-          <TableColumn fx:id="colProductInCart" prefWidth="117.0" text="Products" />
-            <TableColumn fx:id="addProdBntCol" prefWidth="40.0" />
-            <TableColumn fx:id="colQuantityInCart" prefWidth="63.0" text="Quantity" />
-            <TableColumn fx:id="subProdBntCol" minWidth="0.0" prefWidth="40.0" />
-            <TableColumn fx:id="priceSelProdCol" prefWidth="64.0" text="Price" />
+          <TableColumn fx:id="imgSelectedProdCol" prefWidth="54.0" />
+          <TableColumn fx:id="colProductInCart" prefWidth="138.0" text="Products" />
+            <TableColumn fx:id="addProdBntCol" minWidth="0.0" prefWidth="32.0" />
+            <TableColumn fx:id="colQuantityInCart" prefWidth="83.0" text="Quantity" />
+            <TableColumn fx:id="subProdBntCol" minWidth="0.0" prefWidth="33.0" />
+            <TableColumn fx:id="priceSelProdCol" prefWidth="51.0" text="Price" />
         </columns>
       </TableView>
-      <ImageView fx:id="imgForIcon" fitHeight="45.0" fitWidth="49.0" layoutX="437.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true" />
-      <Label fx:id="stockAlert" layoutX="26.0" layoutY="459.0" prefHeight="27.0" prefWidth="133.0" text="Out Of Stock!" textFill="#d01010">
+      <ImageView fx:id="imgForIcon" fitHeight="31.0" fitWidth="40.0" layoutX="505.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="stockAlert" layoutX="243.0" layoutY="414.0" prefHeight="27.0" prefWidth="133.0" text="Out Of Stock!" textFill="#d01010">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Text fx:id="txtTimer" layoutX="159.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-      <Label fx:id="lblWelcome" layoutX="428.0" layoutY="44.0" text="Welcome" textFill="#e10000">
+      <Text fx:id="txtTimer" fill="#a5ecff" layoutX="698.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font></Text>
+      <Label fx:id="lblWelcome" layoutX="91.0" layoutY="7.0" text="Welcome" textFill="#e10000">
          <font>
             <Font name="Arial" size="16.0" />
          </font>
       </Label>
-      <Label fx:id="lblDiscount" layoutX="103.0" layoutY="97.0" text="Label" textFill="#830000">
+      <Label fx:id="lblDiscount" layoutX="271.0" layoutY="25.0" prefHeight="25.0" prefWidth="181.0" text="Label" textAlignment="CENTER" textFill="#830000">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="16.0" />
          </font>
       </Label>
    </children>
