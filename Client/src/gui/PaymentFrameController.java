@@ -133,6 +133,8 @@ public class PaymentFrameController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
+		bntLatePay.setVisible(false);
+		
 		// initialize the background image and pic
 				BackgroundSize backgroundSize = new BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true,
 						false);
@@ -140,9 +142,9 @@ public class PaymentFrameController implements Initializable {
 						BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
 				pane.setBackground(new Background(image));
 				lblWelcome.setText("Welcome " + LoginFrameController.user.getFirstName() + " " + LoginFrameController.user.getLastName());
-				if(LoginFrameController.user.getRole().equals("costumer"))
+				if(LoginFrameController.user.getRole().equals("ClubMember"))
 				{
-					bntLatePay.setVisible(false);
+					bntLatePay.setVisible(true);
 				}
 				Image Icone = new Image("images/paying.png");
 				imgPic.setImage(Icone);

@@ -18,7 +18,10 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="lblOrderID" layoutX="452.0" layoutY="215.0" text="order ID " />
+      <Label fx:id="lblOrderID" layoutX="445.0" layoutY="212.0" text="order ID ">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font></Label>
       <Button fx:id="btnClose" layoutX="358.0" layoutY="272.0" mnemonicParsing="false" onAction="#close" prefHeight="35.0" prefWidth="70.0" text="Close" />
       <Label fx:id="lblWelcome" layoutX="113.0" layoutY="26.0" text="Welcome" textFill="#e10000">
          <font>

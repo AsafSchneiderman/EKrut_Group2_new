@@ -1,7 +1,6 @@
 package gui;
 
-import java.awt.Label;
-import java.awt.TextField;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -18,6 +17,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
@@ -72,7 +73,6 @@ public class pickupFrameController implements Initializable {
     	ClientMenuController.clientControl.accept(msg1);
     	try {
 			Thread.sleep(1000);
-			System.out.println(ChatClient.msgServer.getMessageData().toString());
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -81,7 +81,7 @@ public class pickupFrameController implements Initializable {
     	if(res.equals("pickupOrder"))
     	{
     		msg2 = new Message(MessageType.updatePickupStatus,orderNum );
-    		
+    		ClientMenuController.clientControl.accept(msg2);
     		endFrameController ending = new endFrameController();
     		try {
     			ending.start(ClientMenuController.clientStage);

@@ -18,9 +18,9 @@
             <Font size="16.0" />
          </font></Button>
       <TextField fx:id="txtCreditNum" layoutX="280.0" layoutY="167.0" />
-      <TextField fx:id="txtMonth" layoutX="282.0" layoutY="227.0" prefHeight="31.0" prefWidth="51.0" />
-      <TextField fx:id="txtCvv" layoutX="281.0" layoutY="282.0" prefHeight="25.0" prefWidth="107.0" />
-      <TextField fx:id="txtYear" layoutX="370.0" layoutY="227.0" prefHeight="31.0" prefWidth="57.0" />
+      <TextField fx:id="txtMonth" layoutX="282.0" layoutY="227.0" prefHeight="31.0" prefWidth="51.0" text="12" />
+      <TextField fx:id="txtCvv" layoutX="281.0" layoutY="282.0" prefHeight="25.0" prefWidth="107.0" text="333" />
+      <TextField fx:id="txtYear" layoutX="370.0" layoutY="227.0" prefHeight="31.0" prefWidth="57.0" text="26" />
       <Label layoutX="146.0" layoutY="171.0" text="Card Number:">
          <font>
             <Font name="System Bold" size="18.0" />
