@@ -52,12 +52,13 @@ public class OrderFrameController implements Initializable {
 	Product product;
 	public static PromotionSells discount;
 	public static ArrayList<PromotionSells> discountList = new ArrayList<>();
+	public static ArrayList<ClubMember> clubMemberList = new ArrayList<>();
 	public static float totPrice;
 	public static ArrayList<Product> productsList = new ArrayList<>();
 	public static CustomerFrameController customerFrame;
 	public static Stage clientStage;
 	public static ConfirmOrderFrameController confirmOrderFrame;
-	public static Message msg, msg2;
+	public static Message msg, msg2, msg3;
 	public static ObservableList<ProductForOrder> ProductsObservableList = FXCollections.observableArrayList();
 	public static ObservableList<OrderProductsForTbl> cartObservableList = FXCollections.observableArrayList();
 	// public static ObservableList<String>tempForProducts;
@@ -211,6 +212,20 @@ public class OrderFrameController implements Initializable {
 			}
 			System.out.println(ChatClient.msgServer.getMessageData());
 			discountList = (ArrayList<PromotionSells>) ChatClient.msgServer.getMessageData();
+			
+			msg3 = new Message(MessageType.showNewClubMebers,"");
+			ClientMenuController.clientControl.accept(msg2);
+			try {
+				Thread.sleep(1000);
+				System.out.println(ChatClient.msgServer.getMessageData().toString());
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			clubMemberList = (ArrayList<ClubMember>) ChatClient.msgServer.getMessageData();
+			
+			
+			
 			for(int i = 0; i < discountList.size(); i++)
 			{
 				if(discountList.get(i).getRegion().equals(region) && discountList.get(i).getActivated().equals("'activate'") )

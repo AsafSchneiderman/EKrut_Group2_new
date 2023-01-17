@@ -356,6 +356,18 @@ public class EchoServer extends AbstractServer {
 				}
 				break;
 			}
+			case showNewClubMebers: // gets list of new club members
+			{
+				ArrayList<ClubMember> clubMemberList = new ArrayList<>();
+				clubMemberList = Query.getNewClubMembers();
+				try {
+					client.sendToClient(new Message(MessageType.showNewClubMebers, (Object) clubMemberList));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+			}
 			default:
 				break;
 			} // end of case
