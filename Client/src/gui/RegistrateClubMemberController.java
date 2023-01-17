@@ -65,6 +65,16 @@ public class RegistrateClubMemberController implements Initializable{
     	result=(boolean) ChatClient.msgServer.getMessageData();
     	if (result) {
     		JOptionPane.showMessageDialog(null, "Thank you, an email has been sent to the client", "notification",JOptionPane.INFORMATION_MESSAGE);
+    		msg = new Message(MessageType.insertToNewClubMember, id);
+    		ClientMenuController.clientControl.accept(msg);
+    		try {
+    			Thread.sleep(1000);
+    			System.out.println(ChatClient.msgServer.getMessageData().toString());
+    			
+    		} catch (InterruptedException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    	}
     		customerService = new CustomerServiceController();
     		try {
     			customerService.start(ClientMenuController.clientStage);

@@ -752,14 +752,12 @@ public class Query {
 		 * 
 		 * @param  msg - the messages of the worker
 		 */
-		public static void insertWorkerMessages(WorkerMessage msg) {	////////////////////////////////////////////////
+		public static void insertWorkerMessages(WorkerMessage msg) {	
 			PreparedStatement stmt;
 			int id=0;	
 			try {
 				if (mysqlConnection.conn != null) {
 					stmt = mysqlConnection.conn.prepareStatement("SELECT COUNT(*) FROM workermessages");
-					//stmt.setString(1, workerID);
-					//stmt.setString(2, "notRead");
 					ResultSet rs = stmt.executeQuery();
 					if (rs.next())
 						id = rs.getInt(1);
@@ -1058,7 +1056,11 @@ public class Query {
 		}
 		return user;
 	}
-	
+	/**
+	 * 
+	 * @param data
+	 * insert to the db the credit card and the region that the customer service worker added
+	 */
 	public static void insertCreditCardAndRegion(String data) {
 		PreparedStatement stmt;
 		String splitData[]= new String[3];
@@ -1080,7 +1082,11 @@ public class Query {
 		}
 		
 	}
-	
+	/**
+	 * 
+	 * @param region
+	 * @return show users that want to register from the region of the region manager
+	 */
 	public static ArrayList<UsersToRegister> getRegistrationRequests(String region) {
 		UsersToRegister usersToRegister;
 		ArrayList<UsersToRegister> listOfUsersToRegister = new ArrayList<>();
@@ -1180,7 +1186,9 @@ public class Query {
 		}
 		return false;
 	}
-	
+	/**
+	 * importing from excel workers into users table 
+	 */
 	public static void fileImportToWorkersRegistration(String path) throws IOException {
 		PreparedStatement stmt;
 		int batchSize=20;
@@ -1338,7 +1346,11 @@ public class Query {
 		}
 		
 	}
-    
+    /**
+     * 
+     * @param id 
+     * deleting this row from userstosignup table
+     */
     public static void deleteRow(String id) {
     	PreparedStatement stmt;
     	try {
@@ -1354,7 +1366,26 @@ public class Query {
 			e.printStackTrace();
 		}
     }
-
+    /**
+     * 
+     * @param id
+     * insert the newly registered club member into the newClubMember table so he'll get his discount
+     */
+    public static void insertIntoNewClubMember(String id){
+    	PreparedStatement stmt;
+    	try {
+			if (mysqlConnection.conn != null) {
+				
+					stmt = mysqlConnection.conn
+							.prepareStatement("INSERT INTO newclubmembers(isNew,userID) VALUES (1,?) ");
+					stmt.setString(1, id);
+					stmt.addBatch();
+					stmt.executeBatch();
+			}
+    	}catch (SQLException e) {
+			e.printStackTrace();
+		}
+    }
 		
   }
 

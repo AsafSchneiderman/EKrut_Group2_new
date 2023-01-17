@@ -383,6 +383,10 @@ public class EchoServer extends AbstractServer {
 				String userToDelete= (String) resMessage.getMessageData();
 				Query.deleteRow(userToDelete);
 				break;
+			case insertToNewClubMember:
+				String userToInsert= (String) resMessage.getMessageData();
+				Query.insertIntoNewClubMember(userToInsert);
+				break;
 			default:
 				break;
 			} // end of case

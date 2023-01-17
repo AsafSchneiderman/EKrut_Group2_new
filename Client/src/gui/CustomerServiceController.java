@@ -71,7 +71,7 @@ public class CustomerServiceController implements Initializable{
 
 	    @FXML
 	    void clickRegisterNewEmployee(ActionEvent event) {
-	    	String path="C:\\Users\\USER\\Downloads\\workersToRegistrate.csv";//please change to file path 
+	    	String path="C:\\workersToRegistrate.csv";//please change to file path 
 			msg = new Message(MessageType.importWorkersToRegister, path);
 			ClientMenuController.clientControl.accept(msg);
 			try {
@@ -157,7 +157,7 @@ public class CustomerServiceController implements Initializable{
 			pane.setBackground(new Background(image));
 			
 			// data from an external file 
-			String path="C:\\Users\\USER\\Downloads\\customersToRegistrate.csv";//please change to file path 
+			String path="C:\\customersToRegistrate.csv";//please change to file path 
 			msg = new Message(MessageType.importUsersToRegistrate, path);
 			ClientMenuController.clientControl.accept(msg);
 			try {
