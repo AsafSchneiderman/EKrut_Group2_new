@@ -26,6 +26,13 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -43,8 +50,13 @@ public class DeliveryWorkerFrameController implements Initializable {
 	public static ArrayList<Button> btn2 = new ArrayList<>(); // accept
 	public static HashMap<Integer, Integer> pos = new HashMap<>(); // position of accept button was clicked.
 	public static String userNameForLabel;
+	static Stage newWindow;
+
 	@FXML
 	private TableColumn<OrderToDeliveryDetails, String> CustomerRecivedOrderCol;
+
+	@FXML
+	private AnchorPane pane;
 
 	@FXML
 	private TableColumn<OrderToDeliveryDetails, String> addrCol;
@@ -69,26 +81,47 @@ public class DeliveryWorkerFrameController implements Initializable {
 
 	@FXML
 	void exit(ActionEvent event) {
-		ClientMenuController.clientStage.setScene(LoginFrameController.home);
-		// Logout
-		msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
-		ClientMenuController.clientControl.accept(msg);
+		btn1 = new ArrayList<>();
+		btn2 = new ArrayList<>();
+		pos = new HashMap<>();
+
+		// back to menu
+		DeliveryWorkerMenuController deliver = new DeliveryWorkerMenuController();
+		try {
+			deliver.start(ClientMenuController.clientStage);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	public void start(Stage primaryStage) throws IOException {
 		ClientMenuController.clientStage = primaryStage;
+		primaryStage.setTitle("Ekrut - Delivery Worker >> Menu >> Delivery");
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/DeliveryWorkerFrame.fxml"));
 		Scene home = new Scene(root);
 		primaryStage.setScene(home);
 
 		// On pressing X (close window) the user logout from system and the client is
-		// disconnect from server.
-		primaryStage.setOnCloseRequest(e -> {
-			msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
-			ClientMenuController.clientControl.accept(msg);
-			ClientMenuController.clientControl
-					.accept(new Message(MessageType.disconnected, LoginFrameController.user.getUserName()));
-		});
+				// disconnect from server.
+				primaryStage.setOnCloseRequest(e -> {
+					msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
+					ClientMenuController.clientControl.accept(msg);
+					ClientMenuController.clientControl
+							.accept(new Message(MessageType.disconnected, LoginFrameController.user.getUserName()));
+					// create a PopUp message
+					PopUpMessageFrameController popUpMsgController = new PopUpMessageFrameController();
+
+					try {
+						popUpMsgController.start(ClientMenuController.clientStage);
+						popUpMsgController.closeMsg(3000);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
+				});
 		primaryStage.show();
 	}
 
@@ -98,15 +131,23 @@ public class DeliveryWorkerFrameController implements Initializable {
 	 * @param received button was clicked by user
 	 * 
 	 */
-	public void pressedDone(ActionEvent event) {
+	public void pressedDone(ActionEvent event, Button btn) {
+
 		// changed deliver screen at button "Done" to setDisable false
+		
+		btn.setDisable(true);
 		msg = new Message(MessageType.setToDone, DeliveryWorkerFrameController.time1.getOrderId());
 		ClientMenuController.clientControl.accept((Object) msg);
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
+		// initialize the background image
+		BackgroundSize backgroundSize = new BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true,
+				false);
+		BackgroundImage image = new BackgroundImage(new Image("images/DeliveryWorkerFrame.png"),
+				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
+		pane.setBackground(new Background(image));
 		// initialize the Welcome label to welcome and the full name of the user
 		welcomeWorkerLbl.setText(
 				"Welcome " + LoginFrameController.user.getFirstName() + " " + LoginFrameController.user.getLastName());
@@ -116,7 +157,7 @@ public class DeliveryWorkerFrameController implements Initializable {
 		addrCol.setCellValueFactory(new PropertyValueFactory<OrderToDeliveryDetails, String>("addressToDelivey"));
 		dateCol.setCellValueFactory(new PropertyValueFactory<OrderToDeliveryDetails, String>("date"));
 
-		// need to create button for delivery received order and customer received
+		// Create button for delivery received order and customer received
 		// order.
 		deliveryRecievedDeliveryCol
 				.setCellValueFactory(new PropertyValueFactory<OrderToDeliveryDetails, String>("btnDeliverAccept"));
@@ -142,13 +183,17 @@ public class DeliveryWorkerFrameController implements Initializable {
 									setGraphic(null);
 									setText(null);
 								} else {
+									OrderToDeliveryDetails orderDetail = getTableView().getItems().get(getIndex());
+									if (orderDetail.getAccept().equals("accept"))
+										btn.setDisable(true);
+									else
+										btn.setDisable(false);
+
 									btn.setOnAction(event -> {
-										OrderToDeliveryDetails orderDetail = getTableView().getItems().get(getIndex());
 										int index = getIndex();// getting index for clicking accept button
-										// pos.add(index, 1);
+
 										pos.put(1, index);
 
-										btn.setDisable(true);
 										// send message to customer with arrival date of purchase.
 										timeEsimateDelivery = calculateOrderTime(orderDetail.getAddressToDelivey()); // calculate
 																														// delivery
@@ -156,19 +201,20 @@ public class DeliveryWorkerFrameController implements Initializable {
 										int hours = timeEsimateDelivery / 3600;
 										int minutes = (timeEsimateDelivery % 3600) / 60;
 										int seconds = timeEsimateDelivery % 60;
+
 										time1 = new Time(hours + ":" + minutes + ":" + seconds,
 												orderDetail.getOrderId());
 
 										// create timer GUI to client
-										Stage newWindow = new Stage();
+										newWindow = new Stage();
 										newWindow.setTitle("New Scene");
 										// Create view from FXML
 										FXMLLoader loader = new FXMLLoader(
 												getClass().getResource("/gui/DeliveryTimerAndConfirmation.fxml"));
 										// Set view in window
 										try {
-											// Getting userName for order
-											msg = new Message(MessageType.getUserToDelivery,
+											// changed in DB accept value and Getting userName for order.
+											msg = new Message(MessageType.getUserToDeliveryAndChangeAccept,
 													(Object) (orderDetail.getOrderId()));
 											ClientMenuController.clientControl.accept(msg);
 											newWindow.setTitle("Delivery Timer");
@@ -177,6 +223,7 @@ public class DeliveryWorkerFrameController implements Initializable {
 											// TODO Auto-generated catch block
 											e.printStackTrace();
 										}
+										btn.setDisable(true);
 										// Launch
 										newWindow.show();
 
@@ -209,10 +256,18 @@ public class DeliveryWorkerFrameController implements Initializable {
 							setText(null);
 						} else {
 							OrderToDeliveryDetails orderDetail = getTableView().getItems().get(getIndex());
-							btn.setDisable(true);
-							btn.setOnAction(e -> pressedDone(e));
+							if (orderDetail.getDone().equals("notDone") && orderDetail.getAccept().equals("accept")) {
+								btn.setDisable(false);
+							} else
+								btn.setDisable(true);
+							btn.setOnAction(e -> {
+								if (orderDetail.getDone().equals("notDone")) {
+									DeliveryWorkerFrameController.time1 = new Time("00:00:00",
+											orderDetail.getOrderId());
+								}
+								pressedDone(e, btn);
+							});
 							btn1.add(btn);
-							System.out.println("intialize" + btn);
 
 							setGraphic(btn);
 							setText(null);
@@ -265,22 +320,12 @@ public class DeliveryWorkerFrameController implements Initializable {
 	 */
 	private int calculateOrderTime(String addressToDelivey) {
 
-		// calculating time of availability of drone and product collection.
-		Random rand = new Random();
-		int distanceFromWareHouse = 0;
-
-		int estimateTimeAvalibalityAndCollectionOrder = rand.nextInt(10);
-
-		// calculate time from warehouse to customer address
-		if (addressToDelivey.equals("habrosh")) {
-			distanceFromWareHouse = 2;
-		} else if (addressToDelivey.equals("haifa"))
-			distanceFromWareHouse = 3;
-		else
-			distanceFromWareHouse = 5; // to all other destination
+		int distanceFromWareHouse = 5;
+		int DroneAvailability = 0; // will used in the second phase
+		int estimateTimeAvalibalityAndCollectionOrder = 2;
 
 		// return time in seconds
-		return distanceFromWareHouse + estimateTimeAvalibalityAndCollectionOrder;
+		return distanceFromWareHouse + DroneAvailability + estimateTimeAvalibalityAndCollectionOrder;
 	}
 
 }
