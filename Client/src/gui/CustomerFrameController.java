@@ -23,7 +23,11 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
-
+/**
+ * 
+ * @author Marina
+ *
+ */
 public class CustomerFrameController implements Initializable {
 	public static CustomerFrameController customerFrame;
 	public static OnlineOrderFrameController onlineOrderFrame;
@@ -96,7 +100,7 @@ public class CustomerFrameController implements Initializable {
 
 	}
 	/**
-	 * start the ThresholdLevelFrame
+	 * start the customerFrame
 	 * 
 	 * @param primaryStage
 	 * @throws IOException

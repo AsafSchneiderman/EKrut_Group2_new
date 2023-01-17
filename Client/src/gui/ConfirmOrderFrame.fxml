@@ -21,7 +21,7 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </Button>
-      <TableView fx:id="tlbInvoice" layoutX="232.0" layoutY="57.0" prefHeight="354.0" prefWidth="368.0">
+      <TableView fx:id="tlbInvoice" layoutX="232.0" layoutY="57.0" prefHeight="319.0" prefWidth="368.0">
         <columns>
           <TableColumn fx:id="colImgProd" minWidth="0.0" prefWidth="71.0" />
           <TableColumn fx:id="colQuantityProd" prefWidth="64.0" text="Quantity" />
@@ -54,9 +54,9 @@
             <Font name="Arial" size="16.0" />
          </font>
       </Label>
-      <Label fx:id="lblDiscount" layoutX="622.0" layoutY="168.0" text="Label" textFill="#860202">
+      <Label fx:id="lblDiscount" layoutX="305.0" layoutY="388.0" prefHeight="27.0" prefWidth="368.0" text="Label" textFill="#860202">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
    </children>

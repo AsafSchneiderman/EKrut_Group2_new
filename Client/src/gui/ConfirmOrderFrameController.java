@@ -39,7 +39,11 @@ import javafx.util.Duration;
 import Entities.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
+/**
+ * 
+ * @author Marina
+ *
+ */
 public class ConfirmOrderFrameController implements Initializable {
 	public static OrderFrameController toZero = new OrderFrameController();
 	public static Stage clientStage;
@@ -85,6 +89,7 @@ public class ConfirmOrderFrameController implements Initializable {
 	java.sql.Date date, date2;
 	SimpleDateFormat formatter;
 	String strDate, strDate2;
+	public static String finalPrice;
 	private static ArrayList<VendingMachine> vendingMachines = new ArrayList<VendingMachine>(); // list of vending
 																								// machines in the DB
 
@@ -109,8 +114,7 @@ public class ConfirmOrderFrameController implements Initializable {
 		msg = new Message(MessageType.Orders_list, ""); // sends request from server to get all orders
 		ClientMenuController.clientControl.accept(msg);
 		try {
-			Thread.sleep(1000); // wait for answer from server
-			System.out.println(ChatClient.msgServer.getMessageData().toString());
+			Thread.sleep(500); // wait for answer from server
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -125,7 +129,7 @@ public class ConfirmOrderFrameController implements Initializable {
 		}
 		Arrays.sort(arrOrderNums); // sorts the number from small to big
 		orderNum = arrOrderNums[arrOrderNums.length - 1] + 1; // give new number to new order by chronological order
-		System.out.println(orderNum);
+		
 		for (int j = 0; j < OrderFrameController.productsList.size(); j++) { // sets machine name
 			OrderFrameController.productsList.get(j).setMachineName(OrderFrameController.machine);
 		}
@@ -134,11 +138,11 @@ public class ConfirmOrderFrameController implements Initializable {
 			long millis = System.currentTimeMillis();
 			// creating a new object of the class Date
 			date = new java.sql.Date(millis);
-			formatter = new SimpleDateFormat("MM-dd-yyyy");
+			formatter = new SimpleDateFormat("yyyy-MM-dd");
 			strDate = formatter.format(date);
 
 			order = new Order(orderNum, OrderFrameController.machine, strDate, "placed",
-					LoginFrameController.user.getUserID(), OrderFrameController.totPrice, "delivery",
+					LoginFrameController.user.getUserID(), convertStringToFloat(finalPrice), "delivery",
 					OrderFrameController.counterForProducts);
 			order.setProducts(OrderFrameController.productsID);
 			order.setQuantityPerProducts(OrderFrameController.productsQuantity);
@@ -147,7 +151,7 @@ public class ConfirmOrderFrameController implements Initializable {
 			ClientMenuController.clientControl.accept(msg3);
 			long millis2 = System.currentTimeMillis();
 			date2 = new java.sql.Date(millis2);
-			formatter = new SimpleDateFormat("MM.dd.yyyy");
+			formatter = new SimpleDateFormat("dd.MM.yy");
 			strDate2 = formatter.format(date2);
 			delivery = new OrderToDeliveryDetails(Integer.toString(orderNum), OnlineOrderFrameController.city, strDate2,
 					"notAccept", "notDone");
@@ -159,7 +163,7 @@ public class ConfirmOrderFrameController implements Initializable {
 			// gets current date
 			long millis = System.currentTimeMillis();
 			date = new java.sql.Date(millis);
-			formatter = new SimpleDateFormat("MM-dd-yyyy");
+			formatter = new SimpleDateFormat("yyyy-MM-dd");
 			strDate = formatter.format(date);
 			String type;
 			if (ClientMenuController.config.equals("OL")) { // if the order is pickup online
@@ -168,7 +172,7 @@ public class ConfirmOrderFrameController implements Initializable {
 				type = "local";
 			}
 			order = new Order(orderNum, OrderFrameController.machine, strDate, "placed",
-					LoginFrameController.user.getUserID(), OrderFrameController.totPrice, type,
+					LoginFrameController.user.getUserID(), convertStringToFloat(finalPrice), type,
 					OrderFrameController.counterForProducts);
 			order.setProducts(OrderFrameController.productsID);
 			order.setQuantityPerProducts(OrderFrameController.productsQuantity);
@@ -284,6 +288,7 @@ public class ConfirmOrderFrameController implements Initializable {
 		imgIcone.setImage(cartIcone);
 		imgIcone.setFitWidth(50);
 		imgIcone.setFitHeight(50);
+		finalPrice = OrderFrameController.finalPrice;
 
 		colImgProd.setCellValueFactory(new PropertyValueFactory<OrderProductsForTbl, ImageView>("imgSrc"));
 		colProdName.setCellValueFactory(new PropertyValueFactory<OrderProductsForTbl, String>("productName"));
@@ -295,20 +300,19 @@ public class ConfirmOrderFrameController implements Initializable {
 		
 		if(LoginFrameController.user.getRole().equals("ClubMember"))
 		{
-			if(OrderFrameController.discountVar.equals("0"))
+			if(!(OrderFrameController.discountVar.equals("0")))
 			{
 				lblDiscount.setVisible(true);
-				lblDiscount.setText("You Have %"+OrderFrameController.discountVar+" Discount!!");
-				lblDiscount.setStyle("-fx-background-color:#73bce4");
-				float tempTotPrice = OrderFrameController.totPrice;
+				lblDiscount.setText("You Have "+OrderFrameController.discountVar+"% Discount!!");
+				float tempTotPrice = convertStringToFloat(finalPrice);
 				int discountInt = Integer.parseInt(OrderFrameController.discountVar);
-				int forPercent = 100;
-				tempTotPrice = tempTotPrice - tempTotPrice*(discountInt/forPercent);
-				OrderFrameController.finalPrice = String.valueOf(tempTotPrice);
+				float forPercent = (float) 100.0;
+				float tempNum = tempTotPrice*(discountInt/forPercent);
+				tempTotPrice = tempTotPrice - tempNum;
+				finalPrice = String.valueOf(tempTotPrice);
 			}
 		}
-		//hi
-		lblTotalPrice.setText(OrderFrameController.finalPrice);
+		lblTotalPrice.setText(finalPrice);
 
 		Time time = new Time("00:15:00");
 		txtTimer.setText(time.getCurrentTime());

@@ -27,7 +27,11 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
-
+/**
+ * 
+ * @author Marina
+ *
+ */
 public class pickupFrameController implements Initializable {
 
 	public static Message msg, msg1, msg2;
@@ -80,14 +84,22 @@ public class pickupFrameController implements Initializable {
     	String res = (String) ChatClient.msgServer.getMessageData();
     	if(res.equals("pickupOrder"))
     	{
+    		endFrameController ending = new endFrameController();
     		msg2 = new Message(MessageType.updatePickupStatus,orderNum );
     		ClientMenuController.clientControl.accept(msg2);
-    		endFrameController ending = new endFrameController();
+    		try {
+    			Thread.sleep(1000);
+    		} catch (InterruptedException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+    		
     		try {
     			ending.start(ClientMenuController.clientStage);
     		} catch (IOException e) {
     			e.printStackTrace();
     		}
+    		
     	}
     	else
     	{
@@ -97,14 +109,14 @@ public class pickupFrameController implements Initializable {
     }
 
     /**
-	 * start the ThresholdLevelFrame
+	 * start the pickupFrame
 	 * 
 	 * @param primaryStage
 	 * @throws IOException
 	 */
 	public void start(Stage primaryStage) throws IOException {
 		ClientMenuController.clientStage = primaryStage;
-		primaryStage.setTitle("Ekrut - Customer -> Pickup Order");
+		primaryStage.setTitle("Ekrut - Customer >> Pickup Order");
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/pickupFrame.fxml"));
 		Scene home = new Scene(root);
 		primaryStage.setScene(home);

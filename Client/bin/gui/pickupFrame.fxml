@@ -10,12 +10,18 @@
    <children>
       <Label layoutX="265.0" layoutY="128.0" prefHeight="27.0" prefWidth="271.0" text="Please enter your Order Code:">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font></Label>
-      <Button fx:id="btnEnd" layoutX="303.0" layoutY="270.0" mnemonicParsing="false" onAction="#end" text="end" />
-      <Button fx:id="bntCheckOrder" layoutX="452.0" layoutY="270.0" mnemonicParsing="false" onAction="#checkOrder" prefHeight="25.0" prefWidth="88.0" text="Take Order" />
-      <TextField fx:id="txtOrderCode" layoutX="326.0" layoutY="179.0" />
-      <Label fx:id="lblAlert" layoutX="354.0" layoutY="328.0" text="Worng Order Number!" textFill="#b90000">
+      <Button fx:id="btnEnd" layoutX="265.0" layoutY="255.0" mnemonicParsing="false" onAction="#end" prefHeight="40.0" prefWidth="72.0" text="Exit" textFill="#900505">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
+      <Button fx:id="bntCheckOrder" layoutX="452.0" layoutY="255.0" mnemonicParsing="false" onAction="#checkOrder" prefHeight="40.0" prefWidth="103.0" text="Take Order">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <TextField fx:id="txtOrderCode" layoutX="305.0" layoutY="185.0" prefHeight="40.0" prefWidth="191.0" />
+      <Label fx:id="lblAlert" layoutX="313.0" layoutY="329.0" text="Worng Order Number!" textFill="#b90000">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font>

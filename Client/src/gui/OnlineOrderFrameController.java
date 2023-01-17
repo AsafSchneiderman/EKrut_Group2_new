@@ -34,7 +34,11 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
-
+/**
+ * 
+ * @author Marina
+ *
+ */
 public class OnlineOrderFrameController implements Initializable {
 
 	private static ArrayList<VendingMachine> vendingMachines = new ArrayList<>(); // list of vending machines in the DB
@@ -187,7 +191,7 @@ public class OnlineOrderFrameController implements Initializable {
 	}
 	
 	/**
-	 * start the ThresholdLevelFrame
+	 * start the OnlineOrderFrame
 	 * 
 	 * @param primaryStage
 	 * @throws IOException

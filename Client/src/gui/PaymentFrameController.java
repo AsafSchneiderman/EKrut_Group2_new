@@ -25,7 +25,11 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
 import Entities.*;
 import controller.ChatClient;
-
+/**
+ * 
+ * @author Marina
+ *
+ */
 public class PaymentFrameController implements Initializable {
 	public static Message msg;
 	public static OrderFrameController toZero = new OrderFrameController();
@@ -57,6 +61,9 @@ public class PaymentFrameController implements Initializable {
     private ImageView imgPic;
     @FXML
     private Button btnCancelOrder;
+
+    @FXML
+    private Label lblTotPrice;
 /**
  * 
  * @param event
@@ -150,6 +157,8 @@ public class PaymentFrameController implements Initializable {
 				imgPic.setImage(Icone);
 				imgPic.setFitWidth(80);
 				imgPic.setFitHeight(80);
+
+			    lblTotPrice.setText(ConfirmOrderFrameController.finalPrice);;
 				msg = new Message(MessageType.getCard,LoginFrameController.user.getUserID());
 				ClientMenuController.clientControl.accept(msg);
 				try {

@@ -21,25 +21,42 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
-
+/**
+ * 
+ * @author Marina
+ *
+ */
 public class endFrameController implements Initializable {
 	Message msg;
 
     @FXML
     private AnchorPane pane;
+    
+    @FXML
+    private Button bntExit;
+
+    @FXML
+    void exit(ActionEvent event) {
+    	
+    	ClientMenuController.clientStage.setScene(LoginFrameController.home);
+		// Logout
+		msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
+		ClientMenuController.clientControl.accept(msg);
+
+    }
 
    
 
     /**
-	 * start the ThresholdLevelFrame
+	 * start the endFrame
 	 * 
 	 * @param primaryStage
 	 * @throws IOException
 	 */
 	public void start(Stage primaryStage) throws IOException {
 		ClientMenuController.clientStage = primaryStage;
-		primaryStage.setTitle("Ekrut - Customer -> Pickup Order");
-		Parent root = FXMLLoader.load(getClass().getResource("/gui/pickupFrame.fxml"));
+		primaryStage.setTitle("Ekrut - Customer >> End Pickup");
+		Parent root = FXMLLoader.load(getClass().getResource("/gui/endFrame.fxml"));
 		Scene home = new Scene(root);
 		primaryStage.setScene(home);
 		primaryStage.show();
@@ -62,19 +79,6 @@ public class endFrameController implements Initializable {
 			}
 
 		});
-		
-		long mTime = System.currentTimeMillis();
-		long end = mTime + 5000; // in seconds 
-
-		while (mTime < end) 
-		{
-		    mTime = System.currentTimeMillis();
-		} 
-		//ClientMenuController.clientStage.close();//
-		ClientMenuController.clientStage.setScene(LoginFrameController.home);
-		// Logout
-		msg = new Message(MessageType.logout, LoginFrameController.user.getUserName());
-		ClientMenuController.clientControl.accept(msg);
 
 	}
 

@@ -46,7 +46,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
+/**
+ * in this frame the customer picks the products that he wants to buy
+ * @author Marina
+ * 
+ *
+ */
 public class OrderFrameController implements Initializable {
 	Order order;
 	Product product;
@@ -58,7 +63,7 @@ public class OrderFrameController implements Initializable {
 	public static CustomerFrameController customerFrame;
 	public static Stage clientStage;
 	public static ConfirmOrderFrameController confirmOrderFrame;
-	public static Message msg, msg2, msg3;
+	public static Message msg, msg2, msg3, msg4, msg5;
 	public static ObservableList<ProductForOrder> ProductsObservableList = FXCollections.observableArrayList();
 	public static ObservableList<OrderProductsForTbl> cartObservableList = FXCollections.observableArrayList();
 	// public static ObservableList<String>tempForProducts;
@@ -172,19 +177,17 @@ public class OrderFrameController implements Initializable {
 		}
 
 		try {
-			Thread.sleep(1000);
-			System.out.println(ChatClient.msgServer.getMessageData().toString());
+			Thread.sleep(500);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		productsList = (ArrayList<Product>) ChatClient.msgServer.getMessageData();
-		msg = new Message(MessageType.Get_vendingMachines, "");
-		ClientMenuController.clientControl.accept(msg);
+		msg5 = new Message(MessageType.Get_vendingMachines, "");
+		ClientMenuController.clientControl.accept(msg5);
 		
 		try {
-			Thread.sleep(1000);
-			System.out.println(ChatClient.msgServer.getMessageData().toString());
+			Thread.sleep(500);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -198,27 +201,24 @@ public class OrderFrameController implements Initializable {
 				region = row.getRegion();
 			}
 		}
+		
 		if(LoginFrameController.user.getRole().equals("ClubMember"))
 		{
-			System.out.println("hi 1");
 			msg2 = new Message(MessageType.getPromtion, "");
 			ClientMenuController.clientControl.accept(msg2);
 			try {
-				Thread.sleep(1000);
-				System.out.println(ChatClient.msgServer.getMessageData().toString());
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.println(ChatClient.msgServer.getMessageData());
 			discountList = (ArrayList<PromotionSells>) ChatClient.msgServer.getMessageData();
 			
 			msg3 = new Message(MessageType.showNewClubMebers,"");
 			int flagForNoDoubleDis = 1;
 			ClientMenuController.clientControl.accept(msg3);
 			try {
-				Thread.sleep(1000);
-				System.out.println(ChatClient.msgServer.getMessageData().toString());
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -235,24 +235,24 @@ public class OrderFrameController implements Initializable {
 							discountVar = "20";
 							lblDiscount.setVisible(true);
 							lblDiscount.setText("You Have %"+discountVar+" Discount!!");
-							lblDiscount.setStyle("-fx-background-color:#73bce4");
 							flagForNoDoubleDis = 0;
+							clubMemberList.get(j).setIsNew(0);
+							msg4 = new Message(MessageType.changeClubMemberStatus,clubMemberList.get(j));
+							ClientMenuController.clientControl.accept(msg4);
 							
 						}
 					}
 				}
 			}
-			else
+			if(flagForNoDoubleDis == 1)
 			{
 				for(int i = 0; i < discountList.size(); i++)
 				{
-					if(discountList.get(i).getRegion().equals(region) && discountList.get(i).getActivated().equals("'activate'") )
+					if(discountList.get(i).getRegion().equals(region) && discountList.get(i).getActivated().equals("activate") )
 					{
-						System.out.println(discountList.get(i).getRegion());
-						System.out.println(discountList.get(i).getActivated());
+						System.out.println(discountList.get(i).getPromotion());
 						lblDiscount.setVisible(true);
 						lblDiscount.setText("You Have %"+discountList.get(i).getPromotion()+" Discount!!");
-						lblDiscount.setStyle("-fx-background-color:#73bce4");
 						discount = discountList.get(i);
 						discountVar = discountList.get(i).getPromotion();
 					}

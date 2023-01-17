@@ -69,7 +69,7 @@
             <Font name="Arial" size="16.0" />
          </font>
       </Label>
-      <Label fx:id="lblDiscount" layoutX="271.0" layoutY="25.0" prefHeight="25.0" prefWidth="181.0" text="Label" textAlignment="CENTER" textFill="#830000">
+      <Label fx:id="lblDiscount" layoutX="211.0" layoutY="24.0" prefHeight="25.0" prefWidth="269.0" text="Label" textAlignment="CENTER" textFill="#830000">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
