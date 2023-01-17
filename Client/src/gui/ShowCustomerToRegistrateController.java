@@ -9,6 +9,7 @@ import Entities.Message;
 import Entities.MessageType;
 import Entities.Region;
 import Entities.UsersToRegister;
+import Entities.WorkerMessage;
 import controller.ChatClient;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -92,6 +93,21 @@ public class ShowCustomerToRegistrateController implements Initializable{
     			//notificationToCEO++;
     			id=CustomerRegistrationController.userList.get(CustomerRegistrationController.userNum).getId();//get this specific user id
     			sendData=id+"#"+creditCardNum+"#"+customersRegion;
+    			// find the region manager
+				ClientMenuController.clientControl
+						.accept(new Message(MessageType.get_regionManagerByRegion, customersRegion));
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				// create message to insert to worker messages
+				WorkerMessage m = new WorkerMessage(0, (String) ChatClient.msgServer.getMessageData(),
+						"user id "+id+" is waiting for approval", "notRead");
+				ClientMenuController.clientControl.accept(new Message(MessageType.insert_WorkerMessages, m));
+
     			lastFrame= new CustomerServiceLastFrameController();
     	    	try {
     	    		lastFrame.start(ClientMenuController.clientStage);
