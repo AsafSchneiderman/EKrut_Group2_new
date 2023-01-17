@@ -51,5 +51,10 @@
             <Font name="Arial" size="16.0" />
          </font>
       </Label>
+      <Label fx:id="lblDiscount" layoutX="585.0" layoutY="172.0" text="Label" textFill="#860202">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

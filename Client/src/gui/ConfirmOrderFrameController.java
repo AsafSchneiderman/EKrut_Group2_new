@@ -73,21 +73,23 @@ public class ConfirmOrderFrameController implements Initializable {
 
 	@FXML
 	private ImageView imgIcone;
-    @FXML
-    private Label lblWelcome;
+	@FXML
+	private Label lblWelcome;
 
 	@FXML
 	private Label lblTotalPrice;
-	
-	//float totPrice;
+	@FXML
+	private Label lblDiscount;
+
+	// float totPrice;
 	java.sql.Date date, date2;
 	SimpleDateFormat formatter;
 	String strDate, strDate2;
-	private static ArrayList<VendingMachine> vendingMachines = new ArrayList<VendingMachine>(); // list of vending machines in the DB
+	private static ArrayList<VendingMachine> vendingMachines = new ArrayList<VendingMachine>(); // list of vending
+																								// machines in the DB
 
 	@FXML
 	private Text txtTimer;
-
 
 	@FXML
 	void cancelOrder(ActionEvent event) {
@@ -113,7 +115,8 @@ public class ConfirmOrderFrameController implements Initializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		orderList = (ArrayList<Order>) ChatClient.msgServer.getMessageData(); // gets data from server - all existing orders
+		orderList = (ArrayList<Order>) ChatClient.msgServer.getMessageData(); // gets data from server - all existing
+																				// orders
 		int orderNum; // all orders data needed to create new order number
 		int[] arrOrderNums = new int[orderList.size()];
 		for (int i = 0; i < orderList.size(); i++) { // gets all orders numbers to array
@@ -126,146 +129,109 @@ public class ConfirmOrderFrameController implements Initializable {
 			OrderFrameController.productsList.get(j).setMachineName(OrderFrameController.machine);
 		}
 
-		if (LoginFrameController.user.getRole().equals("ClubMember")) // if the costumer is club member
-		{
-			if ((OrderFrameController.machine.equals("warehouse"))) // if the order is delivery
-			{
-				// getting current date
-				long millis = System.currentTimeMillis();
-				date = new java.sql.Date(millis);
-				formatter = new SimpleDateFormat("MM-dd-yyyy");
-				strDate = formatter.format(date);
-				
-				// create new order entity to send
-				order = new Order(orderNum, OrderFrameController.machine, strDate, "placed", LoginFrameController.user.getUserID(),
-						OrderFrameController.totPrice, "delivery", OrderFrameController.counterForProducts);
-				order.setProducts(OrderFrameController.productsID);
-				order.setQuantityPerProducts(OrderFrameController.productsQuantity);
-				order.setProductsPrice(OrderFrameController.productsPrice);
-				msg3 = new Message(MessageType.addOrder, order); // sends message to server
-				ClientMenuController.clientControl.accept(msg3);
-				// getting current date
-				long millis2 = System.currentTimeMillis();
-				date2 = new java.sql.Date(millis2);
-				formatter = new SimpleDateFormat("MM.dd.yyyy");
-				strDate2 = formatter.format(date2);
-				// creating new delivery entity to send to DB to orders to deliver table
-				delivery = new OrderToDeliveryDetails(Integer.toString(orderNum), OnlineOrderFrameController.city,
-						strDate2, "notAccept", "notDone");
-				msg4 = new Message(MessageType.addDelivert, delivery); // sends message to server
-				ClientMenuController.clientControl.accept(msg4);
+		if ((OrderFrameController.machine.equals("warehouse"))) { // if the order is delivery
+			long millis = System.currentTimeMillis();
+			// creating a new object of the class Date
+			date = new java.sql.Date(millis);
+			formatter = new SimpleDateFormat("MM-dd-yyyy");
+			strDate = formatter.format(date);
 
-			} else // pickup order or local order
-			{
-				
-				msg5 = new Message(MessageType.Get_vendingMachines,"");
-				ClientMenuController.clientControl.accept(msg5); // gets machine list to check threshold level
-				// getting current date
-				long millis = System.currentTimeMillis();
-				date = new java.sql.Date(millis);
-				formatter = new SimpleDateFormat("MM-dd-yyyy");
-				strDate = formatter.format(date);
-				String type; // if the order is from machine so the system pick if the order is pickup or local
-				if (ClientMenuController.config.equals("OL")) {
-					type = "pickup";
-				} else { // EK configuration
-					type = "local";
-				}
-				// gets machine list
-				vendingMachines = (ArrayList<VendingMachine>) ChatClient.msgServer.getMessageData();
-				for (int i = 0; i < vendingMachines.size(); i++) { // checks if because of the order some of the products reached to threshold level
-					if (vendingMachines.get(i).getLocation().equals(OrderFrameController.machine)) {
-						for (int j = 0; j < OrderFrameController.productsList.size(); j++) {
-							int thresholdLevel = Integer.parseInt(vendingMachines.get(i).getThresholdLevel());
-							int stockQuantity = Integer
-									.parseInt(OrderFrameController.productsList.get(j).getStockQuantity());
-							if (stockQuantity <= thresholdLevel) {
-
-								break;
-							}
-						}
-						break;
-					}
-				}
-				order = new Order(orderNum, OrderFrameController.machine, strDate, "placed", LoginFrameController.user.getUserID(),
-						OrderFrameController.totPrice, type, OrderFrameController.counterForProducts);
-				order.setProducts(OrderFrameController.productsID);
-				order.setQuantityPerProducts(OrderFrameController.productsQuantity);
-				order.setProductsPrice(OrderFrameController.productsPrice);
-				msg2 = new Message(MessageType.updateProductStock, OrderFrameController.productsList);
-				ClientMenuController.clientControl.accept(msg2);
-				msg3 = new Message(MessageType.addOrder, order);
-				ClientMenuController.clientControl.accept(msg3);
-
+			order = new Order(orderNum, OrderFrameController.machine, strDate, "placed",
+					LoginFrameController.user.getUserID(), OrderFrameController.totPrice, "delivery",
+					OrderFrameController.counterForProducts);
+			order.setProducts(OrderFrameController.productsID);
+			order.setQuantityPerProducts(OrderFrameController.productsQuantity);
+			order.setProductsPrice(OrderFrameController.productsPrice);
+			msg3 = new Message(MessageType.addOrder, order);
+			ClientMenuController.clientControl.accept(msg3);
+			long millis2 = System.currentTimeMillis();
+			date2 = new java.sql.Date(millis2);
+			formatter = new SimpleDateFormat("MM.dd.yyyy");
+			strDate2 = formatter.format(date2);
+			delivery = new OrderToDeliveryDetails(Integer.toString(orderNum), OnlineOrderFrameController.city, strDate2,
+					"notAccept", "notDone");
+			msg4 = new Message(MessageType.addDelivert, delivery);
+			ClientMenuController.clientControl.accept(msg4);
+		} else { // if order is from machine
+			msg5 = new Message(MessageType.Get_vendingMachines, "");
+			ClientMenuController.clientControl.accept(msg5); // gets machine list to check threshold level
+			// gets current date
+			long millis = System.currentTimeMillis();
+			date = new java.sql.Date(millis);
+			formatter = new SimpleDateFormat("MM-dd-yyyy");
+			strDate = formatter.format(date);
+			String type;
+			if (ClientMenuController.config.equals("OL")) { // if the order is pickup online
+				type = "pickup";
+			} else { // if EK configuration
+				type = "local";
 			}
-		} else { // if the costumer is not club member
-			if ((OrderFrameController.machine.equals("warehouse"))) { // if the order is delivery
-				long millis = System.currentTimeMillis();
-				// creating a new object of the class Date
-				date = new java.sql.Date(millis);
-				formatter = new SimpleDateFormat("MM-dd-yyyy");
-				strDate = formatter.format(date);
+			order = new Order(orderNum, OrderFrameController.machine, strDate, "placed",
+					LoginFrameController.user.getUserID(), OrderFrameController.totPrice, type,
+					OrderFrameController.counterForProducts);
+			order.setProducts(OrderFrameController.productsID);
+			order.setQuantityPerProducts(OrderFrameController.productsQuantity);
+			order.setProductsPrice(OrderFrameController.productsPrice);
+			vendingMachines = (ArrayList<VendingMachine>) ChatClient.msgServer.getMessageData();
+			for (int i = 0; i < vendingMachines.size(); i++) { // checks threshold level
+				if (vendingMachines.get(i).getLocation().equals(OrderFrameController.machine)) {
+					for (int j = 0; j < OrderFrameController.productsList.size(); j++) {
+						int thresholdLevel = Integer.parseInt(vendingMachines.get(i).getThresholdLevel());
+						int stockQuantity = Integer
+								.parseInt(OrderFrameController.productsList.get(j).getStockQuantity());
+						if (stockQuantity <= thresholdLevel) {
 
-				order = new Order(orderNum, OrderFrameController.machine, strDate, "placed", LoginFrameController.user.getUserID(),
-						OrderFrameController.totPrice, "delivery", OrderFrameController.counterForProducts);
-				order.setProducts(OrderFrameController.productsID);
-				order.setQuantityPerProducts(OrderFrameController.productsQuantity);
-				order.setProductsPrice(OrderFrameController.productsPrice);
-				msg3 = new Message(MessageType.addOrder, order);
-				ClientMenuController.clientControl.accept(msg3);
-				long millis2 = System.currentTimeMillis();
-				date2 = new java.sql.Date(millis2);
-				formatter = new SimpleDateFormat("MM.dd.yyyy");
-				strDate2 = formatter.format(date2);
-				delivery = new OrderToDeliveryDetails(Integer.toString(orderNum), OnlineOrderFrameController.city,
-						strDate2, "notAccept", "notDone");
-				msg4 = new Message(MessageType.addDelivert, delivery);
-				ClientMenuController.clientControl.accept(msg4);
-			} else { // if order is from machine
-				msg5 = new Message(MessageType.Get_vendingMachines,"");
-				ClientMenuController.clientControl.accept(msg5); // gets machine list to check threshold level
-				// gets current date
-				long millis = System.currentTimeMillis();
-				date = new java.sql.Date(millis);
-				formatter = new SimpleDateFormat("MM-dd-yyyy");
-				strDate = formatter.format(date);
-				String type;
-				if (ClientMenuController.config.equals("OL")) { // if the order is pickup online
-					type = "pickup";
-				} else { // if EK configuration
-					type = "local";
-				}
-				order = new Order(orderNum, OrderFrameController.machine, strDate, "placed", LoginFrameController.user.getUserID(),
-						OrderFrameController.totPrice, type, OrderFrameController.counterForProducts);
-				order.setProducts(OrderFrameController.productsID);
-				order.setQuantityPerProducts(OrderFrameController.productsQuantity);
-				order.setProductsPrice(OrderFrameController.productsPrice);
-				vendingMachines = (ArrayList<VendingMachine>) ChatClient.msgServer.getMessageData();
-				for (int i = 0; i < vendingMachines.size(); i++) { // checks threshold level
-					if (vendingMachines.get(i).getLocation().equals(OrderFrameController.machine)) {
-						for (int j = 0; j < OrderFrameController.productsList.size(); j++) {
-							int thresholdLevel = Integer.parseInt(vendingMachines.get(i).getThresholdLevel());
-							int stockQuantity = Integer
-									.parseInt(OrderFrameController.productsList.get(j).getStockQuantity());
-							if (stockQuantity <= thresholdLevel) {
+							vendingMachines.get(i).setRestockStatus("LowStock");
 
-								break;
+							// find the region manager
+							ClientMenuController.clientControl.accept(new Message(MessageType.get_regionManagerByRegion,
+									vendingMachines.get(i).getRegion()));
+							try {
+								Thread.sleep(500);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
 							}
+
+							// create message to insert to worker messages
+							WorkerMessage m = new WorkerMessage(0, (String) ChatClient.msgServer.getMessageData(),
+									"The vending machine in " + OrderFrameController.machine + " Have a Low stock",
+									"notRead");
+							ClientMenuController.clientControl
+									.accept(new Message(MessageType.insert_WorkerMessages, m));
+							// update the restock status to "Low Stock"
+							ClientMenuController.clientControl.accept(
+									new Message(MessageType.update_restockStatusToLowStatus, vendingMachines.get(i)));
+
+							break;
 						}
-						break;
 					}
+					break;
 				}
-				msg2 = new Message(MessageType.updateProductStock, OrderFrameController.productsList);
+			}
+			msg2 = new Message(MessageType.updateProductStock, OrderFrameController.productsList);
 
-				ClientMenuController.clientControl.accept(msg2);
+			ClientMenuController.clientControl.accept(msg2);
 
-				msg3 = new Message(MessageType.addOrder, order);
-				ClientMenuController.clientControl.accept(msg3);
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
+			msg3 = new Message(MessageType.addOrder, order);
+			ClientMenuController.clientControl.accept(msg3);
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
-		
-		PaymentFrameController pay = new PaymentFrameController(); // open payment frame after order added and DB updated
+
+		PaymentFrameController pay = new PaymentFrameController(); // open payment frame after order added and DB
+																	// updated
 		try {
 			pay.start(ClientMenuController.clientStage);
 		} catch (IOException e) {
@@ -302,13 +268,15 @@ public class ConfirmOrderFrameController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		lblDiscount.setVisible(false);
 		// initialize the background image and Icon
 		BackgroundSize backgroundSize = new BackgroundSize(pane.getPrefWidth(), pane.getPrefHeight(), true, true, true,
 				false);
 		BackgroundImage image = new BackgroundImage(new Image("images/InvoiceBackgroundFrame.png"),
 				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
 		pane.setBackground(new Background(image));
-		lblWelcome.setText("Welcome " + LoginFrameController.user.getFirstName() + " " + LoginFrameController.user.getLastName());
+		lblWelcome.setText(
+				"Welcome " + LoginFrameController.user.getFirstName() + " " + LoginFrameController.user.getLastName());
 
 		tlbInvoice.setEditable(true);
 		Image cartIcone = new Image("images/addToBasket.png");
@@ -320,8 +288,25 @@ public class ConfirmOrderFrameController implements Initializable {
 		colProdName.setCellValueFactory(new PropertyValueFactory<OrderProductsForTbl, String>("productName"));
 		colQuantityProd.setCellValueFactory(new PropertyValueFactory<OrderProductsForTbl, String>("quantity"));
 		colProdPrice.setCellValueFactory(new PropertyValueFactory<OrderProductsForTbl, String>("price"));
-		
+
 		tlbInvoice.setItems(OrderFrameController.cartObservableList);
+		
+		
+		if(LoginFrameController.user.getRole().equals("ClubMember"))
+		{
+			if(OrderFrameController.discountVar.equals("0"))
+			{
+				lblDiscount.setVisible(true);
+				lblDiscount.setText("You Have %"+OrderFrameController.discountVar+" Discount!!");
+				lblDiscount.setStyle("-fx-background-color:#73bce4");
+				float tempTotPrice = OrderFrameController.totPrice;
+				int discountInt = Integer.parseInt(OrderFrameController.discountVar);
+				int forPercent = 100;
+				tempTotPrice = tempTotPrice - tempTotPrice*(discountInt/forPercent);
+				OrderFrameController.finalPrice = String.valueOf(tempTotPrice);
+			}
+		}
+		
 		lblTotalPrice.setText(OrderFrameController.finalPrice);
 
 		Time time = new Time("00:15:00");
@@ -329,7 +314,7 @@ public class ConfirmOrderFrameController implements Initializable {
 		Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
 
 			if (time.oneSecondPassed()) {
-				
+
 				toZero.setZero();
 				ClientMenuController.clientStage.setScene(LoginFrameController.home);
 				// Logout

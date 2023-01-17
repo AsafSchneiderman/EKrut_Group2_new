@@ -50,12 +50,14 @@ import javafx.util.Duration;
 public class OrderFrameController implements Initializable {
 	Order order;
 	Product product;
+	public static PromotionSells discount;
+	public static ArrayList<PromotionSells> discountList = new ArrayList<>();
 	public static float totPrice;
 	public static ArrayList<Product> productsList = new ArrayList<>();
 	public static CustomerFrameController customerFrame;
 	public static Stage clientStage;
 	public static ConfirmOrderFrameController confirmOrderFrame;
-	public static Message msg;
+	public static Message msg, msg2;
 	public static ObservableList<ProductForOrder> ProductsObservableList = FXCollections.observableArrayList();
 	public static ObservableList<OrderProductsForTbl> cartObservableList = FXCollections.observableArrayList();
 	// public static ObservableList<String>tempForProducts;
@@ -111,12 +113,17 @@ public class OrderFrameController implements Initializable {
 	private Text txtTimer;
 	@FXML
 	private Label lblWelcome;
+    @FXML
+    private Label lblDiscount;
 	public static int counterForProducts;
 	public static String productsID;
 	public static String productsPrice;
 	public static String productsQuantity;
 	public static String machine;
 	public static String finalPrice;
+	public static String region;
+	public static String discountVar = "0";
+	private static ArrayList<VendingMachine> vendingMachines = new ArrayList<>(); // list of vending machines in the DB
 
 	@SuppressWarnings({ "unchecked" })
 	@Override
@@ -132,12 +139,15 @@ public class OrderFrameController implements Initializable {
 		pane.setBackground(new Background(image));
 		// initialize the Welcome label to welcome and the full name of the user
 		lblWelcome.setText("Welcome " + LoginFrameController.user.getFirstName() + " " + LoginFrameController.user.getLastName());
+	    lblDiscount.setVisible(false);
 		tblProducts.setEditable(true);
 		tblCart.setEditable(true);
 		Image cartIcone = new Image("images/addToBasket.png");
 		imgForIcon.setImage(cartIcone);
 		imgForIcon.setFitWidth(50);
 		imgForIcon.setFitHeight(50);
+		// Create message to send to server
+	
 
 		colProductImg.setCellValueFactory(new PropertyValueFactory<ProductForOrder, ImageView>("imgSrc"));
 		colNameOfProduct.setCellValueFactory(new PropertyValueFactory<ProductForOrder, String>("productName"));
@@ -168,6 +178,52 @@ public class OrderFrameController implements Initializable {
 			e.printStackTrace();
 		}
 		productsList = (ArrayList<Product>) ChatClient.msgServer.getMessageData();
+		msg = new Message(MessageType.Get_vendingMachines, "");
+		ClientMenuController.clientControl.accept(msg);
+		
+		try {
+			Thread.sleep(1000);
+			System.out.println(ChatClient.msgServer.getMessageData().toString());
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		vendingMachines = (ArrayList<VendingMachine>) ChatClient.msgServer.getMessageData();
+		for (VendingMachine row : vendingMachines)
+		{
+			if(machine.equals(row.getLocation()))
+			{
+				region = row.getRegion();
+			}
+		}
+		if(LoginFrameController.user.getRole().equals("ClubMember"))
+		{
+			msg2 = new Message(MessageType.getPromtion, "");
+			ClientMenuController.clientControl.accept(msg2);
+			try {
+				Thread.sleep(1000);
+				System.out.println(ChatClient.msgServer.getMessageData().toString());
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			discountList = (ArrayList<PromotionSells>) ChatClient.msgServer.getMessageData();
+			for(int i = 0; i < discountList.size(); i++)
+			{
+				if(discountList.get(i).getRegion().equals(region) && discountList.get(i).getActivated().equals("'activate'") )
+				{
+					lblDiscount.setVisible(true);
+					lblDiscount.setText("You Have %"+discountList.get(i).getPromotion()+" Discount!!");
+					lblDiscount.setStyle("-fx-background-color:#73bce4");
+					discount = discountList.get(i);
+					discountVar = discountList.get(i).getPromotion();
+				}
+			}
+		}
+		
+		
+		
 		for (Product row : productsList) {
 			Image pic = new Image(row.getImgSrc());
 			ImageView img = new ImageView();
@@ -179,8 +235,8 @@ public class OrderFrameController implements Initializable {
 
 				if (row.getStockQuantity().equals("0")) {
 
-					System.out.println("alert for add to cart\n");
 					stockAlert.setVisible(true);
+					stockAlert.setStyle("-fx-background-color:#73bce4");
 
 				} else {
 					stockAlert.setVisible(false);
@@ -210,6 +266,7 @@ public class OrderFrameController implements Initializable {
 						if (row.getStockQuantity().equals("0")) {
 
 							stockAlert.setVisible(true);
+							stockAlert.setStyle("-fx-background-color:#73bce4");
 
 						} else {
 							stockAlert.setVisible(false);
@@ -381,7 +438,7 @@ public class OrderFrameController implements Initializable {
 				}
 			}
 		}
-		finalPrice = lblTotalPrice.getText();
+		finalPrice = String.valueOf(totPrice);
 		confirmOrderFrame = new ConfirmOrderFrameController();
 		try {
 			confirmOrderFrame.start(ClientMenuController.clientStage);
